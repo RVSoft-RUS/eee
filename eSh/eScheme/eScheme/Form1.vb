@@ -26,9 +26,13 @@ Public Class Form1
 			Dim fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
 			fnt.AddFontFile("resourses\gost.ttf")
 			lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lbliList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblNdoc.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblPodp.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblDate.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
 			lblLit.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
 			lblMashtab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
 			lblMassa.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
@@ -105,10 +109,13 @@ Public Class Form1
         pb5.Visible = False
         pb6.Visible = False
 		pb7.Visible = False
-		lblIzm.Visible = False
-		lblKF_A4.Visible = False
-
-		lblList.Visible = False
+        lblIzm.Visible = False
+        lbliList.Visible = False
+        lblNdoc.Visible = False
+        lblPodp.Visible = False
+        lblDate.Visible = False
+        lblKF_A4.Visible = False
+        lblList.Visible = False
         lblListov.Visible = False
         lblLit.Visible = False
         lblMashtab.Visible = False
@@ -144,8 +151,12 @@ Public Class Form1
         pb5.Visible = True
         pb6.Visible = True
 		pb7.Visible = True
-		lblIzm.Visible = True
-		lblKF_A4.Visible = True
+        lblIzm.Visible = True
+        lbliList.Visible = True
+        lblNdoc.Visible = True
+        lblPodp.Visible = True
+        lblDate.Visible = True
+        lblKF_A4.Visible = True
         lblList.Visible = True
         lblListov.Visible = True
         lblLit.Visible = True
@@ -607,27 +618,36 @@ Public Class Form1
 			MsgBox("Ошибка при чтении файла " + CStr(FileName) + vbCrLf + "Файл возможно поврежден." + vbCrLf + ex.Message, MsgBoxStyle.Critical, "Предупреждение")
 			Exit Sub
 		End Try
-		'Отображение прочитанного массива
-		'Dim eComp As New eComponent
-		For i = 0 To Elements.Count - 1
-			eComp = Elements(i)
-			'ePoint
-			If eComp.aType = "ePoint" Then
-				Dim p As New EPoint(eComp.X, eComp.Y) With {
-					.num = i
-				}
-				Me.Controls.Add(p)
-				eComp.component = p
-			End If
-
-		Next
-	End Sub
+        'Отображение прочитанного массива
+        'Dim eComp As New eComponent
+        For i = 0 To Elements.Count - 1
+            eComp = Elements(i)
+            'ePoint
+            If eComp.aType = "ePoint" Then
+                Dim p As New EPoint(eComp.X, eComp.Y) With {
+                    .num = i
+                }
+                Me.Controls.Add(p)
+                eComp.component = p
+            End If
+        Next
+    End Sub
 
 	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If e.KeyCode = Keys.F12 And e.Shift Then
-            Dim bm As New Bitmap(Me.Width, Me.Height, Drawing.Imaging.PixelFormat.Format32bppArgb)
-            Me.DrawToBitmap(bm, New Rectangle(New Point(100, 10), New Point(700, 900)))
-            bm.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+            Dim bm As New Bitmap(653, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+            Dim Gf As Graphics = Me.CreateGraphics
+            Gf.Clear(Me.BackColor)
+            Gf.Dispose()
+            Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(653, 944)))
+
+            Dim img As New Bitmap(643, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+            Using g As Graphics = Graphics.FromImage(img)
+                'На всё изображение (второй аргумента) рисуется выделенная часть (третий аргумент) исходного изображения
+                g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(643, 888)), GraphicsUnit.Pixel)
+            End Using
+
+            img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
         End If
     End Sub
 End Class
