@@ -10,7 +10,7 @@ Public Class Form1
     Public NeedSave As Boolean = False 'Были изменения, нужно сохранять
     Dim a As New ArrayList ' Все линии для форматки
     Public f As New eFormat
-
+    Dim fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         GroupBox1.Visible = CheckBox2.Checked
@@ -23,8 +23,8 @@ Public Class Form1
 
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		Try
-			Dim fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
-			fnt.AddFontFile("resourses\gost.ttf")
+
+            fnt.AddFontFile("resourses\gost.ttf")
 			lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
             lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
             lbliList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
@@ -530,13 +530,30 @@ Public Class Form1
         End Try
     End Sub
 
-	Private Sub txt_TextChanged(sender As Object, e As EventArgs) Handles txtNumber.TextChanged, txtList.TextChanged, txtListov.TextChanged,
+    Private Sub printReversNumber()
+        Try
+            Dim fs As New FontStyle
+            fs = FontStyle.Italic Or FontStyle.Bold
+            Dim font As New Font(fnt.Families(0), 14, fs)
+            Dim g As Graphics = pbNumber.CreateGraphics
+            g.Clear(Me.BackColor)
+            g.TranslateTransform(240, 22)
+            g.RotateTransform(180)
+            g.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
+            g.Dispose()
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub txt_TextChanged(sender As Object, e As EventArgs) Handles txtNumber.TextChanged, txtList.TextChanged, txtListov.TextChanged,
 			txtMashtab.TextChanged, txtMassa.TextChanged, txtName.TextChanged, txtNcontr.TextChanged, txtOrg1.TextChanged,
 			txtOrg2.TextChanged, txtProv.TextChanged, txtRazrab.TextChanged, txtSogl.TextChanged, txtTcontr.TextChanged,
 			txtType.TextChanged, txtUtv.TextChanged
 		If sender.Equals(txtNumber) Then
-			f.number = txtNumber.Text
-		End If
+            f.number = txtNumber.Text
+            printReversNumber()
+        End If
 		If sender.Equals(txtList) Then
 			f.list = txtList.Text
 		End If
@@ -581,43 +598,47 @@ Public Class Form1
 		End If
 	End Sub
 
-	Private Sub ОткрытьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ОткрытьToolStripMenuItem1.Click
-		Dim a As Microsoft.VisualBasic.MsgBoxResult
-		'If AddFrm Then GoTo StartFile
-		'If OpenAtStart Then
-		'	OpenAtStart = False
-		'	GoTo StartFile
-		'End If
-		If NeedSave Then
-			a = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNo, "Предупреждение")
-			If a = vbYes Then
-				'сохранение
-				FileSave()
-			End If
-		End If
-		OpenFileDialog1.FileName = FileName
-		Dim b As System.Windows.Forms.DialogResult
-		b = OpenFileDialog1.ShowDialog()
-		If b = vbCancel Then Exit Sub
-		FileName = OpenFileDialog1.FileName
-		If FileName = "" Then Exit Sub
+    Private Sub pbNumber_Click(sender As Object, e As EventArgs) Handles pbNumber.Click
 
-		Dim eComp As EComponent
-		For i = 0 To Elements.Count - 1
-			eComp = Elements(i)
-			eComp.component.Dispose()
-		Next
-		Elements.Clear()
+    End Sub
 
-		Try
-			Dim fStream As New FileStream(FileName, FileMode.Open, FileAccess.Read)
-			Dim myBinaryFormatter As New Formatters.Binary.BinaryFormatter
-			Elements = CType(myBinaryFormatter.Deserialize(fStream), ArrayList)
-			fStream.Close()
-		Catch ex As Exception
-			MsgBox("Ошибка при чтении файла " + CStr(FileName) + vbCrLf + "Файл возможно поврежден." + vbCrLf + ex.Message, MsgBoxStyle.Critical, "Предупреждение")
-			Exit Sub
-		End Try
+    Private Sub ОткрытьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ОткрытьToolStripMenuItem1.Click
+        Dim a As Microsoft.VisualBasic.MsgBoxResult
+        'If AddFrm Then GoTo StartFile
+        'If OpenAtStart Then
+        '	OpenAtStart = False
+        '	GoTo StartFile
+        'End If
+        If NeedSave Then
+            a = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNo, "Предупреждение")
+            If a = vbYes Then
+                'сохранение
+                FileSave()
+            End If
+        End If
+        OpenFileDialog1.FileName = FileName
+        Dim b As System.Windows.Forms.DialogResult
+        b = OpenFileDialog1.ShowDialog()
+        If b = vbCancel Then Exit Sub
+        FileName = OpenFileDialog1.FileName
+        If FileName = "" Then Exit Sub
+
+        Dim eComp As EComponent
+        For i = 0 To Elements.Count - 1
+            eComp = Elements(i)
+            eComp.component.Dispose()
+        Next
+        Elements.Clear()
+
+        Try
+            Dim fStream As New FileStream(FileName, FileMode.Open, FileAccess.Read)
+            Dim myBinaryFormatter As New Formatters.Binary.BinaryFormatter
+            Elements = CType(myBinaryFormatter.Deserialize(fStream), ArrayList)
+            fStream.Close()
+        Catch ex As Exception
+            MsgBox("Ошибка при чтении файла " + CStr(FileName) + vbCrLf + "Файл возможно поврежден." + vbCrLf + ex.Message, MsgBoxStyle.Critical, "Предупреждение")
+            Exit Sub
+        End Try
         'Отображение прочитанного массива
         'Dim eComp As New eComponent
         For i = 0 To Elements.Count - 1
@@ -633,7 +654,7 @@ Public Class Form1
         Next
     End Sub
 
-	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+    Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If e.KeyCode = Keys.F12 And e.Shift Then
             Dim bm As New Bitmap(653, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
             Dim Gf As Graphics = Me.CreateGraphics
@@ -649,5 +670,21 @@ Public Class Form1
 
             img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
         End If
+    End Sub
+
+    Private Sub pbNumber_Paint(sender As Object, e As PaintEventArgs) Handles pbNumber.Paint
+        Try
+            Dim fs As New FontStyle
+            fs = FontStyle.Italic Or FontStyle.Bold
+            Dim font As New Font(fnt.Families(0), 14, fs)
+            Dim g As Graphics = pbNumber.CreateGraphics
+            g.Clear(Me.BackColor)
+            g.TranslateTransform(240, 22)
+            g.RotateTransform(180)
+            g.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
+            g.Dispose()
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class

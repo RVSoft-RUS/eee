@@ -4,4 +4,5 @@ logs/
 #txt files
 *.txt
 *.lock
+*.exe
 .vs/

@@ -109,6 +109,7 @@ Partial Class Form1
         Me.lblNdoc = New System.Windows.Forms.Label()
         Me.lblPodp = New System.Windows.Forms.Label()
         Me.lblDate = New System.Windows.Forms.Label()
+        Me.pbNumber = New System.Windows.Forms.PictureBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox18, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -137,6 +138,7 @@ Partial Class Form1
         CType(Me.pb5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pb6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pb7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbNumber, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -1011,12 +1013,21 @@ Partial Class Form1
         Me.lblDate.TabIndex = 56
         Me.lblDate.Text = "Дата"
         '
+        'pbNumber
+        '
+        Me.pbNumber.Location = New System.Drawing.Point(48, 44)
+        Me.pbNumber.Name = "pbNumber"
+        Me.pbNumber.Size = New System.Drawing.Size(240, 22)
+        Me.pbNumber.TabIndex = 57
+        Me.pbNumber.TabStop = False
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(873, 917)
+        Me.Controls.Add(Me.pbNumber)
         Me.Controls.Add(Me.lblDate)
         Me.Controls.Add(Me.lblPodp)
         Me.Controls.Add(Me.lblNdoc)
@@ -1092,6 +1103,7 @@ Partial Class Form1
         CType(Me.pb5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pb6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pb7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbNumber, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1182,4 +1194,5 @@ Partial Class Form1
     Friend WithEvents lblNdoc As Label
     Friend WithEvents lblPodp As Label
     Friend WithEvents lblDate As Label
+    Friend WithEvents pbNumber As PictureBox
 End Class
