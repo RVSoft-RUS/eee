@@ -664,12 +664,13 @@ Public Class Form1
 
             Dim img As New Bitmap(643, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
             Using g As Graphics = Graphics.FromImage(img)
-                'На всё изображение (второй аргумента) рисуется выделенная часть (третий аргумент) исходного изображения
-                g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(643, 888)), GraphicsUnit.Pixel)
-            End Using
+				g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(643, 888)), GraphicsUnit.Pixel)
+			End Using
 
-            img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
-        End If
+			img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+			zx = 0
+			zy = 0
+		End If
     End Sub
 
     Private Sub pbNumber_Paint(sender As Object, e As PaintEventArgs) Handles pbNumber.Paint
@@ -677,13 +678,17 @@ Public Class Form1
             Dim fs As New FontStyle
             fs = FontStyle.Italic Or FontStyle.Bold
             Dim font As New Font(fnt.Families(0), 14, fs)
-            Dim g As Graphics = pbNumber.CreateGraphics
-            g.Clear(Me.BackColor)
-            g.TranslateTransform(240, 22)
-            g.RotateTransform(180)
-            g.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
-            g.Dispose()
-        Catch ex As Exception
+			'Dim g As Graphics = pbNumber.CreateGraphics
+			e.Graphics.Clear(Me.BackColor)
+			e.Graphics.TranslateTransform(240, 22)
+			e.Graphics.RotateTransform(180)
+			e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
+			'g.Dispose()
+
+
+
+
+		Catch ex As Exception
 
         End Try
     End Sub
