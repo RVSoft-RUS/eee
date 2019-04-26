@@ -110,6 +110,7 @@ Partial Class Form1
         Me.lblPodp = New System.Windows.Forms.Label()
         Me.lblDate = New System.Windows.Forms.Label()
         Me.pbNumber = New System.Windows.Forms.PictureBox()
+        Me.lblKF_A3 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox18, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -612,7 +613,7 @@ Partial Class Form1
         '
         Me.txtNumber.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtNumber.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.txtNumber.Location = New System.Drawing.Point(384, 750)
+        Me.txtNumber.Location = New System.Drawing.Point(348, 750)
         Me.txtNumber.Name = "txtNumber"
         Me.txtNumber.Size = New System.Drawing.Size(240, 22)
         Me.txtNumber.TabIndex = 18
@@ -634,7 +635,7 @@ Partial Class Form1
         '
         Me.lblMassa.AutoSize = True
         Me.lblMassa.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.lblMassa.Location = New System.Drawing.Point(502, 779)
+        Me.lblMassa.Location = New System.Drawing.Point(498, 779)
         Me.lblMassa.Name = "lblMassa"
         Me.lblMassa.Size = New System.Drawing.Size(44, 15)
         Me.lblMassa.TabIndex = 20
@@ -644,7 +645,7 @@ Partial Class Form1
         '
         Me.lblMashtab.AutoSize = True
         Me.lblMashtab.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.lblMashtab.Location = New System.Drawing.Point(558, 779)
+        Me.lblMashtab.Location = New System.Drawing.Point(544, 779)
         Me.lblMashtab.Name = "lblMashtab"
         Me.lblMashtab.Size = New System.Drawing.Size(61, 15)
         Me.lblMashtab.TabIndex = 21
@@ -676,7 +677,7 @@ Partial Class Form1
         Me.txtOrg1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.txtOrg1.Location = New System.Drawing.Point(453, 855)
         Me.txtOrg1.Name = "txtOrg1"
-        Me.txtOrg1.Size = New System.Drawing.Size(171, 22)
+        Me.txtOrg1.Size = New System.Drawing.Size(135, 22)
         Me.txtOrg1.TabIndex = 24
         Me.txtOrg1.Text = "Организация"
         Me.txtOrg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -687,7 +688,7 @@ Partial Class Form1
         Me.txtOrg2.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.txtOrg2.Location = New System.Drawing.Point(453, 874)
         Me.txtOrg2.Name = "txtOrg2"
-        Me.txtOrg2.Size = New System.Drawing.Size(171, 22)
+        Me.txtOrg2.Size = New System.Drawing.Size(135, 22)
         Me.txtOrg2.TabIndex = 25
         Me.txtOrg2.Text = "Надпись"
         Me.txtOrg2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -873,7 +874,7 @@ Partial Class Form1
         Me.txtMashtab.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.txtMashtab.Location = New System.Drawing.Point(561, 805)
         Me.txtMashtab.Name = "txtMashtab"
-        Me.txtMashtab.Size = New System.Drawing.Size(40, 22)
+        Me.txtMashtab.Size = New System.Drawing.Size(27, 22)
         Me.txtMashtab.TabIndex = 43
         Me.txtMashtab.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
@@ -953,7 +954,7 @@ Partial Class Form1
         Me.txtListov.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.txtListov.Location = New System.Drawing.Point(565, 839)
         Me.txtListov.Name = "txtListov"
-        Me.txtListov.Size = New System.Drawing.Size(36, 14)
+        Me.txtListov.Size = New System.Drawing.Size(28, 14)
         Me.txtListov.TabIndex = 51
         Me.txtListov.Text = "1"
         Me.txtListov.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -964,6 +965,7 @@ Partial Class Form1
         Me.lblIzm.BackColor = System.Drawing.Color.Transparent
         Me.lblIzm.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.lblIzm.Location = New System.Drawing.Point(43, 794)
+        Me.lblIzm.Margin = New System.Windows.Forms.Padding(1, 0, 1, 0)
         Me.lblIzm.Name = "lblIzm"
         Me.lblIzm.Size = New System.Drawing.Size(31, 15)
         Me.lblIzm.TabIndex = 52
@@ -975,6 +977,7 @@ Partial Class Form1
         Me.lbliList.BackColor = System.Drawing.Color.Transparent
         Me.lbliList.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.lbliList.Location = New System.Drawing.Point(64, 794)
+        Me.lbliList.Margin = New System.Windows.Forms.Padding(1, 0, 1, 0)
         Me.lbliList.Name = "lbliList"
         Me.lbliList.Size = New System.Drawing.Size(35, 15)
         Me.lbliList.TabIndex = 53
@@ -1008,6 +1011,7 @@ Partial Class Form1
         Me.lblDate.BackColor = System.Drawing.Color.Transparent
         Me.lblDate.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.lblDate.Location = New System.Drawing.Point(209, 794)
+        Me.lblDate.Margin = New System.Windows.Forms.Padding(0)
         Me.lblDate.Name = "lblDate"
         Me.lblDate.Size = New System.Drawing.Size(37, 15)
         Me.lblDate.TabIndex = 56
@@ -1017,9 +1021,19 @@ Partial Class Form1
         '
         Me.pbNumber.Location = New System.Drawing.Point(48, 44)
         Me.pbNumber.Name = "pbNumber"
-        Me.pbNumber.Size = New System.Drawing.Size(240, 22)
+        Me.pbNumber.Size = New System.Drawing.Size(200, 22)
         Me.pbNumber.TabIndex = 57
         Me.pbNumber.TabStop = False
+        '
+        'lblKF_A3
+        '
+        Me.lblKF_A3.AutoSize = True
+        Me.lblKF_A3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lblKF_A3.Location = New System.Drawing.Point(964, 900)
+        Me.lblKF_A3.Name = "lblKF_A3"
+        Me.lblKF_A3.Size = New System.Drawing.Size(235, 15)
+        Me.lblKF_A3.TabIndex = 58
+        Me.lblKF_A3.Text = "Копировал                               Формат   А3"
         '
         'Form1
         '
@@ -1027,6 +1041,7 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(873, 917)
+        Me.Controls.Add(Me.lblKF_A3)
         Me.Controls.Add(Me.pbNumber)
         Me.Controls.Add(Me.lblDate)
         Me.Controls.Add(Me.lblPodp)
@@ -1195,4 +1210,5 @@ Partial Class Form1
     Friend WithEvents lblPodp As Label
     Friend WithEvents lblDate As Label
     Friend WithEvents pbNumber As PictureBox
+    Friend WithEvents lblKF_A3 As Label
 End Class

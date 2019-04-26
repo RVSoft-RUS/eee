@@ -25,7 +25,8 @@ Public Class Form1
 		Try
 
             fnt.AddFontFile("resourses\gost.ttf")
-			lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblKF_A3.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
             lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
             lbliList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
             lblNdoc.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
@@ -108,13 +109,15 @@ Public Class Form1
         pb4.Visible = False
         pb5.Visible = False
         pb6.Visible = False
-		pb7.Visible = False
+        pb7.Visible = False
+        pbNumber.Visible = False
         lblIzm.Visible = False
         lbliList.Visible = False
         lblNdoc.Visible = False
         lblPodp.Visible = False
         lblDate.Visible = False
         lblKF_A4.Visible = False
+        lblKF_A3.Visible = False
         lblList.Visible = False
         lblListov.Visible = False
         lblLit.Visible = False
@@ -130,45 +133,182 @@ Public Class Form1
 
     Private Sub ShowFormatA4_1()
         txtList.Visible = True
+        txtList.Location = New Point(485, 839)
         txtListov.Visible = True
+        txtListov.Location = New Point(565, 839)
         txtMashtab.Visible = True
+        txtMashtab.Location = New Point(561, 805)
         txtMassa.Visible = True
+        txtMassa.Location = New Point(495, 805)
         txtName.Visible = True
+        txtName.Location = New Point(263, 779)
         txtNcontr.Visible = True
+        txtNcontr.Location = New Point(95, 869)
         txtNumber.Visible = True
+        txtNumber.Location = New Point(348, 750)
         txtOrg1.Visible = True
+        txtOrg1.Location = New Point(453, 855)
         txtOrg2.Visible = True
+        txtOrg2.Location = New Point(453, 874)
         txtProv.Visible = True
+        txtProv.Location = New Point(95, 824)
         txtRazrab.Visible = True
+        txtRazrab.Location = New Point(95, 809)
         txtSogl.Visible = True
+        txtSogl.Location = New Point(95, 839)
         txtTcontr.Visible = True
+        txtTcontr.Location = New Point(95, 854)
+
         txtType.Visible = True
+        txtType.Location = New Point(263, 832)
         txtUtv.Visible = True
+        txtUtv.Location = New Point(95, 884)
         pb1.Visible = True
         pb2.Visible = True
         pb3.Visible = True
         pb4.Visible = True
         pb5.Visible = True
         pb6.Visible = True
-		pb7.Visible = True
+        pb7.Visible = True
+        pbNumber.Visible = True
+        lblIzm.Visible = True
+        lblIzm.Location = New Point(43, 794)
+        lbliList.Visible = True
+        lbliList.Location = New Point(64, 794)
+        lblNdoc.Visible = True
+        lblNdoc.Location = New Point(96, 794)
+        lblPodp.Visible = True
+        lblPodp.Location = New Point(166, 794)
+        lblDate.Visible = True
+        lblDate.Location = New Point(209, 794)
+        lblKF_A4.Visible = True
+        lblList.Visible = True
+        lblList.Location = New Point(450, 839)
+        lblListov.Visible = True
+        lblListov.Location = New Point(520, 839)
+        lblLit.Visible = True
+        lblLit.Location = New Point(456, 779)
+        lblMashtab.Visible = True
+        lblMashtab.Location = New Point(546, 779)
+        lblMassa.Visible = True
+        lblMassa.Location = New Point(502, 779)
+        lblNcontr.Visible = True
+        lblNcontr.Location = New Point(45, 869)
+        lblProv.Visible = True
+        lblProv.Location = New Point(45, 824)
+        lblRazrab.Visible = True
+        lblRazrab.Location = New Point(45, 809)
+        lblSogl.Visible = True
+        lblSogl.Location = New Point(45, 839)
+        lblTcontr.Visible = True
+        lblTcontr.Location = New Point(45, 854)
+        lblUtv.Visible = True
+        lblUtv.Location = New Point(45, 884)
+    End Sub
+
+    Private Sub ShowFormatA4_2()
+        txtList.Visible = True
+        txtList.Location = New Point(576, 880)
+        lblList.Visible = True
+        lblList.Location = New Point(568, 860)
+        txtNumber.Visible = True
+        txtNumber.Location = New Point(348 + 630, 868)
+        pb3.Visible = True
+        pb4.Visible = True
+        pb5.Visible = True
+        pb6.Visible = True
+        pb7.Visible = True
+        pbNumber.Visible = True
+
+        lblIzm.Location = New Point(43, 884)
+        lbliList.Location = New Point(64, 884)
+        lblNdoc.Location = New Point(96, 884)
+        lblPodp.Location = New Point(166, 884)
+        lblDate.Location = New Point(209, 884)
         lblIzm.Visible = True
         lbliList.Visible = True
         lblNdoc.Visible = True
         lblPodp.Visible = True
         lblDate.Visible = True
+
         lblKF_A4.Visible = True
+    End Sub
+
+    Private Sub ShowFormatA3_1()
+        txtList.Visible = True
+        txtList.Location = New Point(485 + 630, 839) 'x485 A4 =+630
+        txtListov.Visible = True
+        txtListov.Location = New Point(565 + 630, 839)
+        txtMashtab.Visible = True
+        txtMashtab.Location = New Point(561 + 630, 805)
+        txtMassa.Visible = True
+        txtMassa.Location = New Point(495 + 630, 805)
+        txtName.Visible = True
+        txtName.Location = New Point(263 + 630, 779)
+        txtNcontr.Visible = True
+        txtNcontr.Location = New Point(95 + 630, 869)
+        txtNumber.Visible = True
+        txtNumber.Location = New Point(348 + 630, 750)
+        txtOrg1.Visible = True
+        txtOrg1.Location = New Point(453 + 630, 855)
+        txtOrg2.Visible = True
+        txtOrg2.Location = New Point(453 + 630, 874)
+
+        txtProv.Visible = True
+        txtProv.Location = New Point(95 + 630, 824)
+        txtRazrab.Visible = True
+        txtRazrab.Location = New Point(95 + 630, 809)
+        txtSogl.Visible = True
+        txtSogl.Location = New Point(95 + 630, 839)
+        txtTcontr.Visible = True
+        txtTcontr.Location = New Point(95 + 630, 854)
+        txtType.Visible = True
+        txtType.Location = New Point(263 + 630, 832)
+        txtUtv.Visible = True
+        txtUtv.Location = New Point(95 + 630, 884)
+        pb1.Visible = True
+        pb2.Visible = True
+        pb3.Visible = True
+        pb4.Visible = True
+        pb5.Visible = True
+        pb6.Visible = True
+        pb7.Visible = True
+        pbNumber.Visible = True
+        lblIzm.Visible = True
+        lblIzm.Location = New Point(43 + 630, 794)
+        lbliList.Visible = True
+        lbliList.Location = New Point(64 + 630, 794)
+        lblNdoc.Visible = True
+        lblNdoc.Location = New Point(96 + 630, 794)
+        lblPodp.Visible = True
+        lblPodp.Location = New Point(166 + 630, 794)
+        lblDate.Visible = True
+        lblDate.Location = New Point(209 + 630, 794)
+        lblKF_A3.Visible = True
         lblList.Visible = True
+        lblList.Location = New Point(450 + 630, 839)
         lblListov.Visible = True
+        lblListov.Location = New Point(520 + 630, 839)
         lblLit.Visible = True
         lblMashtab.Visible = True
         lblMassa.Visible = True
+        lblLit.Location = New Point(456 + 630, 779)
+        lblMashtab.Location = New Point(546 + 630, 779)
+        lblMassa.Location = New Point(502 + 630, 779)
         lblNcontr.Visible = True
+        lblNcontr.Location = New Point(45 + 630, 869)
         lblProv.Visible = True
+        lblProv.Location = New Point(45 + 630, 824)
         lblRazrab.Visible = True
+        lblRazrab.Location = New Point(45 + 630, 809)
         lblSogl.Visible = True
+        lblSogl.Location = New Point(45 + 630, 839)
         lblTcontr.Visible = True
+        lblTcontr.Location = New Point(45 + 630, 854)
         lblUtv.Visible = True
+        lblUtv.Location = New Point(45 + 630, 884)
     End Sub
+
 
     Public Sub CreateFormat()
         If a.Count > 0 Then
@@ -191,10 +331,10 @@ Public Class Form1
         Dim aLine As hLine, bLine As vLine
         If f.format = "A41" Then
             '***********************************************
-            aLine = New hLine(X_ - 12, X_ + 197, Y_ + 0, 2)
+            aLine = New hLine(X_ - 12, X_ + 185, Y_ + 0, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-            aLine = New hLine(X_ - 0, X_ + 82, Y_ + 14, 2)
+            aLine = New hLine(X_ - 0, X_ + 70, Y_ + 14, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
             aLine = New hLine(X_ - 12, X_ + 0, Y_ + 60, 2)
@@ -218,7 +358,7 @@ Public Class Form1
             aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142 + 35 + 25 + 25 + 35, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-            aLine = New hLine(X_ - 12, X_ + 197, Y_ + 287, 2)
+            aLine = New hLine(X_ - 12, X_ + 185, Y_ + 287, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
             bLine = New vLine(X_ - 12, Y_ + 0, Y_ + 120, 2)
@@ -236,10 +376,10 @@ Public Class Form1
             bLine = New vLine(X_ - 0, Y_ + 0, Y_ + 287, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            bLine = New vLine(X_ + 82, Y_ + 0, Y_ + 14, 2)
+            bLine = New vLine(X_ + 70, Y_ + 0, Y_ + 14, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            bLine = New vLine(X_ + 197, Y_ + 0, Y_ + 287, 2)
+            bLine = New vLine(X_ + 185, Y_ + 0, Y_ + 287, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
             'Код общей рамки А4
@@ -255,13 +395,13 @@ Public Class Form1
                 Me.Controls.Add(aLine)
                 a.Add(aLine)
             Next
-            aLine = New hLine(X_ + 65, X_ + 197, Y_ + 287 - 15, 2)
+            aLine = New hLine(X_ + 65, X_ + 185, Y_ + 287 - 15, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-            aLine = New hLine(X_ + 65, X_ + 197, Y_ + 287 - 40, 2)
+            aLine = New hLine(X_ + 65, X_ + 185, Y_ + 287 - 40, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-            aLine = New hLine(X_ + 0, X_ + 197, Y_ + 287 - 55, 2)
+            aLine = New hLine(X_ + 0, X_ + 185, Y_ + 287 - 55, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
             bLine = New vLine(X_ + 7, Y_ + 287 - 55, Y_ + 287 - 30, 2)
@@ -297,20 +437,99 @@ Public Class Form1
             bLine = New vLine(X_ + 155, Y_ + 287 - 20, Y_ + 287 - 15, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            aLine = New hLine(X_ + 135, X_ + 197, Y_ + 287 - 35, 2)
+            aLine = New hLine(X_ + 135, X_ + 185, Y_ + 287 - 35, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-            aLine = New hLine(X_ + 135, X_ + 197, Y_ + 287 - 20, 2)
+            aLine = New hLine(X_ + 135, X_ + 185, Y_ + 287 - 20, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
             ShowFormatA4_1()
         End If
         If f.format = "A42" Then
             '***********************************************
-            aLine = New hLine(X_ - 12, X_ + 197, Y_ + 0, 2)
+            aLine = New hLine(X_ - 0, X_ + 185, Y_ + 0, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-            aLine = New hLine(X_ - 0, X_ + 82, Y_ + 14, 2)
+            aLine = New hLine(X_ - 0, X_ + 70, Y_ + 14, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142 + 35, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142 + 35 + 25, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142 + 35 + 25 + 25, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142 + 35 + 25 + 25 + 35, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 185, Y_ + 287, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            bLine = New vLine(X_ - 12, Y_ + 142, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ - 7, Y_ + 142, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ - 0, Y_ + 0, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 70, Y_ + 0, Y_ + 14, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 185, Y_ + 0, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            'Код общей рамки А4
+            'Основная надпись А41
+            aLine = New hLine(X_ - 0, X_ + 65, Y_ + 287 - 5, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 0, X_ + 65, Y_ + 287 - 10, 1)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 0, X_ + 185, Y_ + 287 - 15, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            'bLine = New vLine(X_ + 65, Y_ + 287 - 15, Y_ + 287, 2)
+            'Me.Controls.Add(bLine)
+            'a.Add(bLine)
+            bLine = New vLine(X_ + 7, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 17, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 40, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 55, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 65, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 175, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            aLine = New hLine(X_ + 175, X_ + 185, Y_ + 287 - 8, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+
+            ShowFormatA4_2()
+        End If
+        If f.format = "A31" Then
+            '***********************************************
+            aLine = New hLine(X_ - 12, X_ + 395, Y_ + 0, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 0, X_ + 70, Y_ + 14, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
             aLine = New hLine(X_ - 12, X_ + 0, Y_ + 60, 2)
@@ -334,7 +553,7 @@ Public Class Form1
             aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142 + 35 + 25 + 25 + 35, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-            aLine = New hLine(X_ - 12, X_ + 197, Y_ + 287, 2)
+            aLine = New hLine(X_ - 12, X_ + 395, Y_ + 287, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
             bLine = New vLine(X_ - 12, Y_ + 0, Y_ + 120, 2)
@@ -352,75 +571,153 @@ Public Class Form1
             bLine = New vLine(X_ - 0, Y_ + 0, Y_ + 287, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            bLine = New vLine(X_ + 82, Y_ + 0, Y_ + 14, 2)
+            bLine = New vLine(X_ + 70, Y_ + 0, Y_ + 14, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            bLine = New vLine(X_ + 197, Y_ + 0, Y_ + 287, 2)
+            bLine = New vLine(X_ + 395, Y_ + 0, Y_ + 287, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            'Код общей рамки А4
-            'Основная надпись А41
+            'Основная надпись А42
+            Dim t As Integer = 1
+            For i = 5 To 50 Step 5
+                If i = 30 Or i = 35 Then
+                    t = 2
+                Else
+                    t = 1
+                End If
+                aLine = New hLine(X_ + 210, X_ + 210 + 65, Y_ + 287 - i, t)
+                Me.Controls.Add(aLine)
+                a.Add(aLine)
+            Next
+            aLine = New hLine(X_ + 210 + 65, X_ + 395, Y_ + 287 - 15, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ + 210 + 65, X_ + 395, Y_ + 287 - 40, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ + 210, X_ + 395, Y_ + 287 - 55, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            bLine = New vLine(X_ + 210 + 7, Y_ + 287 - 55, Y_ + 287 - 30, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 210 + 17, Y_ + 287 - 55, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 210 + 40, Y_ + 287 - 55, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 210 + 55, Y_ + 287 - 55, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 210 + 65, Y_ + 287 - 55, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 210 + 135, Y_ + 287 - 40, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 210 + 140, Y_ + 287 - 35, Y_ + 287 - 20, 1)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 210 + 145, Y_ + 287 - 35, Y_ + 287 - 20, 1)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 210 + 150, Y_ + 287 - 40, Y_ + 287 - 20, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 210 + 167, Y_ + 287 - 40, Y_ + 287 - 20, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 210 + 155, Y_ + 287 - 20, Y_ + 287 - 15, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            aLine = New hLine(X_ + 210 + 135, X_ + 210 + 185, Y_ + 287 - 35, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ + 210 + 135, X_ + 210 + 185, Y_ + 287 - 20, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            bLine = New vLine(X_ + 210, Y_ + 287 - 55, Y_ + 287 - 0, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            ShowFormatA3_1()
+        End If
+        If f.format = "A32" Then
+            '***********************************************
+            aLine = New hLine(X_ - 0, X_ + 395, Y_ + 0, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 0, X_ + 70, Y_ + 14, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142 + 35, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142 + 35 + 25, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142 + 35 + 25 + 25, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 0, Y_ + 142 + 35 + 25 + 25 + 35, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            aLine = New hLine(X_ - 12, X_ + 395, Y_ + 287, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            bLine = New vLine(X_ - 12, Y_ + 142, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ - 7, Y_ + 142, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ - 0, Y_ + 0, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 70, Y_ + 0, Y_ + 14, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 395, Y_ + 0, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            'Код общей рамки А3
+            'Основная надпись А32
             aLine = New hLine(X_ - 0, X_ + 65, Y_ + 287 - 5, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
             aLine = New hLine(X_ - 0, X_ + 65, Y_ + 287 - 10, 1)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-            aLine = New hLine(X_ - 0, X_ + 197, Y_ + 287 - 15, 2)
+            aLine = New hLine(X_ - 0, X_ + 185, Y_ + 287 - 15, 2)
+            Me.Controls.Add(aLine)
+            a.Add(aLine)
+            bLine = New vLine(X_ + 7, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 17, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 40, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 55, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 65, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            bLine = New vLine(X_ + 175, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            aLine = New hLine(X_ + 175, X_ + 185, Y_ + 287 - 8, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
 
-            'aLine = New hLine(X_ + 65, X_ + 197, Y_ + 287 - 15, 2)
-            'Me.Controls.Add(aLine)
-            'a.Add(aLine)
-            'aLine = New hLine(X_ + 65, X_ + 197, Y_ + 287 - 40, 2)
-            'Me.Controls.Add(aLine)
-            'a.Add(aLine)
-            'aLine = New hLine(X_ + 0, X_ + 197, Y_ + 287 - 55, 2)
-            'Me.Controls.Add(aLine)
-            'a.Add(aLine)
-            'bLine = New vLine(X_ + 7, Y_ + 287 - 55, Y_ + 287 - 30, 2)
-            'Me.Controls.Add(bLine)
-            'a.Add(bLine)
-            'bLine = New vLine(X_ + 17, Y_ + 287 - 55, Y_ + 287, 2)
-            'Me.Controls.Add(bLine)
-            'a.Add(bLine)
-            'bLine = New vLine(X_ + 40, Y_ + 287 - 55, Y_ + 287, 2)
-            'Me.Controls.Add(bLine)
-            'a.Add(bLine)
-            'bLine = New vLine(X_ + 55, Y_ + 287 - 55, Y_ + 287, 2)
-            'Me.Controls.Add(bLine)
-            'a.Add(bLine)
-            'bLine = New vLine(X_ + 65, Y_ + 287 - 55, Y_ + 287, 2)
-            'Me.Controls.Add(bLine)
-            'a.Add(bLine)
-            'bLine = New vLine(X_ + 135, Y_ + 287 - 40, Y_ + 287, 2)
-            'Me.Controls.Add(bLine)
-            'a.Add(bLine)
-            'bLine = New vLine(X_ + 140, Y_ + 287 - 35, Y_ + 287 - 20, 1)
-            'Me.Controls.Add(bLine)
-            'a.Add(bLine)
-            'bLine = New vLine(X_ + 145, Y_ + 287 - 35, Y_ + 287 - 20, 1)
-            'Me.Controls.Add(bLine)
-            'a.Add(bLine)
-            'bLine = New vLine(X_ + 150, Y_ + 287 - 40, Y_ + 287 - 20, 2)
-            'Me.Controls.Add(bLine)
-            'a.Add(bLine)
-            'bLine = New vLine(X_ + 167, Y_ + 287 - 40, Y_ + 287 - 20, 2)
-            'Me.Controls.Add(bLine)
-            'a.Add(bLine)
-            'bLine = New vLine(X_ + 155, Y_ + 287 - 20, Y_ + 287 - 15, 2)
-            'Me.Controls.Add(bLine)
-            'a.Add(bLine)
-            'aLine = New hLine(X_ + 135, X_ + 197, Y_ + 287 - 35, 2)
-            'Me.Controls.Add(aLine)
-            'a.Add(aLine)
-            'aLine = New hLine(X_ + 135, X_ + 197, Y_ + 287 - 20, 2)
-            'Me.Controls.Add(aLine)
-            'a.Add(aLine)
-            'ShowFormatA4_1()
+            ShowFormatA4_2()
         End If
-
     End Sub
 
     Private Sub Form1_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
@@ -537,7 +834,7 @@ Public Class Form1
             Dim font As New Font(fnt.Families(0), 14, fs)
             Dim g As Graphics = pbNumber.CreateGraphics
             g.Clear(Me.BackColor)
-            g.TranslateTransform(240, 22)
+            g.TranslateTransform(200, 22)
             g.RotateTransform(180)
             g.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
             g.Dispose()
@@ -598,10 +895,6 @@ Public Class Form1
 		End If
 	End Sub
 
-    Private Sub pbNumber_Click(sender As Object, e As EventArgs) Handles pbNumber.Click
-
-    End Sub
-
     Private Sub ОткрытьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ОткрытьToolStripMenuItem1.Click
         Dim a As Microsoft.VisualBasic.MsgBoxResult
         'If AddFrm Then GoTo StartFile
@@ -656,21 +949,39 @@ Public Class Form1
 
     Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If e.KeyCode = Keys.F12 And e.Shift Then
-            Dim bm As New Bitmap(653, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
-            Dim Gf As Graphics = Me.CreateGraphics
-            Gf.Clear(Me.BackColor)
-            Gf.Dispose()
-            Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(653, 944)))
+            If f.format.StartsWith("A4") Then
+                Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                Dim Gf As Graphics = Me.CreateGraphics
+                Gf.Clear(Me.BackColor)
+                Gf.Dispose()
+                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
 
-            Dim img As New Bitmap(643, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
-            Using g As Graphics = Graphics.FromImage(img)
-				g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(643, 888)), GraphicsUnit.Pixel)
-			End Using
+                Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                Using g As Graphics = Graphics.FromImage(img)
+                    g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603, 888)), GraphicsUnit.Pixel)
+                End Using
 
-			img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
-			zx = 0
-			zy = 0
-		End If
+                img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+                zx = 0
+                zy = 0
+            End If
+            If f.format.StartsWith("A3") Then
+                Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                Dim Gf As Graphics = Me.CreateGraphics
+                Gf.Clear(Me.BackColor)
+                Gf.Dispose()
+                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
+
+                Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                Using g As Graphics = Graphics.FromImage(img)
+                    g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
+                End Using
+
+                img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+                zx = 0
+                zy = 0
+            End If
+        End If
     End Sub
 
     Private Sub pbNumber_Paint(sender As Object, e As PaintEventArgs) Handles pbNumber.Paint
@@ -680,8 +991,8 @@ Public Class Form1
             Dim font As New Font(fnt.Families(0), 14, fs)
 			'Dim g As Graphics = pbNumber.CreateGraphics
 			e.Graphics.Clear(Me.BackColor)
-			e.Graphics.TranslateTransform(240, 22)
-			e.Graphics.RotateTransform(180)
+            e.Graphics.TranslateTransform(200, 22)
+            e.Graphics.RotateTransform(180)
 			e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
 			'g.Dispose()
 
