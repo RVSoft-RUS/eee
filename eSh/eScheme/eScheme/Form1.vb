@@ -13,8 +13,9 @@ Public Class Form1
     Public FileName As String
     Public NeedSave As Boolean = False 'Были изменения, нужно сохранять
     Dim a As New ArrayList ' Все линии для форматки
-    Public f As New eFormat
-    Dim fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
+	Public f As New eFormat
+	Public createConnect As EAddLinesAndPoints
+	Dim fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
 
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
@@ -783,41 +784,39 @@ Public Class Form1
             G.Dispose()
             ToolTip1.SetToolTip(Me, CStr(rx) + ", " + CStr(ry))
         End If
+		If Mode = "createConnect1" Then
+			createConnect.MouseMove(rx, ry)
+		End If
+		If Mode = "" Then
+			createConnect=Nothing
+		End If
+	End Sub
 
-    End Sub
+	Private Sub Form1_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
+		If Mode = "newPoint" Then
+			'Создание пустой точки потом запретить!!!!!!!!!!!!!!!!!!!!!!
+			Dim eComp As New EComponent With {
+				.aType = "ePoint",
+				.numInArray = Elements.Count
+			}
+			Elements.Add(eComp)
+			Dim p As New EPoint(rx, ry, eComp.numInArray)
+			Me.Controls.Add(p)
+			eComp.component = p
 
-    Private Sub PictureBox_Point_Click(sender As Object, e As EventArgs) Handles PictureBox_Point.Click
-        Mode = "newPoint"
-        GroupBox1.Visible = False
-        CheckBox2.Visible = False
-        Me.Cursor = Cursors.Hand
-    End Sub
+			Mode = ""
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			Me.Cursor = Cursors.Default
+			NeedSave = True
+			'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		End If
+		If Mode = "createConnect1" Then
+			createConnect.MouseClick(rx, ry)
+		End If
+	End Sub
 
-    Private Sub Form1_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
-        If Mode = "newPoint" Then
-            Dim eComp As New EComponent With {
-                .X = rx,
-                .Y = ry,
-                .aType = "ePoint",
-                .numInArray = Elements.Count
-            }
-            Elements.Add(eComp)
-            Dim p As New EPoint(rx, ry) With {
-                .num = eComp.numInArray
-            }
-            Me.Controls.Add(p)
-            eComp.component = p
-
-            Mode = ""
-            GroupBox1.Visible = True
-            CheckBox2.Visible = True
-            Me.Cursor = Cursors.Default
-            NeedSave = True
-        End If
-
-    End Sub
-
-    Private Sub СохранитьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles СохранитьToolStripMenuItem1.Click
+	Private Sub СохранитьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles СохранитьToolStripMenuItem1.Click
         FileSave()
     End Sub
     Private Sub СохранитьКакToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles СохранитькакToolStripMenuItem.Click
@@ -827,11 +826,11 @@ Public Class Form1
 
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
         Dim eComp As EComponent
-        For i = 0 To Elements.Count - 1
-            eComp = Elements(i)
-            eComp.component.Dispose()
-        Next
-        Elements.Clear()
+		For i = 1 To Elements.Count - 1
+			eComp = Elements(i)
+			eComp.component.Dispose()
+		Next
+		Elements.Clear()
         Dim theLine As Removable
         For i = 0 To a.Count - 1
             theLine = a(i)
@@ -862,75 +861,75 @@ Public Class Form1
         End Try
     End Sub
 
-    Private Sub printReversNumber()
-        Try
-            Dim fs As New FontStyle
-            fs = FontStyle.Italic Or FontStyle.Bold
-            Dim font As New Font(fnt.Families(0), 14, fs)
-            Dim g As Graphics = pbNumber.CreateGraphics
-            g.Clear(Me.BackColor)
-            g.TranslateTransform(200, 22)
-            g.RotateTransform(180)
-            g.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
-            g.Dispose()
-        Catch ex As Exception
+	Private Sub PrintReversNumber()
+		Try
+			Dim fs As New FontStyle
+			fs = FontStyle.Italic Or FontStyle.Bold
+			Dim font As New Font(fnt.Families(0), 14, fs)
+			Dim g As Graphics = pbNumber.CreateGraphics
+			g.Clear(Me.BackColor)
+			g.TranslateTransform(200, 22)
+			g.RotateTransform(180)
+			g.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
+			g.Dispose()
+		Catch ex As Exception
 
-        End Try
-    End Sub
+		End Try
+	End Sub
 
-    Private Sub txt_TextChanged(sender As Object, e As EventArgs) Handles txtNumber.TextChanged, txtList.TextChanged, txtListov.TextChanged,
-            txtMashtab.TextChanged, txtMassa.TextChanged, txtName.TextChanged, txtNcontr.TextChanged, txtOrg1.TextChanged,
-            txtOrg2.TextChanged, txtProv.TextChanged, txtRazrab.TextChanged, txtSogl.TextChanged, txtTcontr.TextChanged,
-            txtType.TextChanged, txtUtv.TextChanged
-        If sender.Equals(txtNumber) Then
-            f.number = txtNumber.Text
-            printReversNumber()
-        End If
-        If sender.Equals(txtList) Then
-            f.list = txtList.Text
-        End If
-        If sender.Equals(txtListov) Then
-            f.listov = txtListov.Text
-        End If
-        If sender.Equals(txtMashtab) Then
-            f.mashtab = txtMashtab.Text
-        End If
-        If sender.Equals(txtMassa) Then
-            f.massa = txtMassa.Text
-        End If
-        If sender.Equals(txtName) Then
-            f.name = txtName.Text
-        End If
-        If sender.Equals(txtNcontr) Then
-            f.nkontr = txtNcontr.Text
-        End If
-        If sender.Equals(txtOrg1) Then
-            f.org1 = txtOrg1.Text
-        End If
-        If sender.Equals(txtOrg2) Then
-            f.org2 = txtOrg2.Text
-        End If
-        If sender.Equals(txtProv) Then
-            f.prov = txtProv.Text
-        End If
-        If sender.Equals(txtRazrab) Then
-            f.razrab = txtRazrab.Text
-        End If
-        If sender.Equals(txtSogl) Then
-            f.sogl = txtSogl.Text
-        End If
-        If sender.Equals(txtTcontr) Then
-            f.tkontr = txtTcontr.Text
-        End If
-        If sender.Equals(txtType) Then
-            f.type = txtType.Text
-        End If
-        If sender.Equals(txtUtv) Then
-            f.utv = txtUtv.Text
-        End If
-    End Sub
+	Private Sub Txt_TextChanged(sender As Object, e As EventArgs) Handles txtNumber.TextChanged, txtList.TextChanged, txtListov.TextChanged,
+			txtMashtab.TextChanged, txtMassa.TextChanged, txtName.TextChanged, txtNcontr.TextChanged, txtOrg1.TextChanged,
+			txtOrg2.TextChanged, txtProv.TextChanged, txtRazrab.TextChanged, txtSogl.TextChanged, txtTcontr.TextChanged,
+			txtType.TextChanged, txtUtv.TextChanged
+		If sender.Equals(txtNumber) Then
+			f.number = txtNumber.Text
+			PrintReversNumber()
+		End If
+		If sender.Equals(txtList) Then
+			f.list = txtList.Text
+		End If
+		If sender.Equals(txtListov) Then
+			f.listov = txtListov.Text
+		End If
+		If sender.Equals(txtMashtab) Then
+			f.mashtab = txtMashtab.Text
+		End If
+		If sender.Equals(txtMassa) Then
+			f.massa = txtMassa.Text
+		End If
+		If sender.Equals(txtName) Then
+			f.name = txtName.Text
+		End If
+		If sender.Equals(txtNcontr) Then
+			f.nkontr = txtNcontr.Text
+		End If
+		If sender.Equals(txtOrg1) Then
+			f.org1 = txtOrg1.Text
+		End If
+		If sender.Equals(txtOrg2) Then
+			f.org2 = txtOrg2.Text
+		End If
+		If sender.Equals(txtProv) Then
+			f.prov = txtProv.Text
+		End If
+		If sender.Equals(txtRazrab) Then
+			f.razrab = txtRazrab.Text
+		End If
+		If sender.Equals(txtSogl) Then
+			f.sogl = txtSogl.Text
+		End If
+		If sender.Equals(txtTcontr) Then
+			f.tkontr = txtTcontr.Text
+		End If
+		If sender.Equals(txtType) Then
+			f.type = txtType.Text
+		End If
+		If sender.Equals(txtUtv) Then
+			f.utv = txtUtv.Text
+		End If
+	End Sub
 
-    Private Sub ОткрытьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ОткрытьToolStripMenuItem1.Click
+	Private Sub ОткрытьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ОткрытьToolStripMenuItem1.Click
         Dim a As Microsoft.VisualBasic.MsgBoxResult
         'If AddFrm Then GoTo StartFile
         'If OpenAtStart Then
@@ -973,73 +972,88 @@ Public Class Form1
             eComp = Elements(i)
             'ePoint
             If eComp.aType = "ePoint" Then
-                Dim p As New EPoint(eComp.X, eComp.Y) With {
-                    .num = i
-                }
-                Me.Controls.Add(p)
-                eComp.component = p
-            End If
+				'Dim p As New EPoint(eComp.X, eComp.Y, i)
+				'Me.Controls.Add(p)
+				'            eComp.component = p
+			End If
         Next
     End Sub
 
-    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles PictureBox_Plus30.Click
+	Private Sub PictureBox_Point_Click(sender As Object, e As EventArgs) Handles PictureBox_Point.Click
+		Mode = "newPoint"
+		GroupBox1.Visible = False
+		CheckBox2.Visible = False
+		Me.Cursor = Cursors.Hand
+	End Sub
 
-    End Sub
+	Private Sub PictureBox_Provod_Click(sender As Object, e As EventArgs) Handles PictureBox_Provod.Click
+		Mode = "createConnect"
+		GroupBox1.Visible = False
+		CheckBox2.Visible = False
+		Me.Cursor = Cursors.Help
 
-    Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
-        If e.KeyCode = Keys.F12 And e.Shift Then
-            If f.format.StartsWith("A4") Then
-                Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Dim Gf As Graphics = Me.CreateGraphics
-                Gf.Clear(Me.BackColor)
-                Gf.Dispose()
-                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
+	End Sub
 
-                Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Using g As Graphics = Graphics.FromImage(img)
-                    g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603, 888)), GraphicsUnit.Pixel)
-                End Using
+	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+		If e.KeyCode = Keys.F12 And e.Shift Then
+			If f.format.StartsWith("A4") Then
+				Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Dim Gf As Graphics = Me.CreateGraphics
+				Gf.Clear(Me.BackColor)
+				Gf.Dispose()
+				Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
 
-                img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
-                zx = 0
-                zy = 0
-            End If
-            If f.format.StartsWith("A3") Then
-                Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Dim Gf As Graphics = Me.CreateGraphics
-                Gf.Clear(Me.BackColor)
-                Gf.Dispose()
-                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
+				Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Using g As Graphics = Graphics.FromImage(img)
+					g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603, 888)), GraphicsUnit.Pixel)
+				End Using
 
-                Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Using g As Graphics = Graphics.FromImage(img)
-                    g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
-                End Using
+				img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+				zx = 0
+				zy = 0
+			End If
+			If f.format.StartsWith("A3") Then
+				Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Dim Gf As Graphics = Me.CreateGraphics
+				Gf.Clear(Me.BackColor)
+				Gf.Dispose()
+				Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
 
-                img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
-                zx = 0
-                zy = 0
-            End If
-        End If
-    End Sub
+				Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Using g As Graphics = Graphics.FromImage(img)
+					g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
+				End Using
 
-    Private Sub pbNumber_Paint(sender As Object, e As PaintEventArgs) Handles pbNumber.Paint
-        Try
-            Dim fs As New FontStyle
-            fs = FontStyle.Italic Or FontStyle.Bold
-            Dim font As New Font(fnt.Families(0), 14, fs)
-            'Dim g As Graphics = pbNumber.CreateGraphics
-            e.Graphics.Clear(Me.BackColor)
-            e.Graphics.TranslateTransform(200, 22)
-            e.Graphics.RotateTransform(180)
-            e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
-            'g.Dispose()
+				img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+				zx = 0
+				zy = 0
+			End If
+		End If
+		If e.KeyCode = Keys.Escape Then
+			Mode = ""
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			Me.Cursor = Cursors.Default
+		End If
+	End Sub
+
+	Private Sub PbNumber_Paint(sender As Object, e As PaintEventArgs) Handles pbNumber.Paint
+		Try
+			Dim fs As New FontStyle
+			fs = FontStyle.Italic Or FontStyle.Bold
+			Dim font As New Font(fnt.Families(0), 14, fs)
+			'Dim g As Graphics = pbNumber.CreateGraphics
+			e.Graphics.Clear(Me.BackColor)
+			e.Graphics.TranslateTransform(200, 22)
+			e.Graphics.RotateTransform(180)
+			e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
+			'g.Dispose()
 
 
 
 
-        Catch ex As Exception
+		Catch ex As Exception
 
-        End Try
-    End Sub
+		End Try
+	End Sub
 End Class

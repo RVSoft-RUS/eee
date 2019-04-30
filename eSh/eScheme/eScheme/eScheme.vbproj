@@ -73,6 +73,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="eAddLinesAndPoints.vb" />
     <Compile Include="eComponent.vb" />
     <Compile Include="eFormat.vb" />
     <Compile Include="eLine.Designer.vb">
