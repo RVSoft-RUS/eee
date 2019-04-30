@@ -2,6 +2,10 @@
 Imports System.Runtime.Serialization
 
 Public Class Form1
+    Public color0 As Color = Color.Gray
+    Public colorM As Color = Color.Black
+    Public color15 As Color = Color.Red
+    Public color30 As Color = Color.Purple
     Public rx As Integer, ry As Integer 'округленные до 20 координаты точки
     Dim zx, zy As Integer 'Для предотвращения мерцания линий при MouseMove
     Public Mode As String = "" 'Текущий режим - показывает состояние, что делаем. Пусто - ничего не делаем
@@ -12,6 +16,7 @@ Public Class Form1
     Public f As New eFormat
     Dim fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
 
+
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         GroupBox1.Visible = CheckBox2.Checked
         If CheckBox2.Checked Then
@@ -21,9 +26,9 @@ Public Class Form1
         End If
     End Sub
 
-	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-		Try
-
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Try
+            Elements.Add(Nothing)
             fnt.AddFontFile("resourses\gost.ttf")
             lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
             lblKF_A3.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
@@ -34,55 +39,55 @@ Public Class Form1
             lblDate.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
             lblList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
             lblListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblLit.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblMashtab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblMassa.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			txtList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.list = txtList.Text
-			txtListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.listov = txtListov.Text
-			txtMashtab.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
-			f.mashtab = txtMashtab.Text
-			txtMassa.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
-			f.massa = txtMassa.Text
-			Dim fs As New FontStyle
-			fs = FontStyle.Italic Or FontStyle.Bold
-			txtName.Font = New Font(fnt.Families(0), 14, fs)
-			f.name = txtName.Text
-			txtNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.nkontr = txtNcontr.Text
-			txtNumber.Font = New Font(fnt.Families(0), 14, fs)
-			f.number = txtNumber.Text
-			txtOrg1.Font = New Font(fnt.Families(0), 14, fs)
-			f.org1 = txtOrg1.Text
-			txtOrg2.Font = New Font(fnt.Families(0), 14, fs)
-			f.org2 = txtOrg2.Text
-			txtProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.prov = txtProv.Text
-			txtRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.razrab = txtRazrab.Text
-			txtSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.sogl = txtSogl.Text
-			txtTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.tkontr = txtTcontr.Text
-			txtType.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.type = txtType.Text
-			txtUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.utv = txtUtv.Text
-		Catch ex As Exception
-			MsgBox("Не найден шрифт GOST Type A в дипектории \resourses." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
-		End Try
+            lblLit.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblMashtab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblMassa.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            txtList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.list = txtList.Text
+            txtListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.listov = txtListov.Text
+            txtMashtab.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
+            f.mashtab = txtMashtab.Text
+            txtMassa.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
+            f.massa = txtMassa.Text
+            Dim fs As New FontStyle
+            fs = FontStyle.Italic Or FontStyle.Bold
+            txtName.Font = New Font(fnt.Families(0), 14, fs)
+            f.name = txtName.Text
+            txtNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.nkontr = txtNcontr.Text
+            txtNumber.Font = New Font(fnt.Families(0), 14, fs)
+            f.number = txtNumber.Text
+            txtOrg1.Font = New Font(fnt.Families(0), 14, fs)
+            f.org1 = txtOrg1.Text
+            txtOrg2.Font = New Font(fnt.Families(0), 14, fs)
+            f.org2 = txtOrg2.Text
+            txtProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.prov = txtProv.Text
+            txtRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.razrab = txtRazrab.Text
+            txtSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.sogl = txtSogl.Text
+            txtTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.tkontr = txtTcontr.Text
+            txtType.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.type = txtType.Text
+            txtUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.utv = txtUtv.Text
+        Catch ex As Exception
+            MsgBox("Не найден шрифт GOST Type A в дипектории \resourses." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
+        End Try
 
-		HideFormatText()
-	End Sub
+        HideFormatText()
+    End Sub
 
-	Private Sub Label_A4_Click(sender As Object, e As EventArgs) Handles Label_A4.Click
+    Private Sub Label_A4_Click(sender As Object, e As EventArgs) Handles Label_A4.Click
         Me.Enabled = False
         Form2.Visible = True
     End Sub
@@ -212,7 +217,7 @@ Public Class Form1
         lblList.Visible = True
         lblList.Location = New Point(568, 860)
         txtNumber.Visible = True
-        txtNumber.Location = New Point(348 + 630, 868)
+        txtNumber.Location = New Point(320, 868)
         pb3.Visible = True
         pb4.Visible = True
         pb5.Visible = True
@@ -307,6 +312,34 @@ Public Class Form1
         lblTcontr.Location = New Point(45 + 630, 854)
         lblUtv.Visible = True
         lblUtv.Location = New Point(45 + 630, 884)
+    End Sub
+
+    Private Sub ShowFormatA3_2()
+        txtList.Visible = True
+        txtList.Location = New Point(576 + 630, 880)
+        lblList.Visible = True
+        lblList.Location = New Point(568 + 630, 860)
+        txtNumber.Visible = True
+        txtNumber.Location = New Point(320 + 630, 868)
+        pb3.Visible = True
+        pb4.Visible = True
+        pb5.Visible = True
+        pb6.Visible = True
+        pb7.Visible = True
+        pbNumber.Visible = True
+
+        lblIzm.Location = New Point(43 + 630, 884)
+        lbliList.Location = New Point(64 + 630, 884)
+        lblNdoc.Location = New Point(96 + 630, 884)
+        lblPodp.Location = New Point(166 + 630, 884)
+        lblDate.Location = New Point(209 + 630, 884)
+        lblIzm.Visible = True
+        lbliList.Visible = True
+        lblNdoc.Visible = True
+        lblPodp.Visible = True
+        lblDate.Visible = True
+
+        lblKF_A3.Visible = True
     End Sub
 
 
@@ -685,38 +718,40 @@ Public Class Form1
             a.Add(bLine)
             'Код общей рамки А3
             'Основная надпись А32
-            aLine = New hLine(X_ - 0, X_ + 65, Y_ + 287 - 5, 2)
+            aLine = New hLine(X_ - 0 + 210, X_ + 65 + 210, Y_ + 287 - 5, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-            aLine = New hLine(X_ - 0, X_ + 65, Y_ + 287 - 10, 1)
+            aLine = New hLine(X_ - 0 + 210, X_ + 65 + 210, Y_ + 287 - 10, 1)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-            aLine = New hLine(X_ - 0, X_ + 185, Y_ + 287 - 15, 2)
+            aLine = New hLine(X_ - 0 + 210, X_ + 185 + 210, Y_ + 287 - 15, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-            bLine = New vLine(X_ + 7, Y_ + 287 - 15, Y_ + 287, 2)
+            bLine = New vLine(X_ + 7 + 210, Y_ + 287 - 15, Y_ + 287, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            bLine = New vLine(X_ + 17, Y_ + 287 - 15, Y_ + 287, 2)
+            bLine = New vLine(X_ + 17 + 210, Y_ + 287 - 15, Y_ + 287, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            bLine = New vLine(X_ + 40, Y_ + 287 - 15, Y_ + 287, 2)
+            bLine = New vLine(X_ + 40 + 210, Y_ + 287 - 15, Y_ + 287, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            bLine = New vLine(X_ + 55, Y_ + 287 - 15, Y_ + 287, 2)
+            bLine = New vLine(X_ + 55 + 210, Y_ + 287 - 15, Y_ + 287, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            bLine = New vLine(X_ + 65, Y_ + 287 - 15, Y_ + 287, 2)
+            bLine = New vLine(X_ + 65 + 210, Y_ + 287 - 15, Y_ + 287, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            bLine = New vLine(X_ + 175, Y_ + 287 - 15, Y_ + 287, 2)
+            bLine = New vLine(X_ + 175 + 210, Y_ + 287 - 15, Y_ + 287, 2)
             Me.Controls.Add(bLine)
             a.Add(bLine)
-            aLine = New hLine(X_ + 175, X_ + 185, Y_ + 287 - 8, 2)
+            aLine = New hLine(X_ + 175 + 210, X_ + 185 + 210, Y_ + 287 - 8, 2)
             Me.Controls.Add(aLine)
             a.Add(aLine)
-
-            ShowFormatA4_2()
+            bLine = New vLine(X_ + 210, Y_ + 287 - 15, Y_ + 287, 2)
+            Me.Controls.Add(bLine)
+            a.Add(bLine)
+            ShowFormatA3_2()
         End If
     End Sub
 
@@ -844,56 +879,56 @@ Public Class Form1
     End Sub
 
     Private Sub txt_TextChanged(sender As Object, e As EventArgs) Handles txtNumber.TextChanged, txtList.TextChanged, txtListov.TextChanged,
-			txtMashtab.TextChanged, txtMassa.TextChanged, txtName.TextChanged, txtNcontr.TextChanged, txtOrg1.TextChanged,
-			txtOrg2.TextChanged, txtProv.TextChanged, txtRazrab.TextChanged, txtSogl.TextChanged, txtTcontr.TextChanged,
-			txtType.TextChanged, txtUtv.TextChanged
-		If sender.Equals(txtNumber) Then
+            txtMashtab.TextChanged, txtMassa.TextChanged, txtName.TextChanged, txtNcontr.TextChanged, txtOrg1.TextChanged,
+            txtOrg2.TextChanged, txtProv.TextChanged, txtRazrab.TextChanged, txtSogl.TextChanged, txtTcontr.TextChanged,
+            txtType.TextChanged, txtUtv.TextChanged
+        If sender.Equals(txtNumber) Then
             f.number = txtNumber.Text
             printReversNumber()
         End If
-		If sender.Equals(txtList) Then
-			f.list = txtList.Text
-		End If
-		If sender.Equals(txtListov) Then
-			f.listov = txtListov.Text
-		End If
-		If sender.Equals(txtMashtab) Then
-			f.mashtab = txtMashtab.Text
-		End If
-		If sender.Equals(txtMassa) Then
-			f.massa = txtMassa.Text
-		End If
-		If sender.Equals(txtName) Then
-			f.name = txtName.Text
-		End If
-		If sender.Equals(txtNcontr) Then
-			f.nkontr = txtNcontr.Text
-		End If
-		If sender.Equals(txtOrg1) Then
-			f.org1 = txtOrg1.Text
-		End If
-		If sender.Equals(txtOrg2) Then
-			f.org2 = txtOrg2.Text
-		End If
-		If sender.Equals(txtProv) Then
-			f.prov = txtProv.Text
-		End If
-		If sender.Equals(txtRazrab) Then
-			f.razrab = txtRazrab.Text
-		End If
-		If sender.Equals(txtSogl) Then
-			f.sogl = txtSogl.Text
-		End If
-		If sender.Equals(txtTcontr) Then
-			f.tkontr = txtTcontr.Text
-		End If
-		If sender.Equals(txtType) Then
-			f.type = txtType.Text
-		End If
-		If sender.Equals(txtUtv) Then
-			f.utv = txtUtv.Text
-		End If
-	End Sub
+        If sender.Equals(txtList) Then
+            f.list = txtList.Text
+        End If
+        If sender.Equals(txtListov) Then
+            f.listov = txtListov.Text
+        End If
+        If sender.Equals(txtMashtab) Then
+            f.mashtab = txtMashtab.Text
+        End If
+        If sender.Equals(txtMassa) Then
+            f.massa = txtMassa.Text
+        End If
+        If sender.Equals(txtName) Then
+            f.name = txtName.Text
+        End If
+        If sender.Equals(txtNcontr) Then
+            f.nkontr = txtNcontr.Text
+        End If
+        If sender.Equals(txtOrg1) Then
+            f.org1 = txtOrg1.Text
+        End If
+        If sender.Equals(txtOrg2) Then
+            f.org2 = txtOrg2.Text
+        End If
+        If sender.Equals(txtProv) Then
+            f.prov = txtProv.Text
+        End If
+        If sender.Equals(txtRazrab) Then
+            f.razrab = txtRazrab.Text
+        End If
+        If sender.Equals(txtSogl) Then
+            f.sogl = txtSogl.Text
+        End If
+        If sender.Equals(txtTcontr) Then
+            f.tkontr = txtTcontr.Text
+        End If
+        If sender.Equals(txtType) Then
+            f.type = txtType.Text
+        End If
+        If sender.Equals(txtUtv) Then
+            f.utv = txtUtv.Text
+        End If
+    End Sub
 
     Private Sub ОткрытьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ОткрытьToolStripMenuItem1.Click
         Dim a As Microsoft.VisualBasic.MsgBoxResult
@@ -947,6 +982,10 @@ Public Class Form1
         Next
     End Sub
 
+    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles PictureBox_Plus30.Click
+
+    End Sub
+
     Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If e.KeyCode = Keys.F12 And e.Shift Then
             If f.format.StartsWith("A4") Then
@@ -989,17 +1028,17 @@ Public Class Form1
             Dim fs As New FontStyle
             fs = FontStyle.Italic Or FontStyle.Bold
             Dim font As New Font(fnt.Families(0), 14, fs)
-			'Dim g As Graphics = pbNumber.CreateGraphics
-			e.Graphics.Clear(Me.BackColor)
+            'Dim g As Graphics = pbNumber.CreateGraphics
+            e.Graphics.Clear(Me.BackColor)
             e.Graphics.TranslateTransform(200, 22)
             e.Graphics.RotateTransform(180)
-			e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
-			'g.Dispose()
+            e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
+            'g.Dispose()
 
 
 
 
-		Catch ex As Exception
+        Catch ex As Exception
 
         End Try
     End Sub

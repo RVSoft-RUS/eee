@@ -40,7 +40,7 @@ Partial Class Form1
         Me.Label3 = New System.Windows.Forms.Label()
         Me.PictureBox9 = New System.Windows.Forms.PictureBox()
         Me.PictureBox8 = New System.Windows.Forms.PictureBox()
-        Me.Label2 = New System.Windows.Forms.Label()
+        Me.PictureBox_Plus30 = New System.Windows.Forms.Label()
         Me.PictureBox7 = New System.Windows.Forms.PictureBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.PictureBox6 = New System.Windows.Forms.PictureBox()
@@ -160,7 +160,7 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.PictureBox9)
         Me.GroupBox1.Controls.Add(Me.PictureBox8)
-        Me.GroupBox1.Controls.Add(Me.Label2)
+        Me.GroupBox1.Controls.Add(Me.PictureBox_Plus30)
         Me.GroupBox1.Controls.Add(Me.PictureBox7)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Controls.Add(Me.PictureBox6)
@@ -367,16 +367,16 @@ Partial Class Form1
         Me.PictureBox8.TabIndex = 16
         Me.PictureBox8.TabStop = False
         '
-        'Label2
+        'PictureBox_Plus30
         '
-        Me.Label2.BackColor = System.Drawing.Color.Red
-        Me.Label2.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Label2.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.Label2.Location = New System.Drawing.Point(38, 54)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(23, 13)
-        Me.Label2.TabIndex = 15
-        Me.Label2.Text = "+30"
+        Me.PictureBox_Plus30.BackColor = System.Drawing.Color.Red
+        Me.PictureBox_Plus30.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Plus30.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.PictureBox_Plus30.Location = New System.Drawing.Point(38, 54)
+        Me.PictureBox_Plus30.Name = "PictureBox_Plus30"
+        Me.PictureBox_Plus30.Size = New System.Drawing.Size(23, 13)
+        Me.PictureBox_Plus30.TabIndex = 15
+        Me.PictureBox_Plus30.Text = "+30"
         '
         'PictureBox7
         '
@@ -1140,7 +1140,7 @@ Partial Class Form1
     Friend WithEvents Label3 As Label
     Friend WithEvents PictureBox9 As PictureBox
     Friend WithEvents PictureBox8 As PictureBox
-    Friend WithEvents Label2 As Label
+    Friend WithEvents PictureBox_Plus30 As Label
     Friend WithEvents PictureBox7 As PictureBox
     Friend WithEvents PictureBox6 As PictureBox
     Friend WithEvents PictureBox5 As PictureBox
