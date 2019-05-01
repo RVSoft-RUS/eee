@@ -33,34 +33,81 @@ Public Class EAddLinesAndPoints
 		DrawPath()
 		pts.RemoveAt(pts.Count - 1)
 		If PointWasAdded Then pts.RemoveAt(pts.Count - 1)
+
+		'Form1.TextBox1.Text = ""
+		'For i = 0 To pts.Count - 1
+		'	Dim xp As Point
+		'	xp = pts(i)
+		'	Form1.TextBox1.Text &= Str(xp.X) + "  " + CStr(xp.Y) + vbCrLf
+		'Next
 	End Sub
 
 	Public Sub MouseClick(X As Integer, Y As Integer)
-		Dim z As Integer = X
 		pts.Add(px)
+		'Form1.TextBox1.Text = ""
+		'For i = 0 To pts.Count - 1
+		'	Dim xp As Point
+		'	xp = pts(i)
+		'	Form1.TextBox1.Text &= Str(xp.X) + "  " + CStr(xp.Y) + vbCrLf
+		'Next
 	End Sub
 
 	Public Sub EndCreate(X As Integer, Y As Integer, n As Integer)
 		num2 = n
+		Dim p As Point
+		p = pts(pts.Count - 1)
+		Dim dx As Integer = X - p.X
+		Dim dy As Integer = Y - p.Y
+		If dx + dy <> 0 Then
+			px = New Point(p.X + dx, p.Y + dy)
+			pts.Add(px)
+		Else
+
+		End If
+
 		pts.Add(New Point(X, Y))
+		Dim pts2 As New ArrayList
+		For i = 0 To pts.Count - 2
+			Dim pt As Point
+			pt = pts(i)
+			If Not pts2.Contains(pt) Then
+				pts2.Add(pt)
+			End If
+		Next
+		pts2.Add(pts(pts.Count - 1))
+		'Form1.TextBox1.Text = ""
+		'For i = 0 To pts2.Count - 1
+		'	Dim xp As Point
+		'	xp = pts2(i)
+		'	Form1.TextBox1.Text &= Str(xp.X) + "  " + CStr(xp.Y) + vbCrLf
+		'Next
+
 		Dim eComp As EComponent
 		eComp = Form1.Elements(num1)
 		Dim p1 As EPoint = eComp.component 'Первая точка из которой строили соединение
-		p1.links.Add(Form1.Elements.Count + 1)
+
 		Dim p2 As EPoint
-		For i = 1 To pts.Count - 2
+		For i = 1 To pts2.Count - 2
 			Dim pt1, pt2, pt3 As Point
-			pt1 = pts(i - 1)
-			pt2 = pts(i)
-			pt3 = pts(i + 1)
-			eComp = New EComponent With {
-				.aType = "ePoint",
-				.numInArray = Form1.Elements.Count
-			}
-			Form1.Elements.Add(eComp)
-			p2 = New EPoint(pt2.X, pt2.Y, eComp.numInArray)
-			Form1.Controls.Add(p2)
-			eComp.component = p2 'Точка
+			If i > 1 Then p1 = p2
+			pt1 = pts2(i - 1)
+			pt2 = pts2(i)
+			pt3 = pts2(i + 1)
+
+			If i = pts2.Count - 2 Then
+				eComp = Form1.Elements(num2)
+				p2 = eComp.component 'Вторая точка до которой строили соединение
+			Else
+				eComp = New EComponent With {
+								.aType = "ePoint",
+								.numInArray = Form1.Elements.Count
+								}
+				Form1.Elements.Add(eComp)
+				p2 = New EPoint(pt2.X, pt2.Y, eComp.numInArray)
+				Form1.Controls.Add(p2)
+				eComp.component = p2 'Точка
+			End If
+
 			'=====================
 			eComp = New EComponent With {
 				.aType = "eLine",
@@ -72,7 +119,11 @@ Public Class EAddLinesAndPoints
 			eComp.component = line 'Линия
 			'=====================
 			'Ссылки
+			p1.links.Add(line.num)
 			p2.links.Add(line.num)
+			line.links.Add(p1.num)
+			line.links.Add(p2.num)
+
 		Next
 	End Sub
 

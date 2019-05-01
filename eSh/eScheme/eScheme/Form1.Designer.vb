@@ -111,6 +111,7 @@ Partial Class Form1
 		Me.lblDate = New System.Windows.Forms.Label()
 		Me.pbNumber = New System.Windows.Forms.PictureBox()
 		Me.lblKF_A3 = New System.Windows.Forms.Label()
+		Me.TextBox1 = New System.Windows.Forms.TextBox()
 		Me.GroupBox1.SuspendLayout()
 		CType(Me.PictureBox19, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.PictureBox18, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -508,7 +509,7 @@ Partial Class Form1
 		'ToolStripMenuItem1
 		'
 		Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-		Me.ToolStripMenuItem1.Size = New System.Drawing.Size(179, 22)
+		Me.ToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
 		Me.ToolStripMenuItem1.Text = "Новый"
 		'
 		'ОткрытьToolStripMenuItem1
@@ -517,19 +518,19 @@ Partial Class Form1
 		Me.ОткрытьToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.ОткрытьToolStripMenuItem1.Name = "ОткрытьToolStripMenuItem1"
 		Me.ОткрытьToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-		Me.ОткрытьToolStripMenuItem1.Size = New System.Drawing.Size(179, 22)
+		Me.ОткрытьToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
 		Me.ОткрытьToolStripMenuItem1.Text = "&Открыть"
 		'
 		'ВставитьФрагментToolStripMenuItem
 		'
 		Me.ВставитьФрагментToolStripMenuItem.Name = "ВставитьФрагментToolStripMenuItem"
-		Me.ВставитьФрагментToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
+		Me.ВставитьФрагментToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
 		Me.ВставитьФрагментToolStripMenuItem.Text = "Вставить фрагмент"
 		'
 		'toolStripSeparator
 		'
 		Me.toolStripSeparator.Name = "toolStripSeparator"
-		Me.toolStripSeparator.Size = New System.Drawing.Size(176, 6)
+		Me.toolStripSeparator.Size = New System.Drawing.Size(177, 6)
 		'
 		'СохранитьToolStripMenuItem1
 		'
@@ -537,24 +538,24 @@ Partial Class Form1
 		Me.СохранитьToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.СохранитьToolStripMenuItem1.Name = "СохранитьToolStripMenuItem1"
 		Me.СохранитьToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-		Me.СохранитьToolStripMenuItem1.Size = New System.Drawing.Size(179, 22)
+		Me.СохранитьToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
 		Me.СохранитьToolStripMenuItem1.Text = "&Сохранить"
 		'
 		'СохранитькакToolStripMenuItem
 		'
 		Me.СохранитькакToolStripMenuItem.Name = "СохранитькакToolStripMenuItem"
-		Me.СохранитькакToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
+		Me.СохранитькакToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
 		Me.СохранитькакToolStripMenuItem.Text = "Сохранить &как"
 		'
 		'toolStripSeparator2
 		'
 		Me.toolStripSeparator2.Name = "toolStripSeparator2"
-		Me.toolStripSeparator2.Size = New System.Drawing.Size(176, 6)
+		Me.toolStripSeparator2.Size = New System.Drawing.Size(177, 6)
 		'
 		'ВыходToolStripMenuItem1
 		'
 		Me.ВыходToolStripMenuItem1.Name = "ВыходToolStripMenuItem1"
-		Me.ВыходToolStripMenuItem1.Size = New System.Drawing.Size(179, 22)
+		Me.ВыходToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
 		Me.ВыходToolStripMenuItem1.Text = "Вы&ход"
 		'
 		'СервисToolStripMenuItem
@@ -1035,12 +1036,21 @@ Partial Class Form1
 		Me.lblKF_A3.TabIndex = 58
 		Me.lblKF_A3.Text = "Копировал                               Формат   А3"
 		'
+		'TextBox1
+		'
+		Me.TextBox1.Location = New System.Drawing.Point(607, 395)
+		Me.TextBox1.Multiline = True
+		Me.TextBox1.Name = "TextBox1"
+		Me.TextBox1.Size = New System.Drawing.Size(187, 181)
+		Me.TextBox1.TabIndex = 59
+		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
 		Me.ClientSize = New System.Drawing.Size(873, 917)
+		Me.Controls.Add(Me.TextBox1)
 		Me.Controls.Add(Me.lblKF_A3)
 		Me.Controls.Add(Me.pbNumber)
 		Me.Controls.Add(Me.lblDate)
@@ -1211,4 +1221,5 @@ Partial Class Form1
     Friend WithEvents lblDate As Label
     Friend WithEvents pbNumber As PictureBox
     Friend WithEvents lblKF_A3 As Label
+	Friend WithEvents TextBox1 As TextBox
 End Class

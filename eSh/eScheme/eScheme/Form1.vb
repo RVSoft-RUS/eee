@@ -831,7 +831,8 @@ Public Class Form1
 			eComp.component.Dispose()
 		Next
 		Elements.Clear()
-        Dim theLine As Removable
+		Elements.Add(Nothing)
+		Dim theLine As Removable
         For i = 0 To a.Count - 1
             theLine = a(i)
             theLine.Dispose()
