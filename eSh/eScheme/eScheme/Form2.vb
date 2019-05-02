@@ -20,4 +20,17 @@ Public Class Form2
         Form1.Enabled = True
         Form1.CreateFormat()
     End Sub
+
+	Private Sub Form2_Load(sender As Object, e As EventArgs) Handles Me.Load
+		If Form1.f.format <> "" Then
+			Button2.Enabled = True
+		Else
+			Button2.Enabled = False
+		End If
+	End Sub
+
+	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+		Form1.f.format = ""
+		Me.Close()
+	End Sub
 End Class

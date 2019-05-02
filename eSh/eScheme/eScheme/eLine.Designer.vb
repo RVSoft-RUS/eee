@@ -22,6 +22,8 @@ Partial Class eLine
 	'Не изменяйте ее в редакторе исходного кода.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
+		Me.components = New System.ComponentModel.Container()
+		Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
 		Me.SuspendLayout()
 		'
 		'eLine
@@ -29,10 +31,12 @@ Partial Class eLine
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.Red
+		Me.Cursor = System.Windows.Forms.Cursors.UpArrow
 		Me.Name = "eLine"
 		Me.Size = New System.Drawing.Size(179, 3)
 		Me.ResumeLayout(False)
 
 	End Sub
 
+	Friend WithEvents ToolTip1 As ToolTip
 End Class

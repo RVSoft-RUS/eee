@@ -3,13 +3,13 @@ Imports eScheme
 
 <Serializable> Public Class EPoint
 	Implements IConnectable
-    Public X As Integer
-    Public Y As Integer
-    Dim clr As New Color()
-    Dim br As Brush
+	Public X As Integer
+	Public Y As Integer
+	Dim clr As New Color()
+	Dim br As Brush
 	Public links As New ArrayList
-	Public Condition As Integer
-    Public num As Integer
+	Public Condition_ As Integer
+	Public num As Integer
 	'Dim Left As
 	Public Sub New(rx As Integer, ry As Integer, n As Integer)
 		' Этот вызов является обязательным для конструктора.
@@ -19,9 +19,33 @@ Imports eScheme
 		X = rx
 		Y = ry
 		Me.Location = New Point(X - 5, Y - 5)
-		Change(0, 0)
-
+		Condition = 0
 	End Sub
+
+	Public Property Condition
+		Set(value)
+			Condition_ = value
+			Select Case Condition_
+				Case -1, -2
+					clr = Form1.colorM
+				Case 0
+					clr = Form1.color0
+				Case 15, 16
+					clr = Form1.color15
+				Case 30, 31
+					clr = Form1.color30
+			End Select
+			Dim pen As New Pen(clr) With {
+						.Width = 4
+					}
+			Dim g As Graphics = Me.CreateGraphics
+			g.FillEllipse(New SolidBrush(clr), 2, 2, 6, 6)
+			g.Dispose()
+		End Set
+		Get
+			Return Condition_
+		End Get
+	End Property
 
 	Public Sub Change(from As Integer, condition_ As Integer) Implements IConnectable.Change
 		Select Case condition_
@@ -34,7 +58,7 @@ Imports eScheme
 			Case 30, 31
 				clr = Form1.color30
 		End Select
-		Condition = condition_
+		Me.Condition_ = condition_
 		Dim pen As New Pen(clr) With {
 					.Width = 4
 				}
@@ -45,7 +69,12 @@ Imports eScheme
 		For i = 0 To links.Count - 1
 			If links(i) <> from Then
 				If links(i) <> 0 Then
-					'Отправление дальше
+					Dim eComp As EComponent
+					Dim econ As IConnectable
+					eComp = Form1.Elements(links(i))
+					econ = eComp.component
+					econ.Change(num, Me.Condition_)
+					Form1.TextBox1.Text &= "from " + CStr(num) + " to " + CStr(links(i)) + vbCrLf
 				End If
 			End If
 		Next
@@ -79,13 +108,13 @@ Imports eScheme
 		Me.Dispose()
 	End Sub
 
-    Private Sub EPoint_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
-        Dim pen As New Pen(clr) With {
-            .Width = 3
-        }
-        e.Graphics.DrawEllipse(pen, 3, 3, 4, 4)
-        e.Graphics.DrawEllipse(pen, 4, 4, 2, 2)
-    End Sub
+	Private Sub EPoint_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
+		Dim pen As New Pen(clr) With {
+			.Width = 3
+		}
+		e.Graphics.DrawEllipse(pen, 3, 3, 4, 4)
+		e.Graphics.DrawEllipse(pen, 4, 4, 2, 2)
+	End Sub
 
 	Private Sub EPoint_Click(sender As Object, e As EventArgs) Handles Me.Click
 		If Form1.Mode = "createConnect1" Then
@@ -104,13 +133,16 @@ Imports eScheme
 
 	End Sub
 
-	'Private Sub EPoint_Load(sender As Object, e As EventArgs) Handles Me.Load
-	'    Dim pen As New Pen(clr) With {
-	'                .Width = 3
-	'            }
-	'    Dim g As Graphics = Me.CreateGraphics
-	'    g.DrawEllipse(pen, 3, 3, 4, 4)
-	'    g.DrawEllipse(pen, 4, 4, 2, 2)
-	'    g.Dispose()
-	'End Sub
+	Public Function ForSave() As ArrayList Implements IConnectable.ForSave
+		Dim save As New ArrayList From {
+			"ePoint",
+			num,
+			X,
+			Y,
+			links,
+			Condition_
+		}
+		Return save
+	End Function
+
 End Class

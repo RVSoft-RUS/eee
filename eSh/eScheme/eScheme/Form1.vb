@@ -4,8 +4,8 @@ Imports System.Runtime.Serialization
 Public Class Form1
     Public color0 As Color = Color.Gray
     Public colorM As Color = Color.Black
-    Public color15 As Color = Color.Red
-    Public color30 As Color = Color.Purple
+	Public color15 As Color = Color.Red
+	Public color30 As Color = Color.Purple
     Public rx As Integer, ry As Integer 'округленные до 20 координаты точки
     Dim zx, zy As Integer 'Для предотвращения мерцания линий при MouseMove
     Public Mode As String = "" 'Текущий режим - показывает состояние, что делаем. Пусто - ничего не делаем
@@ -85,8 +85,9 @@ Public Class Form1
             MsgBox("Не найден шрифт GOST Type A в дипектории \resourses." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
         End Try
 
-        HideFormatText()
-    End Sub
+		HideFormatText()
+		'Cursor = New Cursor("resourses\111.cur")
+	End Sub
 
     Private Sub Label_A4_Click(sender As Object, e As EventArgs) Handles Label_A4.Click
         Me.Enabled = False
@@ -345,21 +346,21 @@ Public Class Form1
 
 
     Public Sub CreateFormat()
-        If a.Count > 0 Then
-            'форматка уже есть, спросить надо ли переделать?
-            Dim a As Microsoft.VisualBasic.MsgBoxResult
-            a = MsgBox("Изменить формат?", MsgBoxStyle.YesNo, "Предупреждение")
-            If a <> vbYes Then
-                Exit Sub
-            End If
-        End If
-        Dim theLine As Removable
+		If a.Count > 0 And f.format <> "" Then
+			'форматка уже есть, спросить надо ли переделать?
+			Dim a As Microsoft.VisualBasic.MsgBoxResult
+			a = MsgBox("Изменить формат?", MsgBoxStyle.YesNo, "Предупреждение")
+			If a <> vbYes Then
+				Exit Sub
+			End If
+		End If
+		Dim theLine As Removable
         For i = 0 To a.Count - 1
             theLine = a(i)
             theLine.Dispose()
         Next
-        a.Clear()
-        HideFormatText()
+		a.Clear()
+		HideFormatText()
         'f всегда присутствует и хранит последние данные
         Dim X_ As Integer = 14, Y_ As Integer = 12 'Смещение рамки от краев
         Dim aLine As hLine, bLine As vLine
@@ -825,7 +826,16 @@ Public Class Form1
     End Sub
 
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
-        Dim eComp As EComponent
+		'Файл/Новый
+		Dim q As Microsoft.VisualBasic.MsgBoxResult
+		If NeedSave Then
+			q = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNo, "Предупреждение")
+			If q = vbYes Then
+				'сохранение
+				FileSave()
+			End If
+		End If
+		Dim eComp As EComponent
 		For i = 1 To Elements.Count - 1
 			eComp = Elements(i)
 			eComp.component.Dispose()
@@ -837,9 +847,12 @@ Public Class Form1
             theLine = a(i)
             theLine.Dispose()
         Next
-        a.Clear()
-        HideFormatText()
-    End Sub
+		a.Clear()
+		f.format = ""
+		HideFormatText()
+		FileName = ""
+		Me.Text = "Безымянный - eScheme"
+	End Sub
 
     Private Sub FileSave()
         If Elements.Count = 0 Then Exit Sub
@@ -848,14 +861,26 @@ Public Class Form1
             SaveFileDialog1.FileName = FileName
             a = SaveFileDialog1.ShowDialog()
             If a = 2 Then Exit Sub
-            FileName = SaveFileDialog1.FileName
-        End If
+			FileName = SaveFileDialog1.FileName
+			Me.Text = FileName + " - eScheme"
+		End If
         Try
-            'не сериализуется
-            Dim fStream As New FileStream(FileName, FileMode.Create, FileAccess.Write)
+			'не сериализуется
+			Dim saveArray As New ArrayList
+			Dim eComp As EComponent
+			Dim e As IConnectable
+			saveArray.Add(f)
+
+			For i = 1 To Elements.Count - 1
+				eComp = Elements(i)
+				e = eComp.component
+				saveArray.Add(e.ForSave)
+			Next
+
+			Dim fStream As New FileStream(FileName, FileMode.Create, FileAccess.Write)
             Dim myBinaryFormatter As New Formatters.Binary.BinaryFormatter
-            myBinaryFormatter.Serialize(fStream, Elements)
-            fStream.Close()
+			myBinaryFormatter.Serialize(fStream, saveArray)
+			fStream.Close()
             NeedSave = False
         Catch ex As Exception
             MsgBox("Не удалось сохранить файл " + CStr(FileName) + vbCrLf + ex.Message, MsgBoxStyle.Critical, "Предупреждение")
@@ -948,37 +973,66 @@ Public Class Form1
         Dim b As System.Windows.Forms.DialogResult
         b = OpenFileDialog1.ShowDialog()
         If b = vbCancel Then Exit Sub
-        FileName = OpenFileDialog1.FileName
-        If FileName = "" Then Exit Sub
+		FileName = OpenFileDialog1.FileName
+		If FileName = "" Then
+			Exit Sub
+		End If
+		Me.Text = FileName + " - eScheme"
+		Dim eComp As EComponent
+		For i = 1 To Elements.Count - 1
+			eComp = Elements(i)
+			eComp.component.Dispose()
+		Next
+		Elements.Clear()
+		Elements.Add(Nothing)
 
-        Dim eComp As EComponent
-        For i = 0 To Elements.Count - 1
-            eComp = Elements(i)
-            eComp.component.Dispose()
-        Next
-        Elements.Clear()
-
-        Try
+		Dim saveArray As ArrayList
+		Try
             Dim fStream As New FileStream(FileName, FileMode.Open, FileAccess.Read)
             Dim myBinaryFormatter As New Formatters.Binary.BinaryFormatter
-            Elements = CType(myBinaryFormatter.Deserialize(fStream), ArrayList)
-            fStream.Close()
+			saveArray = CType(myBinaryFormatter.Deserialize(fStream), ArrayList)
+			fStream.Close()
         Catch ex As Exception
             MsgBox("Ошибка при чтении файла " + CStr(FileName) + vbCrLf + "Файл возможно поврежден." + vbCrLf + ex.Message, MsgBoxStyle.Critical, "Предупреждение")
             Exit Sub
         End Try
-        'Отображение прочитанного массива
-        'Dim eComp As New eComponent
-        For i = 0 To Elements.Count - 1
-            eComp = Elements(i)
-            'ePoint
-            If eComp.aType = "ePoint" Then
-				'Dim p As New EPoint(eComp.X, eComp.Y, i)
-				'Me.Controls.Add(p)
-				'            eComp.component = p
+		'Отображение прочитанного массива
+		'Dim eComp As New eComponent
+		f = saveArray(0)
+		CreateFormat()
+
+		Dim aComp As ArrayList
+		For i = 1 To saveArray.Count - 1
+			aComp = saveArray(i)
+			'ePoint
+			If aComp(0) = "ePoint" Then
+				Dim p As New EPoint(aComp(2), aComp(3), aComp(1)) With {
+					.links = aComp(4),
+					.Condition = aComp(5)
+				}
+				eComp = New EComponent With {
+					.aType = "ePoint",
+					.numInArray = p.num,
+					.component = p
+				}
+				Elements.Add(eComp)
+				Me.Controls.Add(p)
 			End If
-        Next
-    End Sub
+			If aComp(0) = "eLine" Then
+				Dim line As New eLine(aComp(2), aComp(3), aComp(4), aComp(5), aComp(1)) With {
+					.links = aComp(6),
+					.Condition = aComp(7)
+				}
+				eComp = New EComponent With {
+					.aType = "eLine",
+					.numInArray = line.num,
+					.component = line
+				}
+				Elements.Add(eComp)
+				Me.Controls.Add(line)
+			End If
+		Next
+	End Sub
 
 	Private Sub PictureBox_Point_Click(sender As Object, e As EventArgs) Handles PictureBox_Point.Click
 		Mode = "newPoint"
@@ -993,6 +1047,14 @@ Public Class Form1
 		CheckBox2.Visible = False
 		Me.Cursor = Cursors.Help
 
+	End Sub
+
+	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+		Dim eComp As EComponent
+		Dim econ As IConnectable
+		eComp = Elements(1)
+		econ = eComp.component
+		econ.Change(0, 15)
 	End Sub
 
 	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
