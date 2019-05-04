@@ -2,6 +2,7 @@
     Sub Change(from As Integer, condition As Integer)
     Sub Dispose()
 	Function ForSave() As ArrayList
+	Function CheckSig(from As Integer) As Integer
 	'Enum Direct
 	'	LEFT
 	'	UP

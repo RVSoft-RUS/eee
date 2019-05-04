@@ -20,6 +20,7 @@ Imports eScheme
 		Y = ry
 		Me.Location = New Point(X - 5, Y - 5)
 		Condition = 0
+		Cursor = Form1.point_cur
 	End Sub
 
 	Public Property Condition
@@ -35,11 +36,16 @@ Imports eScheme
 				Case 30, 31
 					clr = Form1.color30
 			End Select
-			Dim pen As New Pen(clr) With {
-						.Width = 4
-					}
+			'Dim pen As New Pen(clr) With {
+			'			.Width = 4
+			'		}
 			Dim g As Graphics = Me.CreateGraphics
-			g.FillEllipse(New SolidBrush(clr), 2, 2, 6, 6)
+			g.Clear(Color.White)
+			Dim pen As New Pen(clr) With {
+				.Width = 3
+			}
+			g.DrawEllipse(pen, 3, 3, 4, 4)
+			g.DrawEllipse(pen, 4, 4, 2, 2)
 			g.Dispose()
 		End Set
 		Get
@@ -59,12 +65,21 @@ Imports eScheme
 				clr = Form1.color30
 		End Select
 		Me.Condition_ = condition_
-		Dim pen As New Pen(clr) With {
-					.Width = 4
-				}
 		Dim g As Graphics = Me.CreateGraphics
-		g.FillEllipse(New SolidBrush(clr), 2, 2, 6, 6)
+		g.Clear(Color.White)
+		Dim pen As New Pen(clr) With {
+			.Width = 3
+		}
+		g.DrawEllipse(pen, 3, 3, 4, 4)
+		g.DrawEllipse(pen, 4, 4, 2, 2)
 		g.Dispose()
+		If Form1.pointsInProcess.Contains(num) Then
+			MsgBox("Не допускаестся создание замкнутых контуров." +
+				   vbCrLf + "Удалите лишние связи.", vbCritical, "Ошибка в схеме")
+			Exit Sub
+		Else
+			Form1.pointsInProcess.Add(num)
+		End If
 		'Отправление дальше
 		For i = 0 To links.Count - 1
 			If links(i) <> from Then
@@ -74,33 +89,32 @@ Imports eScheme
 					eComp = Form1.Elements(links(i))
 					econ = eComp.component
 					econ.Change(num, Me.Condition_)
-					Form1.TextBox1.Text &= "from " + CStr(num) + " to " + CStr(links(i)) + vbCrLf
+					Form1.TextBox1.Text &= "point " + CStr(num) + " to " + CStr(links(i)) + vbCrLf
 				End If
 			End If
 		Next
 	End Sub
 
-	'Public Function FreePins() As ArrayList
-	'	Dim arr As New ArrayList
-	'	For i = 0 To 3
-	'		If links(i) = 0 Then 'Если =0 значит не ссылается на элемент и номер пина не занят
-	'			arr.Add(i)
-	'		End If
-	'	Next
-	'	Return arr 'Вернуть список свободных пинов (направлений)
-	'End Function
-
-	Private Sub EPoint_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
-		If e.KeyChar = "n" Or e.KeyChar = "т" Or e.KeyChar = "N" Or e.KeyChar = "Т" Then
+	Private Sub EPoint_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+		If e.KeyCode = Keys.N Then
 			MsgBox("Номер узла: " + CStr(num))
 		End If
-		If e.KeyChar = "ш" Or e.KeyChar = "Ш" Or e.KeyChar = "i" Or e.KeyChar = "I" Then
+		If e.KeyCode = Keys.I Then
 			Dim s As String
 			s = "All links for p" + CStr(num) + vbCrLf
 			For i = 0 To links.Count - 1
 				s &= "link" + CStr(i) + ": " + CStr(links(i)) + vbCrLf
 			Next
 			MsgBox(s)
+		End If
+		If e.KeyCode = Keys.Delete Then
+			If Form1.Mode = "" Then
+				DeleteMe()
+			End If
+		End If
+		If e.KeyCode = Keys.S Then
+			Form1.pointsInProcess.Clear()
+			MsgBox(CStr(CheckSig(0)), vbInformation, "Check")
 		End If
 	End Sub
 
@@ -109,6 +123,7 @@ Imports eScheme
 	End Sub
 
 	Private Sub EPoint_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
+		e.Graphics.Clear(Color.White)
 		Dim pen As New Pen(clr) With {
 			.Width = 3
 		}
@@ -128,9 +143,19 @@ Imports eScheme
 		End If
 		If Form1.Mode = "createConnect" Then
 			Form1.createConnect = New EAddLinesAndPoints(X, Y, num)
-
 		End If
+		If Form1.Mode = "Delete" Then
+			DeleteMe()
+		End If
+	End Sub
 
+	Sub DeleteMe()
+		If links.Count = 0 Then
+			'Удаляем при условии, что нет ссылок
+			Form1.Delete(num)
+		Else
+			MsgBox("Можно удалить только пустой узел.")
+		End If
 	End Sub
 
 	Public Function ForSave() As ArrayList Implements IConnectable.ForSave
@@ -143,6 +168,36 @@ Imports eScheme
 			Condition_
 		}
 		Return save
+	End Function
+
+	Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
+		If Form1.pointsInProcess.Contains(num) Then
+			MsgBox("Не допускаестся создание замкнутых контуров." +
+				   vbCrLf + "Удалите лишние связи.", vbCritical, "Ошибка в схеме")
+			Return num + 1000000
+		Else
+			Form1.pointsInProcess.Add(num)
+		End If
+		Dim linkForCheck As New ArrayList
+		'Отправление дальше
+		For i = 0 To links.Count - 1
+			If links(i) <> from Then
+				If links(i) <> 0 Then
+					linkForCheck.Add(links(i))
+				End If
+			End If
+		Next
+		Dim sig As Integer
+		Dim eComp As EComponent
+		Dim econ As IConnectable
+
+		For i = 0 To linkForCheck.Count - 1
+			eComp = Form1.Elements(linkForCheck(i))
+			econ = eComp.component
+			sig = econ.CheckSig(num)
+			If sig <> 0 Then Return sig
+		Next
+		Return 0
 	End Function
 
 End Class

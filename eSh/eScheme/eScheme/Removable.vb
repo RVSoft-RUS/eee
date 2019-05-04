@@ -1,3 +1,3 @@
-﻿Public Interface Removable
-    Sub Dispose()
+﻿Public Interface IRemovable
+	Sub Dispose()
 End Interface

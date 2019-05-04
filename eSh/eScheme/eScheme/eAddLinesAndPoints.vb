@@ -86,9 +86,9 @@ Public Class EAddLinesAndPoints
 		eComp = Form1.Elements(num1)
 		Dim p1 As EPoint = eComp.component 'Первая точка из которой строили соединение
 		Dim p01 As EPoint = p1 'Первая точка из которой строили соединение для последующих процедур Change
-		Dim p02 As EPoint 'Вторая точка из которой строили соединение для последующих процедур Change
+		Dim p02 As EPoint = p1 'Вторая точка из которой строили соединение для последующих процедур Change - Здесь присвоено для искючения предупреждения, так должна быть пустая
 
-		Dim p2 As EPoint
+		Dim p2 As EPoint = p1 'Здесь присвоено для искючения предупреждения, так должна быть пустая
 		For i = 1 To pts2.Count - 2
 			Dim pt1, pt2, pt3 As Point
 			If i > 1 Then p1 = p2
@@ -128,7 +128,8 @@ Public Class EAddLinesAndPoints
 			line.links.Add(p2.num)
 
 		Next
-		'Проброс сигнала TODO продумать как при обоих не =0 перебрасывать
+		'TODO Проброс сигнала TODO продумать как при обоих не =0 перебрасывать
+		Form1.pointsInProcess.Clear()
 		If p01.Condition <> 0 Then
 			eComp = Form1.Elements(p01.links(p01.links.Count - 1))
 			eComp.component.Change(num1, p01.Condition)

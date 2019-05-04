@@ -77,6 +77,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="eAddLinesAndPoints.vb" />
+    <Compile Include="eBat.Designer.vb">
+      <DependentUpon>eBat.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eBat.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="eComponent.vb" />
     <Compile Include="eFormat.vb" />
     <Compile Include="eLine.Designer.vb">
@@ -135,6 +141,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="eBat.resx">
+      <DependentUpon>eBat.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="eLine.resx">
       <DependentUpon>eLine.vb</DependentUpon>
     </EmbeddedResource>
