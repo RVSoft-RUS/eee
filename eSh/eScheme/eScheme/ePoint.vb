@@ -105,6 +105,7 @@ Imports eScheme
 			For i = 0 To links.Count - 1
 				s &= "link" + CStr(i) + ": " + CStr(links(i)) + vbCrLf
 			Next
+			s += "Sig=" + Str(Condition)
 			MsgBox(s)
 		End If
 		If e.KeyCode = Keys.Delete Then
@@ -112,7 +113,7 @@ Imports eScheme
 				DeleteMe()
 			End If
 		End If
-		If e.KeyCode = Keys.S Then
+		If e.KeyCode = Keys.C Then
 			Form1.pointsInProcess.Clear()
 			MsgBox(CStr(CheckSig(0)), vbInformation, "Check")
 		End If
@@ -142,10 +143,36 @@ Imports eScheme
 			Form1.NeedSave = True
 		End If
 		If Form1.Mode = "createConnect" Then
-			Form1.createConnect = New EAddLinesAndPoints(X, Y, num)
+			Form1.createConnect = New EAddLinesAndPoints(X, Y, num, clr)
 		End If
 		If Form1.Mode = "Delete" Then
 			DeleteMe()
+		End If
+		If Form1.Mode = "eGND" Then
+			If Condition_ <= 0 Then
+				Form1.Mode = ""
+				Dim eComp As New EComponent With {
+								.aType = "eGND",
+								.numInArray = Form1.Elements.Count
+							}
+				Form1.Elements.Add(eComp)
+				Dim gnd As New EGND(X, Y, eComp.numInArray) With {
+					.link = num
+				}
+				Form1.Controls.Add(gnd)
+				eComp.component = gnd
+				links.Add(gnd.num)
+				Form1.pointsInProcess.Clear()
+				Change(gnd.num, -1)
+
+				Form1.GroupBox1.Visible = True
+				Form1.CheckBox2.Visible = True
+				Form1.Cursor = Cursors.Default
+				Form1.NeedSave = True
+			Else
+				MsgBox("Массу нельзя подключить к плюсовому проводу.", vbInformation, "Подключение массы")
+			End If
+
 		End If
 	End Sub
 

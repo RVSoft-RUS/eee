@@ -22,6 +22,7 @@ Public Class Form1
 	Public addLine_cur As Cursor
 	Public del_cur As Cursor
 	Public element_cur As Cursor
+	Public gnd_cur As Cursor
 	Dim OpenAtStart As Boolean = False
 	'во время переключений pointsInProcess обнулять и добавлять номера точек, через который прошел сигнал
 	'если точка при добавлении уже существует, значит зациклено
@@ -105,6 +106,7 @@ Public Class Form1
 			del_cur = New Cursor(Application.StartupPath + "\resourses\del.cur")
 			addPoint_cur = New Cursor(Application.StartupPath + "\resourses\addPoint.cur")
 			element_cur = New Cursor(Application.StartupPath + "\resourses\element.cur")
+			gnd_cur = New Cursor(Application.StartupPath + "\resourses\gnd.cur")
 		Catch ex As Exception
 			line_cur = Cursors.Default
 			point_cur = Cursors.Cross
@@ -112,6 +114,7 @@ Public Class Form1
 			del_cur = Cursors.No
 			addPoint_cur = Cursors.NoMove2D
 			element_cur = Cursors.Default
+			gnd_cur = Cursors.Hand
 		End Try
 
 		Dim Proc() As Process
@@ -139,8 +142,6 @@ Public Class Form1
 		Catch exс As Exception
 
 		End Try
-
-
 
 	End Sub
 
@@ -910,6 +911,22 @@ Public Class Form1
 			Me.Cursor = Cursors.Default
 			NeedSave = True
 		End If
+		If Mode = "eGND" Then
+			Dim eComp As New EComponent With {
+							.aType = "eGND",
+							.numInArray = Elements.Count
+						}
+			Elements.Add(eComp)
+			Dim gnd As New EGND(rx, ry, eComp.numInArray)
+			Me.Controls.Add(gnd)
+			eComp.component = gnd
+
+			Mode = ""
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			Me.Cursor = Cursors.Default
+			NeedSave = True
+		End If
 	End Sub
 
 	Private Sub СохранитьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles СохранитьToolStripMenuItem1.Click
@@ -1071,6 +1088,10 @@ Public Class Form1
 		End If
 	End Sub
 
+	Private Sub ВыходToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ВыходToolStripMenuItem1.Click
+		Me.Close()
+	End Sub
+
 	Private Sub ОткрытьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ОткрытьToolStripMenuItem1.Click
 		Dim q As Microsoft.VisualBasic.MsgBoxResult
 		'If AddFrm Then GoTo StartFile
@@ -1181,6 +1202,19 @@ StartFile:
 					Elements.Add(eComp)
 					Me.Controls.Add(bat)
 				End If
+				'eGND
+				If aComp(0) = "eGND" Then
+					Dim gnd As New EGND(aComp(2), aComp(3), aComp(1)) With {
+						.link = aComp(4)
+					}
+					eComp = New EComponent With {
+						.aType = "eGND",
+						.numInArray = gnd.num,
+						.component = gnd
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(gnd)
+				End If
 			End If
 			System.Threading.Thread.Sleep(sleepTime)
 			ProgressBar.Value = 50 + i
@@ -1208,6 +1242,13 @@ StartFile:
 		GroupBox1.Visible = False
 		CheckBox2.Visible = False
 		Me.Cursor = addLine_cur
+	End Sub
+
+	Private Sub PictureBox_Massa_Click(sender As Object, e As EventArgs) Handles PictureBox_Massa.Click
+		Mode = "eGND"
+		GroupBox1.Visible = False
+		CheckBox2.Visible = False
+		Me.Cursor = gnd_cur
 	End Sub
 
 	Private Sub PictureBox_Delete_Click(sender As Object, e As EventArgs) Handles PictureBox_Delete.Click
@@ -1318,5 +1359,61 @@ StartFile:
 		b = Me.Width
 		b = CInt((b - 250) / 2)
 		ProgressBar.Location = New System.Drawing.Point(b, a)
+	End Sub
+
+	Public Sub OnConnect(n1 As Integer, n2 As Integer)
+		Dim eComp As EComponent
+		Dim p01, p02 As EPoint
+		eComp = Elements(n1)
+		p01 = eComp.component
+		eComp = Elements(n2)
+		p02 = eComp.component
+		Dim p01C As Integer = p01.Condition 'Текущие значения Condition на точках
+		Dim p02C As Integer = p02.Condition
+		pointsInProcess.Clear()
+		Dim p01Ck As Integer = p01.CheckSig(0) 'Текущие значения CheckSig на точках
+		pointsInProcess.Clear()
+		Dim p02Ck As Integer = p02.CheckSig(0)
+
+		'НИЖЕ ВСЯ ЛОГИКА СОЕДИНЕНИЯ
+		If p01C <> 0 Then 'Тут пока временное говно - Сейчас создание замкнутого контура не выдает ошибку
+			If p02C = 0 Then
+				pointsInProcess.Clear()
+				p02.Change(0, p01C)
+			End If
+
+		Else
+			If p02C <> 0 Then
+				pointsInProcess.Clear()
+				p01.Change(0, p02C)
+			End If
+		End If
+		'В конце соединить точки (links.add)
+	End Sub
+
+	Public Sub DisConnect(n1 As Integer, n2 As Integer)
+		Dim eComp As EComponent
+		Dim p01, p02 As EPoint
+		eComp = Elements(n1)
+		p01 = eComp.component
+		eComp = Elements(n2)
+		p02 = eComp.component
+		Dim p01C As Integer = p01.Condition 'Текущие значения Condition на точках
+		Dim p02C As Integer = p02.Condition
+		p01.links.Remove(p02.num) 'разъединяем точки
+		p02.links.Remove(p01.num)
+		pointsInProcess.Clear()
+		Dim p01Ck As Integer = p01.CheckSig(0) 'Текущие значения CheckSig на точках
+		pointsInProcess.Clear()
+		Dim p02Ck As Integer = p02.CheckSig(0)
+
+		If p01Ck = 0 And p01C <> 0 Then
+			pointsInProcess.Clear()
+			p01.Change(0, 0)
+		End If
+		If p02Ck = 0 And p02C <> 0 Then
+			pointsInProcess.Clear()
+			p02.Change(0, 0)
+		End If
 	End Sub
 End Class

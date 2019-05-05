@@ -42,7 +42,7 @@ Partial Class Form1
 		Me.PictureBox8 = New System.Windows.Forms.PictureBox()
 		Me.PictureBox_eBat = New System.Windows.Forms.PictureBox()
 		Me.PictureBox5 = New System.Windows.Forms.PictureBox()
-		Me.PictureBox4 = New System.Windows.Forms.PictureBox()
+		Me.PictureBox_Massa = New System.Windows.Forms.PictureBox()
 		Me.PictureBox_Point = New System.Windows.Forms.PictureBox()
 		Me.PictureBox_Provod = New System.Windows.Forms.PictureBox()
 		Me.CheckBox2 = New System.Windows.Forms.CheckBox()
@@ -126,7 +126,7 @@ Partial Class Form1
 		CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.PictureBox_eBat, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
-		CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.PictureBox_Massa, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.PictureBox_Point, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.PictureBox_Provod, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.MenuStrip1.SuspendLayout()
@@ -160,7 +160,7 @@ Partial Class Form1
 		Me.GroupBox1.Controls.Add(Me.PictureBox8)
 		Me.GroupBox1.Controls.Add(Me.PictureBox_eBat)
 		Me.GroupBox1.Controls.Add(Me.PictureBox5)
-		Me.GroupBox1.Controls.Add(Me.PictureBox4)
+		Me.GroupBox1.Controls.Add(Me.PictureBox_Massa)
 		Me.GroupBox1.Controls.Add(Me.PictureBox_Point)
 		Me.GroupBox1.Controls.Add(Me.PictureBox_Provod)
 		Me.GroupBox1.Location = New System.Drawing.Point(810, 25)
@@ -389,18 +389,19 @@ Partial Class Form1
 		Me.PictureBox5.TabIndex = 10
 		Me.PictureBox5.TabStop = False
 		'
-		'PictureBox4
+		'PictureBox_Massa
 		'
-		Me.PictureBox4.BackColor = System.Drawing.Color.Transparent
-		Me.PictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.PictureBox4.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.PictureBox4.Image = CType(resources.GetObject("PictureBox4.Image"), System.Drawing.Image)
-		Me.PictureBox4.Location = New System.Drawing.Point(6, 56)
-		Me.PictureBox4.Name = "PictureBox4"
-		Me.PictureBox4.Size = New System.Drawing.Size(25, 22)
-		Me.PictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-		Me.PictureBox4.TabIndex = 9
-		Me.PictureBox4.TabStop = False
+		Me.PictureBox_Massa.BackColor = System.Drawing.Color.Transparent
+		Me.PictureBox_Massa.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.PictureBox_Massa.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.PictureBox_Massa.Image = CType(resources.GetObject("PictureBox_Massa.Image"), System.Drawing.Image)
+		Me.PictureBox_Massa.Location = New System.Drawing.Point(6, 56)
+		Me.PictureBox_Massa.Name = "PictureBox_Massa"
+		Me.PictureBox_Massa.Size = New System.Drawing.Size(25, 22)
+		Me.PictureBox_Massa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+		Me.PictureBox_Massa.TabIndex = 9
+		Me.PictureBox_Massa.TabStop = False
+		Me.ToolTip1.SetToolTip(Me.PictureBox_Massa, "Масса")
 		'
 		'PictureBox_Point
 		'
@@ -521,13 +522,13 @@ Partial Class Form1
 		'НастройкиToolStripMenuItem
 		'
 		Me.НастройкиToolStripMenuItem.Name = "НастройкиToolStripMenuItem"
-		Me.НастройкиToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+		Me.НастройкиToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
 		Me.НастройкиToolStripMenuItem.Text = "&Настройки"
 		'
 		'ЛицензияToolStripMenuItem
 		'
 		Me.ЛицензияToolStripMenuItem.Name = "ЛицензияToolStripMenuItem"
-		Me.ЛицензияToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+		Me.ЛицензияToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
 		Me.ЛицензияToolStripMenuItem.Text = "Лицензия"
 		'
 		'СправкаToolStripMenuItem
@@ -540,18 +541,18 @@ Partial Class Form1
 		'СправкаToolStripMenuItem1
 		'
 		Me.СправкаToolStripMenuItem1.Name = "СправкаToolStripMenuItem1"
-		Me.СправкаToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+		Me.СправкаToolStripMenuItem1.Size = New System.Drawing.Size(158, 22)
 		Me.СправкаToolStripMenuItem1.Text = "Справка"
 		'
 		'ToolStripSeparator1
 		'
 		Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-		Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
+		Me.ToolStripSeparator1.Size = New System.Drawing.Size(155, 6)
 		'
 		'ОпрограммеToolStripMenuItem
 		'
 		Me.ОпрограммеToolStripMenuItem.Name = "ОпрограммеToolStripMenuItem"
-		Me.ОпрограммеToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+		Me.ОпрограммеToolStripMenuItem.Size = New System.Drawing.Size(158, 22)
 		Me.ОпрограммеToolStripMenuItem.Text = "&О программе..."
 		'
 		'SaveFileDialog1
@@ -1104,7 +1105,7 @@ Partial Class Form1
 		CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.PictureBox_eBat, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
-		CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.PictureBox_Massa, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.PictureBox_Point, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.PictureBox_Provod, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.MenuStrip1.ResumeLayout(False)
@@ -1139,7 +1140,7 @@ Partial Class Form1
 	Friend WithEvents PictureBox8 As PictureBox
 	Friend WithEvents PictureBox_eBat As PictureBox
 	Friend WithEvents PictureBox5 As PictureBox
-	Friend WithEvents PictureBox4 As PictureBox
+	Friend WithEvents PictureBox_Massa As PictureBox
 	Friend WithEvents PictureBox_Point As PictureBox
 	Friend WithEvents PictureBox_Provod As PictureBox
 	Friend WithEvents CheckBox2 As CheckBox

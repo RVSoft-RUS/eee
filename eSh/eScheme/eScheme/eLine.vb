@@ -149,17 +149,20 @@ Public Class eLine
 
 	Sub DeleteMe()
 		'Линию любую можно удалить, предваритьльно обнулив ссылки на нее из точек
+		Dim n1, n2 As Integer
 		Dim eComp As EComponent = Form1.Elements(links(0))
 		Dim p As EPoint = eComp.component 'Первая точка 
 		p.links.Remove(num)
+		n1 = p.num
 
 		eComp = Form1.Elements(links(1))
 		p = eComp.component 'Вторая точка
 		p.links.Remove(num)
+		n2 = p.num
 
 		Form1.Delete(num)
 		'Изменения Change добавить ++++++++++++++++++++++++++++++++++++++++++++++
-
+		Form1.DisConnect(n1, n2)
 
 	End Sub
 

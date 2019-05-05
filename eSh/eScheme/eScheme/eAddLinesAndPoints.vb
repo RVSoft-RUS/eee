@@ -6,11 +6,14 @@ Public Class EAddLinesAndPoints
 	Private pts As New ArrayList
 	Private ReadOnly num1 As Integer
 	Private num2 As Integer
+	Private clr As Color
 
-	Public Sub New(X As Integer, Y As Integer, n As Integer)
+
+	Public Sub New(X As Integer, Y As Integer, n As Integer, clr_ As Color)
 		num1 = n
 		pts.Add(New Point(X, Y))
 		Form1.Mode = "createConnect1"
+		clr = clr_
 	End Sub
 
 	Public Sub MouseMove(X As Integer, Y As Integer)
@@ -87,6 +90,7 @@ Public Class EAddLinesAndPoints
 		Dim p1 As EPoint = eComp.component 'Первая точка из которой строили соединение
 		Dim p01 As EPoint = p1 'Первая точка из которой строили соединение для последующих процедур Change
 		Dim p02 As EPoint = p1 'Вторая точка из которой строили соединение для последующих процедур Change - Здесь присвоено для искючения предупреждения, так должна быть пустая
+		Dim lastLine As eLine
 
 		Dim p2 As EPoint = p1 'Здесь присвоено для искючения предупреждения, так должна быть пустая
 		For i = 1 To pts2.Count - 2
@@ -126,23 +130,26 @@ Public Class EAddLinesAndPoints
 			p2.links.Add(line.num)
 			line.links.Add(p1.num)
 			line.links.Add(p2.num)
+			If i < pts2.Count - 2 Then
+				line.Condition = p1.Condition
+				p2.Condition = line.Condition
+			End If
 
+			lastLine = line
 		Next
 		'TODO Проброс сигнала TODO продумать как при обоих не =0 перебрасывать
-		Form1.pointsInProcess.Clear()
-		If p01.Condition <> 0 Then
-			eComp = Form1.Elements(p01.links(p01.links.Count - 1))
-			eComp.component.Change(num1, p01.Condition)
-		Else
-			eComp = Form1.Elements(p02.links(p02.links.Count - 1))
-			eComp.component.Change(num2, p02.Condition)
-		End If
+		p1.links.Remove(lastLine.num)
+		p2.links.Remove(lastLine.num)
+		Form1.OnConnect(lastLine.links(0), lastLine.links(1))
+		lastLine.Condition = p1.Condition
+		p1.links.Add(lastLine.num)
+		p2.links.Add(lastLine.num)
 	End Sub
 
 	Sub DrawPath()
 		If pts.Count < 2 Then Exit Sub
 		Dim g As Graphics = Form1.CreateGraphics
-		Dim p As New Pen(Color.Plum) With {
+		Dim p As New Pen(clr) With {
 			.Width = 1
 		}
 		For i = 0 To pts.Count - 2

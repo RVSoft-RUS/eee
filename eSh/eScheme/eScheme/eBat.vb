@@ -5,15 +5,13 @@ Public Class eBat
 	Public X As Integer
 	Public Y As Integer
 	Public num As Integer
-	'Private pMassa As EPoint
-	'Private p15 As EPoint
-	'Private p30 As EPoint
 
 	Public Sub New(rx As Integer, ry As Integer, n As Integer)
 		InitializeComponent()
 		X = rx
 		Y = ry
 		num = n
+		Cursor = Form1.element_cur
 		Dim eComp As EComponent
 		Dim econ As IConnectable
 		Me.Location = New Point(X + 5, Y - 2) 'Для настройки положения

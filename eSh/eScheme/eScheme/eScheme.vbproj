@@ -85,6 +85,12 @@
     </Compile>
     <Compile Include="eComponent.vb" />
     <Compile Include="eFormat.vb" />
+    <Compile Include="eGND.Designer.vb">
+      <DependentUpon>eGND.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eGND.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="eLine.Designer.vb">
       <DependentUpon>eLine.vb</DependentUpon>
     </Compile>
@@ -143,6 +149,9 @@
   <ItemGroup>
     <EmbeddedResource Include="eBat.resx">
       <DependentUpon>eBat.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eGND.resx">
+      <DependentUpon>eGND.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="eLine.resx">
       <DependentUpon>eLine.vb</DependentUpon>
