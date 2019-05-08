@@ -76,6 +76,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DialogForm.Designer.vb">
+      <DependentUpon>DialogForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="eAddLinesAndPoints.vb" />
     <Compile Include="eBat.Designer.vb">
       <DependentUpon>eBat.vb</DependentUpon>
@@ -103,6 +109,12 @@
     <Compile Include="ePoint.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="eResist.Designer.vb">
+      <DependentUpon>eResist.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eResist.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +135,7 @@
     <Compile Include="hLine.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="ISetValue.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -147,6 +160,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DialogForm.resx">
+      <DependentUpon>DialogForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="eBat.resx">
       <DependentUpon>eBat.vb</DependentUpon>
     </EmbeddedResource>
@@ -158,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ePoint.resx">
       <DependentUpon>ePoint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eResist.resx">
+      <DependentUpon>eResist.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>

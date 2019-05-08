@@ -68,6 +68,7 @@ Public Class eLine
 			End Select
 			Me.BackColor = clr
 			ToolTip1.SetToolTip(Me, s)
+			Tag = s
 		End Set
 		Get
 			Return Condition_
@@ -93,6 +94,7 @@ Public Class eLine
 		Me.Condition_ = condition_
 		Me.BackColor = clr
 		ToolTip1.SetToolTip(Me, s)
+		Tag = s
 		'Отправление дальше
 		For i = 0 To links.Count - 1
 			If links(i) <> from Then
@@ -145,6 +147,113 @@ Public Class eLine
 		If Form1.Mode = "Delete" Then
 			DeleteMe()
 		End If
+		If Form1.Mode = "newPoint" Then
+			If X1 = X2 Then
+				'Return "V"
+				If Form1.ry = Y1 Or Form1.ry = Y2 Then
+					MsgBox("Слишком близко.")
+					Exit Sub
+				End If
+				Dim eComp As New EComponent With {
+					.aType = "ePoint",
+					.numInArray = Form1.Elements.Count
+				}
+				Form1.Elements.Add(eComp)
+				Dim p As New EPoint(Form1.rx, Form1.ry, eComp.numInArray)
+				Form1.Controls.Add(p)
+				eComp.component = p
+				p.Condition = Condition_
+
+				eComp = New EComponent With {
+					.aType = "eLine",
+					.numInArray = Form1.Elements.Count
+				}
+				Form1.Elements.Add(eComp)
+
+				Dim line As New eLine(Form1.rx, Form1.ry, X2, Y2, eComp.numInArray)
+				Form1.Controls.Add(line)
+				eComp.component = line
+				line.Condition = Condition_
+
+				Y2 = Form1.ry
+				Me.Height = Y2 - Y1 - 10
+
+				eComp = Form1.Elements(links(0))
+				Dim p1 As EPoint = eComp.component
+				eComp = Form1.Elements(links(1))
+				Dim p2 As EPoint = eComp.component
+				If p1.Y > p2.Y Then
+					Dim p0 As EPoint = p1
+					p1 = p2
+					p2 = p0
+					'Теперь р2 ссылается на самую нижнюю точку
+				End If
+
+				links.Remove(p2.num)
+				links.Add(p.num)
+				line.links.Add(p2.num)
+				p2.links.Remove(num)
+				p2.links.Add(line.num)
+				p.links.Add(line.num)
+				p.links.Add(num)
+				line.links.Add(p.num)
+			Else
+				'Return "H"
+				If Form1.rx = X1 Or Form1.rx = X2 Then
+					MsgBox("Слишком близко.")
+					Exit Sub
+				End If
+				Dim eComp As New EComponent With {
+					.aType = "ePoint",
+					.numInArray = Form1.Elements.Count
+				}
+				Form1.Elements.Add(eComp)
+				Dim p As New EPoint(Form1.rx, Form1.ry, eComp.numInArray)
+				Form1.Controls.Add(p)
+				eComp.component = p
+				p.Condition = Condition_
+
+				eComp = New EComponent With {
+					.aType = "eLine",
+					.numInArray = Form1.Elements.Count
+				}
+				Form1.Elements.Add(eComp)
+
+				Dim line As New eLine(Form1.rx, Form1.ry, X2, Y2, eComp.numInArray)
+				Form1.Controls.Add(line)
+				eComp.component = line
+				line.Condition = Condition_
+
+				X2 = Form1.rx
+				Me.Width = X2 - X1 - 10
+
+				eComp = Form1.Elements(links(0))
+				Dim p1 As EPoint = eComp.component
+				eComp = Form1.Elements(links(1))
+				Dim p2 As EPoint = eComp.component
+				If p1.X > p2.X Then
+					Dim p0 As EPoint = p1
+					p1 = p2
+					p2 = p0
+					'Теперь р2 ссылается на самую правую точку
+				End If
+
+				links.Remove(p2.num)
+				links.Add(p.num)
+				line.links.Add(p2.num)
+				p2.links.Remove(num)
+				p2.links.Add(line.num)
+				p.links.Add(line.num)
+				p.links.Add(num)
+				line.links.Add(p.num)
+			End If
+			Form1.Mode = ""
+			Form1.GroupBox1.Visible = True
+			Form1.CheckBox2.Visible = True
+			Form1.Cursor = Cursors.Default
+			Form1.NeedSave = True
+		End If
+
 	End Sub
 
 	Sub DeleteMe()
@@ -191,4 +300,23 @@ Public Class eLine
 		econ = eComp.component
 		Return econ.CheckSig(num)
 	End Function
+
+	Public Function Loc() As String
+		If X1 = X2 Then
+			Return "V"
+		Else
+			Return "H"
+		End If
+	End Function
+
+	Private Sub ELine_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter
+		If Form1.Mode = "newPoint" Then
+			Cursor = Form1.point_cur
+			ToolTip1.SetToolTip(Me, "Добавить узел")
+
+		Else
+			Cursor = Form1.line_cur
+			ToolTip1.SetToolTip(Me, Tag)
+		End If
+	End Sub
 End Class

@@ -146,7 +146,54 @@ Imports eScheme
 			Form1.createConnect = New EAddLinesAndPoints(X, Y, num, clr)
 		End If
 		If Form1.Mode = "Delete" Then
-			DeleteMe()
+			If links.Count = 2 Then
+				Dim eComp As EComponent = Form1.Elements(links(0))
+				Dim line1 As eLine = eComp.component
+				Dim p2 As EPoint
+				eComp = Form1.Elements(links(1))
+				Dim line2 As eLine = eComp.component
+
+				If line1.Loc = "H" And line2.Loc = "H" Then
+					'Обе горизонтально
+					If line1.X1 > line2.X1 Then
+						Dim line As eLine = line1
+						line1 = line2
+						line2 = line
+					End If
+					line1.links.Remove(num)
+					line2.links.Remove(num)
+					eComp = Form1.Elements(line2.links(0))
+					p2 = eComp.component
+					p2.links.Remove(line2.num)
+					p2.links.Add(line1.num)
+					line1.links.Add(line2.links(0))
+					line1.X2 = line2.X2
+					line1.Width = line1.X2 - line1.X1 - 10
+					Form1.Delete(line2.num)
+					Form1.Delete(num)
+				End If
+				If line1.Loc = "V" And line2.Loc = "V" Then
+					'Обе вертикально
+					If line1.Y1 > line2.Y1 Then
+						Dim line As eLine = line1
+						line1 = line2
+						line2 = line
+					End If
+					line1.links.Remove(num)
+					line2.links.Remove(num)
+					eComp = Form1.Elements(line2.links(0))
+					p2 = eComp.component
+					p2.links.Remove(line2.num)
+					p2.links.Add(line1.num)
+					line1.links.Add(line2.links(0))
+					line1.Y2 = line2.Y2
+					line1.Height = line1.Y2 - line1.Y1 - 10
+					Form1.Delete(line2.num)
+					Form1.Delete(num)
+				End If
+			Else
+				DeleteMe()
+			End If
 		End If
 		If Form1.Mode = "eGND" Then
 			If Condition_ <= 0 Then
@@ -181,7 +228,7 @@ Imports eScheme
 			'Удаляем при условии, что нет ссылок
 			Form1.Delete(num)
 		Else
-			MsgBox("Можно удалить только пустой узел.")
+			MsgBox("Можно удалить только пустой узел или находящийся на одной линии.")
 		End If
 	End Sub
 
@@ -198,6 +245,7 @@ Imports eScheme
 	End Function
 
 	Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
+		Dim asd As ArrayList = Form1.pointsInProcess
 		If Form1.pointsInProcess.Contains(num) Then
 			MsgBox("Не допускаестся создание замкнутых контуров." +
 				   vbCrLf + "Удалите лишние связи.", vbCritical, "Ошибка в схеме")

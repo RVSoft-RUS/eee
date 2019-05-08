@@ -35,7 +35,9 @@
 	End Sub
 
 	Public Sub Change(from As Integer, condition As Integer) Implements IConnectable.Change
-		MsgBox("Какого хуя сюда прилетает посторонний сигнал?", vbCritical, "GND")
+		If condition <> -1 Then
+			MsgBox("Какого хуя сюда прилетает посторонний сигнал?", vbCritical, "GND")
+		End If
 	End Sub
 
 	Private Sub IConnectable_Dispose() Implements IConnectable.Dispose

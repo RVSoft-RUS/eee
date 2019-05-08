@@ -2,15 +2,18 @@
 
 Public Class eBat
 	Implements IConnectable
+	Implements ISetValue
 	Public X As Integer
 	Public Y As Integer
 	Public num As Integer
+	Public U As Integer
 
-	Public Sub New(rx As Integer, ry As Integer, n As Integer)
+	Public Sub New(rx As Integer, ry As Integer, n As Integer, u_ As Integer)
 		InitializeComponent()
 		X = rx
 		Y = ry
 		num = n
+		U = u_
 		Cursor = Form1.element_cur
 		Dim eComp As EComponent
 		Dim econ As IConnectable
@@ -65,7 +68,16 @@ Public Class eBat
 	End Sub
 
 	Public Sub Change(from As Integer, condition As Integer) Implements IConnectable.Change
-		MsgBox("Какого хуя сюда прилетает посторонний сигнал?", vbCritical, "Источник питания")
+		If from = num + 1 And condition <> -1 Then
+			MsgBox("Какого хуя сюда прилетает посторонний сигнал?", vbCritical, "Источник питания")
+		End If
+		If from = num + 2 And condition <> 15 Then
+			MsgBox("Какого хуя сюда прилетает посторонний сигнал?", vbCritical, "Источник питания")
+		End If
+		If from = num + 3 And condition <> 30 Then
+			MsgBox("Какого хуя сюда прилетает посторонний сигнал?", vbCritical, "Источник питания")
+		End If
+
 	End Sub
 
 	Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
@@ -77,7 +89,8 @@ Public Class eBat
 			"eBat",
 			num,
 			X,
-			Y
+			Y,
+			U
 		}
 		Return save
 	End Function
@@ -92,4 +105,27 @@ Public Class eBat
 				Return 30
 		End Select
 	End Function
+
+	Private Sub EBat_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
+		If e.Button = MouseButtons.Right Then
+			ContextMenu1.Show(Me, e.X, e.Y)
+		End If
+	End Sub
+
+	Private Sub EBat_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter
+		ToolTip1.SetToolTip(Me, "Напряжение " + CStr(U) + "В")
+	End Sub
+
+	Private Sub ЗадатьНапряжениеToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ЗадатьНапряжениеToolStripMenuItem.Click
+		Form1.Enabled = False
+		DialogForm.Show(Me)
+		DialogForm.Left = X + Form1.Left
+		DialogForm.Top = Y + Form1.Top
+		DialogForm.OnView("Напряжение источника питания, В", Me)
+	End Sub
+
+	Public Sub SetValue(value As Integer) Implements ISetValue.SetValue
+		U = value
+		Form1.NeedSave = True
+	End Sub
 End Class

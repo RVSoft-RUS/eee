@@ -25,6 +25,7 @@ Partial Class Form1
 		Me.components = New System.ComponentModel.Container()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+		Me.PictureBox_Resist = New System.Windows.Forms.PictureBox()
 		Me.Label_A4 = New System.Windows.Forms.Label()
 		Me.PictureBox_Delete = New System.Windows.Forms.PictureBox()
 		Me.PictureBox18 = New System.Windows.Forms.PictureBox()
@@ -108,10 +109,9 @@ Partial Class Form1
 		Me.pbNumber = New System.Windows.Forms.PictureBox()
 		Me.lblKF_A3 = New System.Windows.Forms.Label()
 		Me.TextBox1 = New System.Windows.Forms.TextBox()
-		Me.Button1 = New System.Windows.Forms.Button()
 		Me.ProgressBar = New System.Windows.Forms.ProgressBar()
-		Me.Button2 = New System.Windows.Forms.Button()
 		Me.GroupBox1.SuspendLayout()
+		CType(Me.PictureBox_Resist, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.PictureBox_Delete, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.PictureBox18, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.PictureBox17, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -143,6 +143,7 @@ Partial Class Form1
 		'GroupBox1
 		'
 		Me.GroupBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.GroupBox1.Controls.Add(Me.PictureBox_Resist)
 		Me.GroupBox1.Controls.Add(Me.Label_A4)
 		Me.GroupBox1.Controls.Add(Me.PictureBox_Delete)
 		Me.GroupBox1.Controls.Add(Me.PictureBox18)
@@ -165,10 +166,24 @@ Partial Class Form1
 		Me.GroupBox1.Controls.Add(Me.PictureBox_Provod)
 		Me.GroupBox1.Location = New System.Drawing.Point(810, 25)
 		Me.GroupBox1.Name = "GroupBox1"
-		Me.GroupBox1.Size = New System.Drawing.Size(300, 566)
+		Me.GroupBox1.Size = New System.Drawing.Size(66, 566)
 		Me.GroupBox1.TabIndex = 2
 		Me.GroupBox1.TabStop = False
 		Me.GroupBox1.Text = "Элемент"
+		'
+		'PictureBox_Resist
+		'
+		Me.PictureBox_Resist.BackColor = System.Drawing.Color.Transparent
+		Me.PictureBox_Resist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.PictureBox_Resist.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.PictureBox_Resist.Image = CType(resources.GetObject("PictureBox_Resist.Image"), System.Drawing.Image)
+		Me.PictureBox_Resist.Location = New System.Drawing.Point(37, 84)
+		Me.PictureBox_Resist.Name = "PictureBox_Resist"
+		Me.PictureBox_Resist.Size = New System.Drawing.Size(25, 22)
+		Me.PictureBox_Resist.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+		Me.PictureBox_Resist.TabIndex = 34
+		Me.PictureBox_Resist.TabStop = False
+		Me.ToolTip1.SetToolTip(Me.PictureBox_Resist, "Потребитель")
 		'
 		'Label_A4
 		'
@@ -318,7 +333,7 @@ Partial Class Form1
 		Me.PictureBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.PictureBox10.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.PictureBox10.Image = CType(resources.GetObject("PictureBox10.Image"), System.Drawing.Image)
-		Me.PictureBox10.Location = New System.Drawing.Point(37, 112)
+		Me.PictureBox10.Location = New System.Drawing.Point(6, 112)
 		Me.PictureBox10.Name = "PictureBox10"
 		Me.PictureBox10.Size = New System.Drawing.Size(25, 22)
 		Me.PictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -382,7 +397,7 @@ Partial Class Form1
 		Me.PictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.PictureBox5.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.PictureBox5.Image = CType(resources.GetObject("PictureBox5.Image"), System.Drawing.Image)
-		Me.PictureBox5.Location = New System.Drawing.Point(37, 84)
+		Me.PictureBox5.Location = New System.Drawing.Point(37, 112)
 		Me.PictureBox5.Name = "PictureBox5"
 		Me.PictureBox5.Size = New System.Drawing.Size(25, 22)
 		Me.PictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -409,7 +424,7 @@ Partial Class Form1
 		Me.PictureBox_Point.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.PictureBox_Point.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.PictureBox_Point.Image = CType(resources.GetObject("PictureBox_Point.Image"), System.Drawing.Image)
-		Me.PictureBox_Point.Location = New System.Drawing.Point(6, 112)
+		Me.PictureBox_Point.Location = New System.Drawing.Point(6, 84)
 		Me.PictureBox_Point.Name = "PictureBox_Point"
 		Me.PictureBox_Point.Size = New System.Drawing.Size(25, 22)
 		Me.PictureBox_Point.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -993,21 +1008,12 @@ Partial Class Form1
 		'TextBox1
 		'
 		Me.TextBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-		Me.TextBox1.Location = New System.Drawing.Point(617, 395)
+		Me.TextBox1.Location = New System.Drawing.Point(643, 707)
 		Me.TextBox1.Multiline = True
 		Me.TextBox1.Name = "TextBox1"
 		Me.TextBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-		Me.TextBox1.Size = New System.Drawing.Size(187, 181)
+		Me.TextBox1.Size = New System.Drawing.Size(187, 208)
 		Me.TextBox1.TabIndex = 59
-		'
-		'Button1
-		'
-		Me.Button1.Location = New System.Drawing.Point(719, 553)
-		Me.Button1.Name = "Button1"
-		Me.Button1.Size = New System.Drawing.Size(75, 23)
-		Me.Button1.TabIndex = 60
-		Me.Button1.Text = "Button1"
-		Me.Button1.UseVisualStyleBackColor = True
 		'
 		'ProgressBar
 		'
@@ -1020,24 +1026,13 @@ Partial Class Form1
 		Me.ProgressBar.UseWaitCursor = True
 		Me.ProgressBar.Visible = False
 		'
-		'Button2
-		'
-		Me.Button2.Location = New System.Drawing.Point(617, 552)
-		Me.Button2.Name = "Button2"
-		Me.Button2.Size = New System.Drawing.Size(75, 23)
-		Me.Button2.TabIndex = 62
-		Me.Button2.Text = "check"
-		Me.Button2.UseVisualStyleBackColor = True
-		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
 		Me.ClientSize = New System.Drawing.Size(883, 917)
-		Me.Controls.Add(Me.Button2)
 		Me.Controls.Add(Me.ProgressBar)
-		Me.Controls.Add(Me.Button1)
 		Me.Controls.Add(Me.TextBox1)
 		Me.Controls.Add(Me.lblKF_A3)
 		Me.Controls.Add(Me.pbNumber)
@@ -1091,6 +1086,7 @@ Partial Class Form1
 		Me.Text = "eScheme"
 		Me.GroupBox1.ResumeLayout(False)
 		Me.GroupBox1.PerformLayout()
+		CType(Me.PictureBox_Resist, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.PictureBox_Delete, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.PictureBox18, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.PictureBox17, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1207,8 +1203,7 @@ Partial Class Form1
 	Friend WithEvents pbNumber As PictureBox
 	Friend WithEvents lblKF_A3 As Label
 	Friend WithEvents TextBox1 As TextBox
-	Friend WithEvents Button1 As Button
 	Friend WithEvents ProgressBar As ProgressBar
 	Friend WithEvents EBat2 As eBat
-	Friend WithEvents Button2 As Button
+	Friend WithEvents PictureBox_Resist As PictureBox
 End Class

@@ -6,7 +6,7 @@ Public Class EAddLinesAndPoints
 	Private pts As New ArrayList
 	Private ReadOnly num1 As Integer
 	Private num2 As Integer
-	Private clr As Color
+	Private ReadOnly clr As Color
 
 
 	Public Sub New(X As Integer, Y As Integer, n As Integer, clr_ As Color)
@@ -90,7 +90,7 @@ Public Class EAddLinesAndPoints
 		Dim p1 As EPoint = eComp.component 'Первая точка из которой строили соединение
 		Dim p01 As EPoint = p1 'Первая точка из которой строили соединение для последующих процедур Change
 		Dim p02 As EPoint = p1 'Вторая точка из которой строили соединение для последующих процедур Change - Здесь присвоено для искючения предупреждения, так должна быть пустая
-		Dim lastLine As eLine
+		Dim lastLine As eLine = Nothing
 
 		Dim p2 As EPoint = p1 'Здесь присвоено для искючения предупреждения, так должна быть пустая
 		For i = 1 To pts2.Count - 2
@@ -140,10 +140,20 @@ Public Class EAddLinesAndPoints
 		'TODO Проброс сигнала TODO продумать как при обоих не =0 перебрасывать
 		p1.links.Remove(lastLine.num)
 		p2.links.Remove(lastLine.num)
-		Form1.OnConnect(lastLine.links(0), lastLine.links(1))
-		lastLine.Condition = p1.Condition
-		p1.links.Add(lastLine.num)
-		p2.links.Add(lastLine.num)
+		If Form1.OnConnect(lastLine.links(0), lastLine.links(1)) Then
+			lastLine.Condition = p1.Condition
+			p1.links.Add(lastLine.num)
+			p2.links.Add(lastLine.num)
+			p1.links.Remove(p2.num)
+			p2.links.Remove(p1.num)
+		Else
+			p1.links.Remove(lastLine.num)
+			p2.links.Remove(lastLine.num)
+			eComp = Form1.Elements(lastLine.num)
+			eComp = Nothing
+			lastLine.DeleteMe()
+		End If
+
 	End Sub
 
 	Sub DrawPath()

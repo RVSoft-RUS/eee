@@ -16,4 +16,6 @@
 	Public tkontr As String
 	Public nkontr As String
 	Public utv As String
+	'Настройки приложения
+	Public left As Integer
 End Class

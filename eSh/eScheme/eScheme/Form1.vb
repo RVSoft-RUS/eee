@@ -11,7 +11,7 @@ Public Class Form1
 	Dim zx, zy As Integer 'Для предотвращения мерцания линий при MouseMove
 	Public Mode As String = "" 'Текущий режим - показывает состояние, что делаем. Пусто - ничего не делаем
 	Public Elements As New ArrayList
-	Public FileName As String
+	Public FileName As String = ""
 	Public NeedSave As Boolean = False 'Были изменения, нужно сохранять
 	Dim a As New ArrayList ' Все линии для форматки
 	Public f As New EFormat
@@ -23,10 +23,14 @@ Public Class Form1
 	Public del_cur As Cursor
 	Public element_cur As Cursor
 	Public gnd_cur As Cursor
+	Public R1_cur As Cursor
+
 	Dim OpenAtStart As Boolean = False
 	'во время переключений pointsInProcess обнулять и добавлять номера точек, через который прошел сигнал
 	'если точка при добавлении уже существует, значит зациклено
 	Public pointsInProcess As New ArrayList
+	Public Udefault As Integer = 12
+	Public Rdefault As Integer = 50
 	Dim fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
 
 
@@ -107,6 +111,7 @@ Public Class Form1
 			addPoint_cur = New Cursor(Application.StartupPath + "\resourses\addPoint.cur")
 			element_cur = New Cursor(Application.StartupPath + "\resourses\element.cur")
 			gnd_cur = New Cursor(Application.StartupPath + "\resourses\gnd.cur")
+			R1_cur = New Cursor(Application.StartupPath + "\resourses\R1.cur")
 		Catch ex As Exception
 			line_cur = Cursors.Default
 			point_cur = Cursors.Cross
@@ -115,6 +120,7 @@ Public Class Form1
 			addPoint_cur = Cursors.NoMove2D
 			element_cur = Cursors.Default
 			gnd_cur = Cursors.Hand
+			R1_cur = Cursors.Hand
 		End Try
 
 		Dim Proc() As Process
@@ -861,6 +867,13 @@ Public Class Form1
 				G.DrawLine(Pn, rx + 5, ry - 2, rx + 5, ry + 30)
 				G.DrawLine(Pn, rx + 5, ry + 30, rx + 55, ry + 30)
 			End If
+			If Mode = "eResist" Then
+				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx - 15, ry - 10, rx + 15, ry - 10)
+				G.DrawLine(Pn, rx - 15, ry + 30, rx + 15, ry + 30)
+				G.DrawLine(Pn, rx - 15, ry - 10, rx - 15, ry + 30)
+				G.DrawLine(Pn, rx + 15, ry - 10, rx + 15, ry + 30)
+			End If
 			G.Dispose()
 			'ToolTip1.SetToolTip(Me, CStr(rx) + ", " + CStr(ry))
 		End If
@@ -901,9 +914,25 @@ Public Class Form1
 							.numInArray = Elements.Count
 						}
 			Elements.Add(eComp)
-			Dim bat As New eBat(rx, ry, eComp.numInArray)
+			Dim bat As New eBat(rx, ry, eComp.numInArray, Udefault)
 			Me.Controls.Add(bat)
 			eComp.component = bat
+
+			Mode = ""
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			Me.Cursor = Cursors.Default
+			NeedSave = True
+		End If
+		If Mode = "eResist" Then
+			Dim eComp As New EComponent With {
+							.aType = "eResist",
+							.numInArray = Elements.Count
+						}
+			Elements.Add(eComp)
+			Dim eResist As New EResist(rx, ry, eComp.numInArray, Rdefault, False)
+			Me.Controls.Add(eResist)
+			eComp.component = eResist
 
 			Mode = ""
 			GroupBox1.Visible = True
@@ -1193,7 +1222,7 @@ StartFile:
 				End If
 				'eBat
 				If aComp(0) = "eBat" Then
-					Dim bat As New eBat(aComp(2), aComp(3), aComp(1))
+					Dim bat As New eBat(aComp(2), aComp(3), aComp(1), aComp(4))
 					eComp = New EComponent With {
 						.aType = "eBat",
 						.numInArray = bat.num,
@@ -1201,6 +1230,17 @@ StartFile:
 					}
 					Elements.Add(eComp)
 					Me.Controls.Add(bat)
+				End If
+				'eBat
+				If aComp(0) = "eResist" Then
+					Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
+					eComp = New EComponent With {
+						.aType = "eBat",
+						.numInArray = res.num,
+						.component = res
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(res)
 				End If
 				'eGND
 				If aComp(0) = "eGND" Then
@@ -1221,6 +1261,13 @@ StartFile:
 			Application.DoEvents()
 		Next
 		ProgressBar.Visible = False
+	End Sub
+
+	Private Sub PictureBox_Resist_Click(sender As Object, e As EventArgs) Handles PictureBox_Resist.Click
+		Mode = "eResist"
+		GroupBox1.Visible = False
+		CheckBox2.Visible = False
+		Me.Cursor = R1_cur
 	End Sub
 
 	Private Sub PictureBox_eBat_Click(sender As Object, e As EventArgs) Handles PictureBox_eBat.Click
@@ -1266,7 +1313,7 @@ StartFile:
 		NeedSave = True
 	End Sub
 
-	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+	Private Sub Button1_Click(sender As Object, e As EventArgs)
 		pointsInProcess.Clear()
 		Dim eComp As EComponent
 		Dim econ As IConnectable
@@ -1277,6 +1324,15 @@ StartFile:
 
 	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
 		If e.KeyCode = Keys.F12 And e.Shift Then
+			Dim aPath As String
+			aPath = FileName
+			If aPath <> "" Then
+				Dim i As Integer
+				i = aPath.LastIndexOf("\")
+				If i <> 0 Then
+					aPath = aPath.Substring(0, i + 1)
+				End If
+			End If
 			If f.format.StartsWith("A4") Then
 				Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
 				Dim Gf As Graphics = Me.CreateGraphics
@@ -1289,7 +1345,7 @@ StartFile:
 					g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603, 888)), GraphicsUnit.Pixel)
 				End Using
 
-				img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+				img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
 				zx = 0
 				zy = 0
 			End If
@@ -1305,7 +1361,7 @@ StartFile:
 					g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
 				End Using
 
-				img.Save(f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+				img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
 				zx = 0
 				zy = 0
 			End If
@@ -1361,7 +1417,7 @@ StartFile:
 		ProgressBar.Location = New System.Drawing.Point(b, a)
 	End Sub
 
-	Public Sub OnConnect(n1 As Integer, n2 As Integer)
+	Public Function OnConnect(n1 As Integer, n2 As Integer) As Boolean
 		Dim eComp As EComponent
 		Dim p01, p02 As EPoint
 		eComp = Elements(n1)
@@ -1376,20 +1432,28 @@ StartFile:
 		Dim p02Ck As Integer = p02.CheckSig(0)
 
 		'НИЖЕ ВСЯ ЛОГИКА СОЕДИНЕНИЯ
-		If p01C <> 0 Then 'Тут пока временное говно - Сейчас создание замкнутого контура не выдает ошибку
-			If p02C = 0 Then
-				pointsInProcess.Clear()
-				p02.Change(0, p01C)
-			End If
-
+		If p01Ck = p02Ck Then
+			p01.links.Add(p02.num)
+			p02.links.Add(p01.num)
+			'Для проверки на замкнутость контура
+			pointsInProcess.Clear()
+			p01Ck = p01.CheckSig(0)
 		Else
-			If p02C <> 0 Then
+			If p01Ck = 0 Then
 				pointsInProcess.Clear()
-				p01.Change(0, p02C)
+				p01.Change(p02.num, p02Ck)
+			ElseIf p02Ck = 0 Then
+				pointsInProcess.Clear()
+				p02.Change(p01.num, p01Ck)
+			Else
+				MsgBox("Замыкание цепь " + CStr(p01Ck) + " и цепь " + CStr(p02Ck) + vbCrLf + "", vbCritical, "Ошибка в схеме")
+				Return False
 			End If
+			p01.links.Add(p02.num)
+			p02.links.Add(p01.num)
 		End If
-		'В конце соединить точки (links.add)
-	End Sub
+		Return True
+	End Function
 
 	Public Sub DisConnect(n1 As Integer, n2 As Integer)
 		Dim eComp As EComponent

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class eBat
+Partial Class EResist
 	Inherits System.Windows.Forms.UserControl
 
 	'Пользовательский элемент управления (UserControl) переопределяет метод Dispose для очистки списка компонентов.
@@ -23,40 +23,51 @@ Partial Class eBat
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
 		Me.components = New System.ComponentModel.Container()
-		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(eBat))
-		Me.ContextMenu1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-		Me.ЗадатьНапряжениеToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EResist))
+		Me.PictureBox1 = New System.Windows.Forms.PictureBox()
 		Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+		Me.ContextMenu1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+		Me.ЗадатьToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.ContextMenu1.SuspendLayout()
 		Me.SuspendLayout()
 		'
+		'PictureBox1
+		'
+		Me.PictureBox1.Location = New System.Drawing.Point(4, 5)
+		Me.PictureBox1.Name = "PictureBox1"
+		Me.PictureBox1.Size = New System.Drawing.Size(15, 30)
+		Me.PictureBox1.TabIndex = 0
+		Me.PictureBox1.TabStop = False
+		'
 		'ContextMenu1
 		'
-		Me.ContextMenu1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ЗадатьНапряжениеToolStripMenuItem})
+		Me.ContextMenu1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ЗадатьToolStripMenuItem})
 		Me.ContextMenu1.Name = "ContextMenuStrip1"
-		Me.ContextMenu1.Size = New System.Drawing.Size(182, 48)
+		Me.ContextMenu1.Size = New System.Drawing.Size(199, 26)
 		'
-		'ЗадатьНапряжениеToolStripMenuItem
+		'ЗадатьToolStripMenuItem
 		'
-		Me.ЗадатьНапряжениеToolStripMenuItem.Name = "ЗадатьНапряжениеToolStripMenuItem"
-		Me.ЗадатьНапряжениеToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
-		Me.ЗадатьНапряжениеToolStripMenuItem.Text = "Задать напряжение"
+		Me.ЗадатьToolStripMenuItem.Name = "ЗадатьToolStripMenuItem"
+		Me.ЗадатьToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+		Me.ЗадатьToolStripMenuItem.Text = "Задать сопротивление"
 		'
-		'eBat
+		'EResist
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
-		Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-		Me.DoubleBuffered = True
-		Me.Name = "eBat"
-		Me.Size = New System.Drawing.Size(50, 32)
+		Me.Controls.Add(Me.PictureBox1)
+		Me.Name = "EResist"
+		Me.Size = New System.Drawing.Size(30, 40)
+		CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ContextMenu1.ResumeLayout(False)
 		Me.ResumeLayout(False)
 
 	End Sub
 
-	Friend WithEvents ContextMenu1 As ContextMenuStrip
-	Friend WithEvents ЗадатьНапряжениеToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PictureBox1 As PictureBox
 	Friend WithEvents ToolTip1 As ToolTip
+	Friend WithEvents ContextMenu1 As ContextMenuStrip
+	Friend WithEvents ЗадатьToolStripMenuItem As ToolStripMenuItem
 End Class
