@@ -18,4 +18,5 @@
 	Public utv As String
 	'Настройки приложения
 	Public left As Integer
+	Public Batt As Integer
 End Class

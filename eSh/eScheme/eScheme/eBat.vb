@@ -7,13 +7,15 @@ Public Class eBat
 	Public Y As Integer
 	Public num As Integer
 	Public U As Integer
+	Public I As Single
 
-	Public Sub New(rx As Integer, ry As Integer, n As Integer, u_ As Integer)
+	Public Sub New(rx As Integer, ry As Integer, n As Integer, u_ As Integer, i_ As Single)
 		InitializeComponent()
 		X = rx
 		Y = ry
 		num = n
 		U = u_
+		I = i_
 		Cursor = Form1.element_cur
 		Dim eComp As EComponent
 		Dim econ As IConnectable
@@ -90,7 +92,8 @@ Public Class eBat
 			num,
 			X,
 			Y,
-			U
+			U,
+			I
 		}
 		Return save
 	End Function
@@ -113,7 +116,7 @@ Public Class eBat
 	End Sub
 
 	Private Sub EBat_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter
-		ToolTip1.SetToolTip(Me, "Напряжение " + CStr(U) + "В")
+		ToolTip1.SetToolTip(Me, "Напряжение " + CStr(U) + "В" + vbCrLf + "Ток потребления " + CStr(Math.Round(I, 3)) + " A")
 	End Sub
 
 	Private Sub ЗадатьНапряжениеToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ЗадатьНапряжениеToolStripMenuItem.Click
@@ -127,5 +130,17 @@ Public Class eBat
 	Public Sub SetValue(value As Integer) Implements ISetValue.SetValue
 		U = value
 		Form1.NeedSave = True
+		Form1.pointsInProcess.Clear()
+		CheckUI(0, 0, 0)
 	End Sub
+
+	Public Function CheckUI(from As Integer, U_ As Single, Optional t As Integer = 0) As Single Implements IConnectable.CheckUI
+		Dim q As ArrayList = Form1.Elements
+		Dim eComp As EComponent = Form1.Elements(num + 2)
+		Dim p1 As EPoint = eComp.component
+		eComp = Form1.Elements(num + 3)
+		Dim p2 As EPoint = eComp.component
+		I = p1.CheckUI(num, CSng(U)) + p2.CheckUI(num, CSng(U))
+		Return 0
+	End Function
 End Class

@@ -909,12 +909,17 @@ Public Class Form1
 			createConnect.MouseClick(rx, ry)
 		End If
 		If Mode = "eBat" Then
+			If f.Batt > 0 Then
+				MsgBox("Допускается только один источник питания в схеме.")
+				Exit Sub
+			End If
 			Dim eComp As New EComponent With {
 							.aType = "eBat",
 							.numInArray = Elements.Count
-						}
+													}
+			f.Batt = eComp.numInArray
 			Elements.Add(eComp)
-			Dim bat As New eBat(rx, ry, eComp.numInArray, Udefault)
+			Dim bat As New eBat(rx, ry, eComp.numInArray, Udefault, 0)
 			Me.Controls.Add(bat)
 			eComp.component = bat
 
@@ -930,7 +935,7 @@ Public Class Form1
 							.numInArray = Elements.Count
 						}
 			Elements.Add(eComp)
-			Dim eResist As New EResist(rx, ry, eComp.numInArray, Rdefault, False)
+			Dim eResist As New EResist(rx, ry, eComp.numInArray, Rdefault, False, 0)
 			Me.Controls.Add(eResist)
 			eComp.component = eResist
 
@@ -987,6 +992,9 @@ Public Class Form1
 		Next
 		Elements.Clear()
 		Elements.Add(Nothing)
+		f.Batt = 0
+		pointsInProcess.Clear()
+
 		Dim theLine As IRemovable
 		For i = 0 To a.Count - 1
 			theLine = a(i)
@@ -1163,6 +1171,8 @@ StartFile:
 		Next
 		Elements.Clear()
 		Elements.Add(Nothing)
+		f.Batt = 0
+		pointsInProcess.Clear()
 
 		Dim saveArray As ArrayList
 		Try
@@ -1208,7 +1218,7 @@ StartFile:
 				End If
 				'eLine
 				If aComp(0) = "eLine" Then
-					Dim line As New eLine(aComp(2), aComp(3), aComp(4), aComp(5), aComp(1)) With {
+					Dim line As New eLine(aComp(2), aComp(3), aComp(4), aComp(5), aComp(1), aComp(8), aComp(9)) With {
 						.links = aComp(6),
 						.Condition = aComp(7)
 					}
@@ -1222,7 +1232,7 @@ StartFile:
 				End If
 				'eBat
 				If aComp(0) = "eBat" Then
-					Dim bat As New eBat(aComp(2), aComp(3), aComp(1), aComp(4))
+					Dim bat As New eBat(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
 					eComp = New EComponent With {
 						.aType = "eBat",
 						.numInArray = bat.num,
@@ -1233,7 +1243,7 @@ StartFile:
 				End If
 				'eBat
 				If aComp(0) = "eResist" Then
-					Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
+					Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
 					eComp = New EComponent With {
 						.aType = "eBat",
 						.numInArray = res.num,
@@ -1417,7 +1427,20 @@ StartFile:
 		ProgressBar.Location = New System.Drawing.Point(b, a)
 	End Sub
 
+	Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
+		If f.Batt > 0 Then
+			LabelSig.BackColor = Color.Red
+			Application.DoEvents()
+			Dim eComp As EComponent = Elements(f.Batt)
+			Dim bat As eBat = eComp.component
+			bat.CheckUI(0, 0)
+			LabelSig.BackColor = Color.White
+		End If
+	End Sub
+
 	Public Function OnConnect(n1 As Integer, n2 As Integer) As Boolean
+		LabelSig.BackColor = Color.Red
+		Application.DoEvents()
 		Dim eComp As EComponent
 		Dim p01, p02 As EPoint
 		eComp = Elements(n1)
@@ -1452,10 +1475,20 @@ StartFile:
 			p01.links.Add(p02.num)
 			p02.links.Add(p01.num)
 		End If
+		LabelSig.BackColor = Color.White
+		If f.Batt > 0 Then
+			eComp = Elements(f.Batt)
+			Dim bat As eBat = eComp.component
+			pointsInProcess.Clear()
+			bat.CheckUI(0, 0)
+		End If
+
 		Return True
 	End Function
 
 	Public Sub DisConnect(n1 As Integer, n2 As Integer)
+		LabelSig.BackColor = Color.Red
+		Application.DoEvents()
 		Dim eComp As EComponent
 		Dim p01, p02 As EPoint
 		eComp = Elements(n1)
@@ -1474,10 +1507,25 @@ StartFile:
 		If p01Ck = 0 And p01C <> 0 Then
 			pointsInProcess.Clear()
 			p01.Change(0, 0)
+			If f.Batt > 0 Then
+				pointsInProcess.Clear()
+				p01.CheckUI(0, 0, 0)
+			End If
 		End If
 		If p02Ck = 0 And p02C <> 0 Then
 			pointsInProcess.Clear()
 			p02.Change(0, 0)
+			If f.Batt > 0 Then
+				pointsInProcess.Clear()
+				p02.CheckUI(0, 0, 0)
+			End If
+		End If
+		LabelSig.BackColor = Color.White
+		If f.Batt > 0 Then
+			eComp = Elements(f.Batt)
+			pointsInProcess.Clear()
+			Dim bat As eBat = eComp.component
+			bat.CheckUI(0, 0)
 		End If
 	End Sub
 End Class

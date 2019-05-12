@@ -121,7 +121,7 @@ Public Class EAddLinesAndPoints
 				.numInArray = Form1.Elements.Count
 			}
 			Form1.Elements.Add(eComp)
-			Dim line As New eLine(pt1.X, pt1.Y, pt2.X, pt2.Y, eComp.numInArray)
+			Dim line As New eLine(pt1.X, pt1.Y, pt2.X, pt2.Y, eComp.numInArray, 0, 0)
 			Form1.Controls.Add(line)
 			eComp.component = line 'Линия
 			'=====================

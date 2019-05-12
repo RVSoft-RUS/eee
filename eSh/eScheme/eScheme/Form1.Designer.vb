@@ -110,6 +110,8 @@ Partial Class Form1
 		Me.lblKF_A3 = New System.Windows.Forms.Label()
 		Me.TextBox1 = New System.Windows.Forms.TextBox()
 		Me.ProgressBar = New System.Windows.Forms.ProgressBar()
+		Me.LabelSig = New System.Windows.Forms.Label()
+		Me.Button1 = New System.Windows.Forms.Button()
 		Me.GroupBox1.SuspendLayout()
 		CType(Me.PictureBox_Resist, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.PictureBox_Delete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -143,6 +145,7 @@ Partial Class Form1
 		'GroupBox1
 		'
 		Me.GroupBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.GroupBox1.Controls.Add(Me.Button1)
 		Me.GroupBox1.Controls.Add(Me.PictureBox_Resist)
 		Me.GroupBox1.Controls.Add(Me.Label_A4)
 		Me.GroupBox1.Controls.Add(Me.PictureBox_Delete)
@@ -1026,12 +1029,32 @@ Partial Class Form1
 		Me.ProgressBar.UseWaitCursor = True
 		Me.ProgressBar.Visible = False
 		'
+		'LabelSig
+		'
+		Me.LabelSig.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.LabelSig.AutoSize = True
+		Me.LabelSig.Location = New System.Drawing.Point(779, 26)
+		Me.LabelSig.Name = "LabelSig"
+		Me.LabelSig.Size = New System.Drawing.Size(16, 13)
+		Me.LabelSig.TabIndex = 35
+		Me.LabelSig.Text = "   "
+		'
+		'Button1
+		'
+		Me.Button1.Location = New System.Drawing.Point(6, 501)
+		Me.Button1.Name = "Button1"
+		Me.Button1.Size = New System.Drawing.Size(47, 23)
+		Me.Button1.TabIndex = 35
+		Me.Button1.Text = "Button1"
+		Me.Button1.UseVisualStyleBackColor = True
+		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
 		Me.ClientSize = New System.Drawing.Size(883, 917)
+		Me.Controls.Add(Me.LabelSig)
 		Me.Controls.Add(Me.ProgressBar)
 		Me.Controls.Add(Me.TextBox1)
 		Me.Controls.Add(Me.lblKF_A3)
@@ -1206,4 +1229,6 @@ Partial Class Form1
 	Friend WithEvents ProgressBar As ProgressBar
 	Friend WithEvents EBat2 As eBat
 	Friend WithEvents PictureBox_Resist As PictureBox
+	Friend WithEvents LabelSig As Label
+	Friend WithEvents Button1 As Button
 End Class

@@ -1,4 +1,6 @@
-﻿Public Class EGND
+﻿Imports eScheme
+
+Public Class EGND
 	Implements IConnectable
 	Public X As Integer
 	Public Y As Integer
@@ -57,5 +59,9 @@
 
 	Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
 		Return -1
+	End Function
+
+	Public Function CheckUI(from As Integer, U As Single, Optional t As Integer = 0) As Single Implements IConnectable.CheckUI
+		Return 0
 	End Function
 End Class

@@ -8,16 +8,18 @@ Public Class EResist
 	Public num As Integer
 	Public R As Integer
 	Public work As Boolean
+	Public Ia As Single
 	Private c1 As Integer = 0
 	Private c2 As Integer = 0
 
-	Public Sub New(rx As Integer, ry As Integer, n As Integer, r_ As Integer, work_ As Boolean)
+	Public Sub New(rx As Integer, ry As Integer, n As Integer, r_ As Integer, work_ As Boolean, ia_ As Single)
 		InitializeComponent()
 		X = rx
 		Y = ry
 		num = n
 		R = r_
 		work = work_
+		Ia = ia_
 		PaintMe()
 		Cursor = Form1.element_cur
 		Dim eComp As EComponent
@@ -81,7 +83,8 @@ Public Class EResist
 			X,
 			Y,
 			R,
-			work
+			work,
+			Ia
 		}
 		Return save
 	End Function
@@ -122,4 +125,26 @@ Public Class EResist
 		End If
 	End Sub
 
+	Public Function CheckUI(from As Integer, U As Single, Optional r_ As Integer = 0) As Single Implements IConnectable.CheckUI
+		Dim from_ As Integer = num + 1
+		Dim to_ As Integer = num + 2
+		If from = num + 2 Then
+			from_ = num + 2
+			to_ = num + 1
+		End If
+		Dim eComp As EComponent = Form1.Elements(to_)
+		Dim p1 As EPoint = eComp.component
+		Dim asd As ArrayList = Form1.pointsInProcess
+		Form1.pointsInProcess.Clear()
+		If p1.CheckSig(num) = -1 Then
+			Ia = U / (R + r_)
+			Form1.pointsInProcess.Clear()
+			p1.CheckUI(num, 0, 0)
+			Return Ia
+		Else
+			Form1.pointsInProcess.Clear()
+			Ia = p1.CheckUI(num, U, R + r_)
+			Return Ia
+		End If
+	End Function
 End Class

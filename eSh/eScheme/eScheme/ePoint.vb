@@ -248,7 +248,7 @@ Imports eScheme
 		Dim asd As ArrayList = Form1.pointsInProcess
 		If Form1.pointsInProcess.Contains(num) Then
 			MsgBox("Не допускаестся создание замкнутых контуров." +
-				   vbCrLf + "Удалите лишние связи.", vbCritical, "Ошибка в схеме")
+				   vbCrLf + "Удалите лишние связи.", vbCritical, "Ошибка в схеме #Sig")
 			Return num + 1000000
 		Else
 			Form1.pointsInProcess.Add(num)
@@ -275,4 +275,28 @@ Imports eScheme
 		Return 0
 	End Function
 
+	Public Function CheckUI(from As Integer, U As Single, Optional t As Integer = 0) As Single Implements IConnectable.CheckUI
+		Dim asd As ArrayList = Form1.pointsInProcess
+		If Form1.pointsInProcess.Contains(num) Then
+			MsgBox("Не допускаестся создание замкнутых контуров." +
+				   vbCrLf + "Удалите лишние связи.", vbCritical, "Ошибка в схеме #UI")
+			Return num + 1000000
+		Else
+			Form1.pointsInProcess.Add(num)
+		End If
+		'в точку from вернуть сумму токов из остальных точек
+		Dim iis As New ArrayList
+		For j = 0 To links.Count - 1
+			If links(j) <> from Then
+				Dim eComp As EComponent = Form1.Elements(links(j))
+				Dim iConn As IConnectable = eComp.component
+				iis.Add(iConn.CheckUI(num, U, t))
+			End If
+		Next
+		Dim I As Single = 0
+		For j = 0 To iis.Count - 1
+			I += iis(j)
+		Next
+		Return I
+	End Function
 End Class

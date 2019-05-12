@@ -3,6 +3,6 @@ logs/
 
 #txt files
 *.txt
-*.lock
-*.exe
+./*.lock
+./*.exe
 .vs/

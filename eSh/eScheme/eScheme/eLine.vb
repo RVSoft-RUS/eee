@@ -10,8 +10,11 @@ Public Class eLine
 	Public links As New ArrayList
 	Public Condition_ As Integer
 	Public num As Integer
+	Public Ia As Single
+	Public U As Single
+
 	'Dim Left As
-	Public Sub New(rx1 As Integer, ry1 As Integer, rx2 As Integer, ry2 As Integer, n As Integer)
+	Public Sub New(rx1 As Integer, ry1 As Integer, rx2 As Integer, ry2 As Integer, n As Integer, I_ As Single, u_ As Single)
 		' Этот вызов является обязательным для конструктора.
 		InitializeComponent()
 		' Добавить код инициализации после вызова InitializeComponent().
@@ -45,6 +48,8 @@ Public Class eLine
 			Me.Height = Y2 - Y1 - 10
 		End If
 		Condition = 0
+		Ia = I_
+		U = u_
 		Cursor = Form1.line_cur
 	End Sub
 
@@ -62,13 +67,14 @@ Public Class eLine
 				Case 15, 16
 					clr = Form1.color15
 					s = "Сигнал +15"
+					s = s + vbCrLf + "Ток " + CStr(Math.Round(Ia, 3)) + " A" + vbCrLf + "Напряжение " + CStr(Math.Round(U, 3)) + " В"
 				Case 30, 31
 					clr = Form1.color30
 					s = "Сигнал +30"
+					s = s + vbCrLf + "Ток " + CStr(Math.Round(Ia, 3)) + " A" + vbCrLf + "Напряжение " + CStr(Math.Round(U, 3)) + " В"
 			End Select
 			Me.BackColor = clr
 			ToolTip1.SetToolTip(Me, s)
-			Tag = s
 		End Set
 		Get
 			Return Condition_
@@ -87,14 +93,16 @@ Public Class eLine
 			Case 15, 16
 				clr = Form1.color15
 				s = "Сигнал +15"
+				s = s + vbCrLf + "Ток " + CStr(Math.Round(Ia, 3)) + " A" + vbCrLf + "Напряжение " + CStr(Math.Round(U, 3)) + " В"
 			Case 30, 31
 				clr = Form1.color30
 				s = "Сигнал +30"
+				s = s + vbCrLf + "Ток " + CStr(Math.Round(Ia, 3)) + " A" + vbCrLf + "Напряжение " + CStr(Math.Round(U, 3)) + " В"
 		End Select
+
 		Me.Condition_ = condition_
 		Me.BackColor = clr
 		ToolTip1.SetToolTip(Me, s)
-		Tag = s
 		'Отправление дальше
 		For i = 0 To links.Count - 1
 			If links(i) <> from Then
@@ -138,7 +146,9 @@ Public Class eLine
 			X2,
 			Y2,
 			links,
-			Condition_
+			Condition_,
+			Ia,
+			U
 		}
 		Return save
 	End Function
@@ -170,7 +180,7 @@ Public Class eLine
 				}
 				Form1.Elements.Add(eComp)
 
-				Dim line As New eLine(Form1.rx, Form1.ry, X2, Y2, eComp.numInArray)
+				Dim line As New eLine(Form1.rx, Form1.ry, X2, Y2, eComp.numInArray, 0, 0)
 				Form1.Controls.Add(line)
 				eComp.component = line
 				line.Condition = Condition_
@@ -219,7 +229,7 @@ Public Class eLine
 				}
 				Form1.Elements.Add(eComp)
 
-				Dim line As New eLine(Form1.rx, Form1.ry, X2, Y2, eComp.numInArray)
+				Dim line As New eLine(Form1.rx, Form1.ry, X2, Y2, eComp.numInArray, 0, 0)
 				Form1.Controls.Add(line)
 				eComp.component = line
 				line.Condition = Condition_
@@ -316,7 +326,40 @@ Public Class eLine
 
 		Else
 			Cursor = Form1.line_cur
-			ToolTip1.SetToolTip(Me, Tag)
+			Dim s As String = ""
+			Select Case Condition_
+				Case -1, -2
+					clr = Form1.colorM
+					s = "Масса"
+				Case 0
+					clr = Form1.color0
+					s = "Нет сигнала"
+				Case 15, 16
+					clr = Form1.color15
+					s = "Сигнал +15"
+					s = s + vbCrLf + "Ток " + CStr(Math.Round(Ia, 3)) + " A" + vbCrLf + "Напряжение " + CStr(Math.Round(U, 3)) + " В"
+				Case 30, 31
+					clr = Form1.color30
+					s = "Сигнал +30"
+					s = s + vbCrLf + "Ток " + CStr(Math.Round(Ia, 3)) + " A" + vbCrLf + "Напряжение " + CStr(Math.Round(U, 3)) + " В"
+			End Select
+
+			Me.Condition_ = Condition_
+			Me.BackColor = clr
+			ToolTip1.SetToolTip(Me, s)
 		End If
 	End Sub
+
+	Public Function CheckUI(from As Integer, U_ As Single, Optional t As Integer = 0) As Single Implements IConnectable.CheckUI
+		For j = 0 To links.Count - 1
+			If links(j) <> from Then
+				Dim eComp As EComponent = Form1.Elements(links(j))
+				Dim p1 As EPoint = eComp.component
+				Ia = p1.CheckUI(num, U_, t)
+				U = U_ - Ia * t
+				Return Ia
+			End If
+		Next
+		Return Ia
+	End Function
 End Class
