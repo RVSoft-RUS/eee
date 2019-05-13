@@ -32,8 +32,8 @@ Public Class EGND
 			eComp = Form1.Elements(num + 1)
 			econ = eComp.component
 			econ.Change(num, -1)
-			Form1.TextBox1.Text &= "eGND #" + CStr(num) + " changed (1) point" + vbCrLf
-		End If
+            'Form1.TextBox1.Text &= "eGND #" + CStr(num) + " changed (1) point" + vbCrLf
+        End If
 	End Sub
 
 	Public Sub Change(from As Integer, condition As Integer) Implements IConnectable.Change

@@ -91,6 +91,12 @@
     </Compile>
     <Compile Include="eComponent.vb" />
     <Compile Include="eFormat.vb" />
+    <Compile Include="eFuse.Designer.vb">
+      <DependentUpon>eFuse.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eFuse.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="eGND.Designer.vb">
       <DependentUpon>eGND.vb</DependentUpon>
     </Compile>
@@ -135,6 +141,7 @@
     <Compile Include="hLine.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="iLinked.vb" />
     <Compile Include="ISetValue.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -165,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="eBat.resx">
       <DependentUpon>eBat.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eFuse.resx">
+      <DependentUpon>eFuse.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="eGND.resx">
       <DependentUpon>eGND.vb</DependentUpon>

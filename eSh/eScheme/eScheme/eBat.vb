@@ -64,8 +64,8 @@ Public Class eBat
 			econ = eComp.component
 			econ.Change(num, 30)
 
-			Form1.TextBox1.Text &= "eBat #" + CStr(num) + " changed (3) points" + vbCrLf
-		End If
+            'Form1.TextBox1.Text &= "eBat #" + CStr(num) + " changed (3) points" + vbCrLf
+        End If
 
 	End Sub
 
@@ -130,8 +130,8 @@ Public Class eBat
 	Public Sub SetValue(value As Integer) Implements ISetValue.SetValue
 		U = value
 		Form1.NeedSave = True
-		Form1.pointsInProcess.Clear()
-		CheckUI(0, 0, 0)
+        Form1.pointsInProcessUI.Clear()
+        CheckUI(0, 0, 0)
 	End Sub
 
 	Public Function CheckUI(from As Integer, U_ As Single, Optional t As Integer = 0) As Single Implements IConnectable.CheckUI
