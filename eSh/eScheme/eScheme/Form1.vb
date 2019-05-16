@@ -951,20 +951,20 @@ Public Class Form1
         End If
         If Mode = "newPoint" Then
             'Создание пустой точки потом запретить!!!!!!!!!!!!!!!!!!!!!!
-            'Dim eComp As New EComponent With {
-            '    .aType = "ePoint",
-            '    .numInArray = Elements.Count
-            '}
-            'Elements.Add(eComp)
-            'Dim p As New EPoint(rx, ry, eComp.numInArray)
-            'Me.Controls.Add(p)
-            'eComp.component = p
+            Dim eComp As New EComponent With {
+                .aType = "ePoint",
+                .numInArray = Elements.Count
+            }
+            Elements.Add(eComp)
+            Dim p As New EPoint(rx, ry, eComp.numInArray)
+            Me.Controls.Add(p)
+            eComp.component = p
 
-            'Mode = ""
-            'GroupBox1.Visible = True
-            'CheckBox2.Visible = True
-            'Me.Cursor = Cursors.Default
-            'NeedSave = True
+            Mode = ""
+            GroupBox1.Visible = True
+            CheckBox2.Visible = True
+            Me.Cursor = Cursors.Default
+            NeedSave = True
             '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         End If
         If Mode = "createConnect1" Then
@@ -1463,7 +1463,9 @@ StartFile:
     End Sub
 
     Sub HidePanel()
-        lastMode = Mode
+        If Mode <> "Delete" Then
+            lastMode = Mode
+        End If
         If Mode <> "" Then
             GroupBox1.Visible = False
             CheckBox2.Visible = False
@@ -1767,7 +1769,6 @@ StartFile:
             pointsInProcessUI.Clear()
             bat.CheckUI(0, 0)
         End If
-
         Return True
     End Function
 

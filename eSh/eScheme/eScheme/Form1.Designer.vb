@@ -178,7 +178,8 @@ Partial Class Form1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Элемент"
         Me.ToolTip1.SetToolTip(Me.GroupBox1, "F4 - для повторного использования последнего элемента" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Esc или ПКМ - отмена разме" &
-        "щения элемента" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "R - поворот при размещении" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "F5 - перерасчет токов/напряжений")
+        "щения элемента" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "R - поворот при размещении" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Shift-F12 - сохранение изображения *" &
+        ".png" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "F5 - перерасчет токов/напряжений")
         '
         'PictureBox_eComment
         '
