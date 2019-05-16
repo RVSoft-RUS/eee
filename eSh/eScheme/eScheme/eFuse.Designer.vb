@@ -29,10 +29,16 @@ Partial Class eFuse
         Me.PictureBoxHC = New System.Windows.Forms.PictureBox()
         Me.PictureBoxVC = New System.Windows.Forms.PictureBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.ContextMenu1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.УдалитьПредохранительToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ВставитьПредохранительToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.PictureBoxH, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBoxV, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBoxHC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBoxVC, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenu1.SuspendLayout()
         Me.SuspendLayout()
         '
         'PictureBoxH
@@ -77,6 +83,34 @@ Partial Class eFuse
         Me.PictureBoxVC.TabStop = False
         Me.PictureBoxVC.Visible = False
         '
+        'Timer1
+        '
+        Me.Timer1.Interval = 500
+        '
+        'ContextMenu1
+        '
+        Me.ContextMenu1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.УдалитьПредохранительToolStripMenuItem, Me.ВставитьПредохранительToolStripMenuItem})
+        Me.ContextMenu1.Name = "ContextMenuStrip1"
+        Me.ContextMenu1.Size = New System.Drawing.Size(215, 92)
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(214, 22)
+        Me.ToolStripMenuItem1.Text = "Задать номинал"
+        '
+        'УдалитьПредохранительToolStripMenuItem
+        '
+        Me.УдалитьПредохранительToolStripMenuItem.Name = "УдалитьПредохранительToolStripMenuItem"
+        Me.УдалитьПредохранительToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.УдалитьПредохранительToolStripMenuItem.Text = "Удалить предохранитель"
+        '
+        'ВставитьПредохранительToolStripMenuItem
+        '
+        Me.ВставитьПредохранительToolStripMenuItem.Name = "ВставитьПредохранительToolStripMenuItem"
+        Me.ВставитьПредохранительToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.ВставитьПредохранительToolStripMenuItem.Text = "Вставить предохранитель"
+        '
         'eFuse
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -92,6 +126,7 @@ Partial Class eFuse
         CType(Me.PictureBoxV, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBoxHC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBoxVC, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenu1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -101,4 +136,9 @@ Partial Class eFuse
     Friend WithEvents PictureBoxHC As PictureBox
     Friend WithEvents PictureBoxVC As PictureBox
     Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents Timer1 As Timer
+    Friend WithEvents ContextMenu1 As ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents УдалитьПредохранительToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ВставитьПредохранительToolStripMenuItem As ToolStripMenuItem
 End Class

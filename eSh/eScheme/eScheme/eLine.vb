@@ -294,21 +294,28 @@ Public Class eLine
     End Sub
 
     Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
-        Dim linkForCheck As Integer
-        For i = 0 To links.Count - 1
-            If links(i) <> from Then
-                If links(i) <> 0 Then
-                    linkForCheck = links(i)
+        Try
+            Dim linkForCheck As Integer
+            For i = 0 To links.Count - 1
+                If links(i) <> from Then
+                    If links(i) <> 0 Then
+                        linkForCheck = links(i)
+                    End If
                 End If
-            End If
-        Next
-        'Отправление дальше
-        'Form1.TextBox1.Text &= "check from line " + CStr(num) + " to " + CStr(linkForCheck) + vbCrLf
-        Dim eComp As EComponent
-        Dim econ As IConnectable
-        eComp = Form1.Elements(linkForCheck)
-        econ = eComp.component
-        Return econ.CheckSig(num)
+            Next
+            'Отправление дальше
+            'Form1.TextBox1.Text &= "check from line " + CStr(num) + " to " + CStr(linkForCheck) + vbCrLf
+            Dim eComp As EComponent
+            Dim econ As IConnectable
+            eComp = Form1.Elements(linkForCheck)
+            econ = eComp.component
+            Return econ.CheckSig(num)
+        Catch ex As Exception
+            MsgBox("Не допускаестся создание замкнутых контуров." +
+                   vbCrLf + "Удалите лишние связи.", vbCritical, "Ошибка в схеме #Sig_Line")
+            Return 0
+        End Try
+
     End Function
 
     Public Function Loc() As String

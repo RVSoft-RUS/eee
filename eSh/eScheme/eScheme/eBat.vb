@@ -6,8 +6,8 @@ Public Class eBat
 	Public X As Integer
 	Public Y As Integer
 	Public num As Integer
-	Public U As Integer
-	Public I As Single
+    Public U As Single
+    Public I As Single
 
 	Public Sub New(rx As Integer, ry As Integer, n As Integer, u_ As Integer, i_ As Single)
 		InitializeComponent()
@@ -124,23 +124,28 @@ Public Class eBat
 		DialogForm.Show(Me)
 		DialogForm.Left = X + Form1.Left
 		DialogForm.Top = Y + Form1.Top
-		DialogForm.OnView("Напряжение источника питания, В", Me)
-	End Sub
+        DialogForm.OnView("Напряжение источника питания, В", Me, U.ToString)
+    End Sub
 
-	Public Sub SetValue(value As Integer) Implements ISetValue.SetValue
-		U = value
-		Form1.NeedSave = True
+    Public Sub SetValue(value As Single) Implements ISetValue.SetValue
+        U = value
+        Form1.NeedSave = True
         Form1.pointsInProcessUI.Clear()
         CheckUI(0, 0, 0)
-	End Sub
+    End Sub
 
-	Public Function CheckUI(from As Integer, U_ As Single, Optional t As Integer = 0) As Single Implements IConnectable.CheckUI
-		Dim q As ArrayList = Form1.Elements
-		Dim eComp As EComponent = Form1.Elements(num + 2)
-		Dim p1 As EPoint = eComp.component
+    Public Function CheckUI(from As Integer, U_ As Single, Optional t As Integer = 0) As Single Implements IConnectable.CheckUI
+        Dim q As ArrayList = Form1.Elements
+        Form1.LabelSig.BackColor = Color.Violet
+        Form1.isCheckUI = True
+        Application.DoEvents()
+        Dim eComp As EComponent = Form1.Elements(num + 2)
+        Dim p1 As EPoint = eComp.component
 		eComp = Form1.Elements(num + 3)
 		Dim p2 As EPoint = eComp.component
-		I = p1.CheckUI(num, CSng(U)) + p2.CheckUI(num, CSng(U))
-		Return 0
+        I = p1.CheckUI(num, CSng(U)) + p2.CheckUI(num, CSng(U))
+        Form1.LabelSig.BackColor = Color.White
+        Form1.isCheckUI = False
+        Return 0
 	End Function
 End Class

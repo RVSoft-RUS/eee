@@ -89,6 +89,12 @@
     <Compile Include="eBat.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="eBorderText.Designer.vb">
+      <DependentUpon>eBorderText.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eBorderText.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="eComponent.vb" />
     <Compile Include="eFormat.vb" />
     <Compile Include="eFuse.Designer.vb">
@@ -119,6 +125,18 @@
       <DependentUpon>eResist.vb</DependentUpon>
     </Compile>
     <Compile Include="eResist.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="eText.Designer.vb">
+      <DependentUpon>eText.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eText.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="eTextC.Designer.vb">
+      <DependentUpon>eTextC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eTextC.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Form1.vb">
@@ -173,6 +191,9 @@
     <EmbeddedResource Include="eBat.resx">
       <DependentUpon>eBat.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="eBorderText.resx">
+      <DependentUpon>eBorderText.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="eFuse.resx">
       <DependentUpon>eFuse.vb</DependentUpon>
     </EmbeddedResource>
@@ -187,6 +208,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="eResist.resx">
       <DependentUpon>eResist.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eText.resx">
+      <DependentUpon>eText.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eTextC.resx">
+      <DependentUpon>eTextC.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>

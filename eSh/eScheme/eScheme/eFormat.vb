@@ -18,5 +18,6 @@
 	Public utv As String
 	'Настройки приложения
 	Public left As Integer
-	Public Batt As Integer
+    Public Batt As Integer
+    Public showComments As Boolean = True
 End Class

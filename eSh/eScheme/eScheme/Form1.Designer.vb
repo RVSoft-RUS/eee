@@ -25,6 +25,7 @@ Partial Class Form1
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.PictureBox_eComment = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.PictureBox_Resist = New System.Windows.Forms.PictureBox()
         Me.Label_A4 = New System.Windows.Forms.Label()
@@ -34,12 +35,12 @@ Partial Class Form1
         Me.PictureBox16 = New System.Windows.Forms.PictureBox()
         Me.PictureBox15 = New System.Windows.Forms.PictureBox()
         Me.PictureBox14 = New System.Windows.Forms.PictureBox()
-        Me.Label4 = New System.Windows.Forms.Label()
+        Me.PictureBox_BorderText = New System.Windows.Forms.Label()
         Me.PictureBox_Fuse = New System.Windows.Forms.PictureBox()
         Me.PictureBox11 = New System.Windows.Forms.PictureBox()
         Me.PictureBox12 = New System.Windows.Forms.PictureBox()
         Me.PictureBox10 = New System.Windows.Forms.PictureBox()
-        Me.Label3 = New System.Windows.Forms.Label()
+        Me.PictureBox_eText = New System.Windows.Forms.Label()
         Me.PictureBox9 = New System.Windows.Forms.PictureBox()
         Me.PictureBox8 = New System.Windows.Forms.PictureBox()
         Me.PictureBox_eBat = New System.Windows.Forms.PictureBox()
@@ -49,6 +50,7 @@ Partial Class Form1
         Me.PictureBox_Provod = New System.Windows.Forms.PictureBox()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.LabelSig = New System.Windows.Forms.Label()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ФайлToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -62,6 +64,8 @@ Partial Class Form1
         Me.СервисToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.НастройкиToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ЛицензияToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.СкрытьКомментарииToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ПоказатьКомментарииToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.СправкаToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.СправкаToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
@@ -111,7 +115,6 @@ Partial Class Form1
         Me.lblKF_A3 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.ProgressBar = New System.Windows.Forms.ProgressBar()
-        Me.LabelSig = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox_Resist, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_Delete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -145,6 +148,7 @@ Partial Class Form1
         'GroupBox1
         '
         Me.GroupBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.PictureBox_eComment)
         Me.GroupBox1.Controls.Add(Me.Button1)
         Me.GroupBox1.Controls.Add(Me.PictureBox_Resist)
         Me.GroupBox1.Controls.Add(Me.Label_A4)
@@ -154,12 +158,12 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.PictureBox16)
         Me.GroupBox1.Controls.Add(Me.PictureBox15)
         Me.GroupBox1.Controls.Add(Me.PictureBox14)
-        Me.GroupBox1.Controls.Add(Me.Label4)
+        Me.GroupBox1.Controls.Add(Me.PictureBox_BorderText)
         Me.GroupBox1.Controls.Add(Me.PictureBox_Fuse)
         Me.GroupBox1.Controls.Add(Me.PictureBox11)
         Me.GroupBox1.Controls.Add(Me.PictureBox12)
         Me.GroupBox1.Controls.Add(Me.PictureBox10)
-        Me.GroupBox1.Controls.Add(Me.Label3)
+        Me.GroupBox1.Controls.Add(Me.PictureBox_eText)
         Me.GroupBox1.Controls.Add(Me.PictureBox9)
         Me.GroupBox1.Controls.Add(Me.PictureBox8)
         Me.GroupBox1.Controls.Add(Me.PictureBox_eBat)
@@ -173,6 +177,20 @@ Partial Class Form1
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Элемент"
+        Me.ToolTip1.SetToolTip(Me.GroupBox1, "F4 - для повторного использования последнего элемента" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Esc или ПКМ - отмена разме" &
+        "щения элемента" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "R - поворот при размещении" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "F5 - перерасчет токов/напряжений")
+        '
+        'PictureBox_eComment
+        '
+        Me.PictureBox_eComment.AutoSize = True
+        Me.PictureBox_eComment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_eComment.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_eComment.Location = New System.Drawing.Point(5, 340)
+        Me.PictureBox_eComment.Name = "PictureBox_eComment"
+        Me.PictureBox_eComment.Size = New System.Drawing.Size(55, 15)
+        Me.PictureBox_eComment.TabIndex = 36
+        Me.PictureBox_eComment.Text = "Коммент"
+        Me.ToolTip1.SetToolTip(Me.PictureBox_eComment, "Добавить комментарий")
         '
         'Button1
         '
@@ -182,6 +200,7 @@ Partial Class Form1
         Me.Button1.TabIndex = 35
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.Visible = False
         '
         'PictureBox_Resist
         '
@@ -203,7 +222,7 @@ Partial Class Form1
         Me.Label_A4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label_A4.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Label_A4.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label_A4.Location = New System.Drawing.Point(5, 379)
+        Me.Label_A4.Location = New System.Drawing.Point(5, 397)
         Me.Label_A4.Name = "Label_A4"
         Me.Label_A4.Size = New System.Drawing.Size(48, 20)
         Me.Label_A4.TabIndex = 33
@@ -289,16 +308,17 @@ Partial Class Form1
         Me.PictureBox14.TabIndex = 26
         Me.PictureBox14.TabStop = False
         '
-        'Label4
+        'PictureBox_BorderText
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label4.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Label4.Location = New System.Drawing.Point(5, 359)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(54, 15)
-        Me.Label4.TabIndex = 25
-        Me.Label4.Text = "-Рамка---"
+        Me.PictureBox_BorderText.AutoSize = True
+        Me.PictureBox_BorderText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_BorderText.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_BorderText.Location = New System.Drawing.Point(5, 378)
+        Me.PictureBox_BorderText.Name = "PictureBox_BorderText"
+        Me.PictureBox_BorderText.Size = New System.Drawing.Size(54, 15)
+        Me.PictureBox_BorderText.TabIndex = 25
+        Me.PictureBox_BorderText.Text = "-Рамка---"
+        Me.ToolTip1.SetToolTip(Me.PictureBox_BorderText, "Визуальное оформление отдельной логической зоны")
         '
         'PictureBox_Fuse
         '
@@ -312,6 +332,7 @@ Partial Class Form1
         Me.PictureBox_Fuse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox_Fuse.TabIndex = 24
         Me.PictureBox_Fuse.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Fuse, "Предохранитель (R для поворота при размещении)")
         '
         'PictureBox11
         '
@@ -352,16 +373,17 @@ Partial Class Form1
         Me.PictureBox10.TabIndex = 20
         Me.PictureBox10.TabStop = False
         '
-        'Label3
+        'PictureBox_eText
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label3.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Label3.Location = New System.Drawing.Point(5, 340)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(53, 15)
-        Me.Label3.TabIndex = 19
-        Me.Label3.Text = "Надпись"
+        Me.PictureBox_eText.AutoSize = True
+        Me.PictureBox_eText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_eText.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_eText.Location = New System.Drawing.Point(5, 359)
+        Me.PictureBox_eText.Name = "PictureBox_eText"
+        Me.PictureBox_eText.Size = New System.Drawing.Size(53, 15)
+        Me.PictureBox_eText.TabIndex = 19
+        Me.PictureBox_eText.Text = "Надпись"
+        Me.ToolTip1.SetToolTip(Me.PictureBox_eText, "Добавить текст")
         '
         'PictureBox9
         '
@@ -469,6 +491,17 @@ Partial Class Form1
         Me.CheckBox2.TabIndex = 16
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
+        'LabelSig
+        '
+        Me.LabelSig.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.LabelSig.AutoSize = True
+        Me.LabelSig.Location = New System.Drawing.Point(791, 22)
+        Me.LabelSig.Name = "LabelSig"
+        Me.LabelSig.Size = New System.Drawing.Size(10, 13)
+        Me.LabelSig.TabIndex = 35
+        Me.LabelSig.Text = " "
+        Me.ToolTip1.SetToolTip(Me.LabelSig, "F5 - Обновить" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Shift - F12 - Сохранить изображение в файл *.png" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
+        '
         'MenuStrip1
         '
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ФайлToolStripMenuItem1, Me.СервисToolStripMenuItem, Me.СправкаToolStripMenuItem})
@@ -542,7 +575,7 @@ Partial Class Form1
         '
         'СервисToolStripMenuItem
         '
-        Me.СервисToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.НастройкиToolStripMenuItem, Me.ЛицензияToolStripMenuItem})
+        Me.СервисToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.НастройкиToolStripMenuItem, Me.ЛицензияToolStripMenuItem, Me.СкрытьКомментарииToolStripMenuItem, Me.ПоказатьКомментарииToolStripMenuItem})
         Me.СервисToolStripMenuItem.Name = "СервисToolStripMenuItem"
         Me.СервисToolStripMenuItem.Size = New System.Drawing.Size(59, 20)
         Me.СервисToolStripMenuItem.Text = "&Сервис"
@@ -550,14 +583,28 @@ Partial Class Form1
         'НастройкиToolStripMenuItem
         '
         Me.НастройкиToolStripMenuItem.Name = "НастройкиToolStripMenuItem"
-        Me.НастройкиToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.НастройкиToolStripMenuItem.Size = New System.Drawing.Size(259, 22)
         Me.НастройкиToolStripMenuItem.Text = "&Настройки"
         '
         'ЛицензияToolStripMenuItem
         '
         Me.ЛицензияToolStripMenuItem.Name = "ЛицензияToolStripMenuItem"
-        Me.ЛицензияToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.ЛицензияToolStripMenuItem.Size = New System.Drawing.Size(259, 22)
         Me.ЛицензияToolStripMenuItem.Text = "Лицензия"
+        '
+        'СкрытьКомментарииToolStripMenuItem
+        '
+        Me.СкрытьКомментарииToolStripMenuItem.Name = "СкрытьКомментарииToolStripMenuItem"
+        Me.СкрытьКомментарииToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Down), System.Windows.Forms.Keys)
+        Me.СкрытьКомментарииToolStripMenuItem.Size = New System.Drawing.Size(259, 22)
+        Me.СкрытьКомментарииToolStripMenuItem.Text = "Скрыть комментарии"
+        '
+        'ПоказатьКомментарииToolStripMenuItem
+        '
+        Me.ПоказатьКомментарииToolStripMenuItem.Name = "ПоказатьКомментарииToolStripMenuItem"
+        Me.ПоказатьКомментарииToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
+        Me.ПоказатьКомментарииToolStripMenuItem.Size = New System.Drawing.Size(259, 22)
+        Me.ПоказатьКомментарииToolStripMenuItem.Text = "Показать комментарии"
         '
         'СправкаToolStripMenuItem
         '
@@ -1040,16 +1087,6 @@ Partial Class Form1
         Me.ProgressBar.UseWaitCursor = True
         Me.ProgressBar.Visible = False
         '
-        'LabelSig
-        '
-        Me.LabelSig.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LabelSig.AutoSize = True
-        Me.LabelSig.Location = New System.Drawing.Point(791, 24)
-        Me.LabelSig.Name = "LabelSig"
-        Me.LabelSig.Size = New System.Drawing.Size(13, 13)
-        Me.LabelSig.TabIndex = 35
-        Me.LabelSig.Text = "  "
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1151,12 +1188,12 @@ Partial Class Form1
     Friend WithEvents PictureBox16 As PictureBox
     Friend WithEvents PictureBox15 As PictureBox
     Friend WithEvents PictureBox14 As PictureBox
-    Friend WithEvents Label4 As Label
+    Friend WithEvents PictureBox_BorderText As Label
     Friend WithEvents PictureBox_Fuse As PictureBox
     Friend WithEvents PictureBox11 As PictureBox
     Friend WithEvents PictureBox12 As PictureBox
     Friend WithEvents PictureBox10 As PictureBox
-    Friend WithEvents Label3 As Label
+    Friend WithEvents PictureBox_eText As Label
     Friend WithEvents PictureBox9 As PictureBox
     Friend WithEvents PictureBox8 As PictureBox
     Friend WithEvents PictureBox_eBat As PictureBox
@@ -1233,4 +1270,7 @@ Partial Class Form1
     Friend WithEvents PictureBox_Resist As PictureBox
     Friend WithEvents LabelSig As Label
     Friend WithEvents Button1 As Button
+    Friend WithEvents PictureBox_eComment As Label
+    Friend WithEvents СкрытьКомментарииToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ПоказатьКомментарииToolStripMenuItem As ToolStripMenuItem
 End Class

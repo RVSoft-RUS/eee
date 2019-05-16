@@ -120,42 +120,4 @@
   <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="ContextMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>149, 17</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pb1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAB4AAAAoCAYAAADpE0oSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAACSSURBVFhH7Y1BCsBACAP7/09vc9OD1UBSKMWBHGR2kwuc
-        t9IBX39ypAO+/uRIBzz3kIXtg99hDbYPfoc1ct+QOBzkviFxOMh9Q+JwwPbB77AG2we/wxpsH/wOa7B9
-        8DuswfbB77AG2wf/w+EhcTjIfUPicJD7hsThgO2D32ENtg/+A8PudMDXnxzpgK8/OfLMOTdPqTKT9lb9
-        vgAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="pb3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAB4AAAAoCAYAAADpE0oSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAACfSURBVFhH7Y0xDgRBDMLy/0/vNSkgIlv5tE0sUWTEmHpe
-        qKr/pTci8QOV3ojED1R6I6JFAvXdsKFFAvV9NzyONQTDaccaguG0Yw2BOfstokUC9d2woUUC9d2woUUC
-        9d2woUUC9d2woUUC9d2woUUC9X03PI41BMNpxxqC4bRjDYE5+y2iRQL13bChRQL13bBhRTq9EYkfqPRG
-        JH5AUs8PqrAyk0Ks7pEAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="pb2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACgAAAAeCAYAAABe3VzdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAABxSURBVFhH7Y4xCgAxDMPy/0+3nq4ueDhDBw8WaEgIQbN+
-        MDOfL3D+NVDh/GugwvnXQIXzDzfnOFS5TFIukzxDCtwEG2jDTbCBNtwEG2jDTbCBNtwEG2jDTbCBNtwE
-        G2jDTbCBNtwEryFRuUxSLkOctQEk2DKTSIixmAAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="pb4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACgAAAAeCAYAAABe3VzdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAABxSURBVFhH7ZExCsAwDMT6/0+nNxR6Ce4g6HDDCTTYBCPI
-        JVa44zLJcZnkO6TgTbKBGG+SDcR4k2wgxptkAzHeJBuI8SbZQIw3yQZivEk2EONNchsSHZdJjsscn2//
-        xB//Ab3XwBN6r4En9F4DT9i9tW7bmzKTSO5gvAAAAABJRU5ErkJggg==
-</value>
-  </data>
 </root>

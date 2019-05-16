@@ -11,6 +11,7 @@ Public Class eFuse
     Public pos As String
     Public Ia As Single
     Public work As Boolean
+    Dim command As Integer = 0
 
     Public Sub New(rx As Integer, ry As Integer, n As Integer, imax_ As Single, pos_ As String, ia_ As Single, work_ As Boolean)
         InitializeComponent()
@@ -103,8 +104,15 @@ Public Class eFuse
         econ.Change(num, condition)
     End Sub
 
-    Public Sub SetValue(value As Integer) Implements ISetValue.SetValue
-        Throw New NotImplementedException()
+    Public Sub SetValue(value As Single) Implements ISetValue.SetValue
+        Imax = value
+        Form1.NeedSave = True
+        If Form1.f.Batt > 0 Then
+            Dim eComp As EComponent = Form1.Elements(Form1.f.Batt)
+            Dim bat As eBat = eComp.component
+            Form1.pointsInProcessUI.Clear()
+            bat.CheckUI(0, 0)
+        End If
     End Sub
 
     Public Sub addLink(n As Integer) Implements ILinked.addLink
@@ -148,6 +156,9 @@ Public Class eFuse
         If linkForCheck = from Then
             linkForCheck = num + 2
         End If
+        If linkForCheck = num + 1 And Not work Then
+            Return 0
+        End If
         'Отправление дальше
         'Form1.TextBox1.Text &= "check from line " + CStr(num) + " to " + CStr(linkForCheck) + vbCrLf
         Dim eComp As EComponent
@@ -170,20 +181,97 @@ Public Class eFuse
             work = False
             If pos = "H" Then
                 PictureBoxHC.Visible = True
+                ToolTip1.SetToolTip(PictureBoxHC, "Номинал " + CStr(Imax) + " А" + vbCrLf + "Последний ток " + CStr(Math.Round(Ia, 3)) + " A")
             End If
             If pos = "V" Then
                 PictureBoxVC.Visible = True
+                ToolTip1.SetToolTip(PictureBoxVC, "Номинал " + CStr(Imax) + " А" + vbCrLf + "Последний ток " + CStr(Math.Round(Ia, 3)) + " A")
             End If
-            'Form1.DisConnect(num, num + 1) 'ТУТ ПИСДЕЦ С МНОГОПОТОЧНОСТЬЮ 
+            command = -1 'Разорвать цепь
+            Timer1.Enabled = True
             Return 0
         Else
             PictureBoxHC.Visible = False
             PictureBoxVC.Visible = False
+            work = True
         End If
         Return Ia
     End Function
 
     Public Function chk_Sig() As Integer Implements ILinked.chk_Sig
-        Return CheckSig(0) ' Тут что то сиранноу!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        Return CheckSig(num + 2) ' Тут что то сиранноу!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     End Function
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        If command = -1 Then
+            If Form1.isCheckUI Then
+                Timer1.Interval = 50
+            Else
+                Timer1.Interval = 500
+                Timer1.Enabled = False
+                command = 0
+                Form1.DisConnect(num, num + 1) 'ТУТ ПИСДЕЦ С МНОГОПОТОЧНОСТЬЮ 
+
+            End If
+        End If
+    End Sub
+
+    Private Sub ВставитьПредохранительToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ВставитьПредохранительToolStripMenuItem.Click
+        work = False ' ? Точно,  Может True
+        PictureBoxHC.Visible = False
+        PictureBoxVC.Visible = False
+        Form1.OnConnect(num, num + 1)
+    End Sub
+
+    Private Sub eFuse_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick, PictureBoxH.MouseClick, PictureBoxHC.MouseClick, PictureBoxV.MouseClick, PictureBoxVC.MouseClick
+        If e.Button = MouseButtons.Right Then
+            ContextMenu1.Show(Me, e.X, e.Y)
+            Exit Sub
+        End If
+        If Form1.Mode = "Delete" Then
+            work = False
+            Form1.DisConnect(num, num + 1)
+            Dim eComp As EComponent = Form1.Elements(num + 1)
+            Dim p As EPoint = eComp.component 'Первая точка 
+            p.links.Remove(num)
+            If p.links.Count = 0 Then
+                p.DeleteMe()
+            End If
+
+            eComp = Form1.Elements(num + 2)
+            p = eComp.component 'Первая точка 
+            p.links.Remove(num)
+            If p.links.Count = 0 Then
+                p.DeleteMe()
+            End If
+            If Form1.f.Batt > 0 Then
+                eComp = Form1.Elements(Form1.f.Batt)
+                Dim bat As eBat = eComp.component
+                Form1.pointsInProcessUI.Clear()
+                bat.CheckUI(0, 0)
+            End If
+            Form1.Delete(num)
+        End If
+    End Sub
+
+    Private Sub УдалитьПредохранительToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles УдалитьПредохранительToolStripMenuItem.Click
+        work = False
+        If pos = "H" Then
+            PictureBoxHC.Visible = True
+            ToolTip1.SetToolTip(PictureBoxHC, "Номинал - НЕТ" + vbCrLf + "Последний ток " + CStr(Math.Round(Ia, 3)) + " A")
+        End If
+        If pos = "V" Then
+            PictureBoxVC.Visible = True
+            ToolTip1.SetToolTip(PictureBoxVC, "Номинал - НЕТ" + vbCrLf + "Последний ток " + CStr(Math.Round(Ia, 3)) + " A")
+        End If
+        Form1.DisConnect(num, num + 1)
+    End Sub
+
+    Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
+        Form1.Enabled = False
+        DialogForm.Show(Me)
+        DialogForm.Left = X + Form1.Left
+        DialogForm.Top = Y + Form1.Top
+        DialogForm.OnView("Номинал предохранителя, А", Me, Imax.ToString)
+    End Sub
 End Class

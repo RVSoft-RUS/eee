@@ -6,11 +6,16 @@ Public Class Form1
 	Public color0 As Color = Color.Gray
 	Public colorM As Color = Color.Black
 	Public color15 As Color = Color.Red
-	Public color30 As Color = Color.Purple
-	Public rx As Integer, ry As Integer 'округленные до 20 координаты точки
+    Public color30 As Color = Color.Purple
+    Public bordColor As Color = Color.LightBlue
+    Public txtColor As Color = Color.Black
+    Public commentColor As Color = Color.SandyBrown
+
+    Public rx As Integer, ry As Integer 'округленные до 20 координаты точки
 	Dim zx, zy As Integer 'Для предотвращения мерцания линий при MouseMove
-	Public Mode As String = "" 'Текущий режим - показывает состояние, что делаем. Пусто - ничего не делаем
-	Public Elements As New ArrayList
+    Public Mode As String = "" 'Текущий режим - показывает состояние, что делаем. Пусто - ничего не делаем
+    Dim lastMode As String = ""
+    Public Elements As New ArrayList
 	Public FileName As String = ""
 	Public NeedSave As Boolean = False 'Были изменения, нужно сохранять
 	Dim a As New ArrayList ' Все линии для форматки
@@ -24,10 +29,16 @@ Public Class Form1
 	Public element_cur As Cursor
 	Public gnd_cur As Cursor
     Public R1_cur As Cursor
+    Public R2_cur As Cursor
+    Public R3_cur As Cursor
+    Public R4_cur As Cursor
     Public FuseH_cur As Cursor
     Public FuseV_cur As Cursor
 
     Dim OpenAtStart As Boolean = False
+    Public isCheckUI As Boolean = False
+    Public isChanging As Boolean = False
+    Public isCycle As Boolean = False
     'во время переключений pointsInProcess обнулять и добавлять номера точек, через который прошел сигнал
     'если точка при добавлении уже существует, значит зациклено
     Public pointsInProcessSig As New ArrayList
@@ -35,7 +46,9 @@ Public Class Form1
     Public Udefault As Integer = 12
     Public Rdefault As Integer = 50
     Public FUSEdefault As Single = 10
-    Dim fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
+    Public fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
+    Dim firstPoint As Point
+    Public stopAtRMClick As Boolean = True
 
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
@@ -116,6 +129,9 @@ Public Class Form1
             element_cur = New Cursor(Application.StartupPath + "\resourses\element.cur")
             gnd_cur = New Cursor(Application.StartupPath + "\resourses\gnd.cur")
             R1_cur = New Cursor(Application.StartupPath + "\resourses\R1.cur")
+            R2_cur = New Cursor(Application.StartupPath + "\resourses\R2.cur")
+            R3_cur = New Cursor(Application.StartupPath + "\resourses\R3.cur")
+            R4_cur = New Cursor(Application.StartupPath + "\resourses\R4.cur")
             FuseH_cur = New Cursor(Application.StartupPath + "\resourses\fuseH.cur")
             FuseV_cur = New Cursor(Application.StartupPath + "\resourses\fuseV.cur")
         Catch ex As Exception
@@ -127,6 +143,9 @@ Public Class Form1
             element_cur = Cursors.Default
             gnd_cur = Cursors.Hand
             R1_cur = Cursors.Hand
+            R2_cur = Cursors.Hand
+            R3_cur = Cursors.Hand
+            R4_cur = Cursors.Hand
             FuseH_cur = New Cursor(Application.StartupPath + "\resourses\fuseH.cur")
             FuseV_cur = New Cursor(Application.StartupPath + "\resourses\fuseV.cur")
         End Try
@@ -414,7 +433,6 @@ Public Class Form1
         lblKF_A3.Visible = True
     End Sub
 
-
     Public Sub CreateFormat()
         If a.Count > 0 And f.format <> "" Then
             'форматка уже есть, спросить надо ли переделать?
@@ -424,6 +442,7 @@ Public Class Form1
                 Exit Sub
             End If
         End If
+        NeedSave = True
         Dim theLine As IRemovable
         For i = 0 To a.Count - 1
             theLine = a(i)
@@ -875,12 +894,27 @@ Public Class Form1
                 G.DrawLine(Pn, rx + 5, ry - 2, rx + 5, ry + 30)
                 G.DrawLine(Pn, rx + 5, ry + 30, rx + 55, ry + 30)
             End If
-            If Mode = "eResist" Then
+            If Mode = "bt2" Then
+                Pn = New Pen(bordColor, 1)
+                Dim secondPoint = New Point(e.X, e.Y)
+                G.DrawLine(Pn, firstPoint.X, firstPoint.Y, secondPoint.X, firstPoint.Y)
+                G.DrawLine(Pn, secondPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y)
+                G.DrawLine(Pn, secondPoint.X, secondPoint.Y, firstPoint.X, secondPoint.Y)
+                G.DrawLine(Pn, firstPoint.X, secondPoint.Y, firstPoint.X, firstPoint.Y)
+            End If
+            If Mode = "eResist1" Or Mode = "eResist3" Then
                 Pn = New Pen(Color.Black, 1)
                 G.DrawLine(Pn, rx - 15, ry - 10, rx + 15, ry - 10)
                 G.DrawLine(Pn, rx - 15, ry + 30, rx + 15, ry + 30)
                 G.DrawLine(Pn, rx - 15, ry - 10, rx - 15, ry + 30)
                 G.DrawLine(Pn, rx + 15, ry - 10, rx + 15, ry + 30)
+            End If
+            If Mode = "eResist2" Or Mode = "eResist4" Then
+                Pn = New Pen(Color.Black, 1)
+                G.DrawLine(Pn, rx - 10, ry - 15, rx + 30, ry - 15)
+                G.DrawLine(Pn, rx + 30, ry - 15, rx + 30, ry + 15)
+                G.DrawLine(Pn, rx + 30, ry + 15, rx - 10, ry + 15)
+                G.DrawLine(Pn, rx - 10, ry + 15, rx - 10, ry - 15)
             End If
             If Mode = "newFuseV" Then
                 Pn = New Pen(Color.Black, 1)
@@ -909,26 +943,86 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
+        If e.Button = MouseButtons.Right And stopAtRMClick Then
+            Mode = ""
+            GroupBox1.Visible = True
+            CheckBox2.Visible = True
+            Me.Cursor = Cursors.Default
+        End If
         If Mode = "newPoint" Then
             'Создание пустой точки потом запретить!!!!!!!!!!!!!!!!!!!!!!
+            'Dim eComp As New EComponent With {
+            '    .aType = "ePoint",
+            '    .numInArray = Elements.Count
+            '}
+            'Elements.Add(eComp)
+            'Dim p As New EPoint(rx, ry, eComp.numInArray)
+            'Me.Controls.Add(p)
+            'eComp.component = p
+
+            'Mode = ""
+            'GroupBox1.Visible = True
+            'CheckBox2.Visible = True
+            'Me.Cursor = Cursors.Default
+            'NeedSave = True
+            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        End If
+        If Mode = "createConnect1" Then
+            createConnect.MouseClick(rx, ry)
+        End If
+        If Mode = "bt2" Then
+            Dim secondPoint = New Point(e.X, e.Y)
             Dim eComp As New EComponent With {
-                .aType = "ePoint",
-                .numInArray = Elements.Count
-            }
+                                        .aType = "eBText",
+                                        .numInArray = Elements.Count
+                                                                }
             Elements.Add(eComp)
-            Dim p As New EPoint(rx, ry, eComp.numInArray)
-            Me.Controls.Add(p)
-            eComp.component = p
+            Dim bt As New eBorderText(firstPoint, secondPoint, "Введите текст", eComp.numInArray)
+            Me.Controls.Add(bt)
+            eComp.component = bt
 
             Mode = ""
             GroupBox1.Visible = True
             CheckBox2.Visible = True
             Me.Cursor = Cursors.Default
             NeedSave = True
-            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         End If
-        If Mode = "createConnect1" Then
-            createConnect.MouseClick(rx, ry)
+        If Mode = "eText" Then
+            Dim eComp As New EComponent With {
+                                        .aType = "eText",
+                                        .numInArray = Elements.Count
+                                                                }
+            Elements.Add(eComp)
+            Dim t As New eText(e.X, e.Y, "Введите текст", eComp.numInArray)
+            Me.Controls.Add(t)
+            eComp.component = t
+
+            Mode = ""
+            GroupBox1.Visible = True
+            CheckBox2.Visible = True
+            Me.Cursor = Cursors.Default
+            NeedSave = True
+        End If
+        If Mode = "eTextC" Then
+            Dim eComp As New EComponent With {
+                                        .aType = "eTextC",
+                                        .numInArray = Elements.Count
+                                                                }
+            Elements.Add(eComp)
+            Dim t As New eTextC(e.X, e.Y, "Комментарий", eComp.numInArray)
+            Me.Controls.Add(t)
+            eComp.component = t
+
+            Mode = ""
+            GroupBox1.Visible = True
+            CheckBox2.Visible = True
+            Me.Cursor = Cursors.Default
+            NeedSave = True
+        End If
+
+        If Mode = "bt1" Then
+            firstPoint = New Point(e.X, e.Y)
+            Mode = "bt2"
         End If
         If Mode = "eBat" Then
             If f.Batt > 0 Then
@@ -951,13 +1045,17 @@ Public Class Form1
             Me.Cursor = Cursors.Default
             NeedSave = True
         End If
-        If Mode = "eResist" Then
+        If Mode.StartsWith("eResist") Then
             Dim eComp As New EComponent With {
                             .aType = "eResist",
                             .numInArray = Elements.Count
                         }
             Elements.Add(eComp)
-            Dim eResist As New EResist(rx, ry, eComp.numInArray, Rdefault, False, 0)
+            Dim loc As Integer = 4
+            If Mode = "eResist1" Then loc = 1
+            If Mode = "eResist2" Then loc = 2
+            If Mode = "eResist3" Then loc = 3
+            Dim eResist As New EResist(rx, ry, eComp.numInArray, Rdefault, False, 0, loc)
             Me.Controls.Add(eResist)
             eComp.component = eResist
 
@@ -1219,9 +1317,9 @@ StartFile:
                     Elements.Add(eComp)
                     Me.Controls.Add(bat)
                 End If
-                'eBat
+                'eR
                 If aComp(0) = "eResist" Then
-                    Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
+                    Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
                     eComp = New EComponent With {
                         .aType = "eBat",
                         .numInArray = res.num,
@@ -1230,7 +1328,7 @@ StartFile:
                     Elements.Add(eComp)
                     Me.Controls.Add(res)
                 End If
-                'eBat
+                'eFuse
                 If aComp(0) = "eFuse" Then
                     Dim fu As New eFuse(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
                     eComp = New EComponent With {
@@ -1240,6 +1338,39 @@ StartFile:
                     }
                     Elements.Add(eComp)
                     Me.Controls.Add(fu)
+                End If
+                'eBText
+                If aComp(0) = "eBText" Then
+                    Dim bt As New eBorderText(aComp(1), aComp(2), aComp(3), aComp(4))
+                    eComp = New EComponent With {
+                        .aType = "eBText",
+                        .numInArray = bt.num,
+                        .component = bt
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(bt)
+                End If
+                'eText
+                If aComp(0) = "eText" Then
+                    Dim t As New eText(aComp(1), aComp(2), aComp(3), aComp(4))
+                    eComp = New EComponent With {
+                        .aType = "eText",
+                        .numInArray = t.num,
+                        .component = t
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(t)
+                End If
+                'eTextC
+                If aComp(0) = "eTextC" Then
+                    Dim t As New eTextC(aComp(1), aComp(2), aComp(3), aComp(4))
+                    eComp = New EComponent With {
+                        .aType = "eTextC",
+                        .numInArray = t.num,
+                        .component = t
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(t)
                 End If
                 'eGND
                 If aComp(0) = "eGND" Then
@@ -1260,6 +1391,7 @@ StartFile:
             Application.DoEvents()
         Next
         ProgressBar.Visible = False
+        showComments(f.showComments)
     End Sub
 
     Private Sub PrintReversNumber()
@@ -1330,55 +1462,86 @@ StartFile:
         End If
     End Sub
 
+    Sub HidePanel()
+        lastMode = Mode
+        If Mode <> "" Then
+            GroupBox1.Visible = False
+            CheckBox2.Visible = False
+            Select Case Mode
+                Case "eResist1"
+                    Me.Cursor = R1_cur
+                Case "eResist2"
+                    Me.Cursor = R2_cur
+                Case "eResist3"
+                    Me.Cursor = R3_cur
+                Case "eResist4"
+                    Me.Cursor = R4_cur
+                Case "eBat"
+                    Me.Cursor = element_cur
+                Case "newPoint"
+                    Me.Cursor = Cursors.Hand
+                Case "createConnect"
+                    Me.Cursor = addLine_cur
+                Case "eGND"
+                    Me.Cursor = gnd_cur
+                Case "newFuseH"
+                    Me.Cursor = FuseH_cur
+                Case "Delete"
+                    Me.Cursor = del_cur
+            End Select
+        End If
+    End Sub
 
     Private Sub PictureBox_Resist_Click(sender As Object, e As EventArgs) Handles PictureBox_Resist.Click
-        Mode = "eResist"
-        GroupBox1.Visible = False
-        CheckBox2.Visible = False
-        Me.Cursor = R1_cur
+        Mode = "eResist1"
+        HidePanel()
     End Sub
 
     Private Sub PictureBox_eBat_Click(sender As Object, e As EventArgs) Handles PictureBox_eBat.Click
         Mode = "eBat"
-        GroupBox1.Visible = False
-        CheckBox2.Visible = False
-        Me.Cursor = element_cur
+        HidePanel()
     End Sub
 
     Private Sub PictureBox_Point_Click(sender As Object, e As EventArgs) Handles PictureBox_Point.Click
         Mode = "newPoint"
-        GroupBox1.Visible = False
-        CheckBox2.Visible = False
-        Me.Cursor = Cursors.Hand
+        HidePanel()
     End Sub
 
     Private Sub PictureBox_Provod_Click(sender As Object, e As EventArgs) Handles PictureBox_Provod.Click
         Mode = "createConnect"
-        GroupBox1.Visible = False
-        CheckBox2.Visible = False
-        Me.Cursor = addLine_cur
+        HidePanel()
     End Sub
 
     Private Sub PictureBox_Massa_Click(sender As Object, e As EventArgs) Handles PictureBox_Massa.Click
         Mode = "eGND"
-        GroupBox1.Visible = False
-        CheckBox2.Visible = False
-        Me.Cursor = gnd_cur
+        HidePanel()
     End Sub
 
     Private Sub PictureBox_Fuse_Click(sender As Object, e As EventArgs) Handles PictureBox_Fuse.Click
         Mode = "newFuseH"
-        GroupBox1.Visible = False
-        CheckBox2.Visible = False
-        Me.Cursor = FuseH_cur
+        HidePanel()
     End Sub
 
 
     Private Sub PictureBox_Delete_Click(sender As Object, e As EventArgs) Handles PictureBox_Delete.Click
         Mode = "Delete"
-        GroupBox1.Visible = False
-        CheckBox2.Visible = False
-        Me.Cursor = del_cur
+        HidePanel()
+    End Sub
+
+    Private Sub PictureBox_BorderText_Click(sender As Object, e As EventArgs) Handles PictureBox_BorderText.Click
+        Mode = "bt1"
+        HidePanel()
+        'Me.Cursor = ?del_cur
+    End Sub
+
+    Private Sub PictureBox_eText_Click(sender As Object, e As EventArgs) Handles PictureBox_eText.Click
+        Mode = "eText"
+        HidePanel()
+    End Sub
+
+    Private Sub PictureBox_eComment_Click(sender As Object, e As EventArgs) Handles PictureBox_eComment.Click
+        Mode = "eTextC"
+        HidePanel()
     End Sub
 
     Public Sub Delete(num As Integer)
@@ -1463,14 +1626,15 @@ StartFile:
             CheckBox2.Visible = True
             Me.Cursor = Cursors.Default
             If f.Batt > 0 Then
-                LabelSig.BackColor = Color.Red
-                Application.DoEvents()
                 Dim eComp As EComponent = Elements(f.Batt)
                 Dim bat As eBat = eComp.component
                 pointsInProcessUI.Clear()
                 bat.CheckUI(0, 0)
-                LabelSig.BackColor = Color.White
             End If
+        End If
+        If e.KeyCode = Keys.F4 Then
+            Mode = lastMode
+            HidePanel()
         End If
         If e.KeyCode = Keys.R Then
             If Mode = "newFuseH" Then
@@ -1480,6 +1644,20 @@ StartFile:
                 Mode = "newFuseH"
                 Me.Cursor = FuseH_cur
             End If
+            If Mode = "eResist4" Then
+                Mode = "eResist1"
+                Me.Cursor = R1_cur
+            ElseIf Mode = "eResist3" Then
+                Mode = "eResist4"
+                Me.Cursor = R4_cur
+            ElseIf Mode = "eResist2" Then
+                Mode = "eResist3"
+                Me.Cursor = R3_cur
+            ElseIf Mode = "eResist1" Then
+                Mode = "eResist2"
+                Me.Cursor = R2_cur
+            End If
+            lastMode = Mode
         End If
     End Sub
 
@@ -1518,9 +1696,35 @@ StartFile:
         ProgressBar.Location = New System.Drawing.Point(b, a)
     End Sub
 
+    Private Sub СкрытьКомментарииToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles СкрытьКомментарииToolStripMenuItem.Click
+        showComments(False)
+    End Sub
+
+    Private Sub showComments(show As Boolean)
+        f.showComments = show
+        Dim eComp As EComponent
+        For i = 1 To Elements.Count - 1
+            eComp = Elements(i)
+            If Not (eComp Is Nothing) Then
+                If eComp.aType = "eTextC" Then
+                    Dim t As eTextC = eComp.component
+                    t.Visible = show
+                End If
+            End If
+
+
+        Next
+    End Sub
+
+    Private Sub ПоказатьКомментарииToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ПоказатьКомментарииToolStripMenuItem.Click
+        showComments(True)
+    End Sub
+
     Public Function OnConnect(n1 As Integer, n2 As Integer) As Boolean
+        isCycle = False
         LabelSig.BackColor = Color.Red
         Application.DoEvents()
+        isChanging = True
         Dim eComp As EComponent
         Dim p01, p02 As ILinked
         eComp = Elements(n1)
@@ -1556,6 +1760,7 @@ StartFile:
             p02.addLink(n1)
         End If
         LabelSig.BackColor = Color.White
+        isChanging = False
         If f.Batt > 0 Then
             eComp = Elements(f.Batt)
             Dim bat As eBat = eComp.component
@@ -1567,15 +1772,25 @@ StartFile:
     End Function
 
     Public Sub DisConnect(n1 As Integer, n2 As Integer)
+        isCycle = False
         LabelSig.BackColor = Color.Red
         Application.DoEvents()
+        If isChanging Then
+            MsgBox("QQ")
+        End If
+        If isCheckUI Then
+            Do While isCheckUI
+                Application.DoEvents()
+            Loop
+        End If
+        isChanging = True
         Dim eComp As EComponent
         Dim p01, p02 As ILinked
         eComp = Elements(n1)
         p01 = eComp.component
         eComp = Elements(n2)
         p02 = eComp.component
-        'Dim p01C As Integer = p01.Condition 'Текущие значения Condition на точках
+        'Dim p01C As Integer = p01.Condition 'Текущие значения Condition на точках мб в iLinked добавить getCondition============================
         'Dim p02C As Integer = p02.Condition
         p01.remLink(n2) 'разъединяем точки
         p02.remLink(n1)
@@ -1586,10 +1801,10 @@ StartFile:
 
         If p01Ck = 0 Then 'And p01C <> 0
             pointsInProcessSig.Clear()
-            p01.Changee(0, 0)
+            p01.Changee(n2, 0)
             If f.Batt > 0 Then
                 pointsInProcessUI.Clear()
-                'p01.CheckUI(0, 0, 0)
+                'p01.CheckUI(n2, 0, 0)
             End If
         End If
         If p02Ck = 0 Then ' And p02C <> 0 Then
@@ -1601,6 +1816,7 @@ StartFile:
             End If
         End If
         LabelSig.BackColor = Color.White
+        isChanging = False
         If f.Batt > 0 Then
             eComp = Elements(f.Batt)
             pointsInProcessUI.Clear()
