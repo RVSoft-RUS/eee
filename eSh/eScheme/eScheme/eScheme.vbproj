@@ -160,6 +160,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="iLinked.vb" />
+    <Compile Include="iMovable.vb" />
     <Compile Include="ISetValue.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -248,6 +249,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="222.ico" />
+    <None Include="Resources\move.png" />
     <Content Include="Безымянный.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

@@ -22,5 +22,10 @@ eScheme
   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
 </summary>
 </member>
+<member name="P:eScheme.My.Resources.Resources.move">
+<summary>
+  Поиск локализованного ресурса типа System.Drawing.Bitmap.
+</summary>
+</member>
 </members>
 </doc>

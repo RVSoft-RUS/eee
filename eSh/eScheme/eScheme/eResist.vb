@@ -239,8 +239,8 @@ Public Class EResist
             End If
 
             eComp = Form1.Elements(num + 2)
-            p = eComp.component 'Первая точка 
-            p.links.Remove(num)
+			p = eComp.component 'Вторая точка 
+			p.links.Remove(num)
             If p.links.Count = 0 Then
                 p.DeleteMe()
             End If

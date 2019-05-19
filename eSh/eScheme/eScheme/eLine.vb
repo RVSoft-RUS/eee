@@ -1,8 +1,8 @@
 ﻿Imports eScheme
 
 Public Class eLine
-    Implements IConnectable, ILinked
-    Public X1 As Integer
+	Implements IConnectable, ILinked, IMovable
+	Public X1 As Integer
     Public Y1 As Integer
     Public X2 As Integer
     Public Y2 As Integer
@@ -11,10 +11,12 @@ Public Class eLine
     Public Condition_ As Integer
     Public num As Integer
     Public Ia As Single
-    Public U As Single
+	Public U As Single
 
-    'Dim Left As
-    Public Sub New(rx1 As Integer, ry1 As Integer, rx2 As Integer, ry2 As Integer, n As Integer, I_ As Single, u_ As Single)
+	Dim mX1, mY1, mX2, mY2 As Integer
+
+	'Dim Left As
+	Public Sub New(rx1 As Integer, ry1 As Integer, rx2 As Integer, ry2 As Integer, n As Integer, I_ As Single, u_ As Single)
         ' Этот вызов является обязательным для конструктора.
         InitializeComponent()
         ' Добавить код инициализации после вызова InitializeComponent().
@@ -50,8 +52,12 @@ Public Class eLine
         Condition = 0
         Ia = I_
         U = u_
-        Cursor = Form1.line_cur
-    End Sub
+		Cursor = Form1.line_cur
+		mX1 = X1
+		mX2 = X2
+		mY1 = Y1
+		mY2 = Y2
+	End Sub
 
     Public Property Condition
         Set(value)
@@ -386,4 +392,135 @@ Public Class eLine
     Public Sub Changee(from As Integer, condition_ As Integer) Implements ILinked.Changee
         Change(from, condition_)
     End Sub
+
+	Private Function IMovable_Move(from As IMovable, dX As Integer, dY As Integer) As Boolean Implements IMovable.Move
+		Form1.moveArray.Add(Me)
+		Dim mayMove As Boolean = True
+		Dim nx As Integer = X2 - X1
+		Dim ny As Integer = Y2 - Y1
+		If nx > 0 Then 'Горизонтально
+			If dX <> 0 And dY = 0 Then
+				'Form1.TextBox2.Text = "dx=" + CStr(dX) + " dy=" + CStr(dY) + vbCrLf + Form1.TextBox2.Text
+				If from Is Me Then
+					'Dim m As IMovable
+					'For j = 0 To links.Count - 1
+					'	Dim eComp As EComponent = Form1.Elements(links(j))
+					'	m = eComp.component
+					'	mayMove = m.Move(Me, 0, dY)
+					'Next
+					Return True
+				End If
+				If from.GetX = X1 Then 'Тянем за левый конец
+					If X1 + dX >= X2 Then Return False
+					mX1 = X1 + dX
+					Return True
+				End If
+				If from.GetX = X2 Then 'Тянем за praвый конец
+					If X2 + dX <= X1 Then Return False
+					mX2 = X2 + dX
+					Return True
+				End If
+			End If
+			If dY <> 0 And dX = 0 Then
+				Dim m As IMovable
+				For j = 0 To links.Count - 1
+					Dim eComp As EComponent = Form1.Elements(links(j))
+					m = eComp.component
+					If Not (m Is from) Then
+						mayMove = m.Move(Me, dX, dY)
+						If Not mayMove Then
+							Return False
+						End If
+					End If
+				Next
+				If mayMove Then
+					mY1 = Y1 + dY
+					mY2 = Y2 + dY
+					Return True
+				Else
+					Return False
+				End If
+				Return False
+			End If
+		End If
+		If ny > 0 Then 'Вертикально
+			If dY <> 0 And dX = 0 Then
+				'Form1.TextBox2.Text = "dx=" + CStr(dX) + " dy=" + CStr(dY) + vbCrLf + Form1.TextBox2.Text
+				If from Is Me Then
+					Return True
+				End If
+				If from.GetY = Y1 Then 'Тянем за верхний конец
+					If Y1 + dY >= Y2 Then Return False
+					mY1 = Y1 + dY
+					Return True
+				End If
+				If from.GetY = Y2 Then 'Тянем за нижний конец
+					If Y2 + dY <= Y1 Then Return False
+					mY2 = Y2 + dY
+					Return True
+				End If
+			End If
+			If dY = 0 And dX <> 0 Then
+				Dim m As IMovable
+				For j = 0 To links.Count - 1
+					Dim eComp As EComponent = Form1.Elements(links(j))
+					m = eComp.component
+					If Not (m Is from) Then
+						mayMove = m.Move(Me, dX, dY)
+						If Not mayMove Then
+							Return False
+						End If
+					End If
+				Next
+				If mayMove Then
+					mX1 = X1 + dX
+					mX2 = X2 + dX
+					Return True
+				Else
+					Return False
+				End If
+				Return False
+			End If
+		End If
+		Return False
+	End Function
+
+	Public Function GetX() As Integer Implements IMovable.GetX
+		Throw New NotImplementedException()
+	End Function
+
+	Public Function GetY() As Integer Implements IMovable.GetY
+		Throw New NotImplementedException()
+	End Function
+
+	Private Sub ELine_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
+		If Form1.Mode = "Move" Then
+			Form1.moveObject = Me
+			Form1.Cursor = Cursors.SizeAll
+			Form1.moveXstart = Form1.rx
+			Form1.moveYstart = Form1.ry
+			Form1.Mode = "MoveMe"
+		End If
+	End Sub
+
+	Public Sub MoveOK() Implements IMovable.MoveOK
+		Dim dx As Integer = X2 - X1
+		Dim dy As Integer = Y2 - Y1
+		X1 = mX1
+		X2 = mX2
+		Y2 = mY2
+		Y1 = mY1
+		If dx > 0 Then 'Горизонтально
+			Me.Height = 3
+			Me.Left = X1 + 5
+			Me.Top = Y1 - 1
+			Me.Width = X2 - X1 - 10
+		End If
+		If dy > 0 Then 'Вертикально
+			Me.Width = 3
+			Me.Top = Y1 + 5
+			Me.Left = X1 - 1
+			Me.Height = Y2 - Y1 - 10
+		End If
+	End Sub
 End Class

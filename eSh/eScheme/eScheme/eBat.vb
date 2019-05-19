@@ -113,6 +113,30 @@ Public Class eBat
 		If e.Button = MouseButtons.Right Then
 			ContextMenu1.Show(Me, e.X, e.Y)
 		End If
+		If Form1.Mode = "Delete" Then
+			Dim eComp As EComponent = Form1.Elements(num + 1)
+			Dim p As EPoint = eComp.component 'Первая точка 
+			p.links.Remove(num)
+			If p.links.Count = 0 Then
+				p.DeleteMe()
+			End If
+
+			eComp = Form1.Elements(num + 2)
+			p = eComp.component 'Вторая точка 
+			p.links.Remove(num)
+			If p.links.Count = 0 Then
+				p.DeleteMe()
+			End If
+
+			eComp = Form1.Elements(num + 3)
+			p = eComp.component 'Вторая точка 
+			p.links.Remove(num)
+			If p.links.Count = 0 Then
+				p.DeleteMe()
+			End If
+
+			Form1.Delete(num)
+		End If
 	End Sub
 
 	Private Sub EBat_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter

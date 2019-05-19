@@ -48,10 +48,14 @@ Public Class Form1
     Public FUSEdefault As Single = 10
     Public fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
     Dim firstPoint As Point
-    Public stopAtRMClick As Boolean = True
+	Public stopAtRMClick As Boolean = True
+	Public moveObject As IMovable = Nothing
+	Public moveXstart As Integer
+	Public moveYstart As Integer
+	Public moveArray As New ArrayList
 
 
-    Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
+	Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         GroupBox1.Visible = CheckBox2.Checked
         If CheckBox2.Checked Then
             ToolTip1.SetToolTip(CheckBox2, "Скрыть панель")
@@ -862,87 +866,129 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Form1_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
-        If Math.Abs(zx - e.X) + Math.Abs(zy - e.Y) < 4 Then
-            Exit Sub 'Если почти не сдвинулось - то выход
-        End If
-        rx = CInt(Math.Round(e.X / 20))
-        rx = rx * 20
-        ry = CInt(Math.Round(e.Y / 20))
-        ry = ry * 20
-        zx = e.X
-        zy = e.Y
-        Dim G As Graphics = Me.CreateGraphics
-        If e.Button = MouseButtons.Left Then
+	Private Sub Form1_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
+		If Math.Abs(zx - e.X) + Math.Abs(zy - e.Y) < 4 Then
+			Exit Sub 'Если почти не сдвинулось - то выход
 
-        Else
-            G.Clear(Me.BackColor)
-        End If
-        If e.Button = MouseButtons.Right Then
+		End If
+		rx = CInt(Math.Round(e.X / 20))
+		rx = rx * 20
+		ry = CInt(Math.Round(e.Y / 20))
+		ry = ry * 20
+		zx = e.X
+		zy = e.Y
 
-        Else
-            G.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-            Dim Pn As New Pen(Color.LightGreen, 1) With {
-                .DashStyle = Drawing2D.DashStyle.Dash
-            }
-            G.DrawLine(Pn, 0, ry, 3000, ry)
-            G.DrawLine(Pn, rx, 0, rx, 3000)
-            If Mode = "eBat" Then
-                Pn = New Pen(Color.Black, 1)
-                G.DrawLine(Pn, rx + 5, ry - 2, rx + 55, ry - 2)
-                G.DrawLine(Pn, rx + 55, ry - 2, rx + 55, ry + 30)
-                G.DrawLine(Pn, rx + 5, ry - 2, rx + 5, ry + 30)
-                G.DrawLine(Pn, rx + 5, ry + 30, rx + 55, ry + 30)
-            End If
-            If Mode = "bt2" Then
-                Pn = New Pen(bordColor, 1)
-                Dim secondPoint = New Point(e.X, e.Y)
-                G.DrawLine(Pn, firstPoint.X, firstPoint.Y, secondPoint.X, firstPoint.Y)
-                G.DrawLine(Pn, secondPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y)
-                G.DrawLine(Pn, secondPoint.X, secondPoint.Y, firstPoint.X, secondPoint.Y)
-                G.DrawLine(Pn, firstPoint.X, secondPoint.Y, firstPoint.X, firstPoint.Y)
-            End If
-            If Mode = "eResist1" Or Mode = "eResist3" Then
-                Pn = New Pen(Color.Black, 1)
-                G.DrawLine(Pn, rx - 15, ry - 10, rx + 15, ry - 10)
-                G.DrawLine(Pn, rx - 15, ry + 30, rx + 15, ry + 30)
-                G.DrawLine(Pn, rx - 15, ry - 10, rx - 15, ry + 30)
-                G.DrawLine(Pn, rx + 15, ry - 10, rx + 15, ry + 30)
-            End If
-            If Mode = "eResist2" Or Mode = "eResist4" Then
-                Pn = New Pen(Color.Black, 1)
-                G.DrawLine(Pn, rx - 10, ry - 15, rx + 30, ry - 15)
-                G.DrawLine(Pn, rx + 30, ry - 15, rx + 30, ry + 15)
-                G.DrawLine(Pn, rx + 30, ry + 15, rx - 10, ry + 15)
-                G.DrawLine(Pn, rx - 10, ry + 15, rx - 10, ry - 15)
-            End If
-            If Mode = "newFuseV" Then
-                Pn = New Pen(Color.Black, 1)
-                G.DrawLine(Pn, rx + 5, ry + 5, rx - 5, ry + 5)
-                G.DrawLine(Pn, rx + 5, ry + 35, rx - 5, ry + 35)
-                G.DrawLine(Pn, rx + 5, ry + 5, rx + 5, ry + 35)
-                G.DrawLine(Pn, rx - 5, ry + 5, rx - 5, ry + 35)
-            End If
-            If Mode = "newFuseH" Then
-                Pn = New Pen(Color.Black, 1)
-                G.DrawLine(Pn, rx + 5, ry - 5, rx + 35, ry - 5)
-                G.DrawLine(Pn, rx + 5, ry + 5, rx + 35, ry + 5)
-                G.DrawLine(Pn, rx + 5, ry - 5, rx + 5, ry + 5)
-                G.DrawLine(Pn, rx + 35, ry + 5, rx + 35, ry - 5)
-            End If
-            G.Dispose()
-            'ToolTip1.SetToolTip(Me, CStr(rx) + ", " + CStr(ry))
-        End If
-        If Mode = "createConnect1" Then
-            createConnect.MouseMove(rx, ry)
-        End If
-        If Mode = "" Then
-            createConnect = Nothing
-        End If
+		ToolTip1.SetToolTip(Me, Mode)
+		If Mode = "MoveMe" Then
+			'TextBox2.Text = "rx - moveXstart=" + CStr(rx - moveXstart) + "  ry - moveYstart=" + CStr(ry - moveYstart) + vbCrLf + TextBox2.Text
+			If moveObject Is Nothing Then Exit Sub
 
-    End Sub
+			Dim mayMove As Boolean = False
 
-    Private Sub Form1_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
+			If rx - moveXstart <> 0 Then
+				moveArray.Clear()
+				mayMove = moveObject.Move(moveObject, rx - moveXstart, 0)
+				If mayMove Then
+					Cursor = Cursors.SizeAll
+					Dim m As IMovable
+					For j = 0 To moveArray.Count - 1
+						m = moveArray(j)
+						m.MoveOK()
+					Next
+				Else
+					Cursor = Cursors.No
+				End If
+				moveXstart = rx
+			End If
+			If ry - moveYstart <> 0 Then
+				moveArray.Clear()
+				mayMove = moveObject.Move(moveObject, 0, ry - moveYstart)
+				If mayMove Then
+					Cursor = Cursors.SizeAll
+					Dim m As IMovable
+					For j = 0 To moveArray.Count - 1
+						m = moveArray(j)
+						m.MoveOK()
+					Next
+				Else
+					Cursor = Cursors.No
+				End If
+				moveYstart = ry
+			End If
+		End If
+
+		Dim G As Graphics = Me.CreateGraphics
+		If e.Button = MouseButtons.Left Then
+
+
+		Else
+			G.Clear(Me.BackColor)
+		End If
+		If e.Button = MouseButtons.Right Then
+
+		Else
+			G.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+			Dim Pn As New Pen(Color.LightGreen, 1) With {
+				.DashStyle = Drawing2D.DashStyle.Dash
+			}
+			G.DrawLine(Pn, 0, ry, 3000, ry)
+			G.DrawLine(Pn, rx, 0, rx, 3000)
+			If Mode = "eBat" Then
+				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx + 5, ry - 2, rx + 55, ry - 2)
+				G.DrawLine(Pn, rx + 55, ry - 2, rx + 55, ry + 30)
+				G.DrawLine(Pn, rx + 5, ry - 2, rx + 5, ry + 30)
+				G.DrawLine(Pn, rx + 5, ry + 30, rx + 55, ry + 30)
+			End If
+			If Mode = "bt2" Then
+				Pn = New Pen(bordColor, 1)
+				Dim secondPoint = New Point(e.X, e.Y)
+				G.DrawLine(Pn, firstPoint.X, firstPoint.Y, secondPoint.X, firstPoint.Y)
+				G.DrawLine(Pn, secondPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y)
+				G.DrawLine(Pn, secondPoint.X, secondPoint.Y, firstPoint.X, secondPoint.Y)
+				G.DrawLine(Pn, firstPoint.X, secondPoint.Y, firstPoint.X, firstPoint.Y)
+			End If
+			If Mode = "eResist1" Or Mode = "eResist3" Then
+				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx - 15, ry - 10, rx + 15, ry - 10)
+				G.DrawLine(Pn, rx - 15, ry + 30, rx + 15, ry + 30)
+				G.DrawLine(Pn, rx - 15, ry - 10, rx - 15, ry + 30)
+				G.DrawLine(Pn, rx + 15, ry - 10, rx + 15, ry + 30)
+			End If
+			If Mode = "eResist2" Or Mode = "eResist4" Then
+				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx - 10, ry - 15, rx + 30, ry - 15)
+				G.DrawLine(Pn, rx + 30, ry - 15, rx + 30, ry + 15)
+				G.DrawLine(Pn, rx + 30, ry + 15, rx - 10, ry + 15)
+				G.DrawLine(Pn, rx - 10, ry + 15, rx - 10, ry - 15)
+			End If
+			If Mode = "newFuseV" Then
+				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx + 5, ry + 5, rx - 5, ry + 5)
+				G.DrawLine(Pn, rx + 5, ry + 35, rx - 5, ry + 35)
+				G.DrawLine(Pn, rx + 5, ry + 5, rx + 5, ry + 35)
+				G.DrawLine(Pn, rx - 5, ry + 5, rx - 5, ry + 35)
+			End If
+			If Mode = "newFuseH" Then
+				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx + 5, ry - 5, rx + 35, ry - 5)
+				G.DrawLine(Pn, rx + 5, ry + 5, rx + 35, ry + 5)
+				G.DrawLine(Pn, rx + 5, ry - 5, rx + 5, ry + 5)
+				G.DrawLine(Pn, rx + 35, ry + 5, rx + 35, ry - 5)
+			End If
+			G.Dispose()
+			ToolTip1.SetToolTip(Me, Mode)
+		End If
+		If Mode = "createConnect1" Then
+			createConnect.MouseMove(rx, ry)
+		End If
+		If Mode = "" Then
+			createConnect = Nothing
+		End If
+
+	End Sub
+
+	Private Sub Form1_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
         If e.Button = MouseButtons.Right And stopAtRMClick Then
             Mode = ""
             GroupBox1.Visible = True
@@ -1319,13 +1365,13 @@ StartFile:
                 End If
                 'eR
                 If aComp(0) = "eResist" Then
-                    Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
-                    eComp = New EComponent With {
-                        .aType = "eBat",
-                        .numInArray = res.num,
-                        .component = res
-                    }
-                    Elements.Add(eComp)
+					Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+					eComp = New EComponent With {
+						.aType = "eResist",
+						.numInArray = res.num,
+						.component = res
+					}
+					Elements.Add(eComp)
                     Me.Controls.Add(res)
                 End If
                 'eFuse
@@ -1391,388 +1437,411 @@ StartFile:
             Application.DoEvents()
         Next
         ProgressBar.Visible = False
-        showComments(f.showComments)
-    End Sub
+		ShowComments(f.showComments)
+	End Sub
 
-    Private Sub PrintReversNumber()
-        Try
-            Dim fs As New FontStyle
-            fs = FontStyle.Italic Or FontStyle.Bold
-            Dim font As New Font(fnt.Families(0), 14, fs)
-            Dim g As Graphics = pbNumber.CreateGraphics
-            g.Clear(Me.BackColor)
-            g.TranslateTransform(200, 22)
-            g.RotateTransform(180)
-            g.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
-            g.Dispose()
-        Catch ex As Exception
+	Private Sub PrintReversNumber()
+		Try
+			Dim fs As New FontStyle
+			fs = FontStyle.Italic Or FontStyle.Bold
+			Dim font As New Font(fnt.Families(0), 14, fs)
+			Dim g As Graphics = pbNumber.CreateGraphics
+			g.Clear(Me.BackColor)
+			g.TranslateTransform(200, 22)
+			g.RotateTransform(180)
+			g.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
+			g.Dispose()
+		Catch ex As Exception
 
-        End Try
-    End Sub
+		End Try
+	End Sub
 
-    Private Sub Txt_TextChanged(sender As Object, e As EventArgs) Handles txtNumber.TextChanged, txtList.TextChanged, txtListov.TextChanged,
-            txtMashtab.TextChanged, txtMassa.TextChanged, txtName.TextChanged, txtNcontr.TextChanged, txtOrg1.TextChanged,
-            txtOrg2.TextChanged, txtProv.TextChanged, txtRazrab.TextChanged, txtSogl.TextChanged, txtTcontr.TextChanged,
-            txtType.TextChanged, txtUtv.TextChanged
-        If sender.Equals(txtNumber) Then
-            f.number = txtNumber.Text
-            PrintReversNumber()
-        End If
-        If sender.Equals(txtList) Then
-            f.list = txtList.Text
-        End If
-        If sender.Equals(txtListov) Then
-            f.listov = txtListov.Text
-        End If
-        If sender.Equals(txtMashtab) Then
-            f.mashtab = txtMashtab.Text
-        End If
-        If sender.Equals(txtMassa) Then
-            f.massa = txtMassa.Text
-        End If
-        If sender.Equals(txtName) Then
-            f.name = txtName.Text
-        End If
-        If sender.Equals(txtNcontr) Then
-            f.nkontr = txtNcontr.Text
-        End If
-        If sender.Equals(txtOrg1) Then
-            f.org1 = txtOrg1.Text
-        End If
-        If sender.Equals(txtOrg2) Then
-            f.org2 = txtOrg2.Text
-        End If
-        If sender.Equals(txtProv) Then
-            f.prov = txtProv.Text
-        End If
-        If sender.Equals(txtRazrab) Then
-            f.razrab = txtRazrab.Text
-        End If
-        If sender.Equals(txtSogl) Then
-            f.sogl = txtSogl.Text
-        End If
-        If sender.Equals(txtTcontr) Then
-            f.tkontr = txtTcontr.Text
-        End If
-        If sender.Equals(txtType) Then
-            f.type = txtType.Text
-        End If
-        If sender.Equals(txtUtv) Then
-            f.utv = txtUtv.Text
-        End If
-    End Sub
+	Private Sub Txt_TextChanged(sender As Object, e As EventArgs) Handles txtNumber.TextChanged, txtList.TextChanged, txtListov.TextChanged,
+			txtMashtab.TextChanged, txtMassa.TextChanged, txtName.TextChanged, txtNcontr.TextChanged, txtOrg1.TextChanged,
+			txtOrg2.TextChanged, txtProv.TextChanged, txtRazrab.TextChanged, txtSogl.TextChanged, txtTcontr.TextChanged,
+			txtType.TextChanged, txtUtv.TextChanged
+		If sender.Equals(txtNumber) Then
+			f.number = txtNumber.Text
+			PrintReversNumber()
+		End If
+		If sender.Equals(txtList) Then
+			f.list = txtList.Text
+		End If
+		If sender.Equals(txtListov) Then
+			f.listov = txtListov.Text
+		End If
+		If sender.Equals(txtMashtab) Then
+			f.mashtab = txtMashtab.Text
+		End If
+		If sender.Equals(txtMassa) Then
+			f.massa = txtMassa.Text
+		End If
+		If sender.Equals(txtName) Then
+			f.name = txtName.Text
+		End If
+		If sender.Equals(txtNcontr) Then
+			f.nkontr = txtNcontr.Text
+		End If
+		If sender.Equals(txtOrg1) Then
+			f.org1 = txtOrg1.Text
+		End If
+		If sender.Equals(txtOrg2) Then
+			f.org2 = txtOrg2.Text
+		End If
+		If sender.Equals(txtProv) Then
+			f.prov = txtProv.Text
+		End If
+		If sender.Equals(txtRazrab) Then
+			f.razrab = txtRazrab.Text
+		End If
+		If sender.Equals(txtSogl) Then
+			f.sogl = txtSogl.Text
+		End If
+		If sender.Equals(txtTcontr) Then
+			f.tkontr = txtTcontr.Text
+		End If
+		If sender.Equals(txtType) Then
+			f.type = txtType.Text
+		End If
+		If sender.Equals(txtUtv) Then
+			f.utv = txtUtv.Text
+		End If
+	End Sub
 
-    Sub HidePanel()
-        If Mode <> "Delete" Then
-            lastMode = Mode
-        End If
-        If Mode <> "" Then
-            GroupBox1.Visible = False
-            CheckBox2.Visible = False
-            Select Case Mode
-                Case "eResist1"
-                    Me.Cursor = R1_cur
-                Case "eResist2"
-                    Me.Cursor = R2_cur
-                Case "eResist3"
-                    Me.Cursor = R3_cur
-                Case "eResist4"
-                    Me.Cursor = R4_cur
-                Case "eBat"
-                    Me.Cursor = element_cur
-                Case "newPoint"
-                    Me.Cursor = Cursors.Hand
-                Case "createConnect"
-                    Me.Cursor = addLine_cur
-                Case "eGND"
-                    Me.Cursor = gnd_cur
-                Case "newFuseH"
-                    Me.Cursor = FuseH_cur
-                Case "Delete"
-                    Me.Cursor = del_cur
-            End Select
-        End If
-    End Sub
+	Sub HidePanel()
+		If Mode <> "Delete" Then
+			lastMode = Mode
+		End If
+		If Mode <> "" Then
+			GroupBox1.Visible = False
+			CheckBox2.Visible = False
+			Select Case Mode
+				Case "eResist1"
+					Me.Cursor = R1_cur
+				Case "eResist2"
+					Me.Cursor = R2_cur
+				Case "eResist3"
+					Me.Cursor = R3_cur
+				Case "eResist4"
+					Me.Cursor = R4_cur
+				Case "eBat"
+					Me.Cursor = element_cur
+				Case "newPoint"
+					Me.Cursor = Cursors.Hand
+				Case "createConnect"
+					Me.Cursor = addLine_cur
+				Case "eGND"
+					Me.Cursor = gnd_cur
+				Case "newFuseH"
+					Me.Cursor = FuseH_cur
+				Case "Delete"
+					Me.Cursor = del_cur
+				Case "Move"
+					Me.Cursor = Cursors.NoMove2D
+			End Select
+		End If
+	End Sub
 
-    Private Sub PictureBox_Resist_Click(sender As Object, e As EventArgs) Handles PictureBox_Resist.Click
-        Mode = "eResist1"
-        HidePanel()
-    End Sub
+	Private Sub PictureBox_Resist_Click(sender As Object, e As EventArgs) Handles PictureBox_Resist.Click
+		Mode = "eResist1"
+		HidePanel()
+	End Sub
 
-    Private Sub PictureBox_eBat_Click(sender As Object, e As EventArgs) Handles PictureBox_eBat.Click
-        Mode = "eBat"
-        HidePanel()
-    End Sub
+	Private Sub PictureBox_eBat_Click(sender As Object, e As EventArgs) Handles PictureBox_eBat.Click
+		Mode = "eBat"
+		HidePanel()
+	End Sub
 
-    Private Sub PictureBox_Point_Click(sender As Object, e As EventArgs) Handles PictureBox_Point.Click
-        Mode = "newPoint"
-        HidePanel()
-    End Sub
+	Private Sub PictureBox_Point_Click(sender As Object, e As EventArgs) Handles PictureBox_Point.Click
+		Mode = "newPoint"
+		HidePanel()
+	End Sub
 
-    Private Sub PictureBox_Provod_Click(sender As Object, e As EventArgs) Handles PictureBox_Provod.Click
-        Mode = "createConnect"
-        HidePanel()
-    End Sub
+	Private Sub PictureBox_Provod_Click(sender As Object, e As EventArgs) Handles PictureBox_Provod.Click
+		Mode = "createConnect"
+		HidePanel()
+	End Sub
 
-    Private Sub PictureBox_Massa_Click(sender As Object, e As EventArgs) Handles PictureBox_Massa.Click
-        Mode = "eGND"
-        HidePanel()
-    End Sub
+	Private Sub PictureBox_Massa_Click(sender As Object, e As EventArgs) Handles PictureBox_Massa.Click
+		Mode = "eGND"
+		HidePanel()
+	End Sub
 
-    Private Sub PictureBox_Fuse_Click(sender As Object, e As EventArgs) Handles PictureBox_Fuse.Click
-        Mode = "newFuseH"
-        HidePanel()
-    End Sub
-
-
-    Private Sub PictureBox_Delete_Click(sender As Object, e As EventArgs) Handles PictureBox_Delete.Click
-        Mode = "Delete"
-        HidePanel()
-    End Sub
-
-    Private Sub PictureBox_BorderText_Click(sender As Object, e As EventArgs) Handles PictureBox_BorderText.Click
-        Mode = "bt1"
-        HidePanel()
-        'Me.Cursor = ?del_cur
-    End Sub
-
-    Private Sub PictureBox_eText_Click(sender As Object, e As EventArgs) Handles PictureBox_eText.Click
-        Mode = "eText"
-        HidePanel()
-    End Sub
-
-    Private Sub PictureBox_eComment_Click(sender As Object, e As EventArgs) Handles PictureBox_eComment.Click
-        Mode = "eTextC"
-        HidePanel()
-    End Sub
-
-    Public Sub Delete(num As Integer)
-        Dim eComp As EComponent
-        eComp = Elements(num)
-        eComp.component.Dispose()
-        Elements(num) = Nothing
-        NeedSave = True
-    End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs)
-        pointsInProcessSig.Clear()
-        Dim eComp As EComponent
-        Dim econ As IConnectable
-        eComp = Elements(1)
-        econ = eComp.component
-        econ.Change(0, 15)
-    End Sub
-
-    Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
-        If e.KeyCode = Keys.F12 And e.Shift Then
-            Dim aPath As String
-            aPath = FileName
-            If aPath <> "" Then
-                Dim i As Integer
-                i = aPath.LastIndexOf("\")
-                If i <> 0 Then
-                    aPath = aPath.Substring(0, i + 1)
-                End If
-            End If
-            If f.format.StartsWith("A4") Then
-                Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Dim Gf As Graphics = Me.CreateGraphics
-                Gf.Clear(Me.BackColor)
-                Gf.Dispose()
-                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
-
-                Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Using g As Graphics = Graphics.FromImage(img)
-                    g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603, 888)), GraphicsUnit.Pixel)
-                End Using
-
-                img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
-                zx = 0
-                zy = 0
-            End If
-            If f.format.StartsWith("A3") Then
-                Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Dim Gf As Graphics = Me.CreateGraphics
-                Gf.Clear(Me.BackColor)
-                Gf.Dispose()
-                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
-
-                Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Using g As Graphics = Graphics.FromImage(img)
-                    g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
-                End Using
-
-                img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
-                zx = 0
-                zy = 0
-            End If
-            ProgressBar.Visible = True
-            ProgressBar.Maximum = 100
-            For i = 1 To 100
-                System.Threading.Thread.Sleep(5)
-                ProgressBar.Value = i
-                Application.DoEvents()
-            Next
-            System.Threading.Thread.Sleep(50)
-            ProgressBar.Visible = False
-        End If
-        If e.KeyCode = Keys.Escape Then
-            Mode = ""
-            GroupBox1.Visible = True
-            CheckBox2.Visible = True
-            Me.Cursor = Cursors.Default
-        End If
-        If e.KeyCode = Keys.F5 Then
-            Mode = ""
-            GroupBox1.Visible = True
-            CheckBox2.Visible = True
-            Me.Cursor = Cursors.Default
-            If f.Batt > 0 Then
-                Dim eComp As EComponent = Elements(f.Batt)
-                Dim bat As eBat = eComp.component
-                pointsInProcessUI.Clear()
-                bat.CheckUI(0, 0)
-            End If
-        End If
-        If e.KeyCode = Keys.F4 Then
-            Mode = lastMode
-            HidePanel()
-        End If
-        If e.KeyCode = Keys.R Then
-            If Mode = "newFuseH" Then
-                Mode = "newFuseV"
-                Me.Cursor = FuseV_cur
-            ElseIf Mode = "newFuseV" Then
-                Mode = "newFuseH"
-                Me.Cursor = FuseH_cur
-            End If
-            If Mode = "eResist4" Then
-                Mode = "eResist1"
-                Me.Cursor = R1_cur
-            ElseIf Mode = "eResist3" Then
-                Mode = "eResist4"
-                Me.Cursor = R4_cur
-            ElseIf Mode = "eResist2" Then
-                Mode = "eResist3"
-                Me.Cursor = R3_cur
-            ElseIf Mode = "eResist1" Then
-                Mode = "eResist2"
-                Me.Cursor = R2_cur
-            End If
-            lastMode = Mode
-        End If
-    End Sub
-
-    Private Sub PbNumber_Paint(sender As Object, e As PaintEventArgs) Handles pbNumber.Paint
-        Try
-            Dim fs As New FontStyle
-            fs = FontStyle.Italic Or FontStyle.Bold
-            Dim font As New Font(fnt.Families(0), 14, fs)
-            'Dim g As Graphics = pbNumber.CreateGraphics
-            e.Graphics.Clear(Me.BackColor)
-            e.Graphics.TranslateTransform(200, 22)
-            e.Graphics.RotateTransform(180)
-            e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
-        Catch ex As Exception
-
-        End Try
-    End Sub
-
-    Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        Dim q As Microsoft.VisualBasic.MsgBoxResult
-        If NeedSave Then
-            q = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNo, "Предупреждение")
-            If q = vbYes Then
-                'сохранение
-                FileSave()
-            End If
-        End If
-    End Sub
-
-    Private Sub Form1_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        Dim a, b As Integer
-        a = Me.Height
-        a = CInt((a - 20) / 2)
-        b = Me.Width
-        b = CInt((b - 250) / 2)
-        ProgressBar.Location = New System.Drawing.Point(b, a)
-    End Sub
-
-    Private Sub СкрытьКомментарииToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles СкрытьКомментарииToolStripMenuItem.Click
-        showComments(False)
-    End Sub
-
-    Private Sub showComments(show As Boolean)
-        f.showComments = show
-        Dim eComp As EComponent
-        For i = 1 To Elements.Count - 1
-            eComp = Elements(i)
-            If Not (eComp Is Nothing) Then
-                If eComp.aType = "eTextC" Then
-                    Dim t As eTextC = eComp.component
-                    t.Visible = show
-                End If
-            End If
+	Private Sub PictureBox_Fuse_Click(sender As Object, e As EventArgs) Handles PictureBox_Fuse.Click
+		Mode = "newFuseH"
+		HidePanel()
+	End Sub
 
 
-        Next
-    End Sub
+	Private Sub PictureBox_Delete_Click(sender As Object, e As EventArgs) Handles PictureBox_Delete.Click
+		Mode = "Delete"
+		HidePanel()
+	End Sub
 
-    Private Sub ПоказатьКомментарииToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ПоказатьКомментарииToolStripMenuItem.Click
-        showComments(True)
-    End Sub
+	Private Sub PictureBox_BorderText_Click(sender As Object, e As EventArgs) Handles PictureBox_BorderText.Click
+		Mode = "bt1"
+		HidePanel()
+		'Me.Cursor = ?del_cur
+	End Sub
 
-    Public Function OnConnect(n1 As Integer, n2 As Integer) As Boolean
-        isCycle = False
-        LabelSig.BackColor = Color.Red
-        Application.DoEvents()
-        isChanging = True
-        Dim eComp As EComponent
-        Dim p01, p02 As ILinked
-        eComp = Elements(n1)
-        p01 = eComp.component
-        eComp = Elements(n2)
-        p02 = eComp.component
-        'Dim p01C As Integer = p01.Condition 'Текущие значения Condition на точках
-        'Dim p02C As Integer = p02.Condition
-        pointsInProcessSig.Clear()
-        Dim p01Ck As Integer = p01.chk_Sig 'Текущие значения CheckSig на точках
-        pointsInProcessSig.Clear()
-        Dim p02Ck As Integer = p02.chk_Sig
+	Private Sub PictureBox_eText_Click(sender As Object, e As EventArgs) Handles PictureBox_eText.Click
+		Mode = "eText"
+		HidePanel()
+	End Sub
 
-        'НИЖЕ ВСЯ ЛОГИКА СОЕДИНЕНИЯ
-        If p01Ck = p02Ck Then
-            p01.addLink(n2)
-            p02.addLink(n1)
-            'Для проверки на замкнутость контура
-            pointsInProcessSig.Clear()
-            p01Ck = p01.chk_Sig
-        Else
-            If p01Ck = 0 Then
-                pointsInProcessSig.Clear()
-                p01.Changee(n2, p02Ck)
-            ElseIf p02Ck = 0 Then
-                pointsInProcessSig.Clear()
-                p02.Changee(n1, p01Ck)
-            Else
-                MsgBox("Замыкание цепь " + CStr(p01Ck) + " и цепь " + CStr(p02Ck) + vbCrLf + "", vbCritical, "Ошибка в схеме")
-                Return False
-            End If
-            p01.addLink(n2)
-            p02.addLink(n1)
-        End If
-        LabelSig.BackColor = Color.White
-        isChanging = False
-        If f.Batt > 0 Then
-            eComp = Elements(f.Batt)
-            Dim bat As eBat = eComp.component
-            pointsInProcessUI.Clear()
-            bat.CheckUI(0, 0)
-        End If
-        Return True
-    End Function
+	Private Sub PictureBox_eComment_Click(sender As Object, e As EventArgs) Handles PictureBox_eComment.Click
+		Mode = "eTextC"
+		HidePanel()
+	End Sub
 
-    Public Sub DisConnect(n1 As Integer, n2 As Integer)
+	Private Sub PictureBox_Move_Click(sender As Object, e As EventArgs) Handles PictureBox_Move.Click
+		Mode = "Move"
+		HidePanel()
+	End Sub
+
+	Public Sub Delete(num As Integer)
+		Dim eComp As EComponent
+		eComp = Elements(num)
+		eComp.component.Dispose()
+		Elements(num) = Nothing
+		NeedSave = True
+	End Sub
+
+	Private Sub Button1_Click(sender As Object, e As EventArgs)
+		pointsInProcessSig.Clear()
+		Dim eComp As EComponent
+		Dim econ As IConnectable
+		eComp = Elements(1)
+		econ = eComp.component
+		econ.Change(0, 15)
+	End Sub
+
+	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+		If e.KeyCode = Keys.F12 And e.Shift Then
+			Dim aPath As String
+			aPath = FileName
+			If aPath <> "" Then
+				Dim i As Integer
+				i = aPath.LastIndexOf("\")
+				If i <> 0 Then
+					aPath = aPath.Substring(0, i + 1)
+				End If
+			End If
+			If f.format.StartsWith("A4") Then
+				Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Dim Gf As Graphics = Me.CreateGraphics
+				Gf.Clear(Me.BackColor)
+				Gf.Dispose()
+				Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
+
+				Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Using g As Graphics = Graphics.FromImage(img)
+					g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603, 888)), GraphicsUnit.Pixel)
+				End Using
+
+				img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+				zx = 0
+				zy = 0
+			End If
+			If f.format.StartsWith("A3") Then
+				Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Dim Gf As Graphics = Me.CreateGraphics
+				Gf.Clear(Me.BackColor)
+				Gf.Dispose()
+				Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
+
+				Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Using g As Graphics = Graphics.FromImage(img)
+					g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
+				End Using
+
+				img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+				zx = 0
+				zy = 0
+			End If
+			ProgressBar.Visible = True
+			ProgressBar.Maximum = 100
+			For i = 1 To 100
+				System.Threading.Thread.Sleep(5)
+				ProgressBar.Value = i
+				Application.DoEvents()
+			Next
+			System.Threading.Thread.Sleep(50)
+			ProgressBar.Visible = False
+		End If
+		If e.KeyCode = Keys.Escape Then
+			Mode = ""
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			Me.Cursor = Cursors.Default
+		End If
+		If e.KeyCode = Keys.F5 Then
+			Mode = ""
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			Me.Cursor = Cursors.Default
+			If f.Batt > 0 Then
+				Dim eComp As EComponent = Elements(f.Batt)
+				Dim bat As eBat = eComp.component
+				pointsInProcessUI.Clear()
+				bat.CheckUI(0, 0)
+			End If
+		End If
+		If e.KeyCode = Keys.F4 Then
+			Mode = lastMode
+			HidePanel()
+		End If
+		If e.KeyCode = Keys.R Then
+			If Mode = "newFuseH" Then
+				Mode = "newFuseV"
+				Me.Cursor = FuseV_cur
+			ElseIf Mode = "newFuseV" Then
+				Mode = "newFuseH"
+				Me.Cursor = FuseH_cur
+			End If
+			If Mode = "eResist4" Then
+				Mode = "eResist1"
+				Me.Cursor = R1_cur
+			ElseIf Mode = "eResist3" Then
+				Mode = "eResist4"
+				Me.Cursor = R4_cur
+			ElseIf Mode = "eResist2" Then
+				Mode = "eResist3"
+				Me.Cursor = R3_cur
+			ElseIf Mode = "eResist1" Then
+				Mode = "eResist2"
+				Me.Cursor = R2_cur
+			End If
+			lastMode = Mode
+		End If
+		If e.KeyCode = Keys.M Then
+			Mode = "Move"
+			HidePanel()
+		End If
+		If e.KeyCode = Keys.D Then
+			Mode = "Delete"
+			HidePanel()
+		End If
+		If e.KeyCode = Keys.C Then
+			Mode = "createConnect"
+			HidePanel()
+		End If
+		If e.KeyCode = Keys.P Then
+			Mode = "newPoint"
+			HidePanel()
+		End If
+	End Sub
+
+	Private Sub PbNumber_Paint(sender As Object, e As PaintEventArgs) Handles pbNumber.Paint
+		Try
+			Dim fs As New FontStyle
+			fs = FontStyle.Italic Or FontStyle.Bold
+			Dim font As New Font(fnt.Families(0), 14, fs)
+			'Dim g As Graphics = pbNumber.CreateGraphics
+			e.Graphics.Clear(Me.BackColor)
+			e.Graphics.TranslateTransform(200, 22)
+			e.Graphics.RotateTransform(180)
+			e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
+		Catch ex As Exception
+
+		End Try
+	End Sub
+
+	Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+		Dim q As Microsoft.VisualBasic.MsgBoxResult
+		If NeedSave Then
+			q = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNo, "Предупреждение")
+			If q = vbYes Then
+				'сохранение
+				FileSave()
+			End If
+		End If
+	End Sub
+
+	Private Sub Form1_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+		Dim a, b As Integer
+		a = Me.Height
+		a = CInt((a - 20) / 2)
+		b = Me.Width
+		b = CInt((b - 250) / 2)
+		ProgressBar.Location = New System.Drawing.Point(b, a)
+	End Sub
+
+	Private Sub СкрытьКомментарииToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles СкрытьКомментарииToolStripMenuItem.Click
+		ShowComments(False)
+	End Sub
+
+	Private Sub ShowComments(show As Boolean)
+		f.showComments = show
+		Dim eComp As EComponent
+		For i = 1 To Elements.Count - 1
+			eComp = Elements(i)
+			If Not (eComp Is Nothing) Then
+				If eComp.aType = "eTextC" Then
+					Dim t As eTextC = eComp.component
+					t.Visible = show
+				End If
+			End If
+
+
+		Next
+	End Sub
+
+	Private Sub ПоказатьКомментарииToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ПоказатьКомментарииToolStripMenuItem.Click
+		ShowComments(True)
+	End Sub
+
+	Public Function OnConnect(n1 As Integer, n2 As Integer) As Boolean
+		isCycle = False
+		LabelSig.BackColor = Color.Red
+		Application.DoEvents()
+		isChanging = True
+		Dim eComp As EComponent
+		Dim p01, p02 As ILinked
+		eComp = Elements(n1)
+		p01 = eComp.component
+		eComp = Elements(n2)
+		p02 = eComp.component
+		'Dim p01C As Integer = p01.Condition 'Текущие значения Condition на точках
+		'Dim p02C As Integer = p02.Condition
+		pointsInProcessSig.Clear()
+		Dim p01Ck As Integer = p01.chk_Sig 'Текущие значения CheckSig на точках
+		pointsInProcessSig.Clear()
+		Dim p02Ck As Integer = p02.chk_Sig
+
+		'НИЖЕ ВСЯ ЛОГИКА СОЕДИНЕНИЯ
+		If p01Ck = p02Ck Then
+			p01.addLink(n2)
+			p02.addLink(n1)
+			'Для проверки на замкнутость контура
+			pointsInProcessSig.Clear()
+			p01Ck = p01.chk_Sig
+		Else
+			If p01Ck = 0 Then
+				pointsInProcessSig.Clear()
+				p01.Changee(n2, p02Ck)
+			ElseIf p02Ck = 0 Then
+				pointsInProcessSig.Clear()
+				p02.Changee(n1, p01Ck)
+			Else
+				MsgBox("Замыкание цепь " + CStr(p01Ck) + " и цепь " + CStr(p02Ck) + vbCrLf + "", vbCritical, "Ошибка в схеме")
+				Return False
+			End If
+			p01.addLink(n2)
+			p02.addLink(n1)
+		End If
+		LabelSig.BackColor = Color.White
+		isChanging = False
+		If f.Batt > 0 Then
+			eComp = Elements(f.Batt)
+			Dim bat As eBat = eComp.component
+			pointsInProcessUI.Clear()
+			bat.CheckUI(0, 0)
+		End If
+		Return True
+	End Function
+
+	Public Sub DisConnect(n1 As Integer, n2 As Integer)
         isCycle = False
         LabelSig.BackColor = Color.Red
         Application.DoEvents()
