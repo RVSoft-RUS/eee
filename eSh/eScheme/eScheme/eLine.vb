@@ -397,20 +397,23 @@ Public Class eLine
 		Form1.moveArray.Add(Me)
 		Dim mayMove As Boolean = True
 		Dim nx As Integer = X2 - X1
-		Dim ny As Integer = Y2 - Y1
-		If nx > 0 Then 'Горизонтально
+        Dim ny As Integer = Y2 - Y1
+        mX1 = X1
+        mX2 = X2
+        mY1 = Y1
+        mY2 = Y2
+        If nx > 0 Then 'Горизонтально
 			If dX <> 0 And dY = 0 Then
-				'Form1.TextBox2.Text = "dx=" + CStr(dX) + " dy=" + CStr(dY) + vbCrLf + Form1.TextBox2.Text
-				If from Is Me Then
-					'Dim m As IMovable
-					'For j = 0 To links.Count - 1
-					'	Dim eComp As EComponent = Form1.Elements(links(j))
-					'	m = eComp.component
-					'	mayMove = m.Move(Me, 0, dY)
-					'Next
-					Return True
-				End If
-				If from.GetX = X1 Then 'Тянем за левый конец
+                If from Is Me Then
+                    'Dim m As IMovable
+                    'For j = 0 To links.Count - 1
+                    '	Dim eComp As EComponent = Form1.Elements(links(j))
+                    '	m = eComp.component
+                    '	mayMove = m.Move(Me, 0, dY)
+                    'Next
+                    Return True
+                End If
+                If from.GetX = X1 Then 'Тянем за левый конец
 					If X1 + dX >= X2 Then Return False
 					mX1 = X1 + dX
 					Return True

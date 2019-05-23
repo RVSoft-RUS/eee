@@ -69,30 +69,45 @@ Public Class EGND
 	End Sub
 
 	Private Sub EGND_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
-		If Form1.Mode = "Delete" Then
-			Form1.DisConnect(num, num + 1)
-			Dim eComp As EComponent = Form1.Elements(num + 1)
-			Dim p As EPoint = eComp.component 'Первая точка 
-			p.links.Remove(num)
-			If p.links.Count = 0 Then
-				p.DeleteMe()
-			End If
+        If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
+            Form1.Mode = ""
+            Form1.GroupBox1.Visible = True
+            Form1.CheckBox2.Visible = True
+            Form1.CheckBox2.Checked = True
+            Form1.Cursor = Cursors.Default
+            Exit Sub
+        End If
+        If Form1.Mode = "Move" Then
+            Form1.moveObject = Me
+            Form1.Cursor = Cursors.SizeAll
+            Form1.moveXstart = Form1.rx
+            Form1.moveYstart = Form1.ry
+            Form1.Mode = "MoveMe"
+        End If
+        If Form1.Mode = "Delete" Then
+            Form1.DisConnect(num, link)
+            Dim eComp As EComponent = Form1.Elements(link)
+            Dim p As EPoint = eComp.component 'Первая точка 
+            p.links.Remove(num)
+            If p.links.Count = 0 Then
+                p.DeleteMe()
+            End If
 
-			'eComp = Form1.Elements(num + 2)
-			'p = eComp.component 'Первая точка 
-			'p.links.Remove(num)
-			'If p.links.Count = 0 Then
-			'    p.DeleteMe()
-			'End If
-			If Form1.f.Batt > 0 Then
-				eComp = Form1.Elements(Form1.f.Batt)
-				Dim bat As eBat = eComp.component
-				Form1.pointsInProcessUI.Clear()
-				bat.CheckUI(0, 0)
-			End If
-			Form1.Delete(num)
-		End If
-	End Sub
+            'eComp = Form1.Elements(num + 2)
+            'p = eComp.component 'Первая точка 
+            'p.links.Remove(num)
+            'If p.links.Count = 0 Then
+            '    p.DeleteMe()
+            'End If
+            If Form1.f.Batt > 0 Then
+                eComp = Form1.Elements(Form1.f.Batt)
+                Dim bat As eBat = eComp.component
+                Form1.pointsInProcessUI.Clear()
+                bat.CheckUI(0, 0)
+            End If
+            Form1.Delete(num)
+        End If
+    End Sub
 
 	Public Function ForSave() As ArrayList Implements IConnectable.ForSave
 		Dim save As New ArrayList From {
@@ -145,17 +160,7 @@ Public Class EGND
 		End If
 	End Function
 
-	Private Sub EGND_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
-		If Form1.Mode = "Move" Then
-			Form1.moveObject = Me
-			Form1.Cursor = Cursors.SizeAll
-			Form1.moveXstart = Form1.rx
-			Form1.moveYstart = Form1.ry
-			Form1.Mode = "MoveMe"
-		End If
-	End Sub
-
-	Public Sub MoveOK() Implements IMovable.MoveOK
+    Public Sub MoveOK() Implements IMovable.MoveOK
 		X = m_X
 		Y = m_Y
 		Me.Location = New Point(X - 8, Y + 5)

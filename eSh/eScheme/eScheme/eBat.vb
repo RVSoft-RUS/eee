@@ -113,10 +113,18 @@ Public Class eBat
 	End Function
 
 	Private Sub EBat_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
-		If e.Button = MouseButtons.Right Then
-			ContextMenu1.Show(Me, e.X, e.Y)
-		End If
-		If Form1.Mode = "Delete" Then
+        If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
+            Form1.Mode = ""
+            Form1.GroupBox1.Visible = True
+            Form1.CheckBox2.Visible = True
+            Form1.CheckBox2.Checked = True
+            Form1.Cursor = Cursors.Default
+            Exit Sub
+        End If
+        If e.Button = MouseButtons.Right Then
+            ContextMenu1.Show(Me, e.X, e.Y)
+        End If
+        If Form1.Mode = "Delete" Then
 			Dim eComp As EComponent = Form1.Elements(num + 1)
 			Dim p As EPoint = eComp.component 'Первая точка 
 			p.links.Remove(num)

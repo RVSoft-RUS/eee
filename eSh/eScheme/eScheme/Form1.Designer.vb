@@ -1089,11 +1089,11 @@ Partial Class Form1
         'TextBox1
         '
         Me.TextBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox1.Location = New System.Drawing.Point(574, 71)
+        Me.TextBox1.Location = New System.Drawing.Point(402, 71)
         Me.TextBox1.Multiline = True
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TextBox1.Size = New System.Drawing.Size(227, 328)
+        Me.TextBox1.Size = New System.Drawing.Size(399, 328)
         Me.TextBox1.TabIndex = 59
         '
         'ProgressBar
@@ -1113,6 +1113,7 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(883, 917)
+        Me.Controls.Add(Me.CheckBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.LabelSig)
         Me.Controls.Add(Me.ProgressBar)
@@ -1159,7 +1160,6 @@ Partial Class Form1
         Me.Controls.Add(Me.lblLit)
         Me.Controls.Add(Me.txtNumber)
         Me.Controls.Add(Me.MenuStrip1)
-        Me.Controls.Add(Me.CheckBox2)
         Me.DoubleBuffered = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True

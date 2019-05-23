@@ -880,7 +880,7 @@ Public Class Form1
 
 		ToolTip1.SetToolTip(Me, Mode)
 		If Mode = "MoveMe" Then
-            TextBox1.Text = "rx -Xstart=" + CStr(rx - moveXstart) + "  ry - Ystart=" + CStr(ry - moveYstart) + vbCrLf + TextBox1.Text
+            'TextBox1.Text = "rx -Xstart=" + CStr(rx - moveXstart) + "  ry - Ystart=" + CStr(ry - moveYstart) + vbCrLf + TextBox1.Text
             If moveObject Is Nothing Then Exit Sub
 
 			Dim mayMove As Boolean = False
@@ -903,6 +903,7 @@ Public Class Form1
             End If
             If ry - moveYstart <> 0 Then
                 moveArray.Clear()
+                mayMove = False
                 mayMove = moveObject.Move(moveObject, 0, ry - moveYstart)
                 If mayMove Then
                     Cursor = Cursors.SizeAll
@@ -915,7 +916,7 @@ Public Class Form1
                     Cursor = Cursors.No
                 End If
                 moveYstart = ry
-                TextBox1.Text = "ry:" + CStr(moveArray.Count) + vbCrLf + TextBox1.Text
+                'TextBox1.Text = "ry:" + CStr(moveArray.Count) + vbCrLf + TextBox1.Text
             End If
         End If
 
@@ -1628,124 +1629,132 @@ StartFile:
 		econ.Change(0, 15)
 	End Sub
 
-	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
-		If e.KeyCode = Keys.F12 And e.Shift Then
-			Dim aPath As String
-			aPath = FileName
-			If aPath <> "" Then
-				Dim i As Integer
-				i = aPath.LastIndexOf("\")
-				If i <> 0 Then
-					aPath = aPath.Substring(0, i + 1)
-				End If
-			End If
-			If f.format.StartsWith("A4") Then
-				Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
-				Dim Gf As Graphics = Me.CreateGraphics
-				Gf.Clear(Me.BackColor)
-				Gf.Dispose()
-				Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
+    Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        If Mode = "MoveMe" Then
+            If Not e.Control Then
+                If moveObject.GetType.ToString = "eScheme.eBorderText" Then
+                    Dim bt As eBorderText = moveObject
+                    bt.Ctrl = False
+                End If
+            End If
+        End If
+        If e.KeyCode = Keys.F12 And e.Shift Then
+            Dim aPath As String
+            aPath = FileName
+            If aPath <> "" Then
+                Dim i As Integer
+                i = aPath.LastIndexOf("\")
+                If i <> 0 Then
+                    aPath = aPath.Substring(0, i + 1)
+                End If
+            End If
+            If f.format.StartsWith("A4") Then
+                Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                Dim Gf As Graphics = Me.CreateGraphics
+                Gf.Clear(Me.BackColor)
+                Gf.Dispose()
+                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
 
-				Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
-				Using g As Graphics = Graphics.FromImage(img)
-					g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603, 888)), GraphicsUnit.Pixel)
-				End Using
+                Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                Using g As Graphics = Graphics.FromImage(img)
+                    g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603, 888)), GraphicsUnit.Pixel)
+                End Using
 
-				img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
-				zx = 0
-				zy = 0
-			End If
-			If f.format.StartsWith("A3") Then
-				Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
-				Dim Gf As Graphics = Me.CreateGraphics
-				Gf.Clear(Me.BackColor)
-				Gf.Dispose()
-				Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
+                img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+                zx = 0
+                zy = 0
+            End If
+            If f.format.StartsWith("A3") Then
+                Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                Dim Gf As Graphics = Me.CreateGraphics
+                Gf.Clear(Me.BackColor)
+                Gf.Dispose()
+                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
 
-				Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
-				Using g As Graphics = Graphics.FromImage(img)
-					g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
-				End Using
+                Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                Using g As Graphics = Graphics.FromImage(img)
+                    g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
+                End Using
 
-				img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
-				zx = 0
-				zy = 0
-			End If
-			ProgressBar.Visible = True
-			ProgressBar.Maximum = 100
-			For i = 1 To 100
-				System.Threading.Thread.Sleep(5)
-				ProgressBar.Value = i
-				Application.DoEvents()
-			Next
-			System.Threading.Thread.Sleep(50)
-			ProgressBar.Visible = False
-		End If
-		If e.KeyCode = Keys.Escape Then
-			Mode = ""
-			GroupBox1.Visible = True
+                img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+                zx = 0
+                zy = 0
+            End If
+            ProgressBar.Visible = True
+            ProgressBar.Maximum = 100
+            For i = 1 To 100
+                System.Threading.Thread.Sleep(5)
+                ProgressBar.Value = i
+                Application.DoEvents()
+            Next
+            System.Threading.Thread.Sleep(50)
+            ProgressBar.Visible = False
+        End If
+        If e.KeyCode = Keys.Escape Then
+            Mode = ""
+            GroupBox1.Visible = True
             CheckBox2.Visible = True
             CheckBox2.Checked = True
             Me.Cursor = Cursors.Default
-		End If
-		If e.KeyCode = Keys.F5 Then
-			Mode = ""
-			GroupBox1.Visible = True
-			CheckBox2.Visible = True
-			Me.Cursor = Cursors.Default
-			If f.Batt > 0 Then
-				Dim eComp As EComponent = Elements(f.Batt)
-				Dim bat As eBat = eComp.component
-				pointsInProcessUI.Clear()
-				bat.CheckUI(0, 0)
-			End If
-		End If
-		If e.KeyCode = Keys.F4 Then
-			Mode = lastMode
-			HidePanel()
-		End If
-		If e.KeyCode = Keys.R Then
-			If Mode = "newFuseH" Then
-				Mode = "newFuseV"
-				Me.Cursor = FuseV_cur
-			ElseIf Mode = "newFuseV" Then
-				Mode = "newFuseH"
-				Me.Cursor = FuseH_cur
-			End If
-			If Mode = "eResist4" Then
-				Mode = "eResist1"
-				Me.Cursor = R1_cur
-			ElseIf Mode = "eResist3" Then
-				Mode = "eResist4"
-				Me.Cursor = R4_cur
-			ElseIf Mode = "eResist2" Then
-				Mode = "eResist3"
-				Me.Cursor = R3_cur
-			ElseIf Mode = "eResist1" Then
-				Mode = "eResist2"
-				Me.Cursor = R2_cur
-			End If
-			lastMode = Mode
-		End If
-		If e.KeyCode = Keys.M Then
-			Mode = "Move"
-			HidePanel()
-		End If
-		If e.KeyCode = Keys.D Then
-			Mode = "Delete"
-			HidePanel()
-		End If
-		If e.KeyCode = Keys.C Then
-			Mode = "createConnect"
-			HidePanel()
-		End If
-		If e.KeyCode = Keys.P Then
-			Mode = "newPoint"
-			HidePanel()
-		End If
-	End Sub
+        End If
+        If e.KeyCode = Keys.F5 Then
+            Mode = ""
+            GroupBox1.Visible = True
+            CheckBox2.Visible = True
+            Me.Cursor = Cursors.Default
+            If f.Batt > 0 Then
+                Dim eComp As EComponent = Elements(f.Batt)
+                Dim bat As eBat = eComp.component
+                pointsInProcessUI.Clear()
+                bat.CheckUI(0, 0)
+            End If
+        End If
+        If e.KeyCode = Keys.F4 Then
+            Mode = lastMode
+            HidePanel()
+        End If
+        If e.KeyCode = Keys.R Then
+            If Mode = "newFuseH" Then
+                Mode = "newFuseV"
+                Me.Cursor = FuseV_cur
+            ElseIf Mode = "newFuseV" Then
+                Mode = "newFuseH"
+                Me.Cursor = FuseH_cur
+            End If
+            If Mode = "eResist4" Then
+                Mode = "eResist1"
+                Me.Cursor = R1_cur
+            ElseIf Mode = "eResist3" Then
+                Mode = "eResist4"
+                Me.Cursor = R4_cur
+            ElseIf Mode = "eResist2" Then
+                Mode = "eResist3"
+                Me.Cursor = R3_cur
+            ElseIf Mode = "eResist1" Then
+                Mode = "eResist2"
+                Me.Cursor = R2_cur
+            End If
+            lastMode = Mode
+        End If
+        If e.KeyCode = Keys.M Then
+            Mode = "Move"
+            HidePanel()
+        End If
+        If e.KeyCode = Keys.D Then
+            Mode = "Delete"
+            HidePanel()
+        End If
+        If e.KeyCode = Keys.C Then
+            Mode = "createConnect"
+            HidePanel()
+        End If
+        If e.KeyCode = Keys.P Then
+            Mode = "newPoint"
+            HidePanel()
+        End If
+    End Sub
 
-	Private Sub PbNumber_Paint(sender As Object, e As PaintEventArgs) Handles pbNumber.Paint
+    Private Sub PbNumber_Paint(sender As Object, e As PaintEventArgs) Handles pbNumber.Paint
 		Try
 			Dim fs As New FontStyle
 			fs = FontStyle.Italic Or FontStyle.Bold
@@ -1905,6 +1914,17 @@ StartFile:
             pointsInProcessUI.Clear()
             Dim bat As eBat = eComp.component
             bat.CheckUI(0, 0)
+        End If
+    End Sub
+
+    Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If Mode = "MoveMe" Then
+            If e.Control Then
+                If moveObject.GetType.ToString = "eScheme.eBorderText" Then
+                    Dim bt As eBorderText = moveObject
+                    bt.Ctrl = True
+                End If
+            End If
         End If
     End Sub
 End Class

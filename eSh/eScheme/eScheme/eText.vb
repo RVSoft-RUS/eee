@@ -1,7 +1,7 @@
 ﻿Imports eScheme
 
 Public Class eText
-    Implements IConnectable
+    Implements IConnectable, IMovable
     Public X As Integer
     Public Y As Integer
     Public txt As String
@@ -59,13 +59,30 @@ Public Class eText
         If Form1.Mode = "Delete" Then
             Form1.Delete(num)
         End If
+        If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
+            Form1.Mode = ""
+            Form1.GroupBox1.Visible = True
+            Form1.CheckBox2.Visible = True
+            Form1.CheckBox2.Checked = True
+            Form1.Cursor = Cursors.Default
+        End If
+        If Form1.Mode = "Move" Then
+            Form1.moveObject = Me
+            Form1.Cursor = Cursors.SizeAll
+            Form1.moveXstart = Form1.rx
+            Form1.moveYstart = Form1.ry
+            Form1.Mode = "MoveMe"
+        End If
     End Sub
 
     Private Sub TextBox1_LostFocus(sender As Object, e As EventArgs) Handles TextBox1.LostFocus
         TextBox1.Visible = False
+        Form1.Mode = ""
+        Form1.Cursor = Cursors.Default
     End Sub
 
     Private Sub TextBox1_KeyUp(sender As Object, e As KeyEventArgs) Handles TextBox1.KeyUp
+
         If e.KeyCode = Keys.Escape Then
             TextBox1.Visible = False
         End If
@@ -73,6 +90,8 @@ Public Class eText
             TextBox1.Visible = False
             Label1.Text = TextBox1.Text
             txt = Label1.Text
+            Form1.Mode = ""
+            Form1.Cursor = Cursors.Default
         End If
     End Sub
 
@@ -87,5 +106,24 @@ Public Class eText
         Else
             Label1.Cursor = Cursors.Hand
         End If
+    End Sub
+
+    Private Function IMovable_Move(from As IMovable, dX As Integer, dY As Integer) As Boolean Implements IMovable.Move
+        X += dX
+        Y += dY
+        Me.Location = New Point(X, Y)
+        Return True
+    End Function
+
+    Public Function GetX() As Integer Implements IMovable.GetX
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function GetY() As Integer Implements IMovable.GetY
+        Throw New NotImplementedException()
+    End Function
+
+    Public Sub MoveOK() Implements IMovable.MoveOK
+        Throw New NotImplementedException()
     End Sub
 End Class

@@ -227,6 +227,14 @@ Public Class eFuse
     End Sub
 
     Private Sub eFuse_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick, PictureBoxH.MouseClick, PictureBoxHC.MouseClick, PictureBoxV.MouseClick, PictureBoxVC.MouseClick
+        If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
+            Form1.Mode = ""
+            Form1.GroupBox1.Visible = True
+            Form1.CheckBox2.Visible = True
+            Form1.CheckBox2.Checked = True
+            Form1.Cursor = Cursors.Default
+            Exit Sub
+        End If
         If e.Button = MouseButtons.Right Then
             ContextMenu1.Show(Me, e.X, e.Y)
             Exit Sub

@@ -230,6 +230,14 @@ Public Class EResist
     End Sub
 
     Private Sub EResist_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick, PictureBox1.Click
+        If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
+            Form1.Mode = ""
+            Form1.GroupBox1.Visible = True
+            Form1.CheckBox2.Visible = True
+            Form1.CheckBox2.Checked = True
+            Form1.Cursor = Cursors.Default
+            Exit Sub
+        End If
         If e.Button = MouseButtons.Right Then
             ContextMenu1.Show(Me, e.X, e.Y)
             Exit Sub
@@ -243,8 +251,8 @@ Public Class EResist
             End If
 
             eComp = Form1.Elements(num + 2)
-			p = eComp.component 'Вторая точка 
-			p.links.Remove(num)
+            p = eComp.component 'Вторая точка 
+            p.links.Remove(num)
             If p.links.Count = 0 Then
                 p.DeleteMe()
             End If
@@ -295,7 +303,7 @@ Public Class EResist
     End Sub
 
     Private Function IMovable_Move(from As IMovable, dX As Integer, dY As Integer) As Boolean Implements IMovable.Move
-        Form1.TextBox1.Text = "__dX=" + CStr(dX) + "  __dY=" + CStr(dY) + vbCrLf + Form1.TextBox1.Text
+        'Form1.TextBox1.Text = "__dX=" + CStr(dX) + "  __dY=" + CStr(dY) + vbCrLf + Form1.TextBox1.Text
 
         Form1.moveArray.Add(Me)
         Dim mayMove1, mayMove2 As Boolean
