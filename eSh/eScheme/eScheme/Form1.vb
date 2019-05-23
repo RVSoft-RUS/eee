@@ -867,11 +867,11 @@ Public Class Form1
     End Sub
 
 	Private Sub Form1_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
-		If Math.Abs(zx - e.X) + Math.Abs(zy - e.Y) < 4 Then
-			Exit Sub 'Если почти не сдвинулось - то выход
+        If Math.Abs(zx - e.X) + Math.Abs(zy - e.Y) < 5 Then
+            Exit Sub 'Если почти не сдвинулось - то выход
 
-		End If
-		rx = CInt(Math.Round(e.X / 20))
+        End If
+        rx = CInt(Math.Round(e.X / 20))
 		rx = rx * 20
 		ry = CInt(Math.Round(e.Y / 20))
 		ry = ry * 20
@@ -880,44 +880,47 @@ Public Class Form1
 
 		ToolTip1.SetToolTip(Me, Mode)
 		If Mode = "MoveMe" Then
-			'TextBox2.Text = "rx - moveXstart=" + CStr(rx - moveXstart) + "  ry - moveYstart=" + CStr(ry - moveYstart) + vbCrLf + TextBox2.Text
-			If moveObject Is Nothing Then Exit Sub
+            TextBox1.Text = "rx -Xstart=" + CStr(rx - moveXstart) + "  ry - Ystart=" + CStr(ry - moveYstart) + vbCrLf + TextBox1.Text
+            If moveObject Is Nothing Then Exit Sub
 
 			Dim mayMove As Boolean = False
 
-			If rx - moveXstart <> 0 Then
-				moveArray.Clear()
-				mayMove = moveObject.Move(moveObject, rx - moveXstart, 0)
-				If mayMove Then
-					Cursor = Cursors.SizeAll
-					Dim m As IMovable
-					For j = 0 To moveArray.Count - 1
-						m = moveArray(j)
-						m.MoveOK()
-					Next
-				Else
-					Cursor = Cursors.No
-				End If
-				moveXstart = rx
-			End If
-			If ry - moveYstart <> 0 Then
-				moveArray.Clear()
-				mayMove = moveObject.Move(moveObject, 0, ry - moveYstart)
-				If mayMove Then
-					Cursor = Cursors.SizeAll
-					Dim m As IMovable
-					For j = 0 To moveArray.Count - 1
-						m = moveArray(j)
-						m.MoveOK()
-					Next
-				Else
-					Cursor = Cursors.No
-				End If
-				moveYstart = ry
-			End If
-		End If
+            If rx - moveXstart <> 0 Then
+                moveArray.Clear()
+                mayMove = moveObject.Move(moveObject, rx - moveXstart, 0)
+                If mayMove Then
+                    Cursor = Cursors.SizeAll
+                    Dim m As IMovable
+                    For j = 0 To moveArray.Count - 1
+                        m = moveArray(j)
+                        m.MoveOK()
+                    Next
+                Else
+                    Cursor = Cursors.No
+                End If
+                moveXstart = rx
+                GoTo nextAfterMove
+            End If
+            If ry - moveYstart <> 0 Then
+                moveArray.Clear()
+                mayMove = moveObject.Move(moveObject, 0, ry - moveYstart)
+                If mayMove Then
+                    Cursor = Cursors.SizeAll
+                    Dim m As IMovable
+                    For j = 0 To moveArray.Count - 1
+                        m = moveArray(j)
+                        m.MoveOK()
+                    Next
+                Else
+                    Cursor = Cursors.No
+                End If
+                moveYstart = ry
+                TextBox1.Text = "ry:" + CStr(moveArray.Count) + vbCrLf + TextBox1.Text
+            End If
+        End If
 
-		Dim G As Graphics = Me.CreateGraphics
+nextAfterMove:
+        Dim G As Graphics = Me.CreateGraphics
 		If e.Button = MouseButtons.Left Then
 
 
@@ -993,6 +996,7 @@ Public Class Form1
             Mode = ""
             GroupBox1.Visible = True
             CheckBox2.Visible = True
+            CheckBox2.Checked = True
             Me.Cursor = Cursors.Default
         End If
         If Mode = "newPoint" Then
@@ -1007,8 +1011,9 @@ Public Class Form1
             eComp.component = p
 
             Mode = ""
-            GroupBox1.Visible = True
+            CheckBox2.Checked = True
             CheckBox2.Visible = True
+            GroupBox1.Visible = True
             Me.Cursor = Cursors.Default
             NeedSave = True
             '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1028,8 +1033,9 @@ Public Class Form1
             eComp.component = bt
 
             Mode = ""
-            GroupBox1.Visible = True
+            CheckBox2.Checked = True
             CheckBox2.Visible = True
+            GroupBox1.Visible = True
             Me.Cursor = Cursors.Default
             NeedSave = True
         End If
@@ -1044,8 +1050,9 @@ Public Class Form1
             eComp.component = t
 
             Mode = ""
-            GroupBox1.Visible = True
+            CheckBox2.Checked = True
             CheckBox2.Visible = True
+            GroupBox1.Visible = True
             Me.Cursor = Cursors.Default
             NeedSave = True
         End If
@@ -1060,8 +1067,9 @@ Public Class Form1
             eComp.component = t
 
             Mode = ""
-            GroupBox1.Visible = True
+            CheckBox2.Checked = True
             CheckBox2.Visible = True
+            GroupBox1.Visible = True
             Me.Cursor = Cursors.Default
             NeedSave = True
         End If
@@ -1086,6 +1094,7 @@ Public Class Form1
             eComp.component = bat
 
             Mode = ""
+            CheckBox2.Checked = True
             GroupBox1.Visible = True
             CheckBox2.Visible = True
             Me.Cursor = Cursors.Default
@@ -1106,6 +1115,7 @@ Public Class Form1
             eComp.component = eResist
 
             Mode = ""
+            CheckBox2.Checked = True
             GroupBox1.Visible = True
             CheckBox2.Visible = True
             Me.Cursor = Cursors.Default
@@ -1128,6 +1138,7 @@ Public Class Form1
             eComp.component = eFH
 
             Mode = ""
+            CheckBox2.Checked = True
             GroupBox1.Visible = True
             CheckBox2.Visible = True
             Me.Cursor = Cursors.Default
@@ -1144,6 +1155,7 @@ Public Class Form1
             eComp.component = gnd
 
             Mode = ""
+            CheckBox2.Checked = True
             GroupBox1.Visible = True
             CheckBox2.Visible = True
             Me.Cursor = Cursors.Default
@@ -1672,8 +1684,9 @@ StartFile:
 		If e.KeyCode = Keys.Escape Then
 			Mode = ""
 			GroupBox1.Visible = True
-			CheckBox2.Visible = True
-			Me.Cursor = Cursors.Default
+            CheckBox2.Visible = True
+            CheckBox2.Checked = True
+            Me.Cursor = Cursors.Default
 		End If
 		If e.KeyCode = Keys.F5 Then
 			Mode = ""

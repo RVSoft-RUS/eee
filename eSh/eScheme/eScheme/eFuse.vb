@@ -3,7 +3,7 @@
 Public Class eFuse
     Implements IConnectable
     Implements ISetValue
-    Implements ILinked
+    Implements ILinked, IMovable
     Public X As Integer
     Public Y As Integer
     Public num As Integer
@@ -12,6 +12,9 @@ Public Class eFuse
     Public Ia As Single
     Public work As Boolean
     Dim command As Integer = 0
+
+    Dim m_Y As Integer
+    Dim m_X As Integer
 
     Public Sub New(rx As Integer, ry As Integer, n As Integer, imax_ As Single, pos_ As String, ia_ As Single, work_ As Boolean)
         InitializeComponent()
@@ -273,5 +276,61 @@ Public Class eFuse
         DialogForm.Left = X + Form1.Left
         DialogForm.Top = Y + Form1.Top
         DialogForm.OnView("Номинал предохранителя, А", Me, Imax.ToString)
+    End Sub
+
+    Private Sub EGND_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown, PictureBoxH.MouseDown, PictureBoxHC.MouseDown, PictureBoxV.MouseDown, PictureBoxVC.MouseDown
+        If Form1.Mode = "Move" Then
+            Form1.moveObject = Me
+            Form1.Cursor = Cursors.SizeAll
+            Form1.moveXstart = Form1.rx
+            Form1.moveYstart = Form1.ry
+            Form1.Mode = "MoveMe"
+        End If
+    End Sub
+
+    Private Function IMovable_Move(from As IMovable, dX As Integer, dY As Integer) As Boolean Implements IMovable.Move
+        Form1.moveArray.Add(Me)
+        Dim mayMove As Boolean = True
+        If from Is Me Then
+            Dim m As IMovable
+            Dim eComp As EComponent = Form1.Elements(num + 1)
+            m = eComp.component
+            mayMove = m.Move(Me, dX, dY)
+            If Not mayMove Then
+                Return False
+            End If
+            eComp = Form1.Elements(num + 2)
+            m = eComp.component
+            mayMove = m.Move(Me, dX, dY)
+            If mayMove Then
+                m_X = X + dX
+                m_Y = Y + dY
+                Return True
+            Else
+                Return False
+            End If
+        Else
+            Return False
+        End If
+    End Function
+
+    Public Function GetX() As Integer Implements IMovable.GetX
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function GetY() As Integer Implements IMovable.GetY
+        Throw New NotImplementedException()
+    End Function
+
+    Public Sub MoveOK() Implements IMovable.MoveOK
+        X = m_X
+        Y = m_Y
+
+        If pos = "H" Then
+            Me.Location = New Point(X + 5, Y - 6) 'Для настройки положения
+        End If
+        If pos = "V" Then
+            Me.Location = New Point(X - 6, Y + 5) 'Для настройки положения
+        End If
     End Sub
 End Class

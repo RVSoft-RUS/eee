@@ -7,8 +7,9 @@ Public Class EGND
 	Public X As Integer
 	Public Y As Integer
 	Public num As Integer
-	Public link As Integer
-	Dim m_Y As Integer
+    Public link As Integer
+
+    Dim m_Y As Integer
 	Dim m_X As Integer
 
 

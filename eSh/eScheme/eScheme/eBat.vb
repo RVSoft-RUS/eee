@@ -2,14 +2,17 @@
 
 Public Class eBat
 	Implements IConnectable
-	Implements ISetValue
-	Public X As Integer
+    Implements ISetValue, IMovable
+    Public X As Integer
 	Public Y As Integer
 	Public num As Integer
     Public U As Single
     Public I As Single
 
-	Public Sub New(rx As Integer, ry As Integer, n As Integer, u_ As Integer, i_ As Single)
+    Dim m_Y As Integer
+    Dim m_X As Integer
+
+    Public Sub New(rx As Integer, ry As Integer, n As Integer, u_ As Integer, i_ As Single)
 		InitializeComponent()
 		X = rx
 		Y = ry
@@ -135,8 +138,9 @@ Public Class eBat
 				p.DeleteMe()
 			End If
 
-			Form1.Delete(num)
-		End If
+            Form1.Delete(num)
+            Form1.f.Batt = 0
+        End If
 	End Sub
 
 	Private Sub EBat_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter
@@ -165,11 +169,68 @@ Public Class eBat
         Application.DoEvents()
         Dim eComp As EComponent = Form1.Elements(num + 2)
         Dim p1 As EPoint = eComp.component
-		eComp = Form1.Elements(num + 3)
-		Dim p2 As EPoint = eComp.component
+        eComp = Form1.Elements(num + 3)
+        Dim p2 As EPoint = eComp.component
         I = p1.CheckUI(num, CSng(U)) + p2.CheckUI(num, CSng(U))
         Form1.LabelSig.BackColor = Color.White
         Form1.isCheckUI = False
         Return 0
-	End Function
+    End Function
+
+    Private Sub EGND_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
+        If Form1.Mode = "Move" Then
+            Form1.moveObject = Me
+            Form1.Cursor = Cursors.SizeAll
+            Form1.moveXstart = Form1.rx
+            Form1.moveYstart = Form1.ry
+            Form1.Mode = "MoveMe"
+        End If
+    End Sub
+
+    Private Function IMovable_Move(from As IMovable, dX As Integer, dY As Integer) As Boolean Implements IMovable.Move
+        Form1.moveArray.Add(Me)
+        Dim mayMove As Boolean = True
+        If from Is Me Then
+            Dim m As IMovable
+            Dim eComp As EComponent = Form1.Elements(num + 1)
+            m = eComp.component
+            mayMove = m.Move(Me, dX, dY)
+            If Not mayMove Then
+                Return False
+            End If
+            eComp = Form1.Elements(num + 2)
+            m = eComp.component
+            mayMove = m.Move(Me, dX, dY)
+            If Not mayMove Then
+                Return False
+            End If
+            eComp = Form1.Elements(num + 3)
+            m = eComp.component
+            mayMove = m.Move(Me, dX, dY)
+
+            If mayMove Then
+                m_X = X + dX
+                m_Y = Y + dY
+                Return True
+            Else
+                Return False
+            End If
+        Else
+            Return False
+        End If
+    End Function
+
+    Public Function GetX() As Integer Implements IMovable.GetX
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function GetY() As Integer Implements IMovable.GetY
+        Throw New NotImplementedException()
+    End Function
+
+    Public Sub MoveOK() Implements IMovable.MoveOK
+        X = m_X
+        Y = m_Y
+        Me.Location = New Point(X + 5, Y - 2)
+    End Sub
 End Class

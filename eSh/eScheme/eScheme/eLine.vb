@@ -504,23 +504,23 @@ Public Class eLine
 	End Sub
 
 	Public Sub MoveOK() Implements IMovable.MoveOK
-		Dim dx As Integer = X2 - X1
-		Dim dy As Integer = Y2 - Y1
-		X1 = mX1
-		X2 = mX2
-		Y2 = mY2
-		Y1 = mY1
-		If dx > 0 Then 'Горизонтально
-			Me.Height = 3
-			Me.Left = X1 + 5
-			Me.Top = Y1 - 1
-			Me.Width = X2 - X1 - 10
-		End If
-		If dy > 0 Then 'Вертикально
-			Me.Width = 3
-			Me.Top = Y1 + 5
-			Me.Left = X1 - 1
-			Me.Height = Y2 - Y1 - 10
-		End If
-	End Sub
+		Dim d_x As Integer = X2 - X1
+        Dim d_y As Integer = Y2 - Y1
+        X1 = mX1
+        X2 = mX2
+        Y2 = mY2
+        Y1 = mY1
+        If d_x > 0 Then 'Горизонтально
+            Me.Height = 3
+            Me.Left = X1 + 5
+            Me.Top = Y1 - 1
+            Me.Width = X2 - X1 - 10
+        End If
+        If d_y > 0 Then 'Вертикально
+            Me.Width = 3
+            Me.Top = Y1 + 5
+            Me.Left = X1 - 1
+            Me.Height = Y2 - Y1 - 10
+        End If
+    End Sub
 End Class
