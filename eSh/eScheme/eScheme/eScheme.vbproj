@@ -95,6 +95,12 @@
     <Compile Include="eBorderText.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="eButton.Designer.vb">
+      <DependentUpon>eButton.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eButton.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="eComponent.vb" />
     <Compile Include="eFormat.vb" />
     <Compile Include="eFuse.Designer.vb">
@@ -194,6 +200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="eBorderText.resx">
       <DependentUpon>eBorderText.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eButton.resx">
+      <DependentUpon>eButton.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="eFuse.resx">
       <DependentUpon>eFuse.vb</DependentUpon>

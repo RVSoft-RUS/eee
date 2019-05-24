@@ -431,6 +431,7 @@ Partial Class Form1
         Me.PictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox8.TabIndex = 16
         Me.PictureBox8.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox8, "Кнопка")
         '
         'PictureBox_eBat
         '
