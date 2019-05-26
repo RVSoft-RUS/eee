@@ -32,10 +32,12 @@ Public Class Form1
     Public R2_cur As Cursor
     Public R3_cur As Cursor
     Public R4_cur As Cursor
-    Public FuseH_cur As Cursor
-    Public FuseV_cur As Cursor
+	Public FuseH_cur As Cursor
+	Public FuseV_cur As Cursor
+	Public BuH_cur As Cursor
+	Public BuV_cur As Cursor
 
-    Dim OpenAtStart As Boolean = False
+	Dim OpenAtStart As Boolean = False
     Public isCheckUI As Boolean = False
     Public isChanging As Boolean = False
     Public isCycle As Boolean = False
@@ -136,9 +138,11 @@ Public Class Form1
             R2_cur = New Cursor(Application.StartupPath + "\resourses\R2.cur")
             R3_cur = New Cursor(Application.StartupPath + "\resourses\R3.cur")
             R4_cur = New Cursor(Application.StartupPath + "\resourses\R4.cur")
-            FuseH_cur = New Cursor(Application.StartupPath + "\resourses\fuseH.cur")
-            FuseV_cur = New Cursor(Application.StartupPath + "\resourses\fuseV.cur")
-        Catch ex As Exception
+			FuseH_cur = New Cursor(Application.StartupPath + "\resourses\fuseH.cur")
+			FuseV_cur = New Cursor(Application.StartupPath + "\resourses\fuseV.cur")
+			BuH_cur = New Cursor(Application.StartupPath + "\resourses\BuH.cur")
+			BuV_cur = New Cursor(Application.StartupPath + "\resourses\BuV.cur")
+		Catch ex As Exception
             line_cur = Cursors.Default
             point_cur = Cursors.Cross
             addLine_cur = Cursors.Help
@@ -150,9 +154,11 @@ Public Class Form1
             R2_cur = Cursors.Hand
             R3_cur = Cursors.Hand
             R4_cur = Cursors.Hand
-            FuseH_cur = New Cursor(Application.StartupPath + "\resourses\fuseH.cur")
-            FuseV_cur = New Cursor(Application.StartupPath + "\resourses\fuseV.cur")
-        End Try
+			FuseH_cur = Cursors.NoMoveHoriz
+			FuseV_cur = Cursors.NoMoveVert
+			BuH_cur = Cursors.NoMoveHoriz
+			BuV_cur = Cursors.NoMoveVert
+		End Try
 
         Dim Proc() As Process
         'Определение полного имени текущего процесса.
@@ -880,8 +886,8 @@ Public Class Form1
 
 		ToolTip1.SetToolTip(Me, Mode)
 		If Mode = "MoveMe" Then
-            'TextBox1.Text = "rx -Xstart=" + CStr(rx - moveXstart) + "  ry - Ystart=" + CStr(ry - moveYstart) + vbCrLf + TextBox1.Text
-            If moveObject Is Nothing Then Exit Sub
+			TextBox1.Text = "rx -Xstart=" + CStr(rx - moveXstart) + "  ry - Ystart=" + CStr(ry - moveYstart) + vbCrLf + TextBox1.Text
+			If moveObject Is Nothing Then Exit Sub
 
 			Dim mayMove As Boolean = False
 
@@ -916,8 +922,8 @@ Public Class Form1
                     Cursor = Cursors.No
                 End If
                 moveYstart = ry
-                'TextBox1.Text = "ry:" + CStr(moveArray.Count) + vbCrLf + TextBox1.Text
-            End If
+				TextBox1.Text = "ry:" + CStr(moveArray.Count) + vbCrLf + TextBox1.Text
+			End If
         End If
 
 nextAfterMove:
@@ -975,10 +981,24 @@ nextAfterMove:
 			End If
 			If Mode = "newFuseH" Then
 				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx + 5, ry + 5, rx + 5, ry - 5)
 				G.DrawLine(Pn, rx + 5, ry - 5, rx + 35, ry - 5)
+				G.DrawLine(Pn, rx + 35, ry - 5, rx + 35, ry + 5)
+				G.DrawLine(Pn, rx + 35, ry + 5, rx + 5, ry + 5)
+			End If
+			If Mode = "eButton1" Then
+				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx + 5, ry - 15, rx + 35, ry - 15)
 				G.DrawLine(Pn, rx + 5, ry + 5, rx + 35, ry + 5)
-				G.DrawLine(Pn, rx + 5, ry - 5, rx + 5, ry + 5)
-				G.DrawLine(Pn, rx + 35, ry + 5, rx + 35, ry - 5)
+				G.DrawLine(Pn, rx + 5, ry - 15, rx + 5, ry + 5)
+				G.DrawLine(Pn, rx + 35, ry + 5, rx + 35, ry - 15)
+			End If
+			If Mode = "eButton2" Then
+				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx - 15, ry - 5, rx - 15, ry - 35)
+				G.DrawLine(Pn, rx + 5, ry - 5, rx + 5, ry - 35)
+				G.DrawLine(Pn, rx + 5, ry - 5, rx - 15, ry - 5)
+				G.DrawLine(Pn, rx + 5, ry - 35, rx - 15, ry - 35)
 			End If
 			G.Dispose()
 			ToolTip1.SetToolTip(Me, Mode)
@@ -1101,28 +1121,48 @@ nextAfterMove:
             Me.Cursor = Cursors.Default
             NeedSave = True
         End If
-        If Mode.StartsWith("eResist") Then
-            Dim eComp As New EComponent With {
-                            .aType = "eResist",
-                            .numInArray = Elements.Count
-                        }
-            Elements.Add(eComp)
-            Dim loc As Integer = 4
-            If Mode = "eResist1" Then loc = 1
-            If Mode = "eResist2" Then loc = 2
-            If Mode = "eResist3" Then loc = 3
-            Dim eResist As New EResist(rx, ry, eComp.numInArray, Rdefault, False, 0, loc)
-            Me.Controls.Add(eResist)
-            eComp.component = eResist
+		If Mode.StartsWith("eResist") Then
+			Dim eComp As New EComponent With {
+							.aType = "eResist",
+							.numInArray = Elements.Count
+						}
+			Elements.Add(eComp)
+			Dim loc As Integer = 4
+			If Mode = "eResist1" Then loc = 1
+			If Mode = "eResist2" Then loc = 2
+			If Mode = "eResist3" Then loc = 3
+			Dim eResist As New EResist(rx, ry, eComp.numInArray, Rdefault, False, 0, loc)
+			Me.Controls.Add(eResist)
+			eComp.component = eResist
 
-            Mode = ""
-            CheckBox2.Checked = True
-            GroupBox1.Visible = True
-            CheckBox2.Visible = True
-            Me.Cursor = Cursors.Default
-            NeedSave = True
-        End If
-        If Mode.StartsWith("newFuse") Then
+			Mode = ""
+			CheckBox2.Checked = True
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			Me.Cursor = Cursors.Default
+			NeedSave = True
+		End If
+		If Mode.StartsWith("eButton") Then
+			Dim eComp As New EComponent With {
+							.aType = "eButton",
+							.numInArray = Elements.Count
+						}
+			Elements.Add(eComp)
+			Dim loc As Integer
+			If Mode = "eButton1" Then loc = 1
+			If Mode = "eButton2" Then loc = 2
+			Dim eButt As New eButton(rx, ry, eComp.numInArray, False, 1000, loc)
+			Me.Controls.Add(eButt)
+			eComp.component = eButt
+
+			Mode = ""
+			CheckBox2.Checked = True
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			Me.Cursor = Cursors.Default
+			NeedSave = True
+		End If
+		If Mode.StartsWith("newFuse") Then
             Dim eComp As New EComponent With {
                             .aType = "eFuse",
                             .numInArray = Elements.Count
@@ -1376,8 +1416,8 @@ StartFile:
                     Elements.Add(eComp)
                     Me.Controls.Add(bat)
                 End If
-                'eR
-                If aComp(0) = "eResist" Then
+				'eR
+				If aComp(0) = "eResist" Then
 					Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
 					eComp = New EComponent With {
 						.aType = "eResist",
@@ -1385,10 +1425,21 @@ StartFile:
 						.component = res
 					}
 					Elements.Add(eComp)
-                    Me.Controls.Add(res)
-                End If
-                'eFuse
-                If aComp(0) = "eFuse" Then
+					Me.Controls.Add(res)
+				End If
+				'eButton
+				If aComp(0) = "eButton" Then
+					Dim but As New eButton(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
+					eComp = New EComponent With {
+						.aType = "eButton",
+						.numInArray = but.num,
+						.component = but
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(but)
+				End If
+				'eFuse
+				If aComp(0) = "eFuse" Then
                     Dim fu As New eFuse(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
                     eComp = New EComponent With {
                         .aType = "eFuse",
@@ -1537,6 +1588,10 @@ StartFile:
 					Me.Cursor = R3_cur
 				Case "eResist4"
 					Me.Cursor = R4_cur
+				Case "eButton1"
+					Me.Cursor = BuH_cur
+				Case "eButton2"
+					Me.Cursor = BuV_cur
 				Case "eBat"
 					Me.Cursor = element_cur
 				Case "newPoint"
@@ -1609,6 +1664,11 @@ StartFile:
 
 	Private Sub PictureBox_Move_Click(sender As Object, e As EventArgs) Handles PictureBox_Move.Click
 		Mode = "Move"
+		HidePanel()
+	End Sub
+
+	Private Sub PictureBox_Button_Click(sender As Object, e As EventArgs) Handles PictureBox_Button.Click
+		Mode = "eButton1"
 		HidePanel()
 	End Sub
 
@@ -1721,20 +1781,27 @@ StartFile:
                 Mode = "newFuseH"
                 Me.Cursor = FuseH_cur
             End If
-            If Mode = "eResist4" Then
-                Mode = "eResist1"
-                Me.Cursor = R1_cur
-            ElseIf Mode = "eResist3" Then
-                Mode = "eResist4"
-                Me.Cursor = R4_cur
-            ElseIf Mode = "eResist2" Then
-                Mode = "eResist3"
-                Me.Cursor = R3_cur
-            ElseIf Mode = "eResist1" Then
-                Mode = "eResist2"
-                Me.Cursor = R2_cur
-            End If
-            lastMode = Mode
+			If Mode = "eResist4" Then
+				Mode = "eResist1"
+				Me.Cursor = R1_cur
+			ElseIf Mode = "eResist3" Then
+				Mode = "eResist4"
+				Me.Cursor = R4_cur
+			ElseIf Mode = "eResist2" Then
+				Mode = "eResist3"
+				Me.Cursor = R3_cur
+			ElseIf Mode = "eResist1" Then
+				Mode = "eResist2"
+				Me.Cursor = R2_cur
+			End If
+			If Mode = "eButton2" Then
+				Mode = "eButton1"
+				Me.Cursor = BuH_cur
+			ElseIf Mode = "eButton1" Then
+				Mode = "eButton2"
+				Me.Cursor =  BuV_cur
+			End If
+			lastMode = Mode
         End If
         If e.KeyCode = Keys.M Then
             Mode = "Move"
@@ -1864,67 +1931,72 @@ StartFile:
 	End Function
 
 	Public Sub DisConnect(n1 As Integer, n2 As Integer)
-        isCycle = False
-        LabelSig.BackColor = Color.Red
-        Application.DoEvents()
-        If isChanging Then
-            MsgBox("QQ")
-        End If
-        If isCheckUI Then
-            Do While isCheckUI
-                Application.DoEvents()
-            Loop
-        End If
-        isChanging = True
-        Dim eComp As EComponent
-        Dim p01, p02 As ILinked
-        eComp = Elements(n1)
-        p01 = eComp.component
-        eComp = Elements(n2)
-        p02 = eComp.component
-        'Dim p01C As Integer = p01.Condition 'Текущие значения Condition на точках мб в iLinked добавить getCondition============================
-        'Dim p02C As Integer = p02.Condition
-        p01.remLink(n2) 'разъединяем точки
-        p02.remLink(n1)
-        pointsInProcessSig.Clear()
-        Dim p01Ck As Integer = p01.chk_Sig 'Текущие значения CheckSig на точках
-        pointsInProcessSig.Clear()
-        Dim p02Ck As Integer = p02.chk_Sig
+		isCycle = False
+		LabelSig.BackColor = Color.Red
+		Application.DoEvents()
+		If isChanging Then
+			MsgBox("QQ")
+		End If
+		If isCheckUI Then
+			Do While isCheckUI
+				Application.DoEvents()
+			Loop
+		End If
+		isChanging = True
+		Dim eComp As EComponent
+		Dim p01, p02 As ILinked
+		eComp = Elements(n1)
+		p01 = eComp.component
+		eComp = Elements(n2)
+		p02 = eComp.component
+		'Dim p01C As Integer = p01.Condition 'Текущие значения Condition на точках мб в iLinked добавить getCondition============================
+		'Dim p02C As Integer = p02.Condition
+		p01.remLink(n2) 'разъединяем точки
+		p02.remLink(n1)
+		pointsInProcessSig.Clear()
+		Dim p01Ck As Integer = p01.chk_Sig 'Текущие значения CheckSig на точках
+		pointsInProcessSig.Clear()
+		Dim p02Ck As Integer = p02.chk_Sig
 
-        If p01Ck = 0 Then 'And p01C <> 0
-            pointsInProcessSig.Clear()
-            p01.Changee(n2, 0)
-            If f.Batt > 0 Then
-                pointsInProcessUI.Clear()
-                'p01.CheckUI(n2, 0, 0)
-            End If
-        End If
-        If p02Ck = 0 Then ' And p02C <> 0 Then
-            pointsInProcessSig.Clear()
-            p02.Changee(0, 0)
-            If f.Batt > 0 Then
-                pointsInProcessUI.Clear()
-                'p02.CheckUI(0, 0, 0)
-            End If
-        End If
-        LabelSig.BackColor = Color.White
-        isChanging = False
-        If f.Batt > 0 Then
-            eComp = Elements(f.Batt)
-            pointsInProcessUI.Clear()
-            Dim bat As eBat = eComp.component
-            bat.CheckUI(0, 0)
-        End If
-    End Sub
+		If p01Ck = 0 Then 'And p01C <> 0
+			pointsInProcessSig.Clear()
+			p01.Changee(n2, 0)
+			If f.Batt > 0 Then
+				pointsInProcessUI.Clear()
+				'p01.CheckUI(n2, 0, 0)
+			End If
+		End If
+		If p02Ck = 0 Then ' And p02C <> 0 Then
+			pointsInProcessSig.Clear()
+			p02.Changee(0, 0)
+			If f.Batt > 0 Then
+				pointsInProcessUI.Clear()
+				'p02.CheckUI(0, 0, 0)
+			End If
+		End If
+		LabelSig.BackColor = Color.White
+		isChanging = False
+		If f.Batt > 0 Then
+			eComp = Elements(f.Batt)
+			pointsInProcessUI.Clear()
+			Dim bat As eBat = eComp.component
+			bat.CheckUI(0, 0)
+		End If
+	End Sub
 
-    Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-        If Mode = "MoveMe" Then
-            If e.Control Then
-                If moveObject.GetType.ToString = "eScheme.eBorderText" Then
-                    Dim bt As eBorderText = moveObject
-                    bt.Ctrl = True
-                End If
-            End If
-        End If
-    End Sub
+	Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+		If Mode = "MoveMe" Then
+			If e.Control Then
+				If moveObject.GetType.ToString = "eScheme.eBorderText" Then
+					Dim bt As eBorderText = moveObject
+					bt.Ctrl = True
+				End If
+			End If
+		End If
+	End Sub
+
+	Private Sub ОпрограммеToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ОпрограммеToolStripMenuItem.Click
+		MsgBox("Ознакомительная версия." + vbCrLf + "Для Алексея Владимировича :)")
+	End Sub
+
 End Class
