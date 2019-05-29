@@ -117,77 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="addLine" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\addLine.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="pb2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAAAC0Ujn1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAADySURBVEhLxZNRDsMgDEN7mx1zR+/C7FIIJk2pplmWgMR+
+        3c+2/UrbRFzPFSWIeL+kuZ1L71gbcKOZVBLTJLS1pPvRAhce6d3b1k/QpdvofFRoveTddQ/x5nC36KIL
+        Jo+BlaTrIpiSC1/So2KMNq+vvtiVnxa3smizyyQrRW4qXWP5fJGbzrwQ/je6xvL5Ijcd7TLJSpGbOstA
+        3Crb3/5lAnRQhqMi0JJ+yYV1EUwefSLJhUUXTBymmrjFhbvuofNmskUN3TW7jbqH6QmaiEP+bVqgj1yT
+        GJksmvwAk0p6CqFmcjgzFxMoFO2qiGnERaB9/wAyXBqXAmRlGgAAAABJRU5ErkJggg==
+</value>
   </data>
-  <data name="addPoint" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\addPoint.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="BuH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\BuH.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="BuV" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\BuV.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="d1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\d1.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="d2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\d2.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="d3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\d3.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="d4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\d4.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="del" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\del.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="element" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\element.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="fuseH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\fuseH.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="fuseV" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\fuseV.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="gnd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\gnd.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="gost" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\gost.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="LH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\LH.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="line" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\line.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="LV" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\LV.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="move" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\move.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="point" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\point.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="R" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\R.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="R1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\R1.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="R2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\R2.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="R3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\R3.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="R4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\R4.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="pb1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAAAC0Ujn1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAADTSURBVEhLxY7REgIhDAPv/38ai63AlTQUeHBn9IQkez5l
+        xRNgcQxrcAVPBZwtZw3SBLdJ6Qic+KsDrzIPX2eJb9Ru2w8tcI0McIt1W/Zoi9VC0k6G9RFZlnY+ZGrh
+        JpLvsKHAAl9l1YLrJCcVO1FaLd+v2GnFQfnf6lbL9yt2inGd5KRipwBY4CtNv5+4dxMxNRkrfGjZXFp6
+        FTLE6qRXibb9tl/teBW4fVkkGLMt5q0X3ajt1w8gOrDDCbZINfkC0mR7nQl2HrCAvn7jr41YQCjlA+ge
+        G2T6xxvdAAAAAElFTkSuQmCC
+</value>
   </data>
 </root>

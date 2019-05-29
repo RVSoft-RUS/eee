@@ -22,9 +22,124 @@ eScheme
   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
 </summary>
 </member>
+<member name="P:eScheme.My.Resources.Resources.addLine">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.addPoint">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.BuH">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.BuV">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.d1">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.d2">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.d3">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.d4">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.del">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.element">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.fuseH">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.fuseV">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.gnd">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.gost">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.LH">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.line">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.LV">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
 <member name="P:eScheme.My.Resources.Resources.move">
 <summary>
   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.point">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.R">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.R1">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.R2">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.R3">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.R4">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
 </summary>
 </member>
 </members>

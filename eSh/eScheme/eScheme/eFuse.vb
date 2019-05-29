@@ -340,5 +340,6 @@ Public Class eFuse
         If pos = "V" Then
             Me.Location = New Point(X - 6, Y + 5) 'Для настройки положения
         End If
+        Form1.NeedSave = True
     End Sub
 End Class

@@ -28,12 +28,16 @@ Public Class eButton
 		If loc = 1 Then
 			Me.Location = New Point(X + 5, Y - 15) 'Для настройки положения
 			Me.Height = 20
-			Me.Width = 30
-		ElseIf loc = 2 Then
+            Me.Width = 30
+            pb1.Cursor = Form1.BuH_cur
+            pb2.Cursor = Form1.BuH_cur
+        ElseIf loc = 2 Then
 			Me.Height = 30
 			Me.Width = 20
-			Me.Location = New Point(X - 15, Y - 35) 'Для настройки положения
-		End If
+            Me.Location = New Point(X - 15, Y - 35) 'Для настройки положения
+            pb3.Cursor = Form1.BuV_cur
+            pb4.Cursor = Form1.BuV_cur
+        End If
 
 		If Form1.Mode = "eButton1" Then 'Только при создании, при открытии файла не делать
 
@@ -42,8 +46,9 @@ Public Class eButton
 					.numInArray = num + 1
 			}
 			Form1.Elements.Add(eComp)
-			Dim p As New EPoint(X, Y, eComp.numInArray)
-			Form1.Controls.Add(p)
+            Dim p As New EPoint(X, Y, eComp.numInArray)
+            p.links.Add(num)
+            Form1.Controls.Add(p)
 			eComp.component = p
 
 			eComp = New EComponent With {
@@ -51,8 +56,9 @@ Public Class eButton
 					.numInArray = num + 2
 			}
 			Form1.Elements.Add(eComp)
-			p = New EPoint(X + 40, Y, eComp.numInArray)
-			Form1.Controls.Add(p)
+            p = New EPoint(X + 40, Y, eComp.numInArray)
+            p.links.Add(num)
+            Form1.Controls.Add(p)
 			eComp.component = p
 		End If
 		If Form1.Mode = "eButton2" Then 'Только при создании, при открытии файла не делать
@@ -117,8 +123,8 @@ Public Class eButton
 	End Sub
 
 	Public Sub Change(from As Integer, condition As Integer) Implements IConnectable.Change
-		Throw New NotImplementedException()
-	End Sub
+        'Throw New NotImplementedException()
+    End Sub
 
 	Public Sub SetValue(value As Single) Implements ISetValue.SetValue
 		If value > 10 And value < 30000 Then
@@ -126,8 +132,8 @@ Public Class eButton
 		Else
 			If value < 10 Then wTime = 10
 			If value > 30000 Then wTime = 30000
-			MsgBox("Допустимое значение: от 10 до 30 000 мс." + vbCrLf + "Указанное значение " + CStr(value) + " установлено в " + CStr(wTime))
-		End If
+            MsgBox("Допустимое значение: от 10 до 30 000 мс." + vbCrLf + "Указанное значение " + CStr(value) + " установлено в " + CStr(wTime) + ".")
+        End If
 
 	End Sub
 
@@ -135,24 +141,25 @@ Public Class eButton
 		X = m_X
 		Y = m_Y
 
-		If loc = 1 Then
-			Me.Location = New Point(X + 5, Y - 15) 'Для настройки положения
-		ElseIf loc = 2 Then
-			Me.Location = New Point(X - 15, Y - 35) 'Для настройки положения
-		End If
-	End Sub
+        If loc = 1 Then
+            Me.Location = New Point(X + 5, Y - 15) 'Для настройки положения
+        ElseIf loc = 2 Then
+            Me.Location = New Point(X - 15, Y - 35) 'Для настройки положения
+        End If
+        Form1.NeedSave = True
+    End Sub
 
 	Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
 		Me.Dispose()
 	End Sub
 
 	Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
-		Throw New NotImplementedException()
-	End Function
+        Return 0
+    End Function
 
 	Public Function CheckUI(from As Integer, U As Single, Optional r_ As Integer = 0) As Single Implements IConnectable.CheckUI
-		Throw New NotImplementedException()
-	End Function
+        Return 0
+    End Function
 
 	Public Function GetX() As Integer Implements IMovable.GetX
 		Throw New NotImplementedException()
@@ -228,12 +235,15 @@ Public Class eButton
 			If p.links.Count = 0 Then
 				p.DeleteMe()
 			End If
-			Form1.Delete(num)
-		End If
+            Form1.Delete(num)
+            Exit Sub
+        End If
 		If Not work Then
 			work = True
-			If wTime > 0 Then Form1.OnConnect(num + 1, num + 2)
-			Timer1.Interval = wTime
+
+            Form1.OnConnect(num + 1, num + 2)
+
+            Timer1.Interval = wTime
 			Timer1.Enabled = True
 			If loc = 1 Then
 				pb1.Visible = False
@@ -260,11 +270,7 @@ Public Class eButton
 		DialogForm.OnView("Время отключения, мс", Me, wTime.ToString)
 	End Sub
 
-	Private Sub Pb1234_Click(sender As Object, e As EventArgs) Handles pb1.Click, pb2.Click, pb3.Click, pb4.Click
-
-	End Sub
-
-	Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
 		Timer1.Enabled = False
 		work = False
 		Form1.DisConnect(num + 1, num + 2)

@@ -112,6 +112,7 @@ Public Class eTextC
         X += dX
         Y += dY
         Me.Location = New Point(X, Y)
+        Form1.NeedSave = True
         Return True
     End Function
 

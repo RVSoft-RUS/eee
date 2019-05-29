@@ -303,9 +303,9 @@ Public Class EResist
     End Sub
 
     Private Function IMovable_Move(from As IMovable, dX As Integer, dY As Integer) As Boolean Implements IMovable.Move
-		Form1.TextBox1.Text = "__dX=" + CStr(dX) + "  __dY=" + CStr(dY) + vbCrLf + Form1.TextBox1.Text
+        Form1.TextBox1.Text = "__dX=" + CStr(dX) + "  __dY=" + CStr(dY) + vbCrLf + Form1.TextBox1.Text
 
-		Form1.moveArray.Add(Me)
+        Form1.moveArray.Add(Me)
         Dim mayMove1, mayMove2 As Boolean
         If from Is Me Then
             Dim m As IMovable
@@ -315,8 +315,8 @@ Public Class EResist
             eComp = Form1.Elements(num + 2)
             m = eComp.component
             mayMove2 = m.Move(Me, dX, dY)
-			Form1.TextBox1.Text = "mayMove1=" + CStr(mayMove1) + "  mayMove2=" + CStr(mayMove2) + vbCrLf + Form1.TextBox1.Text
-			If mayMove1 And mayMove2 Then
+            Form1.TextBox1.Text = "mayMove1=" + CStr(mayMove1) + "  mayMove2=" + CStr(mayMove2) + vbCrLf + Form1.TextBox1.Text
+            If mayMove1 And mayMove2 Then
                 m_X = X + dX
                 m_Y = Y + dY
 
@@ -350,5 +350,6 @@ Public Class EResist
         ElseIf loc = 4 Then
             Me.Location = New Point(X - 10, Y - 15) 'Для настройки положения
         End If
+        Form1.NeedSave = True
     End Sub
 End Class

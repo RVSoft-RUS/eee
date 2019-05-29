@@ -191,6 +191,7 @@ Public Class eBorderText
             .BackColor = Form1.bordColor
         }
         Form1.Controls.Add(v2)
+        Form1.NeedSave = True
         Return True
     End Function
 

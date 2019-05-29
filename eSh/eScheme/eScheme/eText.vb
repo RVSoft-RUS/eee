@@ -12,6 +12,10 @@ Public Class eText
         ' Добавить код инициализации после вызова InitializeComponent().
         Label1.Font = New Font(Form1.fnt.Families(0), 10, FontStyle.Italic)
         TextBox1.Font = New Font(Form1.fnt.Families(0), 10, FontStyle.Italic)
+        'Form1.gost_font.Size = 10
+        'Label1.Font = Form1.gost_font
+        'Label1.Font.Size = 10
+        'TextBox1.Font = New Font(Form1.fnt.Families(0), 10, FontStyle.Italic)
         Me.Height = Label1.Height
         num = n
         txt = t
@@ -112,6 +116,7 @@ Public Class eText
         X += dX
         Y += dY
         Me.Location = New Point(X, Y)
+        Form1.NeedSave = True
         Return True
     End Function
 
