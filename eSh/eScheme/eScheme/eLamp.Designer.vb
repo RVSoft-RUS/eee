@@ -22,11 +22,16 @@ Partial Class eLamp
     'Не изменяйте ее в редакторе исходного кода.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(eLamp))
         Me.pb2 = New System.Windows.Forms.PictureBox()
         Me.pb1 = New System.Windows.Forms.PictureBox()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ЗадатьСопротивлениеToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.pb2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pb1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'pb2
@@ -50,6 +55,18 @@ Partial Class eLamp
         Me.pb1.TabIndex = 0
         Me.pb1.TabStop = False
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ЗадатьСопротивлениеToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(199, 26)
+        '
+        'ЗадатьСопротивлениеToolStripMenuItem
+        '
+        Me.ЗадатьСопротивлениеToolStripMenuItem.Name = "ЗадатьСопротивлениеToolStripMenuItem"
+        Me.ЗадатьСопротивлениеToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.ЗадатьСопротивлениеToolStripMenuItem.Text = "Задать сопротивление"
+        '
         'eLamp
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -60,10 +77,14 @@ Partial Class eLamp
         Me.Size = New System.Drawing.Size(30, 30)
         CType(Me.pb2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pb1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
 
     Friend WithEvents pb1 As PictureBox
     Friend WithEvents pb2 As PictureBox
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents ЗадатьСопротивлениеToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolTip1 As ToolTip
 End Class

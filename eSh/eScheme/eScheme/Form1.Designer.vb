@@ -200,6 +200,7 @@ Partial Class Form1
         Me.PictureBox_Lmp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox_Lmp.TabIndex = 38
         Me.PictureBox_Lmp.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Lmp, "Лампа  (R для поворота при размещении)")
         '
         'PictureBox_Move
         '
@@ -249,7 +250,7 @@ Partial Class Form1
         Me.PictureBox_Resist.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox_Resist.TabIndex = 34
         Me.PictureBox_Resist.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Resist, "Потребитель")
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Resist, "Потребитель (R для поворота при размещении)")
         '
         'Label_A4
         '
@@ -395,7 +396,7 @@ Partial Class Form1
         Me.PictureBox_Switch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox_Switch.TabIndex = 21
         Me.PictureBox_Switch.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Switch, "Выключатель")
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Switch, "Выключатель (R для поворота при размещении)")
         '
         'PictureBox10
         '
@@ -447,7 +448,7 @@ Partial Class Form1
         Me.PictureBox_Button.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox_Button.TabIndex = 16
         Me.PictureBox_Button.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Button, "Кнопка")
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Button, "Кнопка (R для поворота при размещении)")
         '
         'PictureBox_eBat
         '

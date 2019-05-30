@@ -48,6 +48,7 @@ Public Class Form1
     Public pointsInProcessUI As New ArrayList
     Public Udefault As Integer = 12
     Public Rdefault As Integer = 50
+    Public RLampdefault As Integer = 29
     Public FUSEdefault As Single = 10
     Public fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
     Public gost_font As Font
@@ -994,6 +995,20 @@ nextAfterMove:
                 G.DrawLine(Pn, rx + 30, ry + 15, rx - 10, ry + 15)
                 G.DrawLine(Pn, rx - 10, ry + 15, rx - 10, ry - 15)
             End If
+            If Mode = "eLamp1" Then
+                Pn = New Pen(Color.Black, 1)
+                G.DrawLine(Pn, rx, ry, rx + 5, ry)
+                G.DrawLine(Pn, rx + 35, ry, rx + 40, ry)
+                G.DrawEllipse(Pn, rx + 5, ry - 15, 30, 30)
+            End If
+            If Mode = "eLamp2" Then
+                Pn = New Pen(Color.Black, 1)
+                G.DrawLine(Pn, rx, ry, rx, ry - 5)
+                G.DrawLine(Pn, rx, ry - 35, rx, ry - 40)
+                G.DrawEllipse(Pn, rx - 15, ry - 35, 30, 30)
+            End If
+
+
             If Mode = "newFuseV" Then
                 Pn = New Pen(Color.Black, 1)
                 G.DrawLine(Pn, rx + 5, ry + 5, rx - 5, ry + 5)
@@ -1190,6 +1205,23 @@ nextAfterMove:
             Dim eButt As New eButton(rx, ry, eComp.numInArray, False, 1000, loc)
             Me.Controls.Add(eButt)
             eComp.component = eButt
+
+            Mode = ""
+            CheckBox2.Checked = True
+            GroupBox1.Visible = True
+            CheckBox2.Visible = True
+            Me.Cursor = Cursors.Default
+            NeedSave = True
+        End If
+        If Mode.StartsWith("eLamp") Then
+            Dim eComp As New EComponent With {
+                            .aType = "eLamp",
+                            .numInArray = Elements.Count
+                        }
+            Elements.Add(eComp)
+            Dim eLa As New eLamp(rx, ry, eComp.numInArray, RLampdefault, False, 0)
+            Me.Controls.Add(eLa)
+            eComp.component = eLa
 
             Mode = ""
             CheckBox2.Checked = True
@@ -1483,6 +1515,17 @@ StartFile:
                     Elements.Add(eComp)
                     Me.Controls.Add(res)
                 End If
+                'eLamp
+                If aComp(0) = "eLamp" Then
+                    Dim la As New eLamp(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
+                    eComp = New EComponent With {
+                        .aType = "eLamp",
+                        .numInArray = la.num,
+                        .component = la
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(la)
+                End If
                 'eButton
                 If aComp(0) = "eButton" Then
                     Dim but As New eButton(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
@@ -1647,6 +1690,10 @@ StartFile:
             GroupBox1.Visible = False
             CheckBox2.Visible = False
             Select Case Mode
+                Case "eLamp1"
+                    Me.Cursor = R1_cur'************************
+                Case "eLamp2"
+                    Me.Cursor = R2_cur'************************
                 Case "eResist1"
                     Me.Cursor = R1_cur
                 Case "eResist2"
@@ -1876,6 +1923,13 @@ StartFile:
             ElseIf Mode = "eButton1" Then
                 Mode = "eButton2"
                 Me.Cursor = BuV_cur
+            End If
+            If Mode = "eLamp2" Then
+                Mode = "eLamp1"
+                Me.Cursor = BuH_cur '***********
+            ElseIf Mode = "eLamp1" Then
+                Mode = "eLamp2"
+                Me.Cursor = BuV_cur '***********
             End If
             If Mode = "eSwitch2" Then
                 Mode = "eSwitch1"
