@@ -301,6 +301,8 @@
     <None Include="bin\Debug\resourses\R2.cur" />
     <None Include="bin\Debug\resourses\R3.cur" />
     <None Include="bin\Debug\resourses\R4.cur" />
+    <None Include="bin\Debug\resourses\LampV.cur" />
+    <None Include="bin\Debug\resourses\LampH.cur" />
     <Content Include="Безымянный.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

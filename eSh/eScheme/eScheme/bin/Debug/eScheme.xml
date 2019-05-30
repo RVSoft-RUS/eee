@@ -92,6 +92,16 @@ eScheme
   Поиск локализованного ресурса типа System.Byte[].
 </summary>
 </member>
+<member name="P:eScheme.My.Resources.Resources.LampH">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
+<member name="P:eScheme.My.Resources.Resources.LampV">
+<summary>
+  Поиск локализованного ресурса типа System.Byte[].
+</summary>
+</member>
 <member name="P:eScheme.My.Resources.Resources.LH">
 <summary>
   Поиск локализованного ресурса типа System.Byte[].

@@ -190,4 +190,10 @@
   <data name="R4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\resourses\R4.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="LampH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\resourses\LampH.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LampV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\resourses\LampV.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

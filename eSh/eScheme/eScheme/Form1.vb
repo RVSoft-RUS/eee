@@ -32,8 +32,10 @@ Public Class Form1
     Public R1_cur As Cursor
     Public R2_cur As Cursor
     Public R3_cur As Cursor
-    Public R4_cur As Cursor
-    Public FuseH_cur As Cursor
+	Public R4_cur As Cursor
+	Public LampH_cur As Cursor
+	Public LampV_cur As Cursor
+	Public FuseH_cur As Cursor
     Public FuseV_cur As Cursor
     Public BuH_cur As Cursor
     Public BuV_cur As Cursor
@@ -163,9 +165,11 @@ Public Class Form1
             FuseV_cur = New Cursor(New System.IO.MemoryStream(My.Resources.fuseV))
             'BuH_cur = New Cursor(Application.StartupPath + "\resourses\BuH.cur")
             BuH_cur = New Cursor(New System.IO.MemoryStream(My.Resources.BuH))
-            ' BuV_cur = New Cursor(Application.StartupPath + "\resourses\BuV.cur")
-            BuV_cur = New Cursor(New System.IO.MemoryStream(My.Resources.BuV))
-        Catch ex As Exception
+			' BuV_cur = New Cursor(Application.StartupPath + "\resourses\BuV.cur")
+			BuV_cur = New Cursor(New System.IO.MemoryStream(My.Resources.BuV))
+			LampH_cur = New Cursor(New System.IO.MemoryStream(My.Resources.LampH))
+			LampV_cur = New Cursor(New System.IO.MemoryStream(My.Resources.LampV))
+		Catch ex As Exception
             line_cur = Cursors.Default
             point_cur = Cursors.Cross
             addLine_cur = Cursors.Help
@@ -1691,10 +1695,10 @@ StartFile:
             CheckBox2.Visible = False
             Select Case Mode
                 Case "eLamp1"
-                    Me.Cursor = R1_cur'************************
-                Case "eLamp2"
-                    Me.Cursor = R2_cur'************************
-                Case "eResist1"
+					Me.Cursor = LampH_cur'************************
+				Case "eLamp2"
+					Me.Cursor = LampV_cur'************************
+				Case "eResist1"
                     Me.Cursor = R1_cur
                 Case "eResist2"
                     Me.Cursor = R2_cur
@@ -1926,11 +1930,11 @@ StartFile:
             End If
             If Mode = "eLamp2" Then
                 Mode = "eLamp1"
-                Me.Cursor = BuH_cur '***********
-            ElseIf Mode = "eLamp1" Then
+				Me.Cursor = LampH_cur '***********
+			ElseIf Mode = "eLamp1" Then
                 Mode = "eLamp2"
-                Me.Cursor = BuV_cur '***********
-            End If
+				Me.Cursor = LampV_cur '***********
+			End If
             If Mode = "eSwitch2" Then
                 Mode = "eSwitch1"
                 Me.Cursor = BuH_cur

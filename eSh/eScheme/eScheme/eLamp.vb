@@ -24,8 +24,8 @@ Public Class eLamp
         R = r_
         work = work_
         Ia = ia_
-        'PaintMe()
-        If Form1.Mode = "" Then Me.Location = New Point(X, Y)
+		PaintMe()
+		If Form1.Mode = "" Then Me.Location = New Point(X, Y)
         Cursor = Form1.element_cur                                 'Поменять
         Dim eComp As EComponent
 
