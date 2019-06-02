@@ -18,8 +18,8 @@ Public Class Form2
 
     Private Sub Form2_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         Form1.Enabled = True
-        Form1.NeedSave = True
-        Form1.CreateFormat()
+		Form1.NeedSave = True
+		Form1.CreateFormat()
     End Sub
 
 	Private Sub Form2_Load(sender As Object, e As EventArgs) Handles Me.Load

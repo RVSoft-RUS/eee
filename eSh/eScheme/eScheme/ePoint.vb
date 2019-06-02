@@ -146,7 +146,7 @@ Imports eScheme
 			Form1.GroupBox1.Visible = True
 			Form1.CheckBox2.Visible = True
 			Form1.Cursor = Cursors.Default
-			Form1.NeedSave = True
+			Form1.DoNeedSave()
 		End If
 		If Form1.Mode = "createConnect" Then
 			Form1.createConnect = New EAddLinesAndPoints(X, Y, num, clr)
@@ -226,7 +226,7 @@ Imports eScheme
 				Form1.GroupBox1.Visible = True
 				Form1.CheckBox2.Visible = True
 				Form1.Cursor = Cursors.Default
-				Form1.NeedSave = True
+				Form1.DoNeedSave()
 			Else
 				MsgBox("Массу нельзя подключить к плюсовому проводу.", vbInformation, "Подключение массы")
 			End If
@@ -387,6 +387,6 @@ Imports eScheme
 		X = m_X
 		Y = m_Y
         Me.Location = New Point(X - 5, Y - 5)
-        Form1.NeedSave = True
-    End Sub
+		Form1.DoNeedSave()
+	End Sub
 End Class

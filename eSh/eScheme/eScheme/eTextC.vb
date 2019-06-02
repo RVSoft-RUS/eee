@@ -112,8 +112,8 @@ Public Class eTextC
         X += dX
         Y += dY
         Me.Location = New Point(X, Y)
-        Form1.NeedSave = True
-        Return True
+		Form1.DoNeedSave()
+		Return True
     End Function
 
     Public Function GetX() As Integer Implements IMovable.GetX

@@ -146,8 +146,8 @@ Public Class eButton
         ElseIf loc = 2 Then
             Me.Location = New Point(X - 15, Y - 35) 'Для настройки положения
         End If
-        Form1.NeedSave = True
-    End Sub
+		Form1.DoNeedSave()
+	End Sub
 
 	Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
 		Me.Dispose()

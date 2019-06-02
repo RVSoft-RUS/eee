@@ -164,6 +164,6 @@ Public Class EGND
 		X = m_X
 		Y = m_Y
         Me.Location = New Point(X - 8, Y + 5)
-        Form1.NeedSave = True
-    End Sub
+		Form1.DoNeedSave()
+	End Sub
 End Class

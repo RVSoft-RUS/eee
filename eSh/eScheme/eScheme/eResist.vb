@@ -220,8 +220,8 @@ Public Class EResist
 
     Public Sub SetValue(value As Single) Implements ISetValue.SetValue
         R = value
-        Form1.NeedSave = True
-        If Form1.f.Batt > 0 Then
+		Form1.DoNeedSave()
+		If Form1.f.Batt > 0 Then
             Dim eComp As EComponent = Form1.Elements(Form1.f.Batt)
             Dim bat As eBat = eComp.component
             Form1.pointsInProcessUI.Clear()
@@ -347,6 +347,6 @@ Public Class EResist
         ElseIf loc = 4 Then
             Me.Location = New Point(X - 10, Y - 15) 'Для настройки положения
         End If
-        Form1.NeedSave = True
-    End Sub
+		Form1.DoNeedSave()
+	End Sub
 End Class

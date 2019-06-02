@@ -165,8 +165,8 @@ Public Class eBat
 
     Public Sub SetValue(value As Single) Implements ISetValue.SetValue
         U = value
-        Form1.NeedSave = True
-        Form1.pointsInProcessUI.Clear()
+		Form1.DoNeedSave()
+		Form1.pointsInProcessUI.Clear()
         CheckUI(0, 0, 0)
     End Sub
 
@@ -240,6 +240,6 @@ Public Class eBat
         X = m_X
         Y = m_Y
         Me.Location = New Point(X + 5, Y - 2)
-        Form1.NeedSave = True
-    End Sub
+		Form1.DoNeedSave()
+	End Sub
 End Class
