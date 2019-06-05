@@ -161,9 +161,8 @@ Public Class EGND
 	End Function
 
     Public Sub MoveOK() Implements IMovable.MoveOK
-		X = m_X
-		Y = m_Y
+        X = m_X
+        Y = m_Y
         Me.Location = New Point(X - 8, Y + 5)
-		Form1.DoNeedSave()
-	End Sub
+    End Sub
 End Class

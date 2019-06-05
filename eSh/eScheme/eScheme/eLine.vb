@@ -267,8 +267,8 @@ Public Class eLine
             Form1.GroupBox1.Visible = True
             Form1.CheckBox2.Visible = True
             Form1.Cursor = Cursors.Default
-			Form1.DoNeedSave()
-		End If
+            'Form1.DoNeedSave()
+        End If
 
     End Sub
 

@@ -144,10 +144,13 @@ Imports eScheme
 			Form1.Mode = ""
 			Form1.createConnect.EndCreate(X, Y, num)
 			Form1.GroupBox1.Visible = True
-			Form1.CheckBox2.Visible = True
-			Form1.Cursor = Cursors.Default
-			Form1.DoNeedSave()
-		End If
+            Form1.CheckBox2.Visible = True
+            'Application.DoEvents()
+            Form1.Cursor = Cursors.Default
+            Dim a As ArrayList = Form1.Elements
+            Form1.DoNeedSave()
+
+        End If
 		If Form1.Mode = "createConnect" Then
 			Form1.createConnect = New EAddLinesAndPoints(X, Y, num, clr)
 		End If
@@ -242,19 +245,23 @@ Imports eScheme
 		End If
 	End Sub
 
-	Public Function ForSave() As ArrayList Implements IConnectable.ForSave
-		Dim save As New ArrayList From {
-			"ePoint",
-			num,
-			X,
-			Y,
-			links,
-			Condition_
-		}
-		Return save
-	End Function
+    Public Function ForSave() As ArrayList Implements IConnectable.ForSave
+        Dim lnks As New ArrayList
+        For j = 0 To links.Count + -1
+            lnks.Add(links(j))
+        Next
+        Dim save As New ArrayList From {
+            "ePoint",
+            num,
+            X,
+            Y,
+            lnks,
+            Condition_
+        }
+        Return save
+    End Function
 
-	Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
+    Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
 		Dim asd As ArrayList = Form1.pointsInProcessSig
 		If Form1.pointsInProcessSig.Contains(num) Then
 			MsgBox("Не допускаестся создание замкнутых контуров." +
@@ -383,10 +390,9 @@ Imports eScheme
 		Return Y
 	End Function
 
-	Public Sub MoveOK() Implements IMovable.MoveOK
-		X = m_X
-		Y = m_Y
+    Public Sub MoveOK() Implements IMovable.MoveOK
+        X = m_X
+        Y = m_Y
         Me.Location = New Point(X - 5, Y - 5)
-		Form1.DoNeedSave()
-	End Sub
+    End Sub
 End Class

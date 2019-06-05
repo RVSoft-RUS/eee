@@ -347,6 +347,5 @@ Public Class EResist
         ElseIf loc = 4 Then
             Me.Location = New Point(X - 10, Y - 15) 'Для настройки положения
         End If
-		Form1.DoNeedSave()
-	End Sub
+    End Sub
 End Class

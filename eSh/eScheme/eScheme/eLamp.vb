@@ -265,6 +265,5 @@ Public Class eLamp
         X = m_X
         Y = m_Y
         Me.Location = New Point(X, Y) 'Для настройки положения
-		Form1.DoNeedSave()
-	End Sub
+    End Sub
 End Class

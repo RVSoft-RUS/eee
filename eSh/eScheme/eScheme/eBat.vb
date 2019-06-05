@@ -240,6 +240,5 @@ Public Class eBat
         X = m_X
         Y = m_Y
         Me.Location = New Point(X + 5, Y - 2)
-		Form1.DoNeedSave()
-	End Sub
+    End Sub
 End Class

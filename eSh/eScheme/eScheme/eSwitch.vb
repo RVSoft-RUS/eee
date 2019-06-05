@@ -139,8 +139,7 @@ Public Class eSwitch
         ElseIf loc = 2 Then
             Me.Location = New Point(X - 30, Y - 35) 'Для настройки положения
         End If
-		Form1.DoNeedSave()
-	End Sub
+    End Sub
 
     Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
         Me.Dispose()
@@ -202,14 +201,14 @@ Public Class eSwitch
             Form1.DisConnect(num + 1, num + 3)
             Form1.OnConnect(num + 1, num + 2)
             PaintMe()
-			Form1.DoNeedSave()
-		Else
+            'Form1.DoNeedSave()
+        Else
             work = False
             Form1.DisConnect(num + 1, num + 2)
             Form1.OnConnect(num + 1, num + 3)
             PaintMe()
-			Form1.DoNeedSave()
-		End If
+            'Form1.DoNeedSave()
+        End If
     End Sub
 
     Public Function ForSave() As ArrayList Implements IConnectable.ForSave

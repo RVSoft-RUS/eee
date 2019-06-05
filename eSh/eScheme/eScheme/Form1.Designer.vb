@@ -117,6 +117,7 @@ Partial Class Form1
         Me.pb3 = New System.Windows.Forms.PictureBox()
         Me.pb2 = New System.Windows.Forms.PictureBox()
         Me.pb1 = New System.Windows.Forms.PictureBox()
+        Me.ListBox1 = New System.Windows.Forms.ListBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox_Lmp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_Move, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1126,12 +1127,22 @@ Partial Class Form1
         Me.pb1.TabIndex = 30
         Me.pb1.TabStop = False
         '
+        'ListBox1
+        '
+        Me.ListBox1.FormattingEnabled = True
+        Me.ListBox1.Location = New System.Drawing.Point(665, 264)
+        Me.ListBox1.Name = "ListBox1"
+        Me.ListBox1.Size = New System.Drawing.Size(120, 95)
+        Me.ListBox1.TabIndex = 62
+        Me.ListBox1.Visible = False
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(883, 917)
+        Me.Controls.Add(Me.ListBox1)
         Me.Controls.Add(Me.CheckBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.LabelSig)
@@ -1316,4 +1327,5 @@ Partial Class Form1
     Friend WithEvents ПоказатьКомментарииToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PictureBox_Move As PictureBox
     Friend WithEvents PictureBox_Lmp As PictureBox
+    Friend WithEvents ListBox1 As ListBox
 End Class

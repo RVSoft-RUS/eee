@@ -137,19 +137,18 @@ Public Class eButton
 
 	End Sub
 
-	Public Sub MoveOK() Implements IMovable.MoveOK
-		X = m_X
-		Y = m_Y
+    Public Sub MoveOK() Implements IMovable.MoveOK
+        X = m_X
+        Y = m_Y
 
         If loc = 1 Then
             Me.Location = New Point(X + 5, Y - 15) 'Для настройки положения
         ElseIf loc = 2 Then
             Me.Location = New Point(X - 15, Y - 35) 'Для настройки положения
         End If
-		Form1.DoNeedSave()
-	End Sub
+    End Sub
 
-	Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
+    Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
 		Me.Dispose()
 	End Sub
 
