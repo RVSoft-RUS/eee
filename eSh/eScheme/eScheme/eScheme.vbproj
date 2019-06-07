@@ -171,6 +171,12 @@
     <Compile Include="Form2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormOptions.Designer.vb">
+      <DependentUpon>FormOptions.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormOptions.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="hLine.Designer.vb">
       <DependentUpon>hLine.vb</DependentUpon>
     </Compile>
@@ -248,6 +254,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOptions.resx">
+      <DependentUpon>FormOptions.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="hLine.resx">
       <DependentUpon>hLine.vb</DependentUpon>

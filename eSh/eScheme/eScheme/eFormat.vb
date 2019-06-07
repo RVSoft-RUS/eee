@@ -16,8 +16,9 @@
 	Public tkontr As String
 	Public nkontr As String
 	Public utv As String
-	'Настройки приложения
-	Public left As Integer
+    'Настройки приложения
+    Public pos As Point
+    Public size As Size
     Public Batt As Integer
     Public showComments As Boolean = True
 End Class

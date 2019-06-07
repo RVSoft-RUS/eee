@@ -657,18 +657,18 @@ Partial Class Form1
         'СправкаToolStripMenuItem1
         '
         Me.СправкаToolStripMenuItem1.Name = "СправкаToolStripMenuItem1"
-        Me.СправкаToolStripMenuItem1.Size = New System.Drawing.Size(158, 22)
+        Me.СправкаToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.СправкаToolStripMenuItem1.Text = "Справка"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(155, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
         '
         'ОпрограммеToolStripMenuItem
         '
         Me.ОпрограммеToolStripMenuItem.Name = "ОпрограммеToolStripMenuItem"
-        Me.ОпрограммеToolStripMenuItem.Size = New System.Drawing.Size(158, 22)
+        Me.ОпрограммеToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ОпрограммеToolStripMenuItem.Text = "&О программе..."
         '
         'SaveFileDialog1

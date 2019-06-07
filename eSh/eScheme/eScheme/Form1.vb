@@ -11,6 +11,7 @@ Public Class Form1
     Public txtColor As Color = Color.Black
     Public commentColor As Color = Color.SandyBrown
     Public stopAtRMClick As Boolean = True
+    Public openWithSize As Boolean = False
 
     Public rx As Integer, ry As Integer 'округленные до 20 координаты точки
     Dim zx, zy As Integer 'Для предотвращения мерцания линий при MouseMove
@@ -18,6 +19,7 @@ Public Class Form1
     Dim lastMode As String = ""
     Public Elements As New ArrayList
     Public FileName As String = ""
+    Dim fileParam As String = ""
     Public NeedSave As Boolean = False 'Были изменения, нужно сохранять
     Dim a As New ArrayList ' Все линии для форматки
     Public f As New EFormat
@@ -48,10 +50,11 @@ Public Class Form1
     'если точка при добавлении уже существует, значит зациклено
     Public pointsInProcessSig As New ArrayList
     Public pointsInProcessUI As New ArrayList
-    Public Udefault As Integer = 12
-    Public Rdefault As Integer = 50
-    Public RLampdefault As Integer = 29
+    Public Udefault As Single = 12
+    Public Rdefault As Single = 50
+    Public RLampdefault As Single = 29
     Public FUSEdefault As Single = 10
+    Public RELEdefault As Single = 59
     Public fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
     Public gost_font As Font
     Dim firstPoint As Point
@@ -135,9 +138,7 @@ Public Class Form1
         Catch ex As Exception
             MsgBox("Не внедрить шрифт gost.ttf." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
         End Try
-
         HideFormatText()
-
         Try
             'line_cur = New Cursor(Application.StartupPath + "\resourses\line.cur")
             line_cur = New Cursor(New System.IO.MemoryStream(My.Resources.line))
@@ -187,6 +188,37 @@ Public Class Form1
             FuseV_cur = Cursors.NoMoveVert
             BuH_cur = Cursors.NoMoveHoriz
             BuV_cur = Cursors.NoMoveVert
+        End Try
+
+        Try
+            fileParam = Application.StartupPath
+            If fileParam.EndsWith("\") Then
+                fileParam += "default_values.inf"
+            Else
+                fileParam += "\default_values.inf"
+            End If
+            Dim dict As ArrayList
+            Dim fStream As New FileStream(fileParam, FileMode.Open, FileAccess.Read)
+            Dim myBinaryFormatter As New Formatters.Binary.BinaryFormatter
+            dict = CType(myBinaryFormatter.Deserialize(fStream), ArrayList)
+            fStream.Close()
+
+            color0 = dict(0)
+            colorM = dict(1)
+            color15 = dict(2)
+            color30 = dict(3)
+            bordColor = dict(4)
+            txtColor = dict(5)
+            commentColor = dict(6)
+            stopAtRMClick = dict(7)
+            openWithSize = dict(8)
+            Udefault = dict(9)
+            Rdefault = dict(10)
+            RLampdefault = dict(11)
+            FUSEdefault = dict(12)
+            RELEdefault = dict(13)
+        Catch ex As Exception
+
         End Try
 
         Dim Proc() As Process
@@ -1363,6 +1395,8 @@ nextAfterMove:
             Dim saveArray As New ArrayList
             Dim eComp As EComponent
             Dim e As IConnectable
+            f.pos = Me.Location
+            f.size = Me.Size
             saveArray.Add(f)
 
             ProgressBar.Maximum = 50 + Elements.Count - 1
@@ -1460,6 +1494,10 @@ StartFile:
         'Отображение прочитанного массива
         'Dim eComp As New eComponent
         f = saveArray(0)
+        If openWithSize Then
+            Me.Location = f.pos
+            Me.Size = f.size
+        End If
         ProgressBar.Maximum = 50 + saveArray.Count - 1
         Dim count As Integer = saveArray.Count - 1
         Dim sleepTime As Integer = 1000 / count + 5
@@ -1983,12 +2021,36 @@ StartFile:
     Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         Dim q As Microsoft.VisualBasic.MsgBoxResult
         If NeedSave Then
-            q = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNo, "Предупреждение")
+            q = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNoCancel, "Предупреждение")
             If q = vbYes Then
                 'сохранение
                 FileSave()
             End If
+            If q = vbCancel Then
+                e.Cancel = True
+                Exit Sub
+            End If
         End If
+        Dim dict As New ArrayList From {
+                color0,
+                colorM,
+                color15,
+                color30,
+                bordColor,
+                txtColor,
+                commentColor,
+                stopAtRMClick,
+                openWithSize,
+                Udefault,
+                Rdefault,
+                RLampdefault,
+                FUSEdefault,
+                RELEdefault
+            }
+        Dim fStream As New FileStream(fileParam, FileMode.Create, FileAccess.Write)
+        Dim myBinaryFormatter As New Formatters.Binary.BinaryFormatter
+        myBinaryFormatter.Serialize(fStream, dict)
+        fStream.Close()
     End Sub
 
     Private Sub Form1_Resize(sender As Object, e As EventArgs) Handles Me.Resize
@@ -2231,9 +2293,20 @@ StartFile:
         'ShowUnDoArray()
     End Sub
 
+    Private Sub НастройкиToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles НастройкиToolStripMenuItem.Click
+        FormOptions.Visible = True
+    End Sub
+
     Sub Undo()
         Dim saveArray As ArrayList
-        Dim index As Integer = unDoArray.Count - 1
+
+        Dim index As Integer = unDoArray.Count - 1 'Продумать
+        If index > 0 Then
+            unDoArray.RemoveAt(index)
+        End If
+
+        index = unDoArray.Count - 1
+
         If index < 0 Then Exit Sub
         isUndo = True
         saveArray = unDoArray(index)
@@ -2409,7 +2482,7 @@ StartFile:
         Next
         ShowComments(f.showComments)
         TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
-        unDoArray.RemoveAt(index)
+        'unDoArray.RemoveAt(index)
         isUndo = False
         TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
     End Sub
