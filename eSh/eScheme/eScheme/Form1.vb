@@ -64,8 +64,8 @@ Public Class Form1
     Public moveYstart As Integer
     Public moveArray As New ArrayList
 
-    Public unDoArray As New ArrayList
-    Dim isUndo As Boolean = False
+	Public unDoArray As New Stack()
+	Dim isUndo As Boolean = False
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         GroupBox1.Visible = CheckBox2.Checked
@@ -77,66 +77,66 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Try
-            Elements.Add(Nothing)
-            'fnt.AddFontFile(Application.StartupPath + "\resourses\gost.ttf")
-            Dim buffer() As Byte
-            buffer = My.Resources.gost
-            Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocHGlobal(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
-            Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
-            fnt.AddMemoryFont(ip, buffer.Length)
-            lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblKF_A3.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lbliList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblNdoc.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblPodp.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblDate.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblLit.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblMashtab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblMassa.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            txtList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            F.list = txtList.Text
-            txtListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.listov = txtListov.Text
-            txtMashtab.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
-            f.mashtab = txtMashtab.Text
-            txtMassa.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
-            f.massa = txtMassa.Text
-            Dim fs As New FontStyle
-            fs = FontStyle.Italic Or FontStyle.Bold
-            txtName.Font = New Font(fnt.Families(0), 14, fs)
-            f.name = txtName.Text
-            txtNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.nkontr = txtNcontr.Text
-            txtNumber.Font = New Font(fnt.Families(0), 14, fs)
-            f.number = txtNumber.Text
-            txtOrg1.Font = New Font(fnt.Families(0), 14, fs)
-            f.org1 = txtOrg1.Text
-            txtOrg2.Font = New Font(fnt.Families(0), 14, fs)
-            f.org2 = txtOrg2.Text
-            txtProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.prov = txtProv.Text
-            txtRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.razrab = txtRazrab.Text
-            txtSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.sogl = txtSogl.Text
-            txtTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.tkontr = txtTcontr.Text
-            txtType.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.type = txtType.Text
-            txtUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.utv = txtUtv.Text
-        Catch ex As Exception
-            MsgBox("Не внедрить шрифт gost.ttf." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
+		Try
+			Elements.Add(Nothing)
+			'fnt.AddFontFile(Application.StartupPath + "\resourses\gost.ttf")
+			Dim buffer() As Byte
+			buffer = My.Resources.gost
+			Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocHGlobal(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
+			Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
+			fnt.AddMemoryFont(ip, buffer.Length)
+			lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblKF_A3.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lbliList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblNdoc.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblPodp.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblDate.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblLit.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblMashtab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblMassa.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			txtList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.list = txtList.Text
+			txtListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.listov = txtListov.Text
+			txtMashtab.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
+			f.mashtab = txtMashtab.Text
+			txtMassa.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
+			f.massa = txtMassa.Text
+			Dim fs As New FontStyle
+			fs = FontStyle.Italic Or FontStyle.Bold
+			txtName.Font = New Font(fnt.Families(0), 14, fs)
+			f.name = txtName.Text
+			txtNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.nkontr = txtNcontr.Text
+			txtNumber.Font = New Font(fnt.Families(0), 14, fs)
+			f.number = txtNumber.Text
+			txtOrg1.Font = New Font(fnt.Families(0), 14, fs)
+			f.org1 = txtOrg1.Text
+			txtOrg2.Font = New Font(fnt.Families(0), 14, fs)
+			f.org2 = txtOrg2.Text
+			txtProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.prov = txtProv.Text
+			txtRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.razrab = txtRazrab.Text
+			txtSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.sogl = txtSogl.Text
+			txtTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.tkontr = txtTcontr.Text
+			txtType.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.type = txtType.Text
+			txtUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.utv = txtUtv.Text
+		Catch ex As Exception
+			MsgBox("Не внедрить шрифт gost.ttf." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
         End Try
         HideFormatText()
         Try
@@ -1375,10 +1375,12 @@ nextAfterMove:
         f.format = ""
         HideFormatText()
         FileName = ""
-        Me.Text = "Безымянный - eScheme"
-        NeedSave = False
-        unDoArray.Clear()
-    End Sub
+		Me.Text = "Безымянный - eScheme"
+		unDoArray.Clear()
+		DoNeedSave()
+		NeedSave = False
+
+	End Sub
 
     Private Sub FileSave()
         If Elements.Count = 0 Then Exit Sub
@@ -1659,8 +1661,11 @@ StartFile:
             Application.DoEvents()
         Next
         ProgressBar.Visible = False
-        ShowComments(f.showComments)
-    End Sub
+		ShowComments(f.showComments)
+		unDoArray.Clear()
+		DoNeedSave()
+		NeedSave = False
+	End Sub
 
     Private Sub PrintReversNumber()
         Try
@@ -2286,12 +2291,12 @@ StartFile:
             End If
         Next
 
-        unDoArray.Add(saveArray)
-        If unDoArray.Count > 30 Then
-            unDoArray.RemoveAt(0)
-        End If
-        'ShowUnDoArray()
-    End Sub
+		unDoArray.Push(saveArray)
+		'If unDoArray.Count > 30 Then
+		'          unDoArray.RemoveAt(0)
+		'      End If
+		'ShowUnDoArray()
+	End Sub
 
     Private Sub НастройкиToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles НастройкиToolStripMenuItem.Click
         FormOptions.Visible = True
@@ -2300,18 +2305,18 @@ StartFile:
     Sub Undo()
         Dim saveArray As ArrayList
 
-        Dim index As Integer = unDoArray.Count - 1 'Продумать
-        If index > 0 Then
-            unDoArray.RemoveAt(index)
-        End If
+		Dim index As Integer = unDoArray.Count - 1 'Продумать
+		'If index > 0 Then
+		'    unDoArray.RemoveAt(index)
+		'End If
 
-        index = unDoArray.Count - 1
+		'index = unDoArray.Count - 1
 
-        If index < 0 Then Exit Sub
+		If index < 0 Then Exit Sub
         isUndo = True
-        saveArray = unDoArray(index)
+		saveArray = unDoArray.Pop
 
-        TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
+		TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
         Dim eComp As EComponent
         For i = 1 To Elements.Count - 1
             eComp = Elements(i)

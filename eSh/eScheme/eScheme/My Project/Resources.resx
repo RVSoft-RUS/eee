@@ -157,9 +157,6 @@
   <data name="gnd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\resourses\gnd.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="gost" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\resourses\gost.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="LH" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\resourses\LH.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -195,5 +192,8 @@
   </data>
   <data name="LampV" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\resourses\LampV.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="gost" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\resourses\gost.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

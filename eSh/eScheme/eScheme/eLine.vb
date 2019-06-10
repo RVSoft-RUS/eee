@@ -285,11 +285,11 @@ Public Class eLine
         p.links.Remove(num)
         n2 = p.num
 
-        Form1.Delete(num)
-        'Изменения Change добавить ++++++++++++++++++++++++++++++++++++++++++++++
-        Form1.DisConnect(n1, n2)
 
-    End Sub
+		'Изменения Change добавить ++++++++++++++++++++++++++++++++++++++++++++++
+		Form1.DisConnect(n1, n2)
+		Form1.Delete(num)
+	End Sub
 
     Private Sub ELine_GotFocus(sender As Object, e As EventArgs) Handles Me.GotFocus
         Me.BackColor = Color.Aqua
