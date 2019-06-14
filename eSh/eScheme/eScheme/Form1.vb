@@ -65,7 +65,10 @@ Public Class Form1
     Public moveArray As New ArrayList
 
 	Public unDoArray As New Stack()
-	Dim isUndo As Boolean = False
+    Dim isUndo As Boolean = False
+
+    Public Level As Integer = 0 'уровень лицензии: 0 - нет, 1 - обычн, 2 - коммерч
+    Public lic As License
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         GroupBox1.Visible = CheckBox2.Checked
@@ -221,11 +224,16 @@ Public Class Form1
 
         End Try
 
+        lic = New License("084595.elicense")
+
         Dim Proc() As Process
         'Определение полного имени текущего процесса.
         Dim ModuleName, ProcName As String
         ModuleName = Process.GetCurrentProcess.MainModule.ModuleName
         ProcName = System.IO.Path.GetFileNameWithoutExtension(ModuleName)
+        If ProcName <> "eScheme" Then
+            MsgBox("ModuleName:" + ModuleName + " with ProcName:" + ProcName + " is incorrect." + vbCrLf + "Загрузка остановлена.", vbCritical, "Защита лицензионная")
+        End If
         'Находим все процессы с данным именем
         Proc = Process.GetProcessesByName(ProcName)
         'Если процесса такого нет то запускаем программу
@@ -233,7 +241,9 @@ Public Class Form1
         'Если вы хотите разрешить запуск 2 экзэмпляра приложения то измените Proc.Length > 1 на Proc.Length > 2
         If Proc.Length > 1 Then
             'Если лицензия не разрешает, то выход
-
+            If Level < 2 Then
+                MsgBox(ModuleName + " " + ProcName)
+            End If
         End If
 
         Try
