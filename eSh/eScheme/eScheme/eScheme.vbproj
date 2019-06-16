@@ -171,6 +171,12 @@
     <Compile Include="Form2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormLicense.Designer.vb">
+      <DependentUpon>FormLicense.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormLicense.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormOptions.Designer.vb">
       <DependentUpon>FormOptions.vb</DependentUpon>
     </Compile>
@@ -255,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLicense.resx">
+      <DependentUpon>FormLicense.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.vb</DependentUpon>

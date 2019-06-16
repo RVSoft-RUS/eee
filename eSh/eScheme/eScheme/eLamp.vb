@@ -179,57 +179,57 @@ Public Class eLamp
         DialogForm.OnView("Сопротивление лампы, Ом", Me, R.ToString)
     End Sub
 
-    Private Sub eLamp_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter, pb1.MouseEnter, pb2.MouseEnter
-        ToolTip1.SetToolTip(pb1, "Сопротивление " + CStr(R) + " Ом")
-        ToolTip1.SetToolTip(pb2, "Сопротивление " + CStr(R) + " Ом")
-    End Sub
+	Private Sub ELamp_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter, pb1.MouseEnter, pb2.MouseEnter
+		ToolTip1.SetToolTip(pb1, "Сопротивление " + CStr(R) + " Ом")
+		ToolTip1.SetToolTip(pb2, "Сопротивление " + CStr(R) + " Ом")
+	End Sub
 
-    Private Sub pb2_MouseClick(sender As Object, e As MouseEventArgs) Handles pb2.MouseClick, pb1.MouseClick
-        If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
-            Form1.Mode = ""
-            Form1.GroupBox1.Visible = True
-            Form1.CheckBox2.Visible = True
-            Form1.CheckBox2.Checked = True
-            Form1.Cursor = Cursors.Default
-            Exit Sub
-        End If
-        If Form1.Mode = "Move" Then
-            Form1.moveObject = Me
-            Form1.Cursor = Cursors.SizeAll
-            Form1.moveXstart = Form1.rx
-            Form1.moveYstart = Form1.ry
-            Form1.Mode = "MoveMe"
-            Exit Sub
-        End If
-        If e.Button = MouseButtons.Right Then
-            ContextMenuStrip1.Show(Me, e.X, e.Y)
-            Exit Sub
-        End If
-        If Form1.Mode = "Delete" Then
-            Dim eComp As EComponent = Form1.Elements(num + 1)
-            Dim p As EPoint = eComp.component 'Первая точка 
-            p.links.Remove(num)
-            If p.links.Count = 0 Then
-                p.DeleteMe()
-            End If
+	Private Sub Pb2_MouseClick(sender As Object, e As MouseEventArgs) Handles pb2.MouseClick, pb1.MouseClick
+		If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
+			Form1.Mode = ""
+			Form1.GroupBox1.Visible = True
+			Form1.CheckBox2.Visible = True
+			Form1.CheckBox2.Checked = True
+			Form1.Cursor = Cursors.Default
+			Exit Sub
+		End If
+		If Form1.Mode = "Move" Then
+			Form1.moveObject = Me
+			Form1.Cursor = Cursors.SizeAll
+			Form1.moveXstart = Form1.rx
+			Form1.moveYstart = Form1.ry
+			Form1.Mode = "MoveMe"
+			Exit Sub
+		End If
+		If e.Button = MouseButtons.Right Then
+			ContextMenuStrip1.Show(Me, e.X, e.Y)
+			Exit Sub
+		End If
+		If Form1.Mode = "Delete" Then
+			Dim eComp As EComponent = Form1.Elements(num + 1)
+			Dim p As EPoint = eComp.component 'Первая точка 
+			p.links.Remove(num)
+			If p.links.Count = 0 Then
+				p.DeleteMe()
+			End If
 
-            eComp = Form1.Elements(num + 2)
-            p = eComp.component 'Вторая точка 
-            p.links.Remove(num)
-            If p.links.Count = 0 Then
-                p.DeleteMe()
-            End If
-            If Form1.f.Batt > 0 Then
-                eComp = Form1.Elements(Form1.f.Batt)
-                Dim bat As eBat = eComp.component
-                Form1.pointsInProcessUI.Clear()
-                bat.CheckUI(0, 0)
-            End If
-            Form1.Delete(num)
-        End If
-    End Sub
+			eComp = Form1.Elements(num + 2)
+			p = eComp.component 'Вторая точка 
+			p.links.Remove(num)
+			If p.links.Count = 0 Then
+				p.DeleteMe()
+			End If
+			If Form1.f.Batt > 0 Then
+				eComp = Form1.Elements(Form1.f.Batt)
+				Dim bat As eBat = eComp.component
+				Form1.pointsInProcessUI.Clear()
+				bat.CheckUI(0, 0)
+			End If
+			Form1.Delete(num)
+		End If
+	End Sub
 
-    Private Function IMovable_Move(from As IMovable, dX As Integer, dY As Integer) As Boolean Implements IMovable.Move
+	Private Function IMovable_Move(from As IMovable, dX As Integer, dY As Integer) As Boolean Implements IMovable.Move
         Form1.moveArray.Add(Me)
         Dim mayMove1, mayMove2 As Boolean
         If from Is Me Then

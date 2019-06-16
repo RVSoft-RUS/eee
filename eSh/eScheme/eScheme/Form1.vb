@@ -1,10 +1,49 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Runtime.Serialization
+Imports System.Runtime.InteropServices
 
 Public Class Form1
-    Public color0 As Color = Color.Gray
-    Public colorM As Color = Color.Black
+	<Flags()>
+	Private Enum FLASH_TYPE As UInteger
+		[Stop] = &H0
+		Caption = &H1
+		Tray = &H2
+		All = &H3
+		Timer = &H4
+		TimerNoForeground = &HC
+	End Enum
+
+	<StructLayout(LayoutKind.Sequential)>
+	Private Structure FLASHWINFO
+		Public cbSize As Integer
+		Public hwnd As IntPtr
+		Public dwFlags As FLASH_TYPE
+		Public uCount As UInteger
+		Public dwTimeout As UInteger
+	End Structure
+
+	<DllImport("user32.dll", SetLastError:=True)>
+	Private Shared Function FlashWindowEx(<[In]()> ByRef pfwi As FLASHWINFO) As <MarshalAs(UnmanagedType.Bool)> Boolean
+	End Function
+
+	'Public NeedFlash As Boolean = False
+
+	Public Sub DoLight()
+		'If Not NeedFlash Then Exit Sub
+		Dim fwi = New FLASHWINFO With {
+			.cbSize = Marshal.SizeOf(GetType(FLASHWINFO)),
+			.hwnd = Me.Handle,
+			.dwFlags = FLASH_TYPE.Tray,
+			.uCount = 1 '1 - постоянное свечение, 2+ - кол-во морганий
+			}
+		FlashWindowEx(fwi)
+		'NeedFlash = False
+	End Sub
+	'Выше для моргания окна
+
+	Public color0 As Color = Color.Gray
+	Public colorM As Color = Color.Black
     Public color15 As Color = Color.Red
     Public color30 As Color = Color.Purple
     Public bordColor As Color = Color.LightBlue
@@ -68,9 +107,10 @@ Public Class Form1
     Dim isUndo As Boolean = False
 
     Public Level As Integer = 0 'уровень лицензии: 0 - нет, 1 - обычн, 2 - коммерч
-    Public lic As License
+	Public lic As License
+	Dim liFile As String = "084595.elicense"
 
-    Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
+	Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         GroupBox1.Visible = CheckBox2.Checked
         If CheckBox2.Checked Then
             ToolTip1.SetToolTip(CheckBox2, "Скрыть панель")
@@ -88,6 +128,9 @@ Public Class Form1
 			Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocHGlobal(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
 			Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
 			fnt.AddMemoryFont(ip, buffer.Length)
+
+			Dim font_p As New Font(fnt.Families(0), 14, FontStyle.Italic) 'proverka
+
 			lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
 			lblKF_A3.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
 			lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
@@ -219,31 +262,33 @@ Public Class Form1
             Rdefault = dict(10)
             RLampdefault = dict(11)
             FUSEdefault = dict(12)
-            RELEdefault = dict(13)
-        Catch ex As Exception
+			RELEdefault = dict(13)
+			liFile = dict(14)
+		Catch ex As Exception
 
         End Try
 
-        lic = New License("084595.elicense")
+		lic = New License(liFile)
 
-        Dim Proc() As Process
+		Dim Proc() As Process
         'Определение полного имени текущего процесса.
         Dim ModuleName, ProcName As String
         ModuleName = Process.GetCurrentProcess.MainModule.ModuleName
         ProcName = System.IO.Path.GetFileNameWithoutExtension(ModuleName)
         If ProcName <> "eScheme" Then
-            MsgBox("ModuleName:" + ModuleName + " with ProcName:" + ProcName + " is incorrect." + vbCrLf + "Загрузка остановлена.", vbCritical, "Защита лицензионная")
-        End If
+			MsgBox("ModuleName: " + ModuleName + " with ProcName: " + ProcName + " is incorrect." + vbCrLf + "Загрузка остановлена.", vbCritical, "Защита лицензионная")
+		End If
         'Находим все процессы с данным именем
         Proc = Process.GetProcessesByName(ProcName)
         'Если процесса такого нет то запускаем программу
         'Если процесс есть уже с таким именем то закрываем программу
         'Если вы хотите разрешить запуск 2 экзэмпляра приложения то измените Proc.Length > 1 на Proc.Length > 2
         If Proc.Length > 1 Then
-            'Если лицензия не разрешает, то выход
-            If Level < 2 Then
-                MsgBox(ModuleName + " " + ProcName)
-            End If
+			'Если лицензия не разрешает, то выход
+			MsgBox(Level.ToString + vbCrLf + Application.StartupPath)
+			If Level < 2 Then
+				End
+			End If
         End If
 
         Try
@@ -1138,9 +1183,9 @@ nextAfterMove:
             CheckBox2.Visible = True
             GroupBox1.Visible = True
             Me.Cursor = Cursors.Default
-            DoNeedSave()
-            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        End If
+			DoNeedSave()
+			'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		End If
         If Mode = "createConnect1" Then
             createConnect.MouseClick(rx, ry)
         End If
@@ -1859,15 +1904,20 @@ StartFile:
         HidePanel()
     End Sub
 
-    Public Sub Delete(num As Integer)
-        Dim eComp As EComponent
-        eComp = Elements(num)
-        eComp.component.Dispose()
-        Elements(num) = Nothing
-        DoNeedSave()
+	Public Sub Delete(num As Integer)
+		Dim eComp As EComponent
+		eComp = Elements(num)
+		'Dim isPoint As Boolean = False
+		'If eComp.aType = "ePoint" Then
+		'	'isPoint = True
+		'End If
+		eComp.component.Dispose()
+		Elements(num) = Nothing
+		'If Not isPoint Then
+		DoNeedSave()
     End Sub
 
-    Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If Mode = "MoveMe" Then
             If Not e.Control Then
                 If moveObject.GetType.ToString = "eScheme.eBorderText" Then
@@ -2046,23 +2096,24 @@ StartFile:
                 Exit Sub
             End If
         End If
-        Dim dict As New ArrayList From {
-                color0,
-                colorM,
-                color15,
-                color30,
-                bordColor,
-                txtColor,
-                commentColor,
-                stopAtRMClick,
-                openWithSize,
-                Udefault,
-                Rdefault,
-                RLampdefault,
-                FUSEdefault,
-                RELEdefault
-            }
-        Dim fStream As New FileStream(fileParam, FileMode.Create, FileAccess.Write)
+		Dim dict As New ArrayList From {
+				color0,
+				colorM,
+				color15,
+				color30,
+				bordColor,
+				txtColor,
+				commentColor,
+				stopAtRMClick,
+				openWithSize,
+				Udefault,
+				Rdefault,
+				RLampdefault,
+				FUSEdefault,
+				RELEdefault,
+				liFile
+			}
+		Dim fStream As New FileStream(fileParam, FileMode.Create, FileAccess.Write)
         Dim myBinaryFormatter As New Formatters.Binary.BinaryFormatter
         myBinaryFormatter.Serialize(fStream, dict)
         fStream.Close()
@@ -2312,8 +2363,12 @@ StartFile:
         FormOptions.Visible = True
     End Sub
 
-    Sub Undo()
-        Dim saveArray As ArrayList
+	Private Sub ЛицензияToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ЛицензияToolStripMenuItem.Click
+		FormLicense.Visible = True
+	End Sub
+
+	Sub Undo()
+		Dim saveArray As ArrayList
 
 		Dim index As Integer = unDoArray.Count - 1 'Продумать
 		'If index > 0 Then
@@ -2323,186 +2378,186 @@ StartFile:
 		'index = unDoArray.Count - 1
 
 		If index < 0 Then Exit Sub
-        isUndo = True
+		isUndo = True
 		saveArray = unDoArray.Pop
 
 		TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
-        Dim eComp As EComponent
-        For i = 1 To Elements.Count - 1
-            eComp = Elements(i)
-            If eComp Is Nothing Then
+		Dim eComp As EComponent
+		For i = 1 To Elements.Count - 1
+			eComp = Elements(i)
+			If eComp Is Nothing Then
 
-            Else
-                eComp.component.Dispose()
-            End If
-        Next
-        Elements.Clear()
-        Elements.Add(Nothing)
-        pointsInProcessSig.Clear()
-        pointsInProcessUI.Clear()
+			Else
+				eComp.component.Dispose()
+			End If
+		Next
+		Elements.Clear()
+		Elements.Add(Nothing)
+		pointsInProcessSig.Clear()
+		pointsInProcessUI.Clear()
 
 
 
-        f = saveArray(0)
-        CreateFormat()
+		f = saveArray(0)
+		CreateFormat()
 
-        Dim aComp As ArrayList
-        For i = 1 To saveArray.Count - 1
-            aComp = saveArray(i)
-            If aComp Is Nothing Then
-                'Nothing
-                Elements.Add(Nothing)
-            Else
-                'ePoint
-                If aComp(0) = "ePoint" Then
-                    Dim p As New EPoint(aComp(2), aComp(3), aComp(1)) With {
-                        .links = aComp(4),
-                        .Condition = aComp(5)
-                    }
-                    eComp = New EComponent With {
-                        .aType = "ePoint",
-                        .numInArray = p.num,
-                        .component = p
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(p)
-                End If
-                'eLine
-                If aComp(0) = "eLine" Then
-                    Dim line As New eLine(aComp(2), aComp(3), aComp(4), aComp(5), aComp(1), aComp(8), aComp(9)) With {
-                        .links = aComp(6),
-                        .Condition = aComp(7)
-                    }
-                    eComp = New EComponent With {
-                        .aType = "eLine",
-                        .numInArray = line.num,
-                        .component = line
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(line)
-                End If
-                'eBat
-                If aComp(0) = "eBat" Then
-                    Dim bat As New eBat(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
-                    eComp = New EComponent With {
-                        .aType = "eBat",
-                        .numInArray = bat.num,
-                        .component = bat
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(bat)
-                End If
-                'eR
-                If aComp(0) = "eResist" Then
-                    Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
-                    eComp = New EComponent With {
-                        .aType = "eResist",
-                        .numInArray = res.num,
-                        .component = res
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(res)
-                End If
-                'eLamp
-                If aComp(0) = "eLamp" Then
-                    Dim la As New eLamp(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
-                    eComp = New EComponent With {
-                        .aType = "eLamp",
-                        .numInArray = la.num,
-                        .component = la
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(la)
-                End If
-                'eButton
-                If aComp(0) = "eButton" Then
-                    Dim but As New eButton(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
-                    eComp = New EComponent With {
-                        .aType = "eButton",
-                        .numInArray = but.num,
-                        .component = but
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(but)
-                End If
-                'eSwitch
-                If aComp(0) = "eSwitch" Then
-                    Dim but As New eSwitch(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
-                    eComp = New EComponent With {
-                        .aType = "eSwitch",
-                        .numInArray = but.num,
-                        .component = but
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(but)
-                End If
-                'eFuse
-                If aComp(0) = "eFuse" Then
-                    Dim fu As New eFuse(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
-                    eComp = New EComponent With {
-                        .aType = "eFuse",
-                        .numInArray = fu.num,
-                        .component = fu
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(fu)
-                End If
-                'eBText
-                If aComp(0) = "eBText" Then
-                    Dim bt As New eBorderText(aComp(1), aComp(2), aComp(3), aComp(4))
-                    eComp = New EComponent With {
-                        .aType = "eBText",
-                        .numInArray = bt.num,
-                        .component = bt
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(bt)
-                End If
-                'eText
-                If aComp(0) = "eText" Then
-                    Dim t As New eText(aComp(1), aComp(2), aComp(3), aComp(4))
-                    eComp = New EComponent With {
-                        .aType = "eText",
-                        .numInArray = t.num,
-                        .component = t
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(t)
-                End If
-                'eTextC
-                If aComp(0) = "eTextC" Then
-                    Dim t As New eTextC(aComp(1), aComp(2), aComp(3), aComp(4))
-                    eComp = New EComponent With {
-                        .aType = "eTextC",
-                        .numInArray = t.num,
-                        .component = t
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(t)
-                End If
-                'eGND
-                If aComp(0) = "eGND" Then
-                    Dim gnd As New EGND(aComp(2), aComp(3), aComp(1)) With {
-                        .link = aComp(4)
-                    }
-                    eComp = New EComponent With {
-                        .aType = "eGND",
-                        .numInArray = gnd.num,
-                        .component = gnd
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(gnd)
-                End If
-            End If 'Этот кусок при изменении перекопировать в Undo
-        Next
-        ShowComments(f.showComments)
-        TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
-        'unDoArray.RemoveAt(index)
-        isUndo = False
-        TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
-    End Sub
+		Dim aComp As ArrayList
+		For i = 1 To saveArray.Count - 1
+			aComp = saveArray(i)
+			If aComp Is Nothing Then
+				'Nothing
+				Elements.Add(Nothing)
+			Else
+				'ePoint
+				If aComp(0) = "ePoint" Then
+					Dim p As New EPoint(aComp(2), aComp(3), aComp(1)) With {
+						.links = aComp(4),
+						.Condition = aComp(5)
+					}
+					eComp = New EComponent With {
+						.aType = "ePoint",
+						.numInArray = p.num,
+						.component = p
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(p)
+				End If
+				'eLine
+				If aComp(0) = "eLine" Then
+					Dim line As New eLine(aComp(2), aComp(3), aComp(4), aComp(5), aComp(1), aComp(8), aComp(9)) With {
+						.links = aComp(6),
+						.Condition = aComp(7)
+					}
+					eComp = New EComponent With {
+						.aType = "eLine",
+						.numInArray = line.num,
+						.component = line
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(line)
+				End If
+				'eBat
+				If aComp(0) = "eBat" Then
+					Dim bat As New eBat(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
+					eComp = New EComponent With {
+						.aType = "eBat",
+						.numInArray = bat.num,
+						.component = bat
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(bat)
+				End If
+				'eR
+				If aComp(0) = "eResist" Then
+					Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+					eComp = New EComponent With {
+						.aType = "eResist",
+						.numInArray = res.num,
+						.component = res
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(res)
+				End If
+				'eLamp
+				If aComp(0) = "eLamp" Then
+					Dim la As New eLamp(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
+					eComp = New EComponent With {
+						.aType = "eLamp",
+						.numInArray = la.num,
+						.component = la
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(la)
+				End If
+				'eButton
+				If aComp(0) = "eButton" Then
+					Dim but As New eButton(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
+					eComp = New EComponent With {
+						.aType = "eButton",
+						.numInArray = but.num,
+						.component = but
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(but)
+				End If
+				'eSwitch
+				If aComp(0) = "eSwitch" Then
+					Dim but As New eSwitch(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
+					eComp = New EComponent With {
+						.aType = "eSwitch",
+						.numInArray = but.num,
+						.component = but
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(but)
+				End If
+				'eFuse
+				If aComp(0) = "eFuse" Then
+					Dim fu As New eFuse(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+					eComp = New EComponent With {
+						.aType = "eFuse",
+						.numInArray = fu.num,
+						.component = fu
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(fu)
+				End If
+				'eBText
+				If aComp(0) = "eBText" Then
+					Dim bt As New eBorderText(aComp(1), aComp(2), aComp(3), aComp(4))
+					eComp = New EComponent With {
+						.aType = "eBText",
+						.numInArray = bt.num,
+						.component = bt
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(bt)
+				End If
+				'eText
+				If aComp(0) = "eText" Then
+					Dim t As New eText(aComp(1), aComp(2), aComp(3), aComp(4))
+					eComp = New EComponent With {
+						.aType = "eText",
+						.numInArray = t.num,
+						.component = t
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(t)
+				End If
+				'eTextC
+				If aComp(0) = "eTextC" Then
+					Dim t As New eTextC(aComp(1), aComp(2), aComp(3), aComp(4))
+					eComp = New EComponent With {
+						.aType = "eTextC",
+						.numInArray = t.num,
+						.component = t
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(t)
+				End If
+				'eGND
+				If aComp(0) = "eGND" Then
+					Dim gnd As New EGND(aComp(2), aComp(3), aComp(1)) With {
+						.link = aComp(4)
+					}
+					eComp = New EComponent With {
+						.aType = "eGND",
+						.numInArray = gnd.num,
+						.component = gnd
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(gnd)
+				End If
+			End If 'Этот кусок при изменении перекопировать в Undo
+		Next
+		ShowComments(f.showComments)
+		TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
+		'unDoArray.RemoveAt(index)
+		isUndo = False
+		TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
+	End Sub
 
-    Sub ShowUnDoArray()
+	Sub ShowUnDoArray()
         TextBox1.Text = ""
         For i = 0 To unDoArray.Count - 1
             Dim anArray As New ArrayList

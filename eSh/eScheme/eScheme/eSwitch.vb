@@ -145,73 +145,73 @@ Public Class eSwitch
         Me.Dispose()
     End Sub
 
-    Private Sub eSwitch_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown, pb1.MouseDown, pb2.MouseDown, pb3.MouseDown, pb4.MouseDown
-        If Form1.Mode = "Move" Then
-            Form1.moveObject = Me
-            Form1.Cursor = Cursors.SizeAll
-            Form1.moveXstart = Form1.rx
-            Form1.moveYstart = Form1.ry
-            Form1.Mode = "MoveMe"
-        End If
-    End Sub
+	Private Sub ESwitch_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown, pb1.MouseDown, pb2.MouseDown, pb3.MouseDown, pb4.MouseDown
+		If Form1.Mode = "Move" Then
+			Form1.moveObject = Me
+			Form1.Cursor = Cursors.SizeAll
+			Form1.moveXstart = Form1.rx
+			Form1.moveYstart = Form1.ry
+			Form1.Mode = "MoveMe"
+		End If
+	End Sub
 
-    Private Sub eSwitch_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick, pb1.MouseClick, pb2.MouseClick, pb3.MouseClick, pb4.MouseClick
-        If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
-            Form1.Mode = ""
-            Form1.GroupBox1.Visible = True
-            Form1.CheckBox2.Visible = True
-            Form1.CheckBox2.Checked = True
-            Form1.Cursor = Cursors.Default
-            Exit Sub
-        End If
-        'If e.Button = MouseButtons.Right Then
-        '    ContextMenu1.Show(Me, e.X, e.Y)
-        '    Exit Sub
-        'End If
-        If Form1.Mode = "Delete" Then
-            Dim eComp As EComponent = Form1.Elements(num + 1)
-            Dim p As EPoint = eComp.component 'Первая точка 
-            p.links.Remove(num + 2)
-            p.links.Remove(num + 3)
-            If p.links.Count = 0 Then
-                p.DeleteMe()
-            End If
+	Private Sub ESwitch_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick, pb1.MouseClick, pb2.MouseClick, pb3.MouseClick, pb4.MouseClick
+		If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
+			Form1.Mode = ""
+			Form1.GroupBox1.Visible = True
+			Form1.CheckBox2.Visible = True
+			Form1.CheckBox2.Checked = True
+			Form1.Cursor = Cursors.Default
+			Exit Sub
+		End If
+		'If e.Button = MouseButtons.Right Then
+		'    ContextMenu1.Show(Me, e.X, e.Y)
+		'    Exit Sub
+		'End If
+		If Form1.Mode = "Delete" Then
+			Dim eComp As EComponent = Form1.Elements(num + 1)
+			Dim p As EPoint = eComp.component 'Первая точка 
+			p.links.Remove(num + 2)
+			p.links.Remove(num + 3)
+			If p.links.Count = 0 Then
+				p.DeleteMe()
+			End If
 
-            eComp = Form1.Elements(num + 2)
-            p = eComp.component 'Вторая точка 
-            p.links.Remove(num + 1)
-            p.links.Remove(num + 3)
-            If p.links.Count = 0 Then
-                p.DeleteMe()
-            End If
+			eComp = Form1.Elements(num + 2)
+			p = eComp.component 'Вторая точка 
+			p.links.Remove(num + 1)
+			p.links.Remove(num + 3)
+			If p.links.Count = 0 Then
+				p.DeleteMe()
+			End If
 
-            eComp = Form1.Elements(num + 3)
-            p = eComp.component '3 точка 
-            p.links.Remove(num + 1)
-            p.links.Remove(num + 2)
-            If p.links.Count = 0 Then
-                p.DeleteMe()
-            End If
+			eComp = Form1.Elements(num + 3)
+			p = eComp.component '3 точка 
+			p.links.Remove(num + 1)
+			p.links.Remove(num + 2)
+			If p.links.Count = 0 Then
+				p.DeleteMe()
+			End If
 
-            Form1.Delete(num)
-            Exit Sub
-        End If
-        If Not work Then
-            work = True
-            Form1.DisConnect(num + 1, num + 3)
-            Form1.OnConnect(num + 1, num + 2)
-            PaintMe()
-            'Form1.DoNeedSave()
-        Else
-            work = False
-            Form1.DisConnect(num + 1, num + 2)
-            Form1.OnConnect(num + 1, num + 3)
-            PaintMe()
-            'Form1.DoNeedSave()
-        End If
-    End Sub
+			Form1.Delete(num)
+			Exit Sub
+		End If
+		If Not work Then
+			work = True
+			Form1.DisConnect(num + 1, num + 3)
+			Form1.OnConnect(num + 1, num + 2)
+			PaintMe()
+			'Form1.DoNeedSave()
+		Else
+			work = False
+			Form1.DisConnect(num + 1, num + 2)
+			Form1.OnConnect(num + 1, num + 3)
+			PaintMe()
+			'Form1.DoNeedSave()
+		End If
+	End Sub
 
-    Public Function ForSave() As ArrayList Implements IConnectable.ForSave
+	Public Function ForSave() As ArrayList Implements IConnectable.ForSave
         Dim save As New ArrayList From {
             "eSwitch",
             num,

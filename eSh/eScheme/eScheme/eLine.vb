@@ -79,9 +79,10 @@ Public Class eLine
                     's = "Сигнал +30"
                     's = s + vbCrLf + "Ток " + CStr(Math.Round(Ia, 3)) + " A" + vbCrLf + "Напряжение " + CStr(Math.Round(U, 3)) + " В"
             End Select
-            Me.BackColor = clr
-            'ToolTip1.SetToolTip(Me, s)
-        End Set
+			Me.BackColor = clr
+
+			'ToolTip1.SetToolTip(Me, s)
+		End Set
         Get
             Return Condition_
         End Get
@@ -107,10 +108,11 @@ Public Class eLine
         End Select
 
         Me.Condition_ = condition_
-        Me.BackColor = clr
-        'ToolTip1.SetToolTip(Me, s)
-        'Отправление дальше
-        For i = 0 To links.Count - 1
+		Me.BackColor = clr
+		Form1.DoLight()
+		'ToolTip1.SetToolTip(Me, s)
+		'Отправление дальше
+		For i = 0 To links.Count - 1
             If links(i) <> from Then
                 If links(i) <> 0 Then
                     'Отправление дальше

@@ -134,7 +134,7 @@ Public Class eButton
 			If value > 30000 Then wTime = 30000
             MsgBox("Допустимое значение: от 10 до 30 000 мс." + vbCrLf + "Указанное значение " + CStr(value) + " установлено в " + CStr(wTime) + ".")
         End If
-
+		Form1.DoNeedSave()
 	End Sub
 
     Public Sub MoveOK() Implements IMovable.MoveOK
