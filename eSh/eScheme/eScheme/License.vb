@@ -5,113 +5,201 @@ Imports System.Net.Sockets
 Imports System.Net
 
 <Serializable> Public Class License
-    Private ReadOnly id As String = "0"         '1011
-    Private ReadOnly name As String = " "       '3
-    Private ReadOnly company As String = " "    '7
-    Private ReadOnly contacts As String = " "   '9
-    Private ReadOnly about As String = " "      '121
-	Private ReadOnly endDate As String = "0"    '167
-	Private ReadOnly stream As String = "0"     '255 ' = level
+    Private my_id As String
+    Private id As String = "0"         '1011
+    Private name As String = " "       '3
+    Private company As String = " "    '7
+    Private contacts As String = " "   '9
+    Private about As String = " "      '121
+    Private endDate As String = "0"    '167
+    Private stream As String = "0"     '255 ' = level
 
-	Public Sub New(fileName As String)
+    Private lic_num As String
+
+    Public Sub New(fileName As String)
+        Dim pc, un As String
+        Dim num As Long = 1000000
+        pc = My.Computer.Name
+        un = My.User.Name
+
+        For i = 0 To pc.Length - 1
+            num += Asc(pc(i)) * 1319
+        Next
+
+        For i = 0 To un.Length - 1
+            num += Asc(un(i)) * 1157
+        Next
+
+        pc = Application.StartupPath
+        For i = 0 To pc.Length - 1
+            num += Asc(pc(i)) * 119
+        Next
+
+        my_id = Convert.ToString(num, 16).ToUpper
+        NewLicense(fileName)
+    End Sub
+
+    Public Sub NewLicense(fileName As String)
         Dim arr As Hashtable
-		Try
+        Try
 
-			Dim fStream As New FileStream(fileName, FileMode.Open, FileAccess.Read)
-			Dim myBinaryFormatter As New Formatters.Binary.BinaryFormatter
-			arr = CType(myBinaryFormatter.Deserialize(fStream), Hashtable)
-			fStream.Close()
+            Dim fStream As New FileStream(fileName, FileMode.Open, FileAccess.Read)
+            Dim myBinaryFormatter As New Formatters.Binary.BinaryFormatter
+            arr = CType(myBinaryFormatter.Deserialize(fStream), Hashtable)
+            fStream.Close()
 
-			id = Encode(arr(1011))
-			name = arr.Item(3)
-			company = arr.Item(7)
-			contacts = arr.Item(9)
-			about = arr.Item(121)
-			endDate = arr.Item(167)
-			stream = arr.Item(255)
-		Catch ex As Exception
+            id = Encode(arr(1011))
+            name = Encode(arr.Item(3))
+            company = Encode(arr.Item(7))
+            contacts = Encode(arr.Item(9))
+            about = Encode(arr.Item(121))
+            endDate = arr.Item(167)
+            stream = arr.Item(255)
+            Dim ff As New FileInfo(fileName)
+            lic_num = ff.Name
+            lic_num = lic_num.Replace(".elc", "")
+            If id <> my_id.ToString Then
+                stream = "0"
+                MsgBox("Указанная лицензия №" + lic_num + " не подходит к Вашей версии ПО.")
+            End If
+        Catch ex As Exception
 
-			stream = "0"
-		End Try
-		Dim dNow As Date
-		Try
-			dNow = GetNetworkTime()
-			If dNow.Year = 2019 And dNow.Month < 12 Then
-				stream = "2"
-			End If
-			Dim TheEndDate As Long
-			Try
-				TheEndDate = Long.Parse(endDate)
-				If dNow.Ticks > TheEndDate And TheEndDate > 0 Then
-					stream = "0"
-				End If
-			Catch ex As Exception
+            stream = "0"
+        End Try
+        Dim dNow As Date
+        Dim str As String = stream
+        Try
+            dNow = GetNetworkTime()
+            If dNow.Year >= 2019 And dNow.Month < 12 Then
+                If stream <> "2" Then
+                    stream = "3"
+                    endDate = "637108095920000000"
+                End If
 
-			End Try
+            End If
+            Dim TheEndDate As Long
+            Try
+                TheEndDate = Long.Parse(endDate)
+                If dNow.Ticks > TheEndDate And TheEndDate > 0 Then
+                    stream = str
+                End If
+            Catch ex As Exception
 
-		Catch ex As Exception
-			MsgBox("Для работы с временной лицензией необходим доступ к ntpServer As String = time.windows.com", MsgBoxStyle.Information, "Нет доступа к интернет...")
-		End Try
-		Form1.Level = Integer.Parse(stream)
+            End Try
 
+        Catch ex As Exception
+            MsgBox("Для работы с временной лицензией необходим доступ к ntpServer time.windows.com", MsgBoxStyle.Information, "Нет доступа к интернет...")
+        End Try
+        Form1.Level = Integer.Parse(stream)
+    End Sub
 
-	End Sub
+    Function Encode(s As String) As String
+        Dim sb As New StringBuilder
+        Dim c() As Char
+        Dim cur As Char
+        c = s.ToCharArray
+        Dim j As Integer = 1
+        Dim k As Integer
+        For i = 0 To c.Count - 1
+            k = AscW(c(i))
+            k = k + j
+            cur = ChrW(k)
+            sb.Append(cur)
+            j += 1
+            If j = 10 Then j = 1
+        Next
+        Return sb.ToString
+    End Function
 
-	Function Encode(s As String) As String
-		Dim sb As New StringBuilder
-		Dim c() As Char
-		Dim cur As Char
-		c = s.ToCharArray
-		Dim j As Integer = 1
-		Dim k As Integer
-		For i = 0 To c.Count - 1
-			k = AscW(c(i))
-			k = k + j
-			cur = ChrW(k)
-			sb.Append(cur)
-			j += 1
-			If j = 10 Then j = 1
-		Next
-		Return sb.ToString
-	End Function
+    Public Shared Function GetNetworkTime() As Date
+        Const ntpServer As String = "time.windows.com"
+        Dim ntpData = New Byte(47) {}
 
-	Public Shared Function GetNetworkTime() As Date
-		Const ntpServer As String = "time.windows.com"
-		Dim ntpData = New Byte(47) {}
+        ntpData(0) = &H1B
 
-		ntpData(0) = &H1B
+        Dim addresses = Dns.GetHostEntry(ntpServer).AddressList
 
-		Dim addresses = Dns.GetHostEntry(ntpServer).AddressList
+        Dim ipEndPoint = New IPEndPoint(addresses(0), 123)
 
-		Dim ipEndPoint = New IPEndPoint(addresses(0), 123)
+        Using socket = New Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
+            socket.Connect(ipEndPoint)
 
-		Using socket = New Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
-			socket.Connect(ipEndPoint)
+            socket.ReceiveTimeout = 3000
 
-			socket.ReceiveTimeout = 3000
+            socket.Send(ntpData)
+            socket.Receive(ntpData)
+            socket.Close()
+        End Using
 
-			socket.Send(ntpData)
-			socket.Receive(ntpData)
-			socket.Close()
-		End Using
+        Const serverReplyTime As Byte = 40
 
-		Const serverReplyTime As Byte = 40
+        Dim intPart As ULong = BitConverter.ToUInt32(ntpData, serverReplyTime)
 
-		Dim intPart As ULong = BitConverter.ToUInt32(ntpData, serverReplyTime)
+        Dim fractPart As ULong = BitConverter.ToUInt32(ntpData, serverReplyTime + 4)
 
-		Dim fractPart As ULong = BitConverter.ToUInt32(ntpData, serverReplyTime + 4)
+        intPart = SwapEndianness(intPart)
+        fractPart = SwapEndianness(fractPart)
 
-		intPart = SwapEndianness(intPart)
-		fractPart = SwapEndianness(fractPart)
+        Dim milliseconds = (intPart * 1000) + ((fractPart * 1000) \ &H100000000L)
 
-		Dim milliseconds = (intPart * 1000) + ((fractPart * 1000) \ &H100000000L)
+        Dim networkDateTime = (New Date(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc)).AddMilliseconds(CLng(milliseconds))
 
-		Dim networkDateTime = (New Date(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc)).AddMilliseconds(CLng(milliseconds))
+        Return networkDateTime.ToLocalTime()
+    End Function
 
-		Return networkDateTime.ToLocalTime()
-	End Function
+    Shared Function SwapEndianness(ByVal x As ULong) As UInteger
+        Return CUInt(((x And &HFF) << 24) + ((x And &HFF00) << 8) + ((x And &HFF0000) >> 8) + ((x And &HFF000000UI) >> 24))
+    End Function
 
-	Shared Function SwapEndianness(ByVal x As ULong) As UInteger
-		Return CUInt(((x And &HFF) << 24) + ((x And &HFF00) << 8) + ((x And &HFF0000) >> 8) + ((x And &HFF000000UI) >> 24))
-	End Function
+    Public ReadOnly Property GetID As String
+        Get
+            Return my_id
+        End Get
+    End Property
+
+    Public ReadOnly Property GetName As String
+        Get
+            Return name
+        End Get
+    End Property
+
+    Public ReadOnly Property GetCompany As String
+        Get
+            Return company
+        End Get
+    End Property
+
+    Public ReadOnly Property GetContacts As String
+        Get
+            Return contacts
+        End Get
+    End Property
+
+    Public ReadOnly Property GetAbout As String
+        Get
+            Return about
+        End Get
+    End Property
+
+    Public ReadOnly Property GetEndDate As String
+        Get
+            If endDate = 0 Then
+                Return "неограничено"
+            Else
+                Return New DateTime(Long.Parse(endDate)).ToLongDateString
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property GetLicNumber As String
+        Get
+            Return lic_num
+        End Get
+    End Property
+
+    Public ReadOnly Property GetLevel As String
+        Get
+            Return Integer.Parse(stream)
+        End Get
+    End Property
 End Class

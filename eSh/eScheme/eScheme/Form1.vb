@@ -108,9 +108,9 @@ Public Class Form1
 
     Public Level As Integer = 0 'уровень лицензии: 0 - нет, 1 - обычн, 2 - коммерч
 	Public lic As License
-	Dim liFile As String = "084595.elicense"
+    Public liFile As String
 
-	Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
+    Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         GroupBox1.Visible = CheckBox2.Checked
         If CheckBox2.Checked Then
             ToolTip1.SetToolTip(CheckBox2, "Скрыть панель")
@@ -263,8 +263,9 @@ Public Class Form1
             RLampdefault = dict(11)
             FUSEdefault = dict(12)
 			RELEdefault = dict(13)
-			liFile = dict(14)
-		Catch ex As Exception
+            'liFile = "C:\Users\smirnovrv\Documents\рабоч\МИ\electr\li\getLicense\bin\Debug\8d6f3031c9d08b5.elc"
+            liFile = dict(14)
+        Catch ex As Exception
 
         End Try
 
