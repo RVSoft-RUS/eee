@@ -3,8 +3,10 @@ Imports System.Runtime.Serialization
 Imports System.Text
 Imports System.Net.Sockets
 Imports System.Net
-
+Imports System.Management
 <Serializable> Public Class License
+
+
     Private my_id As String
     Private id As String = "0"         '1011
     Private name As String = " "       '3
@@ -17,23 +19,32 @@ Imports System.Net
     Private lic_num As String
 
     Public Sub New(fileName As String)
+
+
+
         Dim pc, un As String
-        Dim num As Long = 1000000
-        pc = My.Computer.Name
-        un = My.User.Name
+        Dim num As Long = 10_000_000
+        pc = My.Computer.Name + "юя"
+        un = My.User.Name + "юя"
 
         For i = 0 To pc.Length - 1
-            num += Asc(pc(i)) * 1319
+            num += Asc(pc(i)) * 131
         Next
 
         For i = 0 To un.Length - 1
-            num += Asc(un(i)) * 1157
+            num += Asc(un(i)) * 157
         Next
 
-        pc = Application.StartupPath
+        pc = My.Computer.FileSystem.SpecialDirectories.AllUsersApplicationData
         For i = 0 To pc.Length - 1
             num += Asc(pc(i)) * 119
         Next
+
+        Try
+            num *= 81
+        Catch ex As Exception
+
+        End Try
 
         my_id = Convert.ToString(num, 16).ToUpper
         NewLicense(fileName)
@@ -49,6 +60,7 @@ Imports System.Net
             fStream.Close()
 
             id = Encode(arr(1011))
+
             name = Encode(arr.Item(3))
             company = Encode(arr.Item(7))
             contacts = Encode(arr.Item(9))
@@ -61,17 +73,23 @@ Imports System.Net
             If id <> my_id.ToString Then
                 stream = "0"
                 MsgBox("Указанная лицензия №" + lic_num + " не подходит к Вашей версии ПО.")
+                name = ""
+                company = ""
+                contacts = ""
+                about = ""
+                endDate = ""
+                lic_num = ""
             End If
         Catch ex As Exception
-
             stream = "0"
         End Try
+
         Dim dNow As Date
         Dim str As String = stream
         Try
             dNow = GetNetworkTime()
             If dNow.Year >= 2019 And dNow.Month < 12 Then
-                If stream <> "2" Then
+                If stream <> "3" Then
                     stream = "3"
                     endDate = "637108095920000000"
                 End If

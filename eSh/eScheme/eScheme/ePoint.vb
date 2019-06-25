@@ -88,15 +88,15 @@ Imports eScheme
 		'Отправление дальше
 		For i = 0 To links.Count - 1
 			If links(i) <> from Then
-				If links(i) <> 0 Then
-					Dim eComp As EComponent
-					Dim econ As IConnectable
-					eComp = Form1.Elements(links(i))
-					econ = eComp.component
-					econ.Change(num, Me.Condition_)
-					'Form1.TextBox1.Text &= "point " + CStr(num) + " to " + CStr(links(i)) + vbCrLf
-				End If
-			End If
+                If links(i) > 0 Then
+                    Dim eComp As EComponent
+                    Dim econ As IConnectable
+                    eComp = Form1.Elements(links(i))
+                    econ = eComp.component
+                    econ.Change(num, Me.Condition_)
+                    'Form1.TextBox1.Text &= "point " + CStr(num) + " to " + CStr(links(i)) + vbCrLf
+                End If
+            End If
 		Next
 	End Sub
 
@@ -236,14 +236,25 @@ Imports eScheme
 		End If
 	End Sub
 
-	Sub DeleteMe()
-		If links.Count = 0 Then
-			'Удаляем при условии, что нет ссылок
-			Form1.Delete(num)
-		Else
-			MsgBox("Можно удалить только пустой узел или находящийся на одной линии.")
-		End If
-	End Sub
+    Sub DeleteMe(Optional nd As Integer = 0)
+        If links.Count = 0 Then
+            'Удаляем при условии, что нет ссылок
+            Form1.Delete(num)
+        ElseIf links.Count = 1 And links(0) > 0 Then
+            Dim eComp As EComponent = Form1.Elements(links(0))
+            If eComp.aType = "eLine" Then
+                Dim aLine As eLine = eComp.component
+                If aLine.num <> nd Then aLine.DeleteMe(num)
+                Form1.Delete(num)
+            End If
+        End If
+        If nd = 0 And links.Count >= 1 Then
+            If links(0) = -1 Then
+                Form1.Delete(num)
+            End If
+
+        End If
+    End Sub
 
     Public Function ForSave() As ArrayList Implements IConnectable.ForSave
         Dim lnks As New ArrayList
@@ -274,10 +285,10 @@ Imports eScheme
 		'Отправление дальше
 		For i = 0 To links.Count - 1
 			If links(i) <> from Then
-				If links(i) <> 0 Then
-					linkForCheck.Add(links(i))
-				End If
-			End If
+                If links(i) > 0 Then
+                    linkForCheck.Add(links(i))
+                End If
+            End If
 		Next
 		Dim sig As Integer
 		Dim eComp As EComponent
@@ -314,12 +325,12 @@ Imports eScheme
 		End If
 		Dim iis As New ArrayList
 		For j = 0 To (links.Count - 1)
-			If links(j) <> from Then
-				Dim eComp As EComponent = Form1.Elements(links(j))
-				Dim iConn As IConnectable = eComp.component
-				iis.Add(iConn.CheckUI(num, U, t))
-			End If
-		Next
+            If links(j) <> from And links(j) > 0 Then
+                Dim eComp As EComponent = Form1.Elements(links(j))
+                Dim iConn As IConnectable = eComp.component
+                iis.Add(iConn.CheckUI(num, U, t))
+            End If
+        Next
 		Dim I As Single = 0
 		For j = 0 To iis.Count - 1
 			I += iis(j)

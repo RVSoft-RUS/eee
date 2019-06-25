@@ -245,16 +245,12 @@ Public Class eFuse
             Dim eComp As EComponent = Form1.Elements(num + 1)
             Dim p As EPoint = eComp.component 'Первая точка 
             p.links.Remove(num)
-            If p.links.Count = 0 Then
-                p.DeleteMe()
-            End If
+            p.DeleteMe()
 
             eComp = Form1.Elements(num + 2)
             p = eComp.component 'Первая точка 
             p.links.Remove(num)
-            If p.links.Count = 0 Then
-                p.DeleteMe()
-            End If
+            p.DeleteMe()
             If Form1.f.Batt > 0 Then
                 eComp = Form1.Elements(Form1.f.Batt)
                 Dim bat As eBat = eComp.component

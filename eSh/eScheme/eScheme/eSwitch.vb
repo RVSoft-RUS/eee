@@ -54,7 +54,7 @@ Public Class eSwitch
             }
             Form1.Elements.Add(eComp)
             p = New EPoint(X + 40, Y, eComp.numInArray)
-
+            p.links.Add(-1) 'Добавлять в пустую точку, чтоб нре удалялась отдельно
             Form1.Controls.Add(p)
             eComp.component = p
 
@@ -88,9 +88,10 @@ Public Class eSwitch
                 }
             Form1.Elements.Add(eComp)
             p = New EPoint(X, Y - 40, eComp.numInArray)
+
             Form1.Controls.Add(p)
             eComp.component = p
-
+            p.links.Add(-1)
             eComp = New EComponent With {
                     .aType = "ePoint",
                     .numInArray = num + 3
@@ -173,40 +174,48 @@ Public Class eSwitch
 			Dim p As EPoint = eComp.component 'Первая точка 
 			p.links.Remove(num + 2)
 			p.links.Remove(num + 3)
-			If p.links.Count = 0 Then
-				p.DeleteMe()
-			End If
+            p.DeleteMe()
 
-			eComp = Form1.Elements(num + 2)
+            eComp = Form1.Elements(num + 2)
 			p = eComp.component 'Вторая точка 
 			p.links.Remove(num + 1)
-			p.links.Remove(num + 3)
-			If p.links.Count = 0 Then
-				p.DeleteMe()
-			End If
+            p.links.Remove(num + 3)
+            p.links.Remove(-1)
+            p.DeleteMe()
 
-			eComp = Form1.Elements(num + 3)
+            eComp = Form1.Elements(num + 3)
 			p = eComp.component '3 точка 
 			p.links.Remove(num + 1)
-			p.links.Remove(num + 2)
-			If p.links.Count = 0 Then
-				p.DeleteMe()
-			End If
+            p.links.Remove(num + 2)
+            p.links.Remove(-1)
+            p.DeleteMe()
 
-			Form1.Delete(num)
+            Form1.Delete(num)
 			Exit Sub
 		End If
 		If Not work Then
 			work = True
 			Form1.DisConnect(num + 1, num + 3)
-			Form1.OnConnect(num + 1, num + 2)
-			PaintMe()
+            Form1.OnConnect(num + 1, num + 2)
+            Dim eComp As EComponent = Form1.Elements(num + 3)
+            Dim p As EPoint = eComp.component
+            p.addLink(-1)
+            eComp = Form1.Elements(num + 2)
+            p = eComp.component
+            p.remLink(-1)
+            PaintMe()
 			'Form1.DoNeedSave()
 		Else
 			work = False
 			Form1.DisConnect(num + 1, num + 2)
-			Form1.OnConnect(num + 1, num + 3)
-			PaintMe()
+            Form1.OnConnect(num + 1, num + 3)
+            Dim eComp As EComponent = Form1.Elements(num + 2)
+            Dim p As EPoint = eComp.component
+            p.addLink(-1)
+            eComp = Form1.Elements(num + 3)
+            p = eComp.component
+            p.remLink(-1)
+            PaintMe()
 			'Form1.DoNeedSave()
 		End If
 	End Sub

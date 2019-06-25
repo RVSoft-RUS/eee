@@ -47,10 +47,10 @@
                 Me.Text = "Лицензия - коммерческая " + Form1.lic.GetLicNumber.ToUpper
             Case 1
                 maxB = 250
-                Me.Text = "Лицензия - базовая" + Form1.lic.GetLicNumber.ToUpper
+                Me.Text = "Лицензия - базовая " + Form1.lic.GetLicNumber.ToUpper
             Case 3
                 maxB = 250
-                Me.Text = "Лицензия - временная" + Form1.lic.GetLicNumber.ToUpper
+                Me.Text = "Лицензия - временная " + Form1.lic.GetLicNumber.ToUpper
         End Select
     End Sub
 

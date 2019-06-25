@@ -274,24 +274,34 @@ Public Class eLine
 
     End Sub
 
-    Sub DeleteMe()
+    Public Sub DelMe()
+
+    End Sub
+
+    Sub DeleteMe(Optional nd As Integer = 0)
         'Линию любую можно удалить, предваритьльно обнулив ссылки на нее из точек
         Dim n1, n2 As Integer
         Dim eComp As EComponent = Form1.Elements(links(0))
-        Dim p As EPoint = eComp.component 'Первая точка 
-        p.links.Remove(num)
-        n1 = p.num
+        Dim p1 As EPoint = eComp.component 'Первая точка 
+        p1.links.Remove(num)
+        n1 = p1.num
 
         eComp = Form1.Elements(links(1))
-        p = eComp.component 'Вторая точка
-        p.links.Remove(num)
-        n2 = p.num
+        Dim p2 As EPoint = eComp.component 'Вторая точка
+        p2.links.Remove(num)
+        n2 = p2.num
 
 
-		'Изменения Change добавить ++++++++++++++++++++++++++++++++++++++++++++++
-		Form1.DisConnect(n1, n2)
-		Form1.Delete(num)
-	End Sub
+        'Изменения Change добавить ++++++++++++++++++++++++++++++++++++++++++++++
+        Form1.DisConnect(n1, n2)
+        Form1.Delete(num)
+        If n1 = nd Or nd = 0 Then
+            p2.DeleteMe(num)
+        End If
+        If n2 = nd Or nd = 0 Then
+            p1.DeleteMe(num)
+        End If
+    End Sub
 
     Private Sub ELine_GotFocus(sender As Object, e As EventArgs) Handles Me.GotFocus
         Me.BackColor = Color.Aqua
@@ -348,8 +358,8 @@ Public Class eLine
                     s = "Масса"
                 Case 0
                     clr = Form1.color0
-                    s = "Нет сигнала"
-                    s = "Ток " + CStr(Math.Round(Ia, 3)) + " A" + vbCrLf + "Напряжение " + CStr(Math.Round(U, 3)) + " В"
+                    s = "Нет сигнала" + vbCrLf + "Последние значения:" + vbCrLf
+                    s = s + "Ток " + CStr(Math.Round(Ia, 3)) + " A" + vbCrLf + "Напряжение " + CStr(Math.Round(U, 3)) + " В"
                 Case 15, 16
                     clr = Form1.color15
                     s = "Сигнал +15"

@@ -102,6 +102,12 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="eComponent.vb" />
+    <Compile Include="eDiod.Designer.vb">
+      <DependentUpon>eDiod.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eDiod.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="eFormat.vb" />
     <Compile Include="eFuse.Designer.vb">
       <DependentUpon>eFuse.vb</DependentUpon>
@@ -228,6 +234,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="eButton.resx">
       <DependentUpon>eButton.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eDiod.resx">
+      <DependentUpon>eDiod.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="eFuse.resx">
       <DependentUpon>eFuse.vb</DependentUpon>

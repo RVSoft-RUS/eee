@@ -96,14 +96,19 @@ Public Class eLamp
         If from = num + 1 Then
             c1 = condition
             Dim eComp As EComponent = Form1.Elements(num + 2)
-            Dim p As EPoint = eComp.component
-            c2 = p.Condition
+            If Not eComp Is Nothing Then
+                Dim p As EPoint = eComp.component
+                c2 = p.Condition
+            End If
         End If
         If from = num + 2 Then
             c2 = condition
             Dim eComp As EComponent = Form1.Elements(num + 1)
-            Dim p As EPoint = eComp.component
-            c1 = p.Condition
+            If Not eComp Is Nothing Then
+                Dim p As EPoint = eComp.component
+                c1 = p.Condition
+            End If
+
         End If
         If c1 * c2 = -15 Or c1 * c2 = -30 Then
             work = True
@@ -156,8 +161,9 @@ Public Class eLamp
             to_ = num + 1
         End If
         Dim eComp As EComponent = Form1.Elements(to_)
+        If eComp Is Nothing Then Return 0 'Эта строчка нужна при случае, если удалена одна из точек у лампы (при Ctrl-Z)
         Dim p1 As EPoint = eComp.component
-        Dim asd As ArrayList = Form1.pointsInProcessSig
+        'Dim asd As ArrayList = Form1.pointsInProcessSig
         Form1.pointsInProcessSig.Clear()
         If p1.CheckSig(num) = -1 Then
             Ia = U / (R + r_)
@@ -209,23 +215,20 @@ Public Class eLamp
 			Dim eComp As EComponent = Form1.Elements(num + 1)
 			Dim p As EPoint = eComp.component 'Первая точка 
 			p.links.Remove(num)
-			If p.links.Count = 0 Then
-				p.DeleteMe()
-			End If
+            p.DeleteMe()
 
-			eComp = Form1.Elements(num + 2)
+            eComp = Form1.Elements(num + 2)
 			p = eComp.component 'Вторая точка 
 			p.links.Remove(num)
-			If p.links.Count = 0 Then
-				p.DeleteMe()
-			End If
-			If Form1.f.Batt > 0 Then
-				eComp = Form1.Elements(Form1.f.Batt)
-				Dim bat As eBat = eComp.component
-				Form1.pointsInProcessUI.Clear()
-				bat.CheckUI(0, 0)
-			End If
-			Form1.Delete(num)
+            p.DeleteMe()
+
+            If Form1.f.Batt > 0 Then
+                eComp = Form1.Elements(Form1.f.Batt)
+                Dim bat As eBat = eComp.component
+                Form1.pointsInProcessUI.Clear()
+                bat.CheckUI(0, 0)
+            End If
+            Form1.Delete(num)
 		End If
 	End Sub
 

@@ -224,16 +224,12 @@ Public Class eButton
 			Dim eComp As EComponent = Form1.Elements(num + 1)
 			Dim p As EPoint = eComp.component 'Первая точка 
 			p.links.Remove(num)
-			If p.links.Count = 0 Then
-				p.DeleteMe()
-			End If
+            p.DeleteMe()
 
-			eComp = Form1.Elements(num + 2)
+            eComp = Form1.Elements(num + 2)
 			p = eComp.component 'Вторая точка 
 			p.links.Remove(num)
-			If p.links.Count = 0 Then
-				p.DeleteMe()
-			End If
+            p.DeleteMe()
             Form1.Delete(num)
             Exit Sub
         End If
