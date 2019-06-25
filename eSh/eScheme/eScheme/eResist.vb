@@ -310,13 +310,12 @@ Public Class EResist
             eComp = Form1.Elements(num + 2)
             m = eComp.component
             mayMove2 = m.Move(Me, dX, dY)
-            'Form1.TextBox1.Text = "mayMove1=" + CStr(mayMove1) + "  mayMove2=" + CStr(mayMove2) + vbCrLf + Form1.TextBox1.Text
-            If mayMove1 And mayMove2 Then
-                m_X = X + dX
-                m_Y = Y + dY
-                Return True
-            Else
-                Return False
+			If mayMove1 And mayMove2 Then
+				m_X = X + dX
+				m_Y = Y + dY
+				Return True
+			Else
+				Return False
             End If
         Else
             Return False

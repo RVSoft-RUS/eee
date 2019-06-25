@@ -2,9 +2,9 @@
 
 Public Class eDiod
     Implements IConnectable
-    'Implements ISetValue
-    'Implements IMovable
-    Public X As Integer
+	'Implements ISetValue
+	Implements IMovable
+	Public X As Integer
     Public Y As Integer
     Public num As Integer
     Public R As Single
@@ -152,29 +152,85 @@ Public Class eDiod
         Throw New NotImplementedException()
     End Sub
 
-    Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
-        Me.Dispose()
-    End Sub
+	Public Sub MoveOK() Implements IMovable.MoveOK
+		X = m_X
+		Y = m_Y
 
-    Public Function ForSave() As ArrayList Implements IConnectable.ForSave
-        Dim save As New ArrayList From {
-            "eDiod",
-            num,
-            X,
-            Y,
-            R,
-            work,
-            Ia,
-            loc
-        }
-        Return save
-    End Function
+		If loc = 1 Then
+			Me.Location = New Point(X + 5, Y - 15) 'Для настройки положения
+		ElseIf loc = 3 Then
+			Me.Location = New Point(X + 5, Y - 15) 'Для настройки положения
+		ElseIf loc = 2 Then
+			Me.Location = New Point(X - 15, Y + 5) 'Для настройки положения
+		ElseIf loc = 4 Then
+			Me.Location = New Point(X - 15, Y + 5) 'Для настройки положения
+		End If
+	End Sub
 
-    Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
-        Throw New NotImplementedException()
-    End Function
+	Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
+		Me.Dispose()
+	End Sub
 
-    Public Function CheckUI(from As Integer, U As Single, Optional r_ As Integer = 0) As Single Implements IConnectable.CheckUI
-        Throw New NotImplementedException()
-    End Function
+	Public Function ForSave() As ArrayList Implements IConnectable.ForSave
+		Dim save As New ArrayList From {
+			"eDiod",
+			num,
+			X,
+			Y,
+			R,
+			work,
+			Ia,
+			loc
+		}
+		Return save
+	End Function
+
+	Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
+		'Throw New NotImplementedException()
+	End Function
+
+	Public Function CheckUI(from As Integer, U As Single, Optional r_ As Integer = 0) As Single Implements IConnectable.CheckUI
+		Throw New NotImplementedException()
+	End Function
+
+	Public Function GetX() As Integer Implements IMovable.GetX
+		Throw New NotImplementedException()
+	End Function
+
+	Public Function GetY() As Integer Implements IMovable.GetY
+		Throw New NotImplementedException()
+	End Function
+
+	Private Function IMovable_Move(from As IMovable, dX As Integer, dY As Integer) As Boolean Implements IMovable.Move
+		Form1.moveArray.Add(Me)
+		Dim mayMove1, mayMove2 As Boolean
+		If from Is Me Then
+			Dim m As IMovable
+			Dim eComp As EComponent = Form1.Elements(num + 1)
+			m = eComp.component
+			mayMove1 = m.Move(Me, dX, dY)
+			eComp = Form1.Elements(num + 2)
+			m = eComp.component
+			mayMove2 = m.Move(Me, dX, dY)
+			If mayMove1 And mayMove2 Then
+				m_X = X + dX
+				m_Y = Y + dY
+				Return True
+			Else
+				Return False
+			End If
+		Else
+			Return False
+		End If
+	End Function
+
+	Private Sub pb4_MouseDown(sender As Object, e As MouseEventArgs) Handles pb1.MouseDown, pb2.MouseDown, pb3.MouseDown, pb4.MouseDown
+		If Form1.Mode = "Move" Then
+			Form1.moveObject = Me
+			Form1.Cursor = Cursors.SizeAll
+			Form1.moveXstart = Form1.rx
+			Form1.moveYstart = Form1.ry
+			Form1.Mode = "MoveMe"
+		End If
+	End Sub
 End Class

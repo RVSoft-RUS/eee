@@ -129,7 +129,7 @@ Public Class Form1
 			Elements.Add(Nothing)
 			'fnt.AddFontFile(Application.StartupPath + "\resourses\gost.ttf")
 			Dim buffer() As Byte
-			buffer = My.Resources.gost
+			buffer = My.Resources.gost 'Шрифт GOST Type A .tft
 			Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocHGlobal(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
 			Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
 			fnt.AddMemoryFont(ip, buffer.Length)
@@ -1795,8 +1795,8 @@ StartFile:
             g.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
             g.Dispose()
         Catch ex As Exception
-
-        End Try
+			'не получилось что-то, и хсним
+		End Try
     End Sub
 
     Private Sub Txt_TextChanged(sender As Object, e As EventArgs) Handles txtNumber.TextChanged, txtList.TextChanged, txtListov.TextChanged,
@@ -2625,20 +2625,31 @@ StartFile:
                     Elements.Add(eComp)
                     Me.Controls.Add(t)
                 End If
-                'eGND
-                If aComp(0) = "eGND" Then
-                    Dim gnd As New EGND(aComp(2), aComp(3), aComp(1)) With {
-                        .link = aComp(4)
-                    }
-                    eComp = New EComponent With {
-                        .aType = "eGND",
-                        .numInArray = gnd.num,
-                        .component = gnd
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(gnd)
-                End If
-            End If 'Этот кусок при изменении перекопировать в Undo
+				'eGND
+				If aComp(0) = "eGND" Then
+					Dim gnd As New EGND(aComp(2), aComp(3), aComp(1)) With {
+						.link = aComp(4)
+					}
+					eComp = New EComponent With {
+						.aType = "eGND",
+						.numInArray = gnd.num,
+						.component = gnd
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(gnd)
+				End If
+				If aComp(0) = "eDiod" Then
+					Dim diod As New eDiod(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+					eComp = New EComponent With {
+						.aType = "eDiod",
+						.numInArray = diod.num,
+						.component = diod
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(diod)
+				End If
+
+			End If 'Этот кусок при изменении перекопировать в Undo
         Next
         ShowComments(f.showComments)
         TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
