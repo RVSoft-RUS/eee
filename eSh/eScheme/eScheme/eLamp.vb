@@ -168,7 +168,7 @@ Public Class eLamp
         If p1.CheckSig(num) = -1 Then
             Ia = U / (R + r_)
             Form1.pointsInProcessUI.Clear()
-            p1.CheckUI(num, 0, 0)
+            'p1.CheckUI(num, 0, 0)
             Return Ia
         Else
             Form1.pointsInProcessUI.Clear()

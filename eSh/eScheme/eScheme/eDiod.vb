@@ -23,6 +23,7 @@ Public Class eDiod
         Y = ry
         num = n
         R = r_
+        R = 0
         work = work_
         Ia = ia_
         loc = locat
@@ -149,10 +150,66 @@ Public Class eDiod
     End Sub
 
     Public Sub Change(from As Integer, condition As Integer) Implements IConnectable.Change
-        Throw New NotImplementedException()
+        'Throw New NotImplementedException()
+        Dim sig1, sig2 As Integer
+        Dim p1, p2 As EPoint
+        Dim eComp As EComponent
+
+        If from = num + 1 Then
+            eComp = Form1.Elements(num + 2)
+            p2 = eComp.component
+            Form1.pointsInProcessSig.Clear()
+            sig2 = p2.CheckSig(num)
+            If condition >= 15 Then 'прилетел +
+                If sig2 = 0 Then 'Все норм пускаем + дальше
+                    Form1.pointsInProcessSig.Clear()
+                    p2.Change(num, condition)
+                    work = True
+                    PaintMe()
+                ElseIf sig2 < 0 Then 'Напоролись на массу
+                    work = False
+                    PaintMe()
+                ElseIf sig2 <> condition Then 'Тоже + но другой и не равный пришедшему
+                    MsgBox("Замыкание цепей " + sig2.ToString + " и " + condition.ToString)
+                End If
+            Else 'прилетел 0 или -
+                If sig2 = 0 Then 'Все норм пускаем + дальше
+                    Form1.pointsInProcessSig.Clear()
+                    p2.Change(num, 0)
+                    work = True
+                    PaintMe()
+                End If
+            End If
+
+        End If
+        If from = num + 2 Then
+            eComp = Form1.Elements(num + 1)
+            p1 = eComp.component
+            Form1.pointsInProcessSig.Clear()
+            sig1 = p1.CheckSig(num)
+            If condition < 0 Then
+                If sig1 = 0 Then 'Все норм пускаем + дальше
+                    Form1.pointsInProcessSig.Clear()
+                    p1.Change(num, condition)
+                    work = True
+                    PaintMe()
+                ElseIf sig1 > 0 Then 'Напоролись на +
+                    work = False
+                    PaintMe()
+                End If
+            Else
+                If sig1 = 0 Then 'Все норм пускаем + дальше
+                    Form1.pointsInProcessSig.Clear()
+                    p1.Change(num, 0)
+                    work = True
+                    PaintMe()
+                End If
+            End If
+
+        End If
     End Sub
 
-	Public Sub MoveOK() Implements IMovable.MoveOK
+    Public Sub MoveOK() Implements IMovable.MoveOK
 		X = m_X
 		Y = m_Y
 
@@ -186,14 +243,61 @@ Public Class eDiod
 	End Function
 
 	Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
-		'Throw New NotImplementedException()
-	End Function
+        'Throw New NotImplementedException()
+        Dim sig1, sig2 As Integer
+        Dim p1, p2 As EPoint
+        Dim eComp As EComponent
 
-	Public Function CheckUI(from As Integer, U As Single, Optional r_ As Integer = 0) As Single Implements IConnectable.CheckUI
-		Throw New NotImplementedException()
-	End Function
+        If from = num + 1 Then
+            eComp = Form1.Elements(num + 2)
+            p2 = eComp.component
+            Form1.pointsInProcessSig.Clear()
+            sig2 = p2.CheckSig(num)
+            If sig2 < 0 Then ' -|>| если тут -, то вертаем -
+                Return sig2
+            Else 'иначе 0
+                Return 0
+            End If
+        Else 'If from = num + 2 Then
+            eComp = Form1.Elements(num + 1)
+            p1 = eComp.component
+            Form1.pointsInProcessSig.Clear()
+            sig1 = p1.CheckSig(num)
+            If sig1 > 0 Then ' -|<| если тут +, то вертаем +
+                Return sig1
+            Else 'иначе 0
+                Return 0
+            End If
+        End If
 
-	Public Function GetX() As Integer Implements IMovable.GetX
+    End Function
+
+    Public Function CheckUI(from As Integer, U As Single, Optional r_ As Integer = 0) As Single Implements IConnectable.CheckUI
+        If Form1.isCycle Then
+            Return 0
+        End If
+        If from = num + 1 Then
+            Dim eComp As EComponent = Form1.Elements(num + 2)
+            If eComp Is Nothing Then Return 0 'Эта строчка нужна при случае, если удалена одна из точек у лампы (при Ctrl-Z)
+            Dim p2 As EPoint = eComp.component
+            'Dim asd As ArrayList = Form1.pointsInProcessSig
+            Form1.pointsInProcessSig.Clear()
+            If p2.CheckSig(num) = -1 Then
+                Ia = U / (R + r_)
+                'Form1.pointsInProcessUI.Clear()
+                'p2.CheckUI(num, 0, 0)
+                Return Ia
+            Else
+                Form1.pointsInProcessUI.Clear()
+                Ia = p2.CheckUI(num, U, R + r_)
+                Return Ia
+            End If
+        Else
+            Return 0
+        End If
+    End Function
+
+    Public Function GetX() As Integer Implements IMovable.GetX
 		Throw New NotImplementedException()
 	End Function
 
@@ -233,4 +337,8 @@ Public Class eDiod
 			Form1.Mode = "MoveMe"
 		End If
 	End Sub
+
+    Private Sub eDiod_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter, pb1.MouseEnter, pb2.MouseEnter, pb3.MouseEnter, pb4.MouseEnter
+        ToolTip1.SetToolTip(sender, "Ток через диод " + CStr(Math.Round(Ia, 3)) + " A")
+    End Sub
 End Class

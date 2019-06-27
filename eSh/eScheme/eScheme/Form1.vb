@@ -4,46 +4,46 @@ Imports System.Runtime.Serialization
 Imports System.Runtime.InteropServices
 
 Public Class Form1
-	<Flags()>
-	Private Enum FLASH_TYPE As UInteger
-		[Stop] = &H0
-		Caption = &H1
-		Tray = &H2
-		All = &H3
-		Timer = &H4
-		TimerNoForeground = &HC
-	End Enum
+    <Flags()>
+    Private Enum FLASH_TYPE As UInteger
+        [Stop] = &H0
+        Caption = &H1
+        Tray = &H2
+        All = &H3
+        Timer = &H4
+        TimerNoForeground = &HC
+    End Enum
 
-	<StructLayout(LayoutKind.Sequential)>
-	Private Structure FLASHWINFO
-		Public cbSize As Integer
-		Public hwnd As IntPtr
-		Public dwFlags As FLASH_TYPE
-		Public uCount As UInteger
-		Public dwTimeout As UInteger
-	End Structure
+    <StructLayout(LayoutKind.Sequential)>
+    Private Structure FLASHWINFO
+        Public cbSize As Integer
+        Public hwnd As IntPtr
+        Public dwFlags As FLASH_TYPE
+        Public uCount As UInteger
+        Public dwTimeout As UInteger
+    End Structure
 
-	<DllImport("user32.dll", SetLastError:=True)>
-	Private Shared Function FlashWindowEx(<[In]()> ByRef pfwi As FLASHWINFO) As <MarshalAs(UnmanagedType.Bool)> Boolean
-	End Function
+    <DllImport("user32.dll", SetLastError:=True)>
+    Private Shared Function FlashWindowEx(<[In]()> ByRef pfwi As FLASHWINFO) As <MarshalAs(UnmanagedType.Bool)> Boolean
+    End Function
 
-	'Public NeedFlash As Boolean = False
+    'Public NeedFlash As Boolean = False
 
-	Public Sub DoLight()
-		'If Not NeedFlash Then Exit Sub
-		Dim fwi = New FLASHWINFO With {
-			.cbSize = Marshal.SizeOf(GetType(FLASHWINFO)),
-			.hwnd = Me.Handle,
-			.dwFlags = FLASH_TYPE.Tray,
-			.uCount = 1 '1 - постоянное свечение, 2+ - кол-во морганий
-			}
-		FlashWindowEx(fwi)
-		'NeedFlash = False
-	End Sub
-	'Выше для моргания окна
+    Public Sub DoLight()
+        'If Not NeedFlash Then Exit Sub
+        Dim fwi = New FLASHWINFO With {
+            .cbSize = Marshal.SizeOf(GetType(FLASHWINFO)),
+            .hwnd = Me.Handle,
+            .dwFlags = FLASH_TYPE.Tray,
+            .uCount = 1 '1 - постоянное свечение, 2+ - кол-во морганий
+            }
+        FlashWindowEx(fwi)
+        'NeedFlash = False
+    End Sub
+    'Выше для моргания окна
 
-	Public color0 As Color = Color.Gray
-	Public colorM As Color = Color.Black
+    Public color0 As Color = Color.Gray
+    Public colorM As Color = Color.Black
     Public color15 As Color = Color.Red
     Public color30 As Color = Color.Purple
     Public bordColor As Color = Color.LightBlue
@@ -97,6 +97,7 @@ Public Class Form1
     Public Udefault As Single = 12
     Public Rdefault As Single = 50
     Public RLampdefault As Single = 29
+    Public RDioddefault As Single = 1
     Public FUSEdefault As Single = 10
     Public RELEdefault As Single = 59
     Public fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
@@ -108,11 +109,11 @@ Public Class Form1
     Public moveYstart As Integer
     Public moveArray As New ArrayList
 
-	Public unDoArray As New Stack()
+    Public unDoArray As New Stack()
     Dim isUndo As Boolean = False
 
     Public Level As Integer = 0 'уровень лицензии: 0 - нет, 1 - обычн, 2 - коммерч
-	Public lic As License
+    Public lic As License
     Public liFile As String
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
@@ -124,70 +125,140 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-		Try
-			Elements.Add(Nothing)
-			'fnt.AddFontFile(Application.StartupPath + "\resourses\gost.ttf")
-			Dim buffer() As Byte
-			buffer = My.Resources.gost 'Шрифт GOST Type A .tft
-			Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocHGlobal(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
-			Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
-			fnt.AddMemoryFont(ip, buffer.Length)
+    Sub getFont()
+        Try
 
-			Dim font_p As New Font(fnt.Families(0), 14, FontStyle.Italic) 'proverka
+            fnt.AddFontFile(Application.StartupPath + "\resourses\gost.ttf")
+            'fnt = New System.Drawing.Text.PrivateFontCollection()
+            'fnt.AddFontFile("D:\PAPYRUS.TTF")
 
-			lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblKF_A3.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lbliList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblNdoc.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblPodp.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblDate.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblLit.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblMashtab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblMassa.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			lblUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			txtList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.list = txtList.Text
-			txtListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.listov = txtListov.Text
-			txtMashtab.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
-			f.mashtab = txtMashtab.Text
-			txtMassa.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
-			f.massa = txtMassa.Text
-			Dim fs As New FontStyle
-			fs = FontStyle.Italic Or FontStyle.Bold
-			txtName.Font = New Font(fnt.Families(0), 14, fs)
-			f.name = txtName.Text
-			txtNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.nkontr = txtNcontr.Text
-			txtNumber.Font = New Font(fnt.Families(0), 14, fs)
-			f.number = txtNumber.Text
-			txtOrg1.Font = New Font(fnt.Families(0), 14, fs)
-			f.org1 = txtOrg1.Text
-			txtOrg2.Font = New Font(fnt.Families(0), 14, fs)
-			f.org2 = txtOrg2.Text
-			txtProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.prov = txtProv.Text
-			txtRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.razrab = txtRazrab.Text
-			txtSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.sogl = txtSogl.Text
-			txtTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.tkontr = txtTcontr.Text
-			txtType.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.type = txtType.Text
-			txtUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-			f.utv = txtUtv.Text
-		Catch ex As Exception
-			MsgBox("Не внедрить шрифт gost.ttf." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
+            'Dim buffer() As Byte
+            'buffer = My.Resources.gost 'Шрифт GOST Type A .tft
+            'Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocHGlobal(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
+            'Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
+            'fnt.AddMemoryFont(ip, buffer.Length)
+
+            'Dim font_p As New Font(fnt.Families(0), 14, FontStyle.Italic) 'proverka
+
+            lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblKF_A3.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lbliList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblNdoc.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblPodp.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblDate.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblLit.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblMashtab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblMassa.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            txtList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.list = txtList.Text
+            txtListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.listov = txtListov.Text
+            txtMashtab.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
+            f.mashtab = txtMashtab.Text
+            txtMassa.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
+            f.massa = txtMassa.Text
+            Dim fs As New FontStyle
+            fs = FontStyle.Italic Or FontStyle.Bold
+            txtName.Font = New Font(fnt.Families(0), 14, fs)
+            f.name = txtName.Text
+            txtNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.nkontr = txtNcontr.Text
+            txtNumber.Font = New Font(fnt.Families(0), 14, fs)
+            f.number = txtNumber.Text
+            txtOrg1.Font = New Font(fnt.Families(0), 14, fs)
+            f.org1 = txtOrg1.Text
+            txtOrg2.Font = New Font(fnt.Families(0), 14, fs)
+            f.org2 = txtOrg2.Text
+            txtProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.prov = txtProv.Text
+            txtRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.razrab = txtRazrab.Text
+            txtSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.sogl = txtSogl.Text
+            txtTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.tkontr = txtTcontr.Text
+            txtType.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.type = txtType.Text
+            txtUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.utv = txtUtv.Text
+        Catch ex As Exception
+            MsgBox("Не внедрить шрифт gost.ttf." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
+        End Try
+
+    End Sub
+
+    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        Try
+            'fnt.AddFontFile(Application.StartupPath + "\resourses\gost.ttf")
+            Dim buffer() As Byte
+            buffer = My.Resources.gost 'Шрифт GOST Type A .tft
+            Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocCoTaskMem(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
+            Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
+            fnt.AddMemoryFont(ip, buffer.Length)
+
+            'Dim font_p As New Font(fnt.Families(0), 14, FontStyle.Italic) 'proverka
+
+            lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblKF_A3.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lbliList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblNdoc.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblPodp.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblDate.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblLit.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblMashtab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblMassa.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            lblUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            txtList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.list = txtList.Text
+            txtListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.listov = txtListov.Text
+            txtMashtab.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
+            f.mashtab = txtMashtab.Text
+            txtMassa.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
+            f.massa = txtMassa.Text
+            Dim fs As New FontStyle
+            fs = FontStyle.Italic Or FontStyle.Bold
+            txtName.Font = New Font(fnt.Families(0), 14, fs)
+            f.name = txtName.Text
+            txtNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.nkontr = txtNcontr.Text
+            txtNumber.Font = New Font(fnt.Families(0), 14, fs)
+            f.number = txtNumber.Text
+            txtOrg1.Font = New Font(fnt.Families(0), 14, fs)
+            f.org1 = txtOrg1.Text
+            txtOrg2.Font = New Font(fnt.Families(0), 14, fs)
+            f.org2 = txtOrg2.Text
+            txtProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.prov = txtProv.Text
+            txtRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.razrab = txtRazrab.Text
+            txtSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.sogl = txtSogl.Text
+            txtTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.tkontr = txtTcontr.Text
+            txtType.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.type = txtType.Text
+            txtUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+            f.utv = txtUtv.Text
+        Catch ex As Exception
+            MsgBox("Не внедрить шрифт gost.ttf." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
         End Try
         HideFormatText()
         Try
@@ -246,6 +317,10 @@ Public Class Form1
             BuV_cur = Cursors.NoMoveVert
         End Try
 
+    End Sub
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Elements.Add(Nothing)
         Try
             fileParam = Application.StartupPath
             If fileParam.EndsWith("\") Then
@@ -272,23 +347,23 @@ Public Class Form1
             Rdefault = dict(10)
             RLampdefault = dict(11)
             FUSEdefault = dict(12)
-			RELEdefault = dict(13)
+            RELEdefault = dict(13)
             'liFile = "C:\Users\smirnovrv\Documents\рабоч\МИ\electr\li\getLicense\bin\Debug\8d6f3031c9d08b5.elc"
             liFile = dict(14)
         Catch ex As Exception
 
         End Try
 
-		lic = New License(liFile)
+        lic = New License(liFile)
 
-		Dim Proc() As Process
+        Dim Proc() As Process
         'Определение полного имени текущего процесса.
         Dim ModuleName, ProcName As String
         ModuleName = Process.GetCurrentProcess.MainModule.ModuleName
         ProcName = System.IO.Path.GetFileNameWithoutExtension(ModuleName)
         If ProcName <> "eScheme" Then
-			MsgBox("ModuleName: " + ModuleName + " with ProcName: " + ProcName + " is incorrect." + vbCrLf + "Загрузка остановлена.", vbCritical, "Защита лицензионная")
-		End If
+            MsgBox("ModuleName: " + ModuleName + " with ProcName: " + ProcName + " is incorrect." + vbCrLf + "Загрузка остановлена.", vbCritical, "Защита лицензионная")
+        End If
         'Находим все процессы с данным именем
         Proc = Process.GetProcessesByName(ProcName)
         'Если процесса такого нет то запускаем программу
@@ -1208,9 +1283,9 @@ nextAfterMove:
             CheckBox2.Visible = True
             GroupBox1.Visible = True
             Me.Cursor = Cursors.Default
-			DoNeedSave()
-			'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		End If
+            DoNeedSave()
+            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        End If
         If Mode = "createConnect1" Then
             createConnect.MouseClick(rx, ry)
         End If
@@ -1328,7 +1403,7 @@ nextAfterMove:
             If Mode = "eDiod1" Then loc = 1
             If Mode = "eDiod2" Then loc = 2
             If Mode = "eDiod3" Then loc = 3
-            Dim diod As New eDiod(rx, ry, eComp.numInArray, Rdefault, True, 0, loc)
+            Dim diod As New eDiod(rx, ry, eComp.numInArray, RDioddefault, True, 0, loc)
             Me.Controls.Add(diod)
             eComp.component = diod
 
@@ -1480,12 +1555,12 @@ nextAfterMove:
         f.format = ""
         HideFormatText()
         FileName = ""
-		Me.Text = "Безымянный - eScheme"
-		unDoArray.Clear()
-		DoNeedSave()
-		NeedSave = False
+        Me.Text = "Безымянный - eScheme"
+        unDoArray.Clear()
+        DoNeedSave()
+        NeedSave = False
 
-	End Sub
+    End Sub
 
     Private Sub FileSave()
         If Elements.Count = 0 Then Exit Sub
@@ -1777,11 +1852,11 @@ StartFile:
             Application.DoEvents()
         Next
         ProgressBar.Visible = False
-		ShowComments(f.showComments)
-		unDoArray.Clear()
-		DoNeedSave()
-		NeedSave = False
-	End Sub
+        ShowComments(f.showComments)
+        unDoArray.Clear()
+        DoNeedSave()
+        NeedSave = False
+    End Sub
 
     Private Sub PrintReversNumber()
         Try
@@ -1795,8 +1870,8 @@ StartFile:
             g.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(0, 0))
             g.Dispose()
         Catch ex As Exception
-			'не получилось что-то, и хсним
-		End Try
+            'не получилось что-то, и хсним
+        End Try
     End Sub
 
     Private Sub Txt_TextChanged(sender As Object, e As EventArgs) Handles txtNumber.TextChanged, txtList.TextChanged, txtListov.TextChanged,
@@ -1980,19 +2055,19 @@ StartFile:
     End Sub
 
     Public Sub Delete(num As Integer)
-		Dim eComp As EComponent
-		eComp = Elements(num)
-		'Dim isPoint As Boolean = False
-		'If eComp.aType = "ePoint" Then
-		'	'isPoint = True
-		'End If
-		eComp.component.Dispose()
-		Elements(num) = Nothing
-		'If Not isPoint Then
-		DoNeedSave()
+        Dim eComp As EComponent
+        eComp = Elements(num)
+        'Dim isPoint As Boolean = False
+        'If eComp.aType = "ePoint" Then
+        '	'isPoint = True
+        'End If
+        eComp.component.Dispose()
+        Elements(num) = Nothing
+        'If Not isPoint Then
+        DoNeedSave()
     End Sub
 
-	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+    Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If Mode = "MoveMe" Then
             If Not e.Control Then
                 If moveObject.GetType.ToString = "eScheme.eBorderText" Then
@@ -2000,6 +2075,9 @@ StartFile:
                     bt.Ctrl = False
                 End If
             End If
+        End If
+        If e.KeyCode = Keys.F5 And e.Control Then
+            getFont()
         End If
         If e.KeyCode = Keys.F12 And e.Shift Then
             Dim aPath As String
@@ -2186,24 +2264,24 @@ StartFile:
                 Exit Sub
             End If
         End If
-		Dim dict As New ArrayList From {
-				color0,
-				colorM,
-				color15,
-				color30,
-				bordColor,
-				txtColor,
-				commentColor,
-				stopAtRMClick,
-				openWithSize,
-				Udefault,
-				Rdefault,
-				RLampdefault,
-				FUSEdefault,
-				RELEdefault,
-				liFile
-			}
-		Dim fStream As New FileStream(fileParam, FileMode.Create, FileAccess.Write)
+        Dim dict As New ArrayList From {
+                color0,
+                colorM,
+                color15,
+                color30,
+                bordColor,
+                txtColor,
+                commentColor,
+                stopAtRMClick,
+                openWithSize,
+                Udefault,
+                Rdefault,
+                RLampdefault,
+                FUSEdefault,
+                RELEdefault,
+                liFile
+            }
+        Dim fStream As New FileStream(fileParam, FileMode.Create, FileAccess.Write)
         Dim myBinaryFormatter As New Formatters.Binary.BinaryFormatter
         myBinaryFormatter.Serialize(fStream, dict)
         fStream.Close()
@@ -2442,20 +2520,20 @@ StartFile:
             End If
         Next
 
-		unDoArray.Push(saveArray)
-		'If unDoArray.Count > 30 Then
-		'          unDoArray.RemoveAt(0)
-		'      End If
-		'ShowUnDoArray()
-	End Sub
+        unDoArray.Push(saveArray)
+        'If unDoArray.Count > 30 Then
+        '          unDoArray.RemoveAt(0)
+        '      End If
+        'ShowUnDoArray()
+    End Sub
 
     Private Sub НастройкиToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles НастройкиToolStripMenuItem.Click
         FormOptions.Visible = True
     End Sub
 
-	Private Sub ЛицензияToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ЛицензияToolStripMenuItem.Click
-		FormLicense.Visible = True
-	End Sub
+    Private Sub ЛицензияToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ЛицензияToolStripMenuItem.Click
+        FormLicense.Visible = True
+    End Sub
 
     Sub Undo()
         Dim saveArray As ArrayList
@@ -2625,31 +2703,31 @@ StartFile:
                     Elements.Add(eComp)
                     Me.Controls.Add(t)
                 End If
-				'eGND
-				If aComp(0) = "eGND" Then
-					Dim gnd As New EGND(aComp(2), aComp(3), aComp(1)) With {
-						.link = aComp(4)
-					}
-					eComp = New EComponent With {
-						.aType = "eGND",
-						.numInArray = gnd.num,
-						.component = gnd
-					}
-					Elements.Add(eComp)
-					Me.Controls.Add(gnd)
-				End If
-				If aComp(0) = "eDiod" Then
-					Dim diod As New eDiod(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
-					eComp = New EComponent With {
-						.aType = "eDiod",
-						.numInArray = diod.num,
-						.component = diod
-					}
-					Elements.Add(eComp)
-					Me.Controls.Add(diod)
-				End If
+                'eGND
+                If aComp(0) = "eGND" Then
+                    Dim gnd As New EGND(aComp(2), aComp(3), aComp(1)) With {
+                        .link = aComp(4)
+                    }
+                    eComp = New EComponent With {
+                        .aType = "eGND",
+                        .numInArray = gnd.num,
+                        .component = gnd
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(gnd)
+                End If
+                If aComp(0) = "eDiod" Then
+                    Dim diod As New eDiod(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+                    eComp = New EComponent With {
+                        .aType = "eDiod",
+                        .numInArray = diod.num,
+                        .component = diod
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(diod)
+                End If
 
-			End If 'Этот кусок при изменении перекопировать в Undo
+            End If 'Этот кусок при изменении перекопировать в Undo
         Next
         ShowComments(f.showComments)
         TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
@@ -2696,4 +2774,5 @@ nth:
             'TextBox1.Text = "--------------" + vbCrLf + TextBox1.Text
         Next
     End Sub
+
 End Class

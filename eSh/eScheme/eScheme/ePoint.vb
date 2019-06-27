@@ -78,12 +78,13 @@ Imports eScheme
 		g.DrawEllipse(pen, 3, 3, 4, 4)
 		g.DrawEllipse(pen, 4, 4, 2, 2)
 		g.Dispose()
-		If Form1.pointsInProcessSig.Contains(num) Then
-			MsgBox("Не допускаестся создание замкнутых контуров." +
-				   vbCrLf + "Удалите лишние связи.", vbCritical, "Ошибка в схеме")
-			Exit Sub
-		Else
-			Form1.pointsInProcessSig.Add(num)
+        If Form1.pointsInProcessSig.Contains(num) Then
+            Dim x As ArrayList = Form1.pointsInProcessSig
+            MsgBox("Не допускаестся создание замкнутых контуров." +
+                   vbCrLf + "Удалите лишние связи.", vbCritical, "Ошибка в схеме")
+            Exit Sub
+        Else
+            Form1.pointsInProcessSig.Add(num)
 		End If
 		'Отправление дальше
 		For i = 0 To links.Count - 1
