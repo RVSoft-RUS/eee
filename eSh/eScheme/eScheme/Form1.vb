@@ -198,12 +198,12 @@ Public Class Form1
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
         Try
-            'fnt.AddFontFile(Application.StartupPath + "\resourses\gost.ttf")
-            Dim buffer() As Byte
-            buffer = My.Resources.gost 'Шрифт GOST Type A .tft
-            Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocCoTaskMem(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
-            Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
-            fnt.AddMemoryFont(ip, buffer.Length)
+            fnt.AddFontFile(Application.StartupPath + "\resourses\gost.ttf")
+            'Dim buffer() As Byte
+            'buffer = My.Resources.gost 'Шрифт GOST Type A .tft
+            'Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocCoTaskMem(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
+            'Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
+            'fnt.AddMemoryFont(ip, buffer.Length)
 
             'Dim font_p As New Font(fnt.Families(0), 14, FontStyle.Italic) 'proverka
 
@@ -1245,6 +1245,20 @@ nextAfterMove:
                 G.DrawLine(Pn, rx - 30, ry - 35, rx - 30, ry - 5)
                 G.DrawLine(Pn, rx - 30, ry - 5, rx + 2, ry - 5)
             End If
+            If Mode = "eSwitch3-1" Then
+                Pn = New Pen(Color.Black, 1)
+                G.DrawLine(Pn, rx + 5, ry + 22, rx + 35, ry + 22)
+                G.DrawLine(Pn, rx + 35, ry + 22, rx + 35, ry - 30)
+                G.DrawLine(Pn, rx + 35, ry - 30, rx + 5, ry - 30)
+                G.DrawLine(Pn, rx + 5, ry - 30, rx + 5, ry + 22)
+            End If
+            If Mode = "eSwitch3-2" Then
+                Pn = New Pen(Color.Black, 1)
+                G.DrawLine(Pn, rx + 22, ry - 5, rx + 22, ry - 35)
+                G.DrawLine(Pn, rx + 22, ry - 35, rx - 30, ry - 35)
+                G.DrawLine(Pn, rx - 30, ry - 35, rx - 30, ry - 5)
+                G.DrawLine(Pn, rx - 30, ry - 5, rx + 22, ry - 5)
+            End If
             G.Dispose()
             ToolTip1.SetToolTip(Me, Mode)
         End If
@@ -1258,14 +1272,16 @@ nextAfterMove:
     End Sub
 
     Private Sub Form1_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
+        Dim G As Graphics = Me.CreateGraphics
+        G.Clear(Me.BackColor)
+        G.Dispose()
+
         If e.Button = MouseButtons.Right And stopAtRMClick Then
             Mode = ""
             GroupBox1.Visible = True
             CheckBox2.Visible = True
             CheckBox2.Checked = True
             Me.Cursor = Cursors.Default
-            Dim G As Graphics = Me.CreateGraphics
-            G.Clear(Me.BackColor)
         End If
         If Mode = "newPoint" Then
             'Создание пустой точки потом запретить!!!!!!!!!!!!!!!!!!!!!!
@@ -1451,6 +1467,28 @@ nextAfterMove:
             Me.Cursor = Cursors.Default
             DoNeedSave()
         End If
+        If Mode.StartsWith("eSwitch3-") Then
+            Dim eComp As New EComponent With {
+                            .aType = "eSwitch3",
+                            .numInArray = Elements.Count
+                        }
+            Elements.Add(eComp)
+            Dim loc As Integer
+            If Mode = "eSwitch3-1" Then loc = 1
+            If Mode = "eSwitch3-2" Then loc = 2
+            Dim eSw3 As New eSwitch3(rx, ry, eComp.numInArray, 0, loc)
+            Me.Controls.Add(eSw3)
+            eComp.component = eSw3
+
+            Mode = ""
+            CheckBox2.Checked = True
+            GroupBox1.Visible = True
+            CheckBox2.Visible = True
+            Me.Cursor = Cursors.Default
+            DoNeedSave()
+            Exit Sub
+        End If
+
         If Mode.StartsWith("eSwitch") Then
             Dim eComp As New EComponent With {
                             .aType = "eSwitch",
@@ -1947,9 +1985,9 @@ StartFile:
                     Me.Cursor = R3_cur
                 Case "eResist4"
                     Me.Cursor = R4_cur
-                Case "eButton1", "eSwitch1"
+                Case "eButton1", "eSwitch1", "eSwitch3-1"
                     Me.Cursor = BuH_cur
-                Case "eButton2", "eSwitch2"
+                Case "eButton2", "eSwitch2", "eSwitch3-2"
                     Me.Cursor = BuV_cur
                 Case "eBat"
                     Me.Cursor = element_cur
@@ -2046,6 +2084,11 @@ StartFile:
 
     Private Sub PictureBox_Switch_Click(sender As Object, e As EventArgs) Handles PictureBox_Switch.Click
         Mode = "eSwitch1"
+        HidePanel()
+    End Sub
+
+    Private Sub PictureBox_Switch3_Click(sender As Object, e As EventArgs) Handles PictureBox_Switch3.Click
+        Mode = "eSwitch3-1"
         HidePanel()
     End Sub
 
@@ -2209,6 +2252,13 @@ StartFile:
                 Me.Cursor = BuH_cur
             ElseIf Mode = "eSwitch1" Then
                 Mode = "eSwitch2"
+                Me.Cursor = BuV_cur
+            End If
+            If Mode = "eSwitch3-2" Then
+                Mode = "eSwitch3-1"
+                Me.Cursor = BuH_cur
+            ElseIf Mode = "eSwitch3-1" Then
+                Mode = "eSwitch3-2"
                 Me.Cursor = BuV_cur
             End If
             If Mode <> "Delete" And Mode <> "Move" And Mode <> "createConnect" And Mode <> "" And Mode <> "newPoint" Then

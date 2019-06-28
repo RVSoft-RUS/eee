@@ -151,6 +151,12 @@
     <Compile Include="eSwitch.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="eSwitch3.Designer.vb">
+      <DependentUpon>eSwitch3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eSwitch3.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="eText.Designer.vb">
       <DependentUpon>eText.vb</DependentUpon>
     </Compile>
@@ -258,6 +264,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="eSwitch.resx">
       <DependentUpon>eSwitch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eSwitch3.resx">
+      <DependentUpon>eSwitch3.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="eText.resx">
       <DependentUpon>eText.vb</DependentUpon>

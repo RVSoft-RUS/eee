@@ -16,7 +16,7 @@ Imports System.Management
     Private endDate As String = "0"    '167
     Private stream As String = "0"     '255 ' = level
 
-    Private lic_num As String
+    Private lic_num As String = ""
 
     Public Sub New(fileName As String)
 
@@ -89,7 +89,7 @@ Imports System.Management
         Try
             dNow = GetNetworkTime()
             If dNow.Year >= 2019 And dNow.Month < 12 Then
-                If stream <> "3" Then
+                If stream <> "2" And stream <> "3" Then
                     stream = "3"
                     endDate = "637108095920000000"
                 End If
@@ -126,6 +126,17 @@ Imports System.Management
             j += 1
             If j = 10 Then j = 1
         Next
+
+        'Dim qs As String = ""
+        'qs += ChrW(116)
+        'qs += ChrW(105)
+        'qs += ChrW(116)
+        'qs += ChrW(116)
+        'qs += ChrW(105)
+        'qs += ChrW(101)
+        'qs += ChrW(115)
+        'MsgBox(qs)
+
         Return sb.ToString
     End Function
 

@@ -329,14 +329,41 @@ Public Class eDiod
 	End Function
 
 	Private Sub pb4_MouseDown(sender As Object, e As MouseEventArgs) Handles pb1.MouseDown, pb2.MouseDown, pb3.MouseDown, pb4.MouseDown
-		If Form1.Mode = "Move" Then
-			Form1.moveObject = Me
-			Form1.Cursor = Cursors.SizeAll
-			Form1.moveXstart = Form1.rx
-			Form1.moveYstart = Form1.ry
-			Form1.Mode = "MoveMe"
-		End If
-	End Sub
+        If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
+            Form1.Mode = ""
+            Form1.GroupBox1.Visible = True
+            Form1.CheckBox2.Visible = True
+            Form1.CheckBox2.Checked = True
+            Form1.Cursor = Cursors.Default
+            Exit Sub
+        End If
+        If Form1.Mode = "Move" Then
+            Form1.moveObject = Me
+            Form1.Cursor = Cursors.SizeAll
+            Form1.moveXstart = Form1.rx
+            Form1.moveYstart = Form1.ry
+            Form1.Mode = "MoveMe"
+        End If
+        If Form1.Mode = "Delete" Then
+            Dim eComp As EComponent = Form1.Elements(num + 1)
+            Dim p As EPoint = eComp.component 'Первая точка 
+            p.links.Remove(num)
+            p.DeleteMe()
+
+            eComp = Form1.Elements(num + 2)
+            p = eComp.component 'Вторая точка 
+            p.links.Remove(num)
+            p.DeleteMe()
+
+            If Form1.f.Batt > 0 Then
+                eComp = Form1.Elements(Form1.f.Batt)
+                Dim bat As eBat = eComp.component
+                Form1.pointsInProcessUI.Clear()
+                bat.CheckUI(0, 0)
+            End If
+            Form1.Delete(num)
+        End If
+    End Sub
 
     Private Sub eDiod_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter, pb1.MouseEnter, pb2.MouseEnter, pb3.MouseEnter, pb4.MouseEnter
         ToolTip1.SetToolTip(sender, "Ток через диод " + CStr(Math.Round(Ia, 3)) + " A")

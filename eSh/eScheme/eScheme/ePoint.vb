@@ -250,7 +250,7 @@ Imports eScheme
             End If
         End If
         If nd = 0 And links.Count >= 1 Then
-            If links(0) = -1 Then
+            If links(0) <> -1 Then
                 Form1.Delete(num)
             End If
 
