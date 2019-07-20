@@ -179,16 +179,14 @@ Public Class eSwitch
             eComp = Form1.Elements(num + 2)
 			p = eComp.component 'Вторая точка 
 			p.links.Remove(num + 1)
-            p.links.Remove(num + 3)
-            p.links.Remove(-1)
-            p.DeleteMe()
+			p.links.Remove(-1)
+			p.DeleteMe()
 
             eComp = Form1.Elements(num + 3)
 			p = eComp.component '3 точка 
 			p.links.Remove(num + 1)
-            p.links.Remove(num + 2)
-            p.links.Remove(-1)
-            p.DeleteMe()
+			p.links.Remove(-1)
+			p.DeleteMe()
 
             Form1.Delete(num)
 			Exit Sub

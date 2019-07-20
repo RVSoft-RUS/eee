@@ -70,17 +70,21 @@ Imports System.Management
             Dim ff As New FileInfo(fileName)
             lic_num = ff.Name
             lic_num = lic_num.Replace(".elc", "")
-            If id <> my_id.ToString Then
-                stream = "0"
-                MsgBox("Указанная лицензия №" + lic_num + " не подходит к Вашей версии ПО.")
-                name = ""
-                company = ""
-                contacts = ""
-                about = ""
-                endDate = ""
-                lic_num = ""
-            End If
-        Catch ex As Exception
+			If id <> my_id.ToString Then
+				stream = "0"
+				MsgBox("Указанная лицензия №" + lic_num + " не подходит к Вашей версии ПО.")
+				name = ""
+				company = ""
+				contacts = ""
+				about = ""
+				endDate = ""
+				lic_num = ""
+			End If
+			If stream = "2" Then
+				Form1.Level = Integer.Parse(stream)
+				Exit Sub
+			End If
+		Catch ex As Exception
             stream = "0"
         End Try
 

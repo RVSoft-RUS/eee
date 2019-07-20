@@ -374,20 +374,21 @@ Imports eScheme
 		Dim m As IMovable
 		'Form1.TextBox2.Text = "dx=" + CStr(dX) + " dy=" + CStr(dY) + vbCrLf + Form1.TextBox2.Text
 		For j = 0 To links.Count - 1
-			Dim eComp As EComponent = Form1.Elements(links(j))
-			m = eComp.component
-			If Not (m Is from) Then
-				mayMove = m.Move(Me, dX, dY)
-				If Not mayMove Then
-					Return False
+			If links(j) <> -1 Then
+				Dim eComp As EComponent = Form1.Elements(links(j))
+				m = eComp.component
+				If Not (m Is from) Then
+					mayMove = m.Move(Me, dX, dY)
+					If Not mayMove Then
+						Return False
+					End If
 				End If
 			End If
-
 		Next
+
 		If mayMove Then
 			m_X = X + dX
 			m_Y = Y + dY
-
 			Return True
 		Else
 			Return False

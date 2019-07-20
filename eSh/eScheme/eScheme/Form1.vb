@@ -118,208 +118,142 @@ Public Class Form1
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         GroupBox1.Visible = CheckBox2.Checked
-        If CheckBox2.Checked Then
-            ToolTip1.SetToolTip(CheckBox2, "Скрыть панель")
-        Else
-            ToolTip1.SetToolTip(CheckBox2, "Показать панель")
-        End If
-    End Sub
+		If CheckBox2.Checked Then
+			ToolTip1.SetToolTip(CheckBox2, "Скрыть панель")
+		Else
+			ToolTip1.SetToolTip(CheckBox2, "Показать панель")
+		End If
+	End Sub
 
-    Sub getFont()
-        Try
+	Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+		Try
+			'fnt.AddMemoryFont(System.Runtime.InteropServices.GCHandle.Alloc(My.Resources.gost, Runtime.InteropServices.GCHandleType.Pinned).AddrOfPinnedObject, My.Resources.gost.Length)
+			Dim gostFile As String = Application.StartupPath + "\resourses\gost.ttf"
+			If Not File.Exists(gostFile) Then
+				File.WriteAllBytes(gostFile, My.Resources.gost)
+			End If
+			fnt.AddFontFile(gostFile)
 
-            fnt.AddFontFile(Application.StartupPath + "\resourses\gost.ttf")
-            'fnt = New System.Drawing.Text.PrivateFontCollection()
-            'fnt.AddFontFile("D:\PAPYRUS.TTF")
+			'Dim buffer() As Byte
+			'buffer = My.Resources.gost 'Шрифт GOST Type A .tft
+			'Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocCoTaskMem(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
+			'Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
+			'fnt.AddMemoryFont(ip, buffer.Length)
 
-            'Dim buffer() As Byte
-            'buffer = My.Resources.gost 'Шрифт GOST Type A .tft
-            'Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocHGlobal(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
-            'Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
-            'fnt.AddMemoryFont(ip, buffer.Length)
 
-            'Dim font_p As New Font(fnt.Families(0), 14, FontStyle.Italic) 'proverka
+			lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblKF_A3.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lbliList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblNdoc.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblPodp.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblDate.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblLit.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblMashtab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblMassa.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			lblUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			txtList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.list = txtList.Text
+			txtListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.listov = txtListov.Text
+			txtMashtab.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
+			f.mashtab = txtMashtab.Text
+			txtMassa.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
+			f.massa = txtMassa.Text
+			Dim fs As New FontStyle
+			fs = FontStyle.Italic Or FontStyle.Bold
+			txtName.Font = New Font(fnt.Families(0), 14, fs)
+			f.name = txtName.Text
+			txtNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.nkontr = txtNcontr.Text
+			txtNumber.Font = New Font(fnt.Families(0), 14, fs)
+			f.number = txtNumber.Text
+			txtOrg1.Font = New Font(fnt.Families(0), 14, fs)
+			f.org1 = txtOrg1.Text
+			txtOrg2.Font = New Font(fnt.Families(0), 14, fs)
+			f.org2 = txtOrg2.Text
+			txtProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.prov = txtProv.Text
+			txtRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.razrab = txtRazrab.Text
+			txtSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.sogl = txtSogl.Text
+			txtTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.tkontr = txtTcontr.Text
+			txtType.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.type = txtType.Text
+			txtUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
+			f.utv = txtUtv.Text
+		Catch ex As Exception
+			MsgBox("Не внедрить шрифт gost.ttf." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
+		End Try
+		HideFormatText()
+		Try
+			'line_cur = New Cursor(Application.StartupPath + "\resourses\line.cur")
+			line_cur = New Cursor(New System.IO.MemoryStream(My.Resources.line))
+			'point_cur = New Cursor(Application.StartupPath + "\resourses\point.cur")
+			point_cur = New Cursor(New System.IO.MemoryStream(My.Resources.point))
+			'addLine_cur = New Cursor(Application.StartupPath + "\resourses\addLine.cur")
+			addLine_cur = New Cursor(New System.IO.MemoryStream(My.Resources.addLine))
+			'del_cur = New Cursor(Application.StartupPath + "\resourses\del.cur")
+			del_cur = New Cursor(New System.IO.MemoryStream(My.Resources.del))
+			'addPoint_cur = New Cursor(Application.StartupPath + "\resourses\addPoint.cur")
+			addPoint_cur = New Cursor(New System.IO.MemoryStream(My.Resources.addPoint))
+			'element_cur = New Cursor(Application.StartupPath + "\resourses\element.cur")
+			element_cur = New Cursor(New System.IO.MemoryStream(My.Resources.element))
+			'gnd_cur = New Cursor(Application.StartupPath + "\resourses\gnd.cur")
+			gnd_cur = New Cursor(New System.IO.MemoryStream(My.Resources.gnd))
+			'R1_cur = New Cursor(Application.StartupPath + "\resourses\R1.cur")
+			R1_cur = New Cursor(New System.IO.MemoryStream(My.Resources.R1))
+			'R2_cur = New Cursor(Application.StartupPath + "\resourses\R2.cur")
+			R2_cur = New Cursor(New System.IO.MemoryStream(My.Resources.R2))
+			'R3_cur = New Cursor(Application.StartupPath + "\resourses\R3.cur")
+			R3_cur = New Cursor(New System.IO.MemoryStream(My.Resources.R3))
+			'R4_cur = New Cursor(Application.StartupPath + "\resourses\R4.cur")
+			R4_cur = New Cursor(New System.IO.MemoryStream(My.Resources.R4))
+			'FuseH_cur = New Cursor(Application.StartupPath + "\resourses\fuseH.cur")
+			FuseH_cur = New Cursor(New System.IO.MemoryStream(My.Resources.fuseH))
+			'FuseV_cur = New Cursor(Application.StartupPath + "\resourses\fuseV.cur")
+			FuseV_cur = New Cursor(New System.IO.MemoryStream(My.Resources.fuseV))
+			'BuH_cur = New Cursor(Application.StartupPath + "\resourses\BuH.cur")
+			BuH_cur = New Cursor(New System.IO.MemoryStream(My.Resources.BuH))
+			' BuV_cur = New Cursor(Application.StartupPath + "\resourses\BuV.cur")
+			BuV_cur = New Cursor(New System.IO.MemoryStream(My.Resources.BuV))
+			LampH_cur = New Cursor(New System.IO.MemoryStream(My.Resources.LampH))
+			LampV_cur = New Cursor(New System.IO.MemoryStream(My.Resources.LampV))
 
-            lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblKF_A3.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lbliList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblNdoc.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblPodp.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblDate.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblLit.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblMashtab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblMassa.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            txtList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.list = txtList.Text
-            txtListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.listov = txtListov.Text
-            txtMashtab.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
-            f.mashtab = txtMashtab.Text
-            txtMassa.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
-            f.massa = txtMassa.Text
-            Dim fs As New FontStyle
-            fs = FontStyle.Italic Or FontStyle.Bold
-            txtName.Font = New Font(fnt.Families(0), 14, fs)
-            f.name = txtName.Text
-            txtNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.nkontr = txtNcontr.Text
-            txtNumber.Font = New Font(fnt.Families(0), 14, fs)
-            f.number = txtNumber.Text
-            txtOrg1.Font = New Font(fnt.Families(0), 14, fs)
-            f.org1 = txtOrg1.Text
-            txtOrg2.Font = New Font(fnt.Families(0), 14, fs)
-            f.org2 = txtOrg2.Text
-            txtProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.prov = txtProv.Text
-            txtRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.razrab = txtRazrab.Text
-            txtSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.sogl = txtSogl.Text
-            txtTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.tkontr = txtTcontr.Text
-            txtType.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.type = txtType.Text
-            txtUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.utv = txtUtv.Text
-        Catch ex As Exception
-            MsgBox("Не внедрить шрифт gost.ttf." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
-        End Try
+			d1_cur = New Cursor(New System.IO.MemoryStream(My.Resources.d1))
+			d2_cur = New Cursor(New System.IO.MemoryStream(My.Resources.d2))
+			d3_cur = New Cursor(New System.IO.MemoryStream(My.Resources.d3))
+			d4_cur = New Cursor(New System.IO.MemoryStream(My.Resources.d4))
+		Catch ex As Exception
+			line_cur = Cursors.Default
+			point_cur = Cursors.Cross
+			addLine_cur = Cursors.Help
+			del_cur = Cursors.No
+			addPoint_cur = Cursors.NoMove2D
+			element_cur = Cursors.Default
+			gnd_cur = Cursors.Hand
+			R1_cur = Cursors.Hand
+			R2_cur = Cursors.Hand
+			R3_cur = Cursors.Hand
+			R4_cur = Cursors.Hand
+			FuseH_cur = Cursors.NoMoveHoriz
+			FuseV_cur = Cursors.NoMoveVert
+			BuH_cur = Cursors.NoMoveHoriz
+			BuV_cur = Cursors.NoMoveVert
+		End Try
 
-    End Sub
+	End Sub
 
-    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-        Try
-            fnt.AddFontFile(Application.StartupPath + "\resourses\gost.ttf")
-            'Dim buffer() As Byte
-            'buffer = My.Resources.gost 'Шрифт GOST Type A .tft
-            'Dim ip As IntPtr = Runtime.InteropServices.Marshal.AllocCoTaskMem(Runtime.InteropServices.Marshal.SizeOf(GetType(Byte)) * buffer.Length)
-            'Runtime.InteropServices.Marshal.Copy(buffer, 0, ip, buffer.Length)
-            'fnt.AddMemoryFont(ip, buffer.Length)
-
-            'Dim font_p As New Font(fnt.Families(0), 14, FontStyle.Italic) 'proverka
-
-            lblKF_A4.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblKF_A3.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblIzm.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lbliList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblNdoc.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblPodp.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblDate.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblLit.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblMashtab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblMassa.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            lblUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            txtList.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.list = txtList.Text
-            txtListov.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.listov = txtListov.Text
-            txtMashtab.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
-            f.mashtab = txtMashtab.Text
-            txtMassa.Font = New Font(fnt.Families(0), 14, FontStyle.Italic)
-            f.massa = txtMassa.Text
-            Dim fs As New FontStyle
-            fs = FontStyle.Italic Or FontStyle.Bold
-            txtName.Font = New Font(fnt.Families(0), 14, fs)
-            f.name = txtName.Text
-            txtNcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.nkontr = txtNcontr.Text
-            txtNumber.Font = New Font(fnt.Families(0), 14, fs)
-            f.number = txtNumber.Text
-            txtOrg1.Font = New Font(fnt.Families(0), 14, fs)
-            f.org1 = txtOrg1.Text
-            txtOrg2.Font = New Font(fnt.Families(0), 14, fs)
-            f.org2 = txtOrg2.Text
-            txtProv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.prov = txtProv.Text
-            txtRazrab.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.razrab = txtRazrab.Text
-            txtSogl.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.sogl = txtSogl.Text
-            txtTcontr.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.tkontr = txtTcontr.Text
-            txtType.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.type = txtType.Text
-            txtUtv.Font = New Font(fnt.Families(0), 9, FontStyle.Italic)
-            f.utv = txtUtv.Text
-        Catch ex As Exception
-            MsgBox("Не внедрить шрифт gost.ttf." + vbCrLf + "Для нормальной работы программы скопируйте файл gost.ttf в указанный каталог", vbCritical, "Fatal")
-        End Try
-        HideFormatText()
-        Try
-            'line_cur = New Cursor(Application.StartupPath + "\resourses\line.cur")
-            line_cur = New Cursor(New System.IO.MemoryStream(My.Resources.line))
-            'point_cur = New Cursor(Application.StartupPath + "\resourses\point.cur")
-            point_cur = New Cursor(New System.IO.MemoryStream(My.Resources.point))
-            'addLine_cur = New Cursor(Application.StartupPath + "\resourses\addLine.cur")
-            addLine_cur = New Cursor(New System.IO.MemoryStream(My.Resources.addLine))
-            'del_cur = New Cursor(Application.StartupPath + "\resourses\del.cur")
-            del_cur = New Cursor(New System.IO.MemoryStream(My.Resources.del))
-            'addPoint_cur = New Cursor(Application.StartupPath + "\resourses\addPoint.cur")
-            addPoint_cur = New Cursor(New System.IO.MemoryStream(My.Resources.addPoint))
-            'element_cur = New Cursor(Application.StartupPath + "\resourses\element.cur")
-            element_cur = New Cursor(New System.IO.MemoryStream(My.Resources.element))
-            'gnd_cur = New Cursor(Application.StartupPath + "\resourses\gnd.cur")
-            gnd_cur = New Cursor(New System.IO.MemoryStream(My.Resources.gnd))
-            'R1_cur = New Cursor(Application.StartupPath + "\resourses\R1.cur")
-            R1_cur = New Cursor(New System.IO.MemoryStream(My.Resources.R1))
-            'R2_cur = New Cursor(Application.StartupPath + "\resourses\R2.cur")
-            R2_cur = New Cursor(New System.IO.MemoryStream(My.Resources.R2))
-            'R3_cur = New Cursor(Application.StartupPath + "\resourses\R3.cur")
-            R3_cur = New Cursor(New System.IO.MemoryStream(My.Resources.R3))
-            'R4_cur = New Cursor(Application.StartupPath + "\resourses\R4.cur")
-            R4_cur = New Cursor(New System.IO.MemoryStream(My.Resources.R4))
-            'FuseH_cur = New Cursor(Application.StartupPath + "\resourses\fuseH.cur")
-            FuseH_cur = New Cursor(New System.IO.MemoryStream(My.Resources.fuseH))
-            'FuseV_cur = New Cursor(Application.StartupPath + "\resourses\fuseV.cur")
-            FuseV_cur = New Cursor(New System.IO.MemoryStream(My.Resources.fuseV))
-            'BuH_cur = New Cursor(Application.StartupPath + "\resourses\BuH.cur")
-            BuH_cur = New Cursor(New System.IO.MemoryStream(My.Resources.BuH))
-            ' BuV_cur = New Cursor(Application.StartupPath + "\resourses\BuV.cur")
-            BuV_cur = New Cursor(New System.IO.MemoryStream(My.Resources.BuV))
-            LampH_cur = New Cursor(New System.IO.MemoryStream(My.Resources.LampH))
-            LampV_cur = New Cursor(New System.IO.MemoryStream(My.Resources.LampV))
-
-            d1_cur = New Cursor(New System.IO.MemoryStream(My.Resources.d1))
-            d2_cur = New Cursor(New System.IO.MemoryStream(My.Resources.d2))
-            d3_cur = New Cursor(New System.IO.MemoryStream(My.Resources.d3))
-            d4_cur = New Cursor(New System.IO.MemoryStream(My.Resources.d4))
-        Catch ex As Exception
-            line_cur = Cursors.Default
-            point_cur = Cursors.Cross
-            addLine_cur = Cursors.Help
-            del_cur = Cursors.No
-            addPoint_cur = Cursors.NoMove2D
-            element_cur = Cursors.Default
-            gnd_cur = Cursors.Hand
-            R1_cur = Cursors.Hand
-            R2_cur = Cursors.Hand
-            R3_cur = Cursors.Hand
-            R4_cur = Cursors.Hand
-            FuseH_cur = Cursors.NoMoveHoriz
-            FuseV_cur = Cursors.NoMoveVert
-            BuH_cur = Cursors.NoMoveHoriz
-            BuV_cur = Cursors.NoMoveVert
-        End Try
-
-    End Sub
-
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Elements.Add(Nothing)
         Try
             fileParam = Application.StartupPath
@@ -1805,19 +1739,30 @@ StartFile:
                     Elements.Add(eComp)
                     Me.Controls.Add(but)
                 End If
-                'eSwitch
-                If aComp(0) = "eSwitch" Then
-                    Dim but As New eSwitch(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
-                    eComp = New EComponent With {
-                        .aType = "eSwitch",
-                        .numInArray = but.num,
-                        .component = but
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(but)
-                End If
-                'eFuse
-                If aComp(0) = "eFuse" Then
+				'eSwitch
+				If aComp(0) = "eSwitch" Then
+					Dim but As New eSwitch(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
+					eComp = New EComponent With {
+						.aType = "eSwitch",
+						.numInArray = but.num,
+						.component = but
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(but)
+				End If
+				'eSwitch3
+				If aComp(0) = "eSwitch3" Then
+					Dim but As New eSwitch3(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
+					eComp = New EComponent With {
+						.aType = "eSwitch3",
+						.numInArray = but.num,
+						.component = but
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(but)
+				End If
+				'eFuse
+				If aComp(0) = "eFuse" Then
                     Dim fu As New eFuse(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
                     eComp = New EComponent With {
                         .aType = "eFuse",
@@ -1873,8 +1818,8 @@ StartFile:
                     Elements.Add(eComp)
                     Me.Controls.Add(gnd)
                 End If
-                'eR
-                If aComp(0) = "eDiod" Then
+				'eDiod
+				If aComp(0) = "eDiod" Then
                     Dim diod As New eDiod(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
                     eComp = New EComponent With {
                         .aType = "eDiod",
@@ -2119,62 +2064,59 @@ StartFile:
                 End If
             End If
         End If
-        If e.KeyCode = Keys.F5 And e.Control Then
-            getFont()
-        End If
-        If e.KeyCode = Keys.F12 And e.Shift Then
-            Dim aPath As String
-            aPath = FileName
-            If aPath <> "" Then
-                Dim i As Integer
-                i = aPath.LastIndexOf("\")
-                If i <> 0 Then
-                    aPath = aPath.Substring(0, i + 1)
-                End If
-            End If
-            If f.format.StartsWith("A4") Then
-                Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Dim Gf As Graphics = Me.CreateGraphics
-                Gf.Clear(Me.BackColor)
-                Gf.Dispose()
-                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
+		If e.KeyCode = Keys.F12 And e.Shift Then
+			Dim aPath As String
+			aPath = FileName
+			If aPath <> "" Then
+				Dim i As Integer
+				i = aPath.LastIndexOf("\")
+				If i <> 0 Then
+					aPath = aPath.Substring(0, i + 1)
+				End If
+			End If
+			If f.format.StartsWith("A4") Then
+				Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Dim Gf As Graphics = Me.CreateGraphics
+				Gf.Clear(Me.BackColor)
+				Gf.Dispose()
+				Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
 
-                Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Using g As Graphics = Graphics.FromImage(img)
-                    g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603, 888)), GraphicsUnit.Pixel)
-                End Using
+				Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Using g As Graphics = Graphics.FromImage(img)
+					g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603, 888)), GraphicsUnit.Pixel)
+				End Using
 
-                img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
-                zx = 0
-                zy = 0
-            End If
-            If f.format.StartsWith("A3") Then
-                Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Dim Gf As Graphics = Me.CreateGraphics
-                Gf.Clear(Me.BackColor)
-                Gf.Dispose()
-                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
+				img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+				zx = 0
+				zy = 0
+			End If
+			If f.format.StartsWith("A3") Then
+				Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Dim Gf As Graphics = Me.CreateGraphics
+				Gf.Clear(Me.BackColor)
+				Gf.Dispose()
+				Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
 
-                Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
-                Using g As Graphics = Graphics.FromImage(img)
-                    g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
-                End Using
+				Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+				Using g As Graphics = Graphics.FromImage(img)
+					g.DrawImage(bm, New Rectangle(New Point(), img.Size), New Rectangle(New Point(10, 56), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
+				End Using
 
-                img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
-                zx = 0
-                zy = 0
-            End If
-            ProgressBar.Visible = True
-            ProgressBar.Maximum = 100
-            For i = 1 To 100
-                System.Threading.Thread.Sleep(5)
-                ProgressBar.Value = i
-                Application.DoEvents()
-            Next
-            System.Threading.Thread.Sleep(50)
-            ProgressBar.Visible = False
-        End If
-        If e.KeyCode = Keys.Escape Then
+				img.Save(aPath + f.number & "_лист" & f.list & ".png", Drawing.Imaging.ImageFormat.Png)
+				zx = 0
+				zy = 0
+			End If
+			ProgressBar.Visible = True
+			ProgressBar.Maximum = 100
+			For i = 1 To 100
+				System.Threading.Thread.Sleep(5)
+				ProgressBar.Value = i
+				Application.DoEvents()
+			Next
+			System.Threading.Thread.Sleep(50)
+			ProgressBar.Visible = False
+		End If
+		If e.KeyCode = Keys.Escape Then
             Mode = ""
             GroupBox1.Visible = True
             CheckBox2.Visible = True
@@ -2698,19 +2640,30 @@ StartFile:
                     Elements.Add(eComp)
                     Me.Controls.Add(but)
                 End If
-                'eSwitch
-                If aComp(0) = "eSwitch" Then
-                    Dim but As New eSwitch(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
-                    eComp = New EComponent With {
-                        .aType = "eSwitch",
-                        .numInArray = but.num,
-                        .component = but
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(but)
-                End If
-                'eFuse
-                If aComp(0) = "eFuse" Then
+				'eSwitch
+				If aComp(0) = "eSwitch" Then
+					Dim but As New eSwitch(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
+					eComp = New EComponent With {
+						.aType = "eSwitch",
+						.numInArray = but.num,
+						.component = but
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(but)
+				End If
+				'eSwitch3
+				If aComp(0) = "eSwitch3" Then
+					Dim but As New eSwitch3(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
+					eComp = New EComponent With {
+						.aType = "eSwitch3",
+						.numInArray = but.num,
+						.component = but
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(but)
+				End If
+				'eFuse
+				If aComp(0) = "eFuse" Then
                     Dim fu As New eFuse(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
                     eComp = New EComponent With {
                         .aType = "eFuse",
@@ -2825,4 +2778,7 @@ nth:
         Next
     End Sub
 
+	Private Sub txtName_FontChanged(sender As Object, e As EventArgs) Handles txtName.FontChanged
+		TextBox1.Text += txtName.Font.ToString() + vbCrLf
+	End Sub
 End Class

@@ -2,8 +2,8 @@
 
 Public Class eSwitch3
     Implements IConnectable
-    'Implements IMovable
-    Public X As Integer
+	Implements IMovable
+	Public X As Integer
     Public Y As Integer
     Public num As Integer
     Public work As Integer '(0, 1 or 2)
@@ -166,27 +166,182 @@ Public Class eSwitch3
         Throw New NotImplementedException()
     End Sub
 
-    Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
-        Me.Dispose()
-    End Sub
+	Public Sub MoveOK() Implements IMovable.MoveOK
+		X = m_X
+		Y = m_Y
 
-    Public Function ForSave() As ArrayList Implements IConnectable.ForSave
-        Dim save As New ArrayList From {
-            "eSwitch",
-            num,
-            X,
-            Y,
-            work,
-            loc
-        }
-        Return save
-    End Function
+		If loc = 1 Then
+			Me.Location = New Point(X + 5, Y - 30) 'Для настройки положения
+		ElseIf loc = 2 Then
+			Me.Location = New Point(X - 30, Y - 35) 'Для настройки положения
+		End If
+	End Sub
 
-    Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
-        Throw New NotImplementedException()
-    End Function
+	Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
+		Me.Dispose()
+	End Sub
 
-    Public Function CheckUI(from As Integer, U As Single, Optional r_ As Integer = 0) As Single Implements IConnectable.CheckUI
-        Throw New NotImplementedException()
-    End Function
+	Private Sub ESwitch3_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick, pb1.MouseClick, pb2.MouseClick, pb3.MouseClick, pb4.MouseClick, pb5.MouseClick, pb6.MouseClick
+		If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
+			Form1.Mode = ""
+			Form1.GroupBox1.Visible = True
+			Form1.CheckBox2.Visible = True
+			Form1.CheckBox2.Checked = True
+			Form1.Cursor = Cursors.Default
+			Exit Sub
+		End If
+		If Form1.Mode = "Move" Then
+			Form1.moveObject = Me
+			Form1.Cursor = Cursors.SizeAll
+			Form1.moveXstart = Form1.rx
+			Form1.moveYstart = Form1.ry
+			Form1.Mode = "MoveMe"
+		End If
+		If Form1.Mode = "Delete" Then
+			Dim eComp As EComponent = Form1.Elements(num + 1)
+			Dim p As EPoint = eComp.component 'Первая точка 
+			p.links.Remove(num + 2)
+			p.links.Remove(num + 3)
+			p.links.Remove(num + 4)
+			p.DeleteMe()
+
+			eComp = Form1.Elements(num + 2)
+			p = eComp.component 'Вторая точка 
+			p.links.Remove(num + 1)
+			p.links.Remove(-1)
+			p.DeleteMe()
+
+			eComp = Form1.Elements(num + 3)
+			p = eComp.component '3 точка 
+			p.links.Remove(num + 1)
+			p.links.Remove(-1)
+			p.DeleteMe()
+
+			eComp = Form1.Elements(num + 4)
+			p = eComp.component '4 точка 
+			p.links.Remove(num + 1)
+			p.links.Remove(-1)
+			p.DeleteMe()
+
+			Form1.Delete(num)
+			Exit Sub
+		End If
+		If work = 0 Then
+			work = 1
+			PaintMe()
+
+			Form1.DisConnect(num + 1, num + 3)
+			Form1.OnConnect(num + 1, num + 2)
+			Dim eComp As EComponent = Form1.Elements(num + 3)
+			Dim p As EPoint = eComp.component
+			p.addLink(-1)
+			eComp = Form1.Elements(num + 2)
+			p = eComp.component
+			p.remLink(-1)
+		ElseIf work = 1 Then
+			If loc = 1 Then
+				If e.Y < 30 Then
+					work = 0
+				Else
+					work = 2
+				End If
+			End If
+			If loc = 2 Then
+				If e.X < 30 Then
+					work = 0
+				Else
+					work = 2
+				End If
+			End If
+			PaintMe()
+
+			If work = 0 Then
+				Form1.DisConnect(num + 1, num + 2)
+				Form1.OnConnect(num + 1, num + 3)
+				Dim eComp As EComponent = Form1.Elements(num + 2)
+				Dim p As EPoint = eComp.component
+				p.addLink(-1)
+				eComp = Form1.Elements(num + 3)
+				p = eComp.component
+				p.remLink(-1)
+			End If
+			If work = 2 Then
+				Form1.DisConnect(num + 1, num + 2)
+				Form1.OnConnect(num + 1, num + 4)
+				Dim eComp As EComponent = Form1.Elements(num + 2)
+				Dim p As EPoint = eComp.component
+				p.addLink(-1)
+				eComp = Form1.Elements(num + 4)
+				p = eComp.component
+				p.remLink(-1)
+			End If
+		ElseIf work = 2 Then
+			work = 1
+			PaintMe()
+
+			Form1.DisConnect(num + 1, num + 4)
+			Form1.OnConnect(num + 1, num + 2)
+			Dim eComp As EComponent = Form1.Elements(num + 4)
+			Dim p As EPoint = eComp.component
+			p.addLink(-1)
+			eComp = Form1.Elements(num + 2)
+			p = eComp.component
+			p.remLink(-1)
+		End If
+	End Sub
+
+	Public Function ForSave() As ArrayList Implements IConnectable.ForSave
+		Dim save As New ArrayList From {
+			"eSwitch3",
+			num,
+			X,
+			Y,
+			work,
+			loc
+		}
+		Return save
+	End Function
+
+	Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
+		Throw New NotImplementedException()
+	End Function
+
+	Public Function CheckUI(from As Integer, U As Single, Optional r_ As Integer = 0) As Single Implements IConnectable.CheckUI
+		Throw New NotImplementedException()
+	End Function
+
+	Public Function GetXY() As Integer Implements IMovable.GetX, IMovable.GetY
+		Throw New NotImplementedException()
+	End Function
+
+	Private Function IMovable_Move(from As IMovable, dX As Integer, dY As Integer) As Boolean Implements IMovable.Move
+		Form1.moveArray.Add(Me)
+		Dim mayMove1, mayMove2, mayMove3, mayMove4 As Boolean
+		If from Is Me Then
+			Dim m As IMovable
+			Dim eComp As EComponent = Form1.Elements(num + 1)
+			m = eComp.component
+			mayMove1 = m.Move(Me, dX, dY)
+			eComp = Form1.Elements(num + 2)
+			m = eComp.component
+			mayMove2 = m.Move(Me, dX, dY)
+			eComp = Form1.Elements(num + 3)
+			m = eComp.component
+			mayMove3 = m.Move(Me, dX, dY)
+			eComp = Form1.Elements(num + 4)
+			m = eComp.component
+			mayMove4 = m.Move(Me, dX, dY)
+			'Form1.TextBox1.Text = "mayMove1=" + CStr(mayMove1) + "  mayMove2=" + CStr(mayMove2) + vbCrLf + Form1.TextBox1.Text
+			If mayMove1 And mayMove2 And mayMove3 And mayMove4 Then
+				m_X = X + dX
+				m_Y = Y + dY
+
+				Return True
+			Else
+				Return False
+			End If
+		Else
+			Return False
+		End If
+	End Function
 End Class

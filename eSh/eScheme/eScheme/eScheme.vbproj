@@ -76,6 +76,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
     <Compile Include="DialogForm.Designer.vb">
       <DependentUpon>DialogForm.vb</DependentUpon>
     </Compile>
