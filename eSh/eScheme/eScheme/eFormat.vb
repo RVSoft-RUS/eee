@@ -1,6 +1,6 @@
 ﻿<Serializable> Public Class EFormat
-	Public format As String 'A41, A42, A31, A32
-	Public name As String
+    Public format As String = "" 'A41, A42, A31, A32
+    Public name As String
 	Public number As String
 	Public type As String
 	Public lit As String

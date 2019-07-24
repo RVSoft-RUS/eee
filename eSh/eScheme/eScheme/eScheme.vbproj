@@ -140,6 +140,12 @@
     <Compile Include="ePoint.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="eRele.Designer.vb">
+      <DependentUpon>eRele.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eRele.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="eResist.Designer.vb">
       <DependentUpon>eResist.vb</DependentUpon>
     </Compile>
@@ -259,6 +265,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ePoint.resx">
       <DependentUpon>ePoint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eRele.resx">
+      <DependentUpon>eRele.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="eResist.resx">
       <DependentUpon>eResist.vb</DependentUpon>

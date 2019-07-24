@@ -115,6 +115,7 @@ Public Class Form1
     Public Level As Integer = 0 'уровень лицензии: 0 - нет, 1 - обычн, 2 - коммерч
     Public lic As License
     Public liFile As String
+    Dim numOfRelay As Integer = 0
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         GroupBox1.Visible = CheckBox2.Checked
@@ -128,8 +129,9 @@ Public Class Form1
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
         Try
             'fnt.AddMemoryFont(System.Runtime.InteropServices.GCHandle.Alloc(My.Resources.gost, Runtime.InteropServices.GCHandleType.Pinned).AddrOfPinnedObject, My.Resources.gost.Length)
-            Dim gostFile As String = Application.StartupPath + "\resourses\gost.ttf"
+            Dim gostFile As String = Application.StartupPath + "\resourse\gost.ttf"
             If Not File.Exists(gostFile) Then
+                Directory.CreateDirectory(Application.StartupPath + "\resourse\")
                 File.WriteAllBytes(gostFile, My.Resources.gost)
             End If
             fnt.AddFontFile(gostFile)
@@ -320,6 +322,8 @@ Public Class Form1
 
         End Try
         LabelSig.Focus()
+        DoNeedSave()
+        NeedSave = False
     End Sub
 
     Private Sub Label_A4_Click(sender As Object, e As EventArgs) Handles Label_A4.Click
@@ -1009,7 +1013,6 @@ Public Class Form1
     Private Sub Form1_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
         If Math.Abs(zx - e.X) + Math.Abs(zy - e.Y) < 5 Then
             Exit Sub 'Если почти не сдвинулось - то выход
-
         End If
         rx = CInt(Math.Round(e.X / 20))
         rx = rx * 20
@@ -1018,7 +1021,7 @@ Public Class Form1
         zx = e.X
         zy = e.Y
 
-        ToolTip1.SetToolTip(Me, Mode)
+        'ToolTip1.SetToolTip(Me, Mode)
         If Mode = "MoveMe" Then
             TextBox1.Text = "rx -Xstart=" + CStr(rx - moveXstart) + "  ry - Ystart=" + CStr(ry - moveYstart) + vbCrLf + TextBox1.Text
             If moveObject Is Nothing Then Exit Sub
@@ -1165,6 +1168,58 @@ nextAfterMove:
                 G.DrawLine(Pn, rx + 5, ry - 5, rx - 15, ry - 5)
                 G.DrawLine(Pn, rx + 5, ry - 35, rx - 15, ry - 35)
             End If
+            If Mode = "eRele1" Then
+                Pn = New Pen(Color.Brown, 1)
+                G.DrawLine(Pn, rx, ry, rx + 10, ry)
+                G.DrawLine(Pn, rx + 10, ry, rx + 30, ry - 20)
+                G.DrawLine(Pn, rx + 30, ry - 20, rx + 40, ry - 20)
+                G.DrawLine(Pn, rx + 30, ry, rx + 40, ry)
+
+                G.DrawLine(Pn, rx + 20, ry - 10, rx + 20, ry + 10)
+                G.DrawLine(Pn, rx, ry + 20, rx + 12, ry + 20)
+                G.DrawLine(Pn, rx + 28, ry + 20, rx + 40, ry + 20)
+
+                G.DrawRectangle(Pn, rx + 12, ry + 10, 16, 20)
+            End If
+            If Mode = "eRele3" Then
+                Pn = New Pen(Color.Brown, 1)
+                G.DrawLine(Pn, rx, ry, rx - 10, ry)
+                G.DrawLine(Pn, rx - 10, ry, rx - 30, ry - 20)
+                G.DrawLine(Pn, rx - 30, ry - 20, rx - 40, ry - 20)
+                G.DrawLine(Pn, rx - 30, ry, rx - 40, ry)
+
+                G.DrawLine(Pn, rx - 20, ry - 10, rx - 20, ry + 10)
+                G.DrawLine(Pn, rx, ry + 20, rx - 12, ry + 20)
+                G.DrawLine(Pn, rx - 28, ry + 20, rx - 40, ry + 20)
+
+                G.DrawRectangle(Pn, rx - 28, ry + 10, 16, 20)
+            End If
+            If Mode = "eRele2" Then
+                Pn = New Pen(Color.Brown, 1)
+                G.DrawLine(Pn, rx, ry, rx, ry - 10)
+                G.DrawLine(Pn, rx, ry - 10, rx - 20, ry - 30)
+                G.DrawLine(Pn, rx - 20, ry - 30, rx - 20, ry - 40)
+                G.DrawLine(Pn, rx, ry - 30, rx, ry - 40)
+
+                G.DrawLine(Pn, rx - 10, ry - 20, rx + 10, ry - 20)
+                G.DrawLine(Pn, rx + 20, ry, rx + 20, ry - 12)
+                G.DrawLine(Pn, rx + 20, ry - 28, rx + 20, ry - 40)
+
+                G.DrawRectangle(Pn, rx + 10, ry - 28, 20, 16)
+            End If
+            If Mode = "eRele4" Then
+                Pn = New Pen(Color.Brown, 1)
+                G.DrawLine(Pn, rx, ry, rx, ry + 10)
+                G.DrawLine(Pn, rx, ry + 10, rx - 20, ry + 30)
+                G.DrawLine(Pn, rx - 20, ry + 30, rx - 20, ry + 40)
+                G.DrawLine(Pn, rx, ry + 30, rx, ry + 40)
+
+                G.DrawLine(Pn, rx - 10, ry + 20, rx + 10, ry + 20)
+                G.DrawLine(Pn, rx + 20, ry, rx + 20, ry + 12)
+                G.DrawLine(Pn, rx + 20, ry + 28, rx + 20, ry + 40)
+
+                G.DrawRectangle(Pn, rx + 10, ry + 12, 20, 16)
+            End If
             If Mode = "eSwitch1" Then
                 Pn = New Pen(Color.Black, 1)
                 G.DrawLine(Pn, rx + 5, ry + 2, rx + 35, ry + 2)
@@ -1193,8 +1248,7 @@ nextAfterMove:
                 G.DrawLine(Pn, rx - 30, ry - 35, rx - 30, ry - 5)
                 G.DrawLine(Pn, rx - 30, ry - 5, rx + 22, ry - 5)
             End If
-
-            ToolTip1.SetToolTip(Me, Mode)
+            'pb1.Dispose() Что за ГОВНО?
         End If
         If Mode = "createConnect1" Then
             createConnect.MouseMove(rx, ry)
@@ -1443,6 +1497,33 @@ nextAfterMove:
             Me.Cursor = Cursors.Default
             DoNeedSave()
         End If
+        If Mode.StartsWith("eRele") Then
+            If (Level + 3) * 2 = 6 Then
+                If numOfRelay >= 1 Then MsgBox("В ознакомительной версии действует ограничение на количество реле в схеме.", vbInformation, "Реле не доступно")
+                Exit Sub
+            End If
+            Dim eComp As New EComponent With {
+                            .aType = "eRele",
+                            .numInArray = Elements.Count
+                        }
+            Elements.Add(eComp)
+            Dim loc As Integer
+            If Mode = "eRele1" Then loc = 1
+            If Mode = "eRele2" Then loc = 2
+            If Mode = "eRele3" Then loc = 3
+            If Mode = "eRele4" Then loc = 4
+            Dim eR As New eRele(rx, ry, eComp.numInArray, RELEdefault, False, 0, loc)
+            Me.Controls.Add(eR)
+            eComp.component = eR
+            numOfRelay += 1
+
+            Mode = ""
+            CheckBox2.Checked = True
+            GroupBox1.Visible = True
+            CheckBox2.Visible = True
+            Me.Cursor = Cursors.Default
+            DoNeedSave()
+        End If
         If Mode.StartsWith("newFuse") Then
             Dim eComp As New EComponent With {
                             .aType = "eFuse",
@@ -1518,6 +1599,7 @@ nextAfterMove:
         f.Batt = 0
         pointsInProcessSig.Clear()
         pointsInProcessUI.Clear()
+        numOfRelay = 0
 
         Dim theLine As IRemovable
         For i = 0 To a.Count - 1
@@ -1717,6 +1799,18 @@ StartFile:
                     }
                     Elements.Add(eComp)
                     Me.Controls.Add(res)
+                End If
+                'eRele
+                If aComp(0) = "eRele" Then
+                    Dim re As New eRele(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+                    eComp = New EComponent With {
+                        .aType = "eRele",
+                        .numInArray = re.num,
+                        .component = re
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(re)
+                    numOfRelay += 1
                 End If
                 'eLamp
                 If aComp(0) = "eLamp" Then
@@ -1931,9 +2025,9 @@ StartFile:
                     Me.Cursor = R3_cur
                 Case "eResist4"
                     Me.Cursor = R4_cur
-                Case "eButton1", "eSwitch1", "eSwitch3-1"
+                Case "eButton1", "eSwitch1", "eSwitch3-1", "eRele1", "eRele3"
                     Me.Cursor = BuH_cur
-                Case "eButton2", "eSwitch2", "eSwitch3-2"
+                Case "eButton2", "eSwitch2", "eSwitch3-2", "eRele2", "eRele4"
                     Me.Cursor = BuV_cur
                 Case "eBat"
                     Me.Cursor = element_cur
@@ -2040,6 +2134,11 @@ StartFile:
 
     Private Sub PictureBox_Diod_Click(sender As Object, e As EventArgs) Handles PictureBox_Diod.Click
         Mode = "eDiod1"
+        HidePanel()
+    End Sub
+
+    Private Sub PictureBox1_Rele_Click(sender As Object, e As EventArgs) Handles PictureBox1_Rele.Click
+        Mode = "eRele1"
         HidePanel()
     End Sub
 
@@ -2205,6 +2304,20 @@ StartFile:
                 Mode = "eSwitch3-2"
                 Me.Cursor = BuV_cur
             End If
+            If Mode = "eRele1" Then
+                Mode = "eRele2"
+                Me.Cursor = BuV_cur
+            ElseIf Mode = "eRele2" Then
+                Mode = "eRele3"
+                Me.Cursor = BuH_cur
+            ElseIf Mode = "eRele3" Then
+                Mode = "eRele4"
+                Me.Cursor = BuV_cur
+            ElseIf Mode = "eRele4" Then
+                Mode = "eRele1"
+                Me.Cursor = BuH_cur
+            End If
+
             If Mode <> "Delete" And Mode <> "Move" And Mode <> "createConnect" And Mode <> "" And Mode <> "newPoint" Then
                 lastMode = Mode
             End If
@@ -2223,30 +2336,45 @@ StartFile:
         End If
         If e.KeyCode = Keys.P Then
             If e.Control Then 'Print Print Print Print Print Print Print Print Print Print Print Print Print Print Print Print Print Print Print Print Print Print Print Print 
-                If PageSetupDialog1.PageSettings Is Nothing Then PageSetupDialog1.PageSettings = New System.Drawing.Printing.PageSettings
-                If PageSetupDialog1.PrinterSettings Is Nothing Then PageSetupDialog1.PrinterSettings = New System.Drawing.Printing.PrinterSettings
-                PageSetupDialog1.ShowNetwork = False
-                PageSetupDialog1.EnableMetric = True
-                PageSetupDialog1.MinMargins = New Printing.Margins(0, 0, 0, 0)
-                If f.format.StartsWith("A3") Then
-                    PageSetupDialog1.PageSettings.Landscape = True
-                End If
-                Dim result As DialogResult = PageSetupDialog1.ShowDialog()
-                If (result = DialogResult.OK) Then
-                    With PrintDocument1
-                        .PrinterSettings = PageSetupDialog1.PrinterSettings
-                        .DefaultPageSettings.Color = PrintDocument1.PrinterSettings.SupportsColor
-                        .DefaultPageSettings.Landscape = PageSetupDialog1.PageSettings.Landscape
-                        .DefaultPageSettings.PaperSize = PageSetupDialog1.PageSettings.PaperSize
-                        .DefaultPageSettings.Margins = PageSetupDialog1.PageSettings.Margins
-                    End With
-                Else
-                    Exit Sub
-                End If
+                'If PageSetupDialog1.PageSettings Is Nothing Then PageSetupDialog1.PageSettings = New System.Drawing.Printing.PageSettings
+                'If PageSetupDialog1.PrinterSettings Is Nothing Then PageSetupDialog1.PrinterSettings = New System.Drawing.Printing.PrinterSettings
+                'PageSetupDialog1.ShowNetwork = True
+                'PageSetupDialog1.EnableMetric = True
+                ''PageSetupDialog1.AllowPrinter = True
 
-                PrintPreviewDialog1.ClientSize = New Size(200, 300)
-                PrintPreviewDialog1.Document = PrintDocument1
-                PrintPreviewDialog1.ShowDialog()
+                'PageSetupDialog1.MinMargins = New Printing.Margins(0, 0, 0, 0)
+
+                'If f.format.StartsWith("A3") Then
+                '    PageSetupDialog1.PageSettings.Landscape = True
+                'End If
+                'Dim result As DialogResult = PageSetupDialog1.ShowDialog()
+                'If (result = DialogResult.OK) Then
+                '    With PrintDocument1
+                '        .PrinterSettings = PageSetupDialog1.PrinterSettings
+                '        .DefaultPageSettings.Color = PrintDocument1.PrinterSettings.SupportsColor
+                '        .DefaultPageSettings.Landscape = PageSetupDialog1.PageSettings.Landscape
+                '        .DefaultPageSettings.PaperSize = PageSetupDialog1.PageSettings.PaperSize
+                '        .DefaultPageSettings.Margins = PageSetupDialog1.PageSettings.Margins
+                '    End With
+                'Else
+                '    Exit Sub
+                'End If
+                'If f.format.StartsWith("A3") Then
+                '    PrintDocument1.PrinterSettings.
+                'End If
+
+                Dim dlgSettings As New PrintDialog With {
+                    .Document = PrintDocument1,
+                    .AllowPrintToFile = True,
+                    .AllowSelection = False
+                }
+
+                Dim result As DialogResult = dlgSettings.ShowDialog
+
+                If result = DialogResult.OK Then
+                    PrintPreviewDialog1.Document = PrintDocument1
+                    PrintPreviewDialog1.ShowDialog()
+                End If
             Else
                 Mode = "newPoint"
                 HidePanel()
@@ -2259,7 +2387,132 @@ StartFile:
     End Sub
 
     Private Sub PrintDocument1_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintDocument1.PrintPage
+        'Dim eX = e.PageBounds.Width
+        'Dim eY = e.PageBounds.Height
+        'Dim k As Single = 3.93F
+        'Dim X_ As Single = 13 * k, Y_ As Single = 5 'Смещение рамки от краев
+        'Dim pen1 As New Pen(Color.Black, 1)
+        'Dim pen2 As New Pen(Color.Black, 2)
+        Dim Gf As Graphics = Me.CreateGraphics
+        Gf.Clear(Me.BackColor)
+        Gf.Dispose()
+        If f.format = "A41" Then
+            Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+            HideFormatText()
+            Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
+            ShowFormatA4_1()
+            Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+            e.Graphics.DrawImage(bm, New Rectangle(New Point(), New Size(img.Size.Width * 1.3, img.Size.Height * 1.3)), New Rectangle(New Point(10, 63), New Point(603, 888)), GraphicsUnit.Pixel)
 
+            Dim fs As New FontStyle
+            fs = FontStyle.Italic
+            Dim font As New Font(fnt.Families(0), 11, fs)
+
+            e.Graphics.DrawString("Изм.", font, New SolidBrush(Color.Black), New PointF(53, 990))
+            e.Graphics.DrawString("Лист", font, New SolidBrush(Color.Black), New PointF(82, 990))
+            e.Graphics.DrawString("№ докум", font, New SolidBrush(Color.Black), New PointF(140, 990))
+            e.Graphics.DrawString("Подп.", font, New SolidBrush(Color.Black), New PointF(220, 990))
+            e.Graphics.DrawString("Дата", font, New SolidBrush(Color.Black), New PointF(270, 990))
+            e.Graphics.DrawString("Разраб.", font, New SolidBrush(Color.Black), New PointF(54, 1008))
+            e.Graphics.DrawString(f.razrab, font, New SolidBrush(Color.Black), New PointF(119, 1008))
+            e.Graphics.DrawString("Пров.", font, New SolidBrush(Color.Black), New PointF(54, 1028))
+            e.Graphics.DrawString(f.prov, font, New SolidBrush(Color.Black), New PointF(119, 1028))
+            e.Graphics.DrawString("Согл.", font, New SolidBrush(Color.Black), New PointF(54, 1048))
+            e.Graphics.DrawString(f.sogl, font, New SolidBrush(Color.Black), New PointF(119, 1048))
+            e.Graphics.DrawString("Т. контр.", font, New SolidBrush(Color.Black), New PointF(54, 1068))
+            e.Graphics.DrawString(f.tkontr, font, New SolidBrush(Color.Black), New PointF(119, 1068))
+            e.Graphics.DrawString("Н. контр.", font, New SolidBrush(Color.Black), New PointF(54, 1088))
+            e.Graphics.DrawString(f.nkontr, font, New SolidBrush(Color.Black), New PointF(119, 1088))
+            e.Graphics.DrawString("Утв.", font, New SolidBrush(Color.Black), New PointF(54, 1107))
+            e.Graphics.DrawString(f.utv, font, New SolidBrush(Color.Black), New PointF(119, 1107))
+
+            e.Graphics.DrawString("Лит.", font, New SolidBrush(Color.Black), New PointF(590, 970))
+            e.Graphics.DrawString("Масса", font, New SolidBrush(Color.Black), New PointF(650, 970))
+            e.Graphics.DrawString("Масштаб", font, New SolidBrush(Color.Black), New PointF(710, 970))
+
+            e.Graphics.DrawString("Лист: " & f.list, font, New SolidBrush(Color.Black), New PointF(580, 1048))
+            e.Graphics.DrawString("Листов: " & f.listov, font, New SolidBrush(Color.Black), New PointF(660, 1048))
+            Dim L As Integer
+            L = e.Graphics.MeasureString(f.type, font).Width
+            e.Graphics.DrawString(f.type, font, New SolidBrush(Color.Black), New PointF(306 + (270 - L) / 2, 1045))
+
+            fs = FontStyle.Italic Or FontStyle.Bold
+            font = New Font(fnt.Families(0), 17, fs)
+            Dim names() As String = f.name.Split(vbCrLf)
+            L = e.Graphics.MeasureString(names(0), font).Width
+            e.Graphics.DrawString(names(0), font, New SolidBrush(Color.Black), New PointF(306 + (270 - L) / 2, 972))
+            If names.Length > 1 Then
+                L = e.Graphics.MeasureString(names(1), font).Width
+                e.Graphics.DrawString(names(1), font, New SolidBrush(Color.Black), New PointF(306 + (270 - L) / 2, 974))
+            End If
+
+            fs = FontStyle.Italic
+            font = New Font(fnt.Families(0), 20, fs)
+            L = e.Graphics.MeasureString(f.massa, font).Width
+            e.Graphics.DrawString(f.massa, font, New SolidBrush(Color.Black), New PointF(630 + (70 - L) / 2, 1002))
+            L = e.Graphics.MeasureString(f.mashtab, font).Width
+            e.Graphics.DrawString(f.mashtab, font, New SolidBrush(Color.Black), New PointF(700 + (70 - L) / 2, 1002))
+
+            fs = FontStyle.Italic Or FontStyle.Bold
+            font = New Font(fnt.Families(0), 20, fs)
+
+            L = e.Graphics.MeasureString(f.org1, font).Width
+            e.Graphics.DrawString(f.org1, font, New SolidBrush(Color.Black), New PointF(570 + (200 - L) / 2, 1065))
+            L = e.Graphics.MeasureString(f.org2, font).Width
+            e.Graphics.DrawString(f.org2, font, New SolidBrush(Color.Black), New PointF(570 + (200 - L) / 2, 1091))
+
+
+            L = e.Graphics.MeasureString(f.number, font).Width
+            e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(770 - L, 936))
+
+            fs = FontStyle.Italic
+            font = New Font(fnt.Families(0), 11, fs)
+            e.Graphics.TranslateTransform(8, 1120)
+            e.Graphics.RotateTransform(270)
+            e.Graphics.DrawString("Инв. № подл.", font, New SolidBrush(Color.Black), New PointF(10, 0))
+            e.Graphics.DrawString("Подп. и дата", font, New SolidBrush(Color.Black), New PointF(110, 0))
+            e.Graphics.DrawString("Взам. инв. №", font, New SolidBrush(Color.Black), New PointF(240, 0))
+            e.Graphics.DrawString("Инв. № дубл.", font, New SolidBrush(Color.Black), New PointF(350, 0))
+            e.Graphics.DrawString("Подп. и дата", font, New SolidBrush(Color.Black), New PointF(446, 0))
+            e.Graphics.DrawString("Справ. №", font, New SolidBrush(Color.Black), New PointF(760, 0))
+            e.Graphics.DrawString("Перв. примен.", font, New SolidBrush(Color.Black), New PointF(960, 0))
+
+            fs = FontStyle.Italic Or FontStyle.Bold
+            font = New Font(fnt.Families(0), 18, fs)
+            e.Graphics.TranslateTransform(1070, 328)
+            e.Graphics.RotateTransform(270)
+            e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(10, 0))
+
+            '***********************************************
+            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 0, X_ + 185 * k, Y_ + 0)
+            'e.Graphics.DrawLine(pen2, X_ - 0, Y_ + 14 * k, X_ + 70 * k, Y_ + 14 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 60 * k, X_ + 0, Y_ + 60 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 120 * k, X_ + 0, Y_ + 120 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 142 * k, X_ + 0, Y_ + 142 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 177 * k, X_ + 0, Y_ + 177 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 202 * k, X_ + 0, Y_ + 202 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 227 * k, X_ + 0, Y_ + 227 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 262 * k, X_ + 0, Y_ + 262 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 287 * k, X_ + 185 * k, Y_ + 287 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 0 * k, X_ - 12 * k, Y_ + 120 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 142 * k, X_ - 12 * k, Y_ + 287 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 7 * k, Y_ + 142 * k, X_ - 7 * k, Y_ + 287 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 7 * k, Y_ + 0 * k, X_ - 7 * k, Y_ + 120 * k)
+            'e.Graphics.DrawLine(pen2, X_ - 0 * k, Y_ + 0 * k, X_ - 0 * k, Y_ + 287 * k)
+            'e.Graphics.DrawLine(pen2, X_ + 70 * k, Y_ + 0 * k, X_ + 70 * k, Y_ + 14 * k)
+            'e.Graphics.DrawLine(pen2, X_ + 185 * k, Y_ + 0 * k, X_ + 185 * k, Y_ + 287 * k)
+            ''Код общей рамки А4
+            ''Основная надпись А41
+            'For i = 5 To 50 Step 5
+            '    If i = 30 Or i = 35 Then
+            '        e.Graphics.DrawLine(pen2, X_ - 0 * k, Y_ + (287 - i) * k, X_ + 65 * k, Y_ + (287 - i) * k)
+            '    Else
+            '        e.Graphics.DrawLine(pen1, X_ - 0 * k, Y_ + (287 - i) * k, X_ + 65 * k, Y_ + (287 - i) * k)
+            '    End If
+            'Next
+            'e.Graphics.DrawLine(pen2, X_ + 65 * k, Y_ + 272 * k, X_ + 185 * k, Y_ + 272 * k) 
+
+        End If
     End Sub
 
     Private Sub PbNumber_Paint(sender As Object, e As PaintEventArgs) Handles pbNumber.Paint
@@ -2397,11 +2650,16 @@ StartFile:
     End Function
 
     Public Sub DisConnect(n1 As Integer, n2 As Integer)
+        Static nErr As Integer
         isCycle = False
         LabelSig.BackColor = Color.Red
         Application.DoEvents()
+        nErr += 1
         If isChanging Then
-            MsgBox("Одновременно более двух процессов пытаются получить доступ к функции Public Sub DisConnect(n1 As Integer, n2 As Integer)")
+
+            If nErr > 200 Then
+                MsgBox("Одновременно более двух процессов пытаются получить доступ к функции Public Sub DisConnect(n1 As Integer, n2 As Integer)")
+            End If
         End If
         If isCheckUI Then
             Do While isCheckUI
@@ -2448,6 +2706,7 @@ StartFile:
             Dim bat As eBat = eComp.component
             bat.CheckUI(0, 0)
         End If
+        nErr -= 1
     End Sub
 
     Private Sub PictureBox_Lmp_Click(sender As Object, e As EventArgs) Handles PictureBox_Lmp.Click
@@ -2561,6 +2820,10 @@ StartFile:
         FormLicense.Visible = True
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+    End Sub
+
     Sub Undo()
         Dim saveArray As ArrayList
 
@@ -2651,6 +2914,17 @@ StartFile:
                     }
                     Elements.Add(eComp)
                     Me.Controls.Add(res)
+                End If
+                'eRele
+                If aComp(0) = "eRele" Then
+                    Dim re As New eRele(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+                    eComp = New EComponent With {
+                        .aType = "eRele",
+                        .numInArray = re.num,
+                        .component = re
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(re)
                 End If
                 'eLamp
                 If aComp(0) = "eLamp" Then

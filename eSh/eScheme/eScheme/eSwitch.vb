@@ -238,11 +238,7 @@ Public Class eSwitch
         Throw New NotImplementedException()
     End Function
 
-    Public Function GetX() As Integer Implements IMovable.GetX
-        Throw New NotImplementedException()
-    End Function
-
-    Public Function GetY() As Integer Implements IMovable.GetY
+    Public Function GetX() As Integer Implements IMovable.GetX, IMovable.GetY
         Throw New NotImplementedException()
     End Function
 
