@@ -100,6 +100,7 @@ Public Class Form1
     Public RDioddefault As Single = 1
     Public FUSEdefault As Single = 10
     Public RELEdefault As Single = 59
+    Public TimeRePoDefault As Single = 500
     Public fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
     Public gost_font As Font
     Dim firstPoint As Point
@@ -1021,7 +1022,7 @@ Public Class Form1
         zx = e.X
         zy = e.Y
 
-        'ToolTip1.SetToolTip(Me, Mode)
+        ToolTip1.SetToolTip(Me, Mode)
         If Mode = "MoveMe" Then
             TextBox1.Text = "rx -Xstart=" + CStr(rx - moveXstart) + "  ry - Ystart=" + CStr(ry - moveYstart) + vbCrLf + TextBox1.Text
             If moveObject Is Nothing Then Exit Sub
@@ -1547,6 +1548,56 @@ nextAfterMove:
             Me.Cursor = Cursors.Default
             DoNeedSave()
         End If
+        If Mode.StartsWith("eRepo") Then
+            Dim eComp As New EComponent With {
+                            .aType = "eRepo",
+                            .numInArray = Elements.Count
+                        }
+            Elements.Add(eComp)
+            Dim pos As Integer
+            If Mode.EndsWith("1") Then
+                pos = 1
+            ElseIf Mode.EndsWith("2") Then
+                pos = 2
+            ElseIf Mode.EndsWith("3") Then
+                pos = 3
+            ElseIf Mode.EndsWith("4") Then
+                pos = 4
+            End If
+            Dim eRp As New eRepo(rx, ry, eComp.numInArray, TimeRePoDefault, 0, 0, pos, 0, 0, 0, 0)
+            Me.Controls.Add(eRp)
+            eComp.component = eRp
+
+            Mode = ""
+            CheckBox2.Checked = True
+            GroupBox1.Visible = True
+            CheckBox2.Visible = True
+            Me.Cursor = Cursors.Default
+            DoNeedSave()
+        End If
+        If Mode.StartsWith("eMotor") Then
+            Dim eComp As New EComponent With {
+                            .aType = "eMotor",
+                            .numInArray = Elements.Count
+                        }
+            Elements.Add(eComp)
+            Dim pos As Integer
+            If Mode.EndsWith("1") Then
+                pos = 1
+            Else
+                pos = 2
+            End If
+            Dim eMot As New eMotor(rx, ry, eComp.numInArray, 22, 0, 0, pos)
+            Me.Controls.Add(eMot)
+            eComp.component = eMot
+
+            Mode = ""
+            CheckBox2.Checked = True
+            GroupBox1.Visible = True
+            CheckBox2.Visible = True
+            Me.Cursor = Cursors.Default
+            DoNeedSave()
+        End If
         If Mode = "eGND" Then
             Dim eComp As New EComponent With {
                             .aType = "eGND",
@@ -1812,6 +1863,17 @@ StartFile:
                     Me.Controls.Add(re)
                     numOfRelay += 1
                 End If
+                'eRepo
+                If aComp(0) = "eRepo" Then
+                    Dim eRp As New eRepo(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7), aComp(8), aComp(9), aComp(10), aComp(11))
+                    eComp = New EComponent With {
+                        .aType = "eRele",
+                        .numInArray = eRp.num,
+                        .component = eRp
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(eRp)
+                End If
                 'eLamp
                 If aComp(0) = "eLamp" Then
                     Dim la As New eLamp(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
@@ -2029,7 +2091,7 @@ StartFile:
                     Me.Cursor = BuH_cur
                 Case "eButton2", "eSwitch2", "eSwitch3-2", "eRele2", "eRele4"
                     Me.Cursor = BuV_cur
-                Case "eBat"
+                Case "eBat", "eRepo1", "eRepo2", "eRepo3", "eRepo4"
                     Me.Cursor = element_cur
                 Case "newPoint"
                     Me.Cursor = Cursors.Hand
@@ -2139,6 +2201,16 @@ StartFile:
 
     Private Sub PictureBox1_Rele_Click(sender As Object, e As EventArgs) Handles PictureBox1_Rele.Click
         Mode = "eRele1"
+        HidePanel()
+    End Sub
+
+    Private Sub PictureBox1_Motor_Click(sender As Object, e As EventArgs) Handles PictureBox1_Motor.Click
+        Mode = "eMotor1"
+        HidePanel()
+    End Sub
+
+    Private Sub PictureBox1_Repo_Click(sender As Object, e As EventArgs) Handles PictureBox1_Repo.Click
+        Mode = "eRepo1"
         HidePanel()
     End Sub
 
@@ -2317,6 +2389,15 @@ StartFile:
                 Mode = "eRele1"
                 Me.Cursor = BuH_cur
             End If
+            If Mode = "eRepo1" Then
+                Mode = "eRepo2"
+            ElseIf Mode = "eRepo2" Then
+                Mode = "eRepo3"
+            ElseIf Mode = "eRepo3" Then
+                Mode = "eRepo4"
+            ElseIf Mode = "eRepo4" Then
+                Mode = "eRepo1"
+            End If
 
             If Mode <> "Delete" And Mode <> "Move" And Mode <> "createConnect" And Mode <> "" And Mode <> "newPoint" Then
                 lastMode = Mode
@@ -2436,6 +2517,8 @@ StartFile:
             L = e.Graphics.MeasureString(f.type, font).Width
             e.Graphics.DrawString(f.type, font, New SolidBrush(Color.Black), New PointF(306 + (270 - L) / 2, 1045))
 
+            e.Graphics.DrawString(lblKF_A4.Text, font, New SolidBrush(Color.Black), New PointF(440, 1124))
+
             fs = FontStyle.Italic Or FontStyle.Bold
             font = New Font(fnt.Families(0), 17, fs)
             Dim names() As String = f.name.Split(vbCrLf)
@@ -2482,36 +2565,208 @@ StartFile:
             e.Graphics.TranslateTransform(1070, 328)
             e.Graphics.RotateTransform(270)
             e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(10, 0))
+        End If
+        If f.format = "A42" Then
+            Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+            HideFormatText()
+            Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
+            ShowFormatA4_2()
+            Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+            e.Graphics.DrawImage(bm, New Rectangle(New Point(), New Size(img.Size.Width * 1.3, img.Size.Height * 1.3)), New Rectangle(New Point(10, 63), New Point(603, 888)), GraphicsUnit.Pixel)
 
-            '***********************************************
-            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 0, X_ + 185 * k, Y_ + 0)
-            'e.Graphics.DrawLine(pen2, X_ - 0, Y_ + 14 * k, X_ + 70 * k, Y_ + 14 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 60 * k, X_ + 0, Y_ + 60 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 120 * k, X_ + 0, Y_ + 120 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 142 * k, X_ + 0, Y_ + 142 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 177 * k, X_ + 0, Y_ + 177 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 202 * k, X_ + 0, Y_ + 202 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 227 * k, X_ + 0, Y_ + 227 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 262 * k, X_ + 0, Y_ + 262 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 287 * k, X_ + 185 * k, Y_ + 287 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 0 * k, X_ - 12 * k, Y_ + 120 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 12 * k, Y_ + 142 * k, X_ - 12 * k, Y_ + 287 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 7 * k, Y_ + 142 * k, X_ - 7 * k, Y_ + 287 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 7 * k, Y_ + 0 * k, X_ - 7 * k, Y_ + 120 * k)
-            'e.Graphics.DrawLine(pen2, X_ - 0 * k, Y_ + 0 * k, X_ - 0 * k, Y_ + 287 * k)
-            'e.Graphics.DrawLine(pen2, X_ + 70 * k, Y_ + 0 * k, X_ + 70 * k, Y_ + 14 * k)
-            'e.Graphics.DrawLine(pen2, X_ + 185 * k, Y_ + 0 * k, X_ + 185 * k, Y_ + 287 * k)
-            ''Код общей рамки А4
-            ''Основная надпись А41
-            'For i = 5 To 50 Step 5
-            '    If i = 30 Or i = 35 Then
-            '        e.Graphics.DrawLine(pen2, X_ - 0 * k, Y_ + (287 - i) * k, X_ + 65 * k, Y_ + (287 - i) * k)
-            '    Else
-            '        e.Graphics.DrawLine(pen1, X_ - 0 * k, Y_ + (287 - i) * k, X_ + 65 * k, Y_ + (287 - i) * k)
-            '    End If
-            'Next
-            'e.Graphics.DrawLine(pen2, X_ + 65 * k, Y_ + 272 * k, X_ + 185 * k, Y_ + 272 * k) 
+            Dim fs As New FontStyle
+            fs = FontStyle.Italic
+            Dim font As New Font(fnt.Families(0), 11, fs)
 
+            e.Graphics.DrawString("Изм.", font, New SolidBrush(Color.Black), New PointF(53, 1106))
+            e.Graphics.DrawString("Лист", font, New SolidBrush(Color.Black), New PointF(82, 1106))
+            e.Graphics.DrawString("№ докум", font, New SolidBrush(Color.Black), New PointF(140, 1106))
+            e.Graphics.DrawString("Подп.", font, New SolidBrush(Color.Black), New PointF(220, 1106))
+            e.Graphics.DrawString("Дата", font, New SolidBrush(Color.Black), New PointF(270, 1106))
+
+            e.Graphics.DrawString("Лист", font, New SolidBrush(Color.Black), New PointF(736, 1070))
+            e.Graphics.DrawString(f.list, font, New SolidBrush(Color.Black), New PointF(740, 1098))
+            Dim L As Integer
+
+            e.Graphics.DrawString(lblKF_A4.Text, font, New SolidBrush(Color.Black), New PointF(440, 1124))
+
+            fs = FontStyle.Italic Or FontStyle.Bold
+            font = New Font(fnt.Families(0), 20, fs)
+
+            L = e.Graphics.MeasureString(f.number, font).Width
+            e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(730 - L, 1080))
+
+            fs = FontStyle.Italic
+            font = New Font(fnt.Families(0), 11, fs)
+            e.Graphics.TranslateTransform(8, 1120)
+            e.Graphics.RotateTransform(270)
+            e.Graphics.DrawString("Инв. № подл.", font, New SolidBrush(Color.Black), New PointF(10, 0))
+            e.Graphics.DrawString("Подп. и дата", font, New SolidBrush(Color.Black), New PointF(110, 0))
+            e.Graphics.DrawString("Взам. инв. №", font, New SolidBrush(Color.Black), New PointF(240, 0))
+            e.Graphics.DrawString("Инв. № дубл.", font, New SolidBrush(Color.Black), New PointF(350, 0))
+            e.Graphics.DrawString("Подп. и дата", font, New SolidBrush(Color.Black), New PointF(446, 0))
+
+            fs = FontStyle.Italic Or FontStyle.Bold
+            font = New Font(fnt.Families(0), 18, fs)
+            e.Graphics.TranslateTransform(1070, 328)
+            e.Graphics.RotateTransform(270)
+            e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(10, 0))
+
+
+        End If
+        If f.format = "A31" Then
+            Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+            HideFormatText()
+            Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
+            ShowFormatA3_1()
+            Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+            e.Graphics.DrawImage(bm, New Rectangle(New Point(), New Size(img.Size.Width * 1.3, img.Size.Height * 1.3)), New Rectangle(New Point(10, 63), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
+
+
+            Dim fs As New FontStyle
+            fs = FontStyle.Italic
+            Dim font As New Font(fnt.Families(0), 11, fs)
+            Dim ks As Integer = 819 'Смещение для формата А3
+
+            e.Graphics.DrawString("Изм.", font, New SolidBrush(Color.Black), New PointF(53 + ks, 990))
+            e.Graphics.DrawString("Лист", font, New SolidBrush(Color.Black), New PointF(82 + ks, 990))
+            e.Graphics.DrawString("№ докум", font, New SolidBrush(Color.Black), New PointF(140 + ks, 990))
+            e.Graphics.DrawString("Подп.", font, New SolidBrush(Color.Black), New PointF(220 + ks, 990))
+            e.Graphics.DrawString("Дата", font, New SolidBrush(Color.Black), New PointF(270 + ks, 990))
+            e.Graphics.DrawString("Разраб.", font, New SolidBrush(Color.Black), New PointF(54 + ks, 1008))
+            e.Graphics.DrawString(f.razrab, font, New SolidBrush(Color.Black), New PointF(119 + ks, 1008))
+            e.Graphics.DrawString("Пров.", font, New SolidBrush(Color.Black), New PointF(54 + ks, 1028))
+            e.Graphics.DrawString(f.prov, font, New SolidBrush(Color.Black), New PointF(119 + ks, 1028))
+            e.Graphics.DrawString("Согл.", font, New SolidBrush(Color.Black), New PointF(54 + ks, 1048))
+            e.Graphics.DrawString(f.sogl, font, New SolidBrush(Color.Black), New PointF(119 + ks, 1048))
+            e.Graphics.DrawString("Т. контр.", font, New SolidBrush(Color.Black), New PointF(54 + ks, 1068))
+            e.Graphics.DrawString(f.tkontr, font, New SolidBrush(Color.Black), New PointF(119 + ks, 1068))
+            e.Graphics.DrawString("Н. контр.", font, New SolidBrush(Color.Black), New PointF(54 + ks, 1088))
+            e.Graphics.DrawString(f.nkontr, font, New SolidBrush(Color.Black), New PointF(119 + ks, 1088))
+            e.Graphics.DrawString("Утв.", font, New SolidBrush(Color.Black), New PointF(54 + ks, 1107))
+            e.Graphics.DrawString(f.utv, font, New SolidBrush(Color.Black), New PointF(119 + ks, 1107))
+
+            e.Graphics.DrawString("Лит.", font, New SolidBrush(Color.Black), New PointF(590 + ks, 970))
+            e.Graphics.DrawString("Масса", font, New SolidBrush(Color.Black), New PointF(650 + ks, 970))
+            e.Graphics.DrawString("Масштаб", font, New SolidBrush(Color.Black), New PointF(710 + ks, 970))
+
+            e.Graphics.DrawString("Лист: " & f.list, font, New SolidBrush(Color.Black), New PointF(580 + ks, 1048))
+            e.Graphics.DrawString("Листов: " & f.listov, font, New SolidBrush(Color.Black), New PointF(660 + ks, 1048))
+            Dim L As Integer
+            L = e.Graphics.MeasureString(f.type, font).Width
+            e.Graphics.DrawString(f.type, font, New SolidBrush(Color.Black), New PointF(306 + ks + (270 - L) / 2, 1045))
+
+            e.Graphics.DrawString(lblKF_A3.Text, font, New SolidBrush(Color.Black), New PointF(440 + ks, 1124))
+
+            fs = FontStyle.Italic Or FontStyle.Bold
+            font = New Font(fnt.Families(0), 17, fs)
+            Dim names() As String = f.name.Split(vbCrLf)
+            L = e.Graphics.MeasureString(names(0), font).Width
+            e.Graphics.DrawString(names(0), font, New SolidBrush(Color.Black), New PointF(306 + ks + (270 - L) / 2, 972))
+            If names.Length > 1 Then
+                L = e.Graphics.MeasureString(names(1), font).Width
+                e.Graphics.DrawString(names(1), font, New SolidBrush(Color.Black), New PointF(306 + ks + (270 - L) / 2, 974))
+            End If
+
+            fs = FontStyle.Italic
+            font = New Font(fnt.Families(0), 20, fs)
+            L = e.Graphics.MeasureString(f.massa, font).Width
+            e.Graphics.DrawString(f.massa, font, New SolidBrush(Color.Black), New PointF(630 + ks + (70 - L) / 2, 1002))
+            L = e.Graphics.MeasureString(f.mashtab, font).Width
+            e.Graphics.DrawString(f.mashtab, font, New SolidBrush(Color.Black), New PointF(700 + ks + (70 - L) / 2, 1002))
+
+            fs = FontStyle.Italic Or FontStyle.Bold
+            font = New Font(fnt.Families(0), 20, fs)
+
+            L = e.Graphics.MeasureString(f.org1, font).Width
+            e.Graphics.DrawString(f.org1, font, New SolidBrush(Color.Black), New PointF(570 + ks + (200 - L) / 2, 1065))
+            L = e.Graphics.MeasureString(f.org2, font).Width
+            e.Graphics.DrawString(f.org2, font, New SolidBrush(Color.Black), New PointF(570 + ks + (200 - L) / 2, 1091))
+
+
+            L = e.Graphics.MeasureString(f.number, font).Width
+            e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(770 + ks - L, 936))
+
+            fs = FontStyle.Italic
+            font = New Font(fnt.Families(0), 11, fs)
+            e.Graphics.TranslateTransform(8, 1120)
+            e.Graphics.RotateTransform(270)
+            e.Graphics.DrawString("Инв. № подл.", font, New SolidBrush(Color.Black), New PointF(10, 0))
+            e.Graphics.DrawString("Подп. и дата", font, New SolidBrush(Color.Black), New PointF(110, 0))
+            e.Graphics.DrawString("Взам. инв. №", font, New SolidBrush(Color.Black), New PointF(240, 0))
+            e.Graphics.DrawString("Инв. № дубл.", font, New SolidBrush(Color.Black), New PointF(350, 0))
+            e.Graphics.DrawString("Подп. и дата", font, New SolidBrush(Color.Black), New PointF(446, 0))
+            e.Graphics.DrawString("Справ. №", font, New SolidBrush(Color.Black), New PointF(760, 0))
+            e.Graphics.DrawString("Перв. примен.", font, New SolidBrush(Color.Black), New PointF(960, 0))
+
+            fs = FontStyle.Italic Or FontStyle.Bold
+            font = New Font(fnt.Families(0), 18, fs)
+            e.Graphics.TranslateTransform(1070, 328)
+            e.Graphics.RotateTransform(270)
+            e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(10, 0))
+        End If
+        If f.format = "A32" Then
+            Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+            HideFormatText()
+            Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
+            ShowFormatA3_2()
+            Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+            e.Graphics.DrawImage(bm, New Rectangle(New Point(), New Size(img.Size.Width * 1.3, img.Size.Height * 1.3)), New Rectangle(New Point(10, 63), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
+
+
+            Dim fs As New FontStyle
+            fs = FontStyle.Italic
+            Dim font As New Font(fnt.Families(0), 11, fs)
+            Dim ks As Integer = 819 'Смещение для формата А3
+
+            e.Graphics.DrawString("Изм.", font, New SolidBrush(Color.Black), New PointF(53 + ks, 1106))
+            e.Graphics.DrawString("Лист", font, New SolidBrush(Color.Black), New PointF(82 + ks, 1106))
+            e.Graphics.DrawString("№ докум", font, New SolidBrush(Color.Black), New PointF(140 + ks, 1106))
+            e.Graphics.DrawString("Подп.", font, New SolidBrush(Color.Black), New PointF(220 + ks, 1106))
+            e.Graphics.DrawString("Дата", font, New SolidBrush(Color.Black), New PointF(270 + ks, 1106))
+
+            e.Graphics.DrawString("Лист", font, New SolidBrush(Color.Black), New PointF(736 + ks, 1070))
+            e.Graphics.DrawString(f.list, font, New SolidBrush(Color.Black), New PointF(740 + ks, 1098))
+            Dim L As Integer
+
+            e.Graphics.DrawString(lblKF_A3.Text, font, New SolidBrush(Color.Black), New PointF(440 + ks, 1124))
+
+            fs = FontStyle.Italic Or FontStyle.Bold
+            font = New Font(fnt.Families(0), 20, fs)
+
+            L = e.Graphics.MeasureString(f.number, font).Width
+            e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(730 + ks - L, 1080))
+
+            fs = FontStyle.Italic
+            font = New Font(fnt.Families(0), 11, fs)
+            e.Graphics.TranslateTransform(8, 1120)
+            e.Graphics.RotateTransform(270)
+            e.Graphics.DrawString("Инв. № подл.", font, New SolidBrush(Color.Black), New PointF(10, 0))
+            e.Graphics.DrawString("Подп. и дата", font, New SolidBrush(Color.Black), New PointF(110, 0))
+            e.Graphics.DrawString("Взам. инв. №", font, New SolidBrush(Color.Black), New PointF(240, 0))
+            e.Graphics.DrawString("Инв. № дубл.", font, New SolidBrush(Color.Black), New PointF(350, 0))
+            e.Graphics.DrawString("Подп. и дата", font, New SolidBrush(Color.Black), New PointF(446, 0))
+
+            fs = FontStyle.Italic Or FontStyle.Bold
+            font = New Font(fnt.Families(0), 18, fs)
+            e.Graphics.TranslateTransform(1070, 328)
+            e.Graphics.RotateTransform(270)
+            e.Graphics.DrawString(f.number, font, New SolidBrush(Color.Black), New PointF(10, 0))
+
+
+        End If
+        If f.format = "" Then
+            If e.PageSettings.PaperSize.PaperName = "A4" Then
+                Dim bm As New Bitmap(613, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613, 944)))
+                Dim img As New Bitmap(603, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                e.Graphics.DrawImage(bm, New Rectangle(New Point(), New Size(img.Size.Width * 1.3, img.Size.Height * 1.3)), New Rectangle(New Point(10, 63), New Point(603, 888)), GraphicsUnit.Pixel)
+            Else
+                Dim bm As New Bitmap(613 + 630, 944, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                Me.DrawToBitmap(bm, New Rectangle(New Point(0, 0), New Point(613 + 630, 944)))
+                Dim img As New Bitmap(603 + 630, 888, Drawing.Imaging.PixelFormat.Format32bppArgb)
+                e.Graphics.DrawImage(bm, New Rectangle(New Point(), New Size(img.Size.Width * 1.3, img.Size.Height * 1.3)), New Rectangle(New Point(10, 63), New Point(603 + 630, 888)), GraphicsUnit.Pixel)
+            End If
         End If
     End Sub
 
@@ -2820,8 +3075,19 @@ StartFile:
         FormLicense.Visible = True
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub ПечатьToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ПечатьToolStripMenuItem2.Click
+        Dim dlgSettings As New PrintDialog With {
+                    .Document = PrintDocument1,
+                    .AllowPrintToFile = True,
+                    .AllowSelection = False
+                }
 
+        Dim result As DialogResult = dlgSettings.ShowDialog
+
+        If result = DialogResult.OK Then
+            PrintPreviewDialog1.Document = PrintDocument1
+            PrintPreviewDialog1.ShowDialog()
+        End If
     End Sub
 
     Sub Undo()
@@ -2925,6 +3191,17 @@ StartFile:
                     }
                     Elements.Add(eComp)
                     Me.Controls.Add(re)
+                End If
+                'eRepo
+                If aComp(0) = "eRepo" Then
+                    Dim eRp As New eRepo(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7), aComp(8), aComp(9), aComp(10), aComp(11))
+                    eComp = New EComponent With {
+                        .aType = "eRele",
+                        .numInArray = eRp.num,
+                        .component = eRp
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(eRp)
                 End If
                 'eLamp
                 If aComp(0) = "eLamp" Then

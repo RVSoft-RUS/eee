@@ -1,27 +1,27 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Form1
-	Inherits System.Windows.Forms.Form
+    Inherits System.Windows.Forms.Form
 
-	'Форма переопределяет dispose для очистки списка компонентов.
-	<System.Diagnostics.DebuggerNonUserCode()>
-	Protected Overrides Sub Dispose(ByVal disposing As Boolean)
-		Try
-			If disposing AndAlso components IsNot Nothing Then
-				components.Dispose()
-			End If
-		Finally
-			MyBase.Dispose(disposing)
-		End Try
-	End Sub
+    'Форма переопределяет dispose для очистки списка компонентов.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
 
-	'Является обязательной для конструктора форм Windows Forms
-	Private components As System.ComponentModel.IContainer
+    'Является обязательной для конструктора форм Windows Forms
+    Private components As System.ComponentModel.IContainer
 
-	'Примечание: следующая процедура является обязательной для конструктора форм Windows Forms
-	'Для ее изменения используйте конструктор форм Windows Form.  
-	'Не изменяйте ее в редакторе исходного кода.
-	<System.Diagnostics.DebuggerStepThrough()>
-	Private Sub InitializeComponent()
+    'Примечание: следующая процедура является обязательной для конструктора форм Windows Forms
+    'Для ее изменения используйте конструктор форм Windows Form.  
+    'Не изменяйте ее в редакторе исходного кода.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -33,8 +33,8 @@ Partial Class Form1
         Me.Label_A4 = New System.Windows.Forms.Label()
         Me.PictureBox_Delete = New System.Windows.Forms.PictureBox()
         Me.PictureBox18 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox17 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox16 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox1_Repo = New System.Windows.Forms.PictureBox()
+        Me.PictureBox1_Motor = New System.Windows.Forms.PictureBox()
         Me.PictureBox15 = New System.Windows.Forms.PictureBox()
         Me.PictureBox_Switch3 = New System.Windows.Forms.PictureBox()
         Me.PictureBox_BorderText = New System.Windows.Forms.Label()
@@ -62,6 +62,8 @@ Partial Class Form1
         Me.СохранитьToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.СохранитькакToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ПечатьToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ВыходToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.СервисToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.НастройкиToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -110,6 +112,9 @@ Partial Class Form1
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.ProgressBar = New System.Windows.Forms.ProgressBar()
         Me.ListBox1 = New System.Windows.Forms.ListBox()
+        Me.PrintPreviewDialog1 = New System.Windows.Forms.PrintPreviewDialog()
+        Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
+        Me.PageSetupDialog1 = New System.Windows.Forms.PageSetupDialog()
         Me.pbNumber = New System.Windows.Forms.PictureBox()
         Me.pb7 = New System.Windows.Forms.PictureBox()
         Me.pb6 = New System.Windows.Forms.PictureBox()
@@ -118,17 +123,14 @@ Partial Class Form1
         Me.pb3 = New System.Windows.Forms.PictureBox()
         Me.pb2 = New System.Windows.Forms.PictureBox()
         Me.pb1 = New System.Windows.Forms.PictureBox()
-        Me.PrintPreviewDialog1 = New System.Windows.Forms.PrintPreviewDialog()
-        Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
-        Me.PageSetupDialog1 = New System.Windows.Forms.PageSetupDialog()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox_Lmp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_Move, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_Resist, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_Delete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox18, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox1_Repo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox1_Motor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_Switch3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_Fuse, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -165,8 +167,8 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.Label_A4)
         Me.GroupBox1.Controls.Add(Me.PictureBox_Delete)
         Me.GroupBox1.Controls.Add(Me.PictureBox18)
-        Me.GroupBox1.Controls.Add(Me.PictureBox17)
-        Me.GroupBox1.Controls.Add(Me.PictureBox16)
+        Me.GroupBox1.Controls.Add(Me.PictureBox1_Repo)
+        Me.GroupBox1.Controls.Add(Me.PictureBox1_Motor)
         Me.GroupBox1.Controls.Add(Me.PictureBox15)
         Me.GroupBox1.Controls.Add(Me.PictureBox_Switch3)
         Me.GroupBox1.Controls.Add(Me.PictureBox_BorderText)
@@ -298,31 +300,32 @@ Partial Class Form1
         Me.PictureBox18.TabIndex = 31
         Me.PictureBox18.TabStop = False
         '
-        'PictureBox17
+        'PictureBox1_Repo
         '
-        Me.PictureBox17.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox17.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox17.Image = CType(resources.GetObject("PictureBox17.Image"), System.Drawing.Image)
-        Me.PictureBox17.Location = New System.Drawing.Point(37, 287)
-        Me.PictureBox17.Name = "PictureBox17"
-        Me.PictureBox17.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox17.TabIndex = 30
-        Me.PictureBox17.TabStop = False
+        Me.PictureBox1_Repo.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox1_Repo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox1_Repo.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox1_Repo.Image = CType(resources.GetObject("PictureBox1_Repo.Image"), System.Drawing.Image)
+        Me.PictureBox1_Repo.Location = New System.Drawing.Point(37, 287)
+        Me.PictureBox1_Repo.Name = "PictureBox1_Repo"
+        Me.PictureBox1_Repo.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox1_Repo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1_Repo.TabIndex = 30
+        Me.PictureBox1_Repo.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox1_Repo, "РЕЛЕ ПОВОРОТОВ (R для поворота при размещении)")
         '
-        'PictureBox16
+        'PictureBox1_Motor
         '
-        Me.PictureBox16.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox16.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox16.Image = CType(resources.GetObject("PictureBox16.Image"), System.Drawing.Image)
-        Me.PictureBox16.Location = New System.Drawing.Point(5, 287)
-        Me.PictureBox16.Name = "PictureBox16"
-        Me.PictureBox16.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox16.TabIndex = 29
-        Me.PictureBox16.TabStop = False
+        Me.PictureBox1_Motor.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox1_Motor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox1_Motor.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox1_Motor.Image = CType(resources.GetObject("PictureBox1_Motor.Image"), System.Drawing.Image)
+        Me.PictureBox1_Motor.Location = New System.Drawing.Point(5, 287)
+        Me.PictureBox1_Motor.Name = "PictureBox1_Motor"
+        Me.PictureBox1_Motor.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox1_Motor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1_Motor.TabIndex = 29
+        Me.PictureBox1_Motor.TabStop = False
         '
         'PictureBox15
         '
@@ -484,7 +487,7 @@ Partial Class Form1
         Me.PictureBox_Lamp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox_Lamp.TabIndex = 10
         Me.PictureBox_Lamp.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Lamp, "Лампа")
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Lamp, "Лампа (R для поворота при размещении)")
         '
         'PictureBox_Massa
         '
@@ -542,10 +545,9 @@ Partial Class Form1
         'LabelSig
         '
         Me.LabelSig.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LabelSig.AutoSize = True
         Me.LabelSig.Location = New System.Drawing.Point(791, 22)
         Me.LabelSig.Name = "LabelSig"
-        Me.LabelSig.Size = New System.Drawing.Size(10, 13)
+        Me.LabelSig.Size = New System.Drawing.Size(10, 10)
         Me.LabelSig.TabIndex = 35
         Me.LabelSig.Text = " "
         Me.ToolTip1.SetToolTip(Me.LabelSig, "F5 - Обновить" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Shift - F12 - Сохранить изображение в файл *.png" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
@@ -562,7 +564,7 @@ Partial Class Form1
         '
         'ФайлToolStripMenuItem1
         '
-        Me.ФайлToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ОткрытьToolStripMenuItem1, Me.ВставитьФрагментToolStripMenuItem, Me.toolStripSeparator, Me.СохранитьToolStripMenuItem1, Me.СохранитькакToolStripMenuItem, Me.toolStripSeparator2, Me.ВыходToolStripMenuItem1})
+        Me.ФайлToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ОткрытьToolStripMenuItem1, Me.ВставитьФрагментToolStripMenuItem, Me.toolStripSeparator, Me.СохранитьToolStripMenuItem1, Me.СохранитькакToolStripMenuItem, Me.toolStripSeparator2, Me.ПечатьToolStripMenuItem2, Me.ToolStripSeparator3, Me.ВыходToolStripMenuItem1})
         Me.ФайлToolStripMenuItem1.Name = "ФайлToolStripMenuItem1"
         Me.ФайлToolStripMenuItem1.Size = New System.Drawing.Size(48, 20)
         Me.ФайлToolStripMenuItem1.Text = "&Файл"
@@ -613,6 +615,19 @@ Partial Class Form1
         '
         Me.toolStripSeparator2.Name = "toolStripSeparator2"
         Me.toolStripSeparator2.Size = New System.Drawing.Size(217, 6)
+        '
+        'ПечатьToolStripMenuItem2
+        '
+        Me.ПечатьToolStripMenuItem2.Image = CType(resources.GetObject("ПечатьToolStripMenuItem2.Image"), System.Drawing.Image)
+        Me.ПечатьToolStripMenuItem2.Name = "ПечатьToolStripMenuItem2"
+        Me.ПечатьToolStripMenuItem2.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
+        Me.ПечатьToolStripMenuItem2.Size = New System.Drawing.Size(220, 22)
+        Me.ПечатьToolStripMenuItem2.Text = "Печать"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(217, 6)
         '
         'ВыходToolStripMenuItem1
         '
@@ -1049,6 +1064,19 @@ Partial Class Form1
         Me.ListBox1.TabIndex = 62
         Me.ListBox1.Visible = False
         '
+        'PrintPreviewDialog1
+        '
+        Me.PrintPreviewDialog1.AutoScrollMargin = New System.Drawing.Size(0, 0)
+        Me.PrintPreviewDialog1.AutoScrollMinSize = New System.Drawing.Size(0, 0)
+        Me.PrintPreviewDialog1.ClientSize = New System.Drawing.Size(400, 300)
+        Me.PrintPreviewDialog1.Enabled = True
+        Me.PrintPreviewDialog1.Icon = CType(resources.GetObject("PrintPreviewDialog1.Icon"), System.Drawing.Icon)
+        Me.PrintPreviewDialog1.Name = "PrintPreviewDialog1"
+        Me.PrintPreviewDialog1.Visible = False
+        '
+        'PrintDocument1
+        '
+        '
         'pbNumber
         '
         Me.pbNumber.Location = New System.Drawing.Point(48, 44)
@@ -1128,19 +1156,6 @@ Partial Class Form1
         Me.pb1.TabIndex = 30
         Me.pb1.TabStop = False
         '
-        'PrintPreviewDialog1
-        '
-        Me.PrintPreviewDialog1.AutoScrollMargin = New System.Drawing.Size(0, 0)
-        Me.PrintPreviewDialog1.AutoScrollMinSize = New System.Drawing.Size(0, 0)
-        Me.PrintPreviewDialog1.ClientSize = New System.Drawing.Size(400, 300)
-        Me.PrintPreviewDialog1.Enabled = True
-        Me.PrintPreviewDialog1.Icon = CType(resources.GetObject("PrintPreviewDialog1.Icon"), System.Drawing.Icon)
-        Me.PrintPreviewDialog1.Name = "PrintPreviewDialog1"
-        Me.PrintPreviewDialog1.Visible = False
-        '
-        'PrintDocument1
-        '
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1208,8 +1223,8 @@ Partial Class Form1
         CType(Me.PictureBox_Resist, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox_Delete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox18, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1_Repo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1_Motor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox_Switch3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox_Fuse, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1239,101 +1254,103 @@ Partial Class Form1
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
-	Friend WithEvents PictureBox_Delete As PictureBox
-	Friend WithEvents PictureBox18 As PictureBox
-	Friend WithEvents PictureBox17 As PictureBox
-	Friend WithEvents PictureBox16 As PictureBox
-	Friend WithEvents PictureBox15 As PictureBox
-	Friend WithEvents PictureBox_Switch3 As PictureBox
-	Friend WithEvents PictureBox_BorderText As Label
-	Friend WithEvents PictureBox_Fuse As PictureBox
-	Friend WithEvents PictureBox1_Rele As PictureBox
-	Friend WithEvents PictureBox_Switch As PictureBox
-	Friend WithEvents PictureBox10 As PictureBox
-	Friend WithEvents PictureBox_eText As Label
-	Friend WithEvents PictureBox_Diod As PictureBox
-	Friend WithEvents PictureBox_Button As PictureBox
-	Friend WithEvents PictureBox_eBat As PictureBox
-	Friend WithEvents PictureBox_Lamp As PictureBox
-	Friend WithEvents PictureBox_Massa As PictureBox
-	Friend WithEvents PictureBox_Point As PictureBox
-	Friend WithEvents PictureBox_Provod As PictureBox
-	Friend WithEvents CheckBox2 As CheckBox
-	Friend WithEvents ToolTip1 As ToolTip
-	Friend WithEvents MenuStrip1 As MenuStrip
-	Friend WithEvents ФайлToolStripMenuItem1 As ToolStripMenuItem
-	Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
-	Friend WithEvents ОткрытьToolStripMenuItem1 As ToolStripMenuItem
-	Friend WithEvents ВставитьФрагментToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents toolStripSeparator As ToolStripSeparator
-	Friend WithEvents СохранитьToolStripMenuItem1 As ToolStripMenuItem
-	Friend WithEvents СохранитькакToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents toolStripSeparator2 As ToolStripSeparator
-	Friend WithEvents ВыходToolStripMenuItem1 As ToolStripMenuItem
-	Friend WithEvents СервисToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents НастройкиToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents ЛицензияToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents СправкаToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents СправкаToolStripMenuItem1 As ToolStripMenuItem
-	Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
-	Friend WithEvents ОпрограммеToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents Label_A4 As Label
-	Friend WithEvents SaveFileDialog1 As SaveFileDialog
-	Friend WithEvents OpenFileDialog1 As OpenFileDialog
-	Friend WithEvents txtNumber As TextBox
-	Friend WithEvents lblLit As Label
-	Friend WithEvents lblMassa As Label
-	Friend WithEvents lblMashtab As Label
-	Friend WithEvents lblListov As Label
-	Friend WithEvents lblList As Label
-	Friend WithEvents txtOrg1 As TextBox
-	Friend WithEvents txtOrg2 As TextBox
-	Friend WithEvents txtName As TextBox
-	Friend WithEvents txtType As TextBox
-	Friend WithEvents txtMassa As TextBox
-	Friend WithEvents lblKF_A4 As Label
-	Friend WithEvents pb1 As PictureBox
-	Friend WithEvents pb2 As PictureBox
-	Friend WithEvents pb3 As PictureBox
-	Friend WithEvents pb4 As PictureBox
-	Friend WithEvents pb5 As PictureBox
-	Friend WithEvents pb6 As PictureBox
-	Friend WithEvents pb7 As PictureBox
-	Friend WithEvents lblRazrab As Label
-	Friend WithEvents lblProv As Label
-	Friend WithEvents lblSogl As Label
-	Friend WithEvents lblUtv As Label
-	Friend WithEvents lblNcontr As Label
-	Friend WithEvents lblTcontr As Label
-	Friend WithEvents txtMashtab As TextBox
-	Friend WithEvents txtRazrab As TextBox
-	Friend WithEvents txtProv As TextBox
-	Friend WithEvents txtSogl As TextBox
-	Friend WithEvents txtUtv As TextBox
-	Friend WithEvents txtNcontr As TextBox
-	Friend WithEvents txtTcontr As TextBox
-	Friend WithEvents txtList As TextBox
-	Friend WithEvents txtListov As TextBox
-	Friend WithEvents lblIzm As Label
-	Friend WithEvents lbliList As Label
-	Friend WithEvents lblNdoc As Label
-	Friend WithEvents lblPodp As Label
-	Friend WithEvents lblDate As Label
-	Friend WithEvents pbNumber As PictureBox
-	Friend WithEvents lblKF_A3 As Label
-	Friend WithEvents TextBox1 As TextBox
-	Friend WithEvents ProgressBar As ProgressBar
-	Friend WithEvents EBat2 As eBat
-	Friend WithEvents PictureBox_Resist As PictureBox
-	Friend WithEvents LabelSig As Label
-	Friend WithEvents Button1 As Button
-	Friend WithEvents PictureBox_eComment As Label
-	Friend WithEvents СкрытьКомментарииToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents ПоказатьКомментарииToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents PictureBox_Move As PictureBox
-	Friend WithEvents PictureBox_Lmp As PictureBox
-	Friend WithEvents ListBox1 As ListBox
+    Friend WithEvents PictureBox_Delete As PictureBox
+    Friend WithEvents PictureBox18 As PictureBox
+    Friend WithEvents PictureBox1_Repo As PictureBox
+    Friend WithEvents PictureBox1_Motor As PictureBox
+    Friend WithEvents PictureBox15 As PictureBox
+    Friend WithEvents PictureBox_Switch3 As PictureBox
+    Friend WithEvents PictureBox_BorderText As Label
+    Friend WithEvents PictureBox_Fuse As PictureBox
+    Friend WithEvents PictureBox1_Rele As PictureBox
+    Friend WithEvents PictureBox_Switch As PictureBox
+    Friend WithEvents PictureBox10 As PictureBox
+    Friend WithEvents PictureBox_eText As Label
+    Friend WithEvents PictureBox_Diod As PictureBox
+    Friend WithEvents PictureBox_Button As PictureBox
+    Friend WithEvents PictureBox_eBat As PictureBox
+    Friend WithEvents PictureBox_Lamp As PictureBox
+    Friend WithEvents PictureBox_Massa As PictureBox
+    Friend WithEvents PictureBox_Point As PictureBox
+    Friend WithEvents PictureBox_Provod As PictureBox
+    Friend WithEvents CheckBox2 As CheckBox
+    Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents MenuStrip1 As MenuStrip
+    Friend WithEvents ФайлToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents ОткрытьToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents ВставитьФрагментToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents toolStripSeparator As ToolStripSeparator
+    Friend WithEvents СохранитьToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents СохранитькакToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents toolStripSeparator2 As ToolStripSeparator
+    Friend WithEvents ВыходToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents СервисToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents НастройкиToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ЛицензияToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents СправкаToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents СправкаToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents ОпрограммеToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Label_A4 As Label
+    Friend WithEvents SaveFileDialog1 As SaveFileDialog
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents txtNumber As TextBox
+    Friend WithEvents lblLit As Label
+    Friend WithEvents lblMassa As Label
+    Friend WithEvents lblMashtab As Label
+    Friend WithEvents lblListov As Label
+    Friend WithEvents lblList As Label
+    Friend WithEvents txtOrg1 As TextBox
+    Friend WithEvents txtOrg2 As TextBox
+    Friend WithEvents txtName As TextBox
+    Friend WithEvents txtType As TextBox
+    Friend WithEvents txtMassa As TextBox
+    Friend WithEvents lblKF_A4 As Label
+    Friend WithEvents pb1 As PictureBox
+    Friend WithEvents pb2 As PictureBox
+    Friend WithEvents pb3 As PictureBox
+    Friend WithEvents pb4 As PictureBox
+    Friend WithEvents pb5 As PictureBox
+    Friend WithEvents pb6 As PictureBox
+    Friend WithEvents pb7 As PictureBox
+    Friend WithEvents lblRazrab As Label
+    Friend WithEvents lblProv As Label
+    Friend WithEvents lblSogl As Label
+    Friend WithEvents lblUtv As Label
+    Friend WithEvents lblNcontr As Label
+    Friend WithEvents lblTcontr As Label
+    Friend WithEvents txtMashtab As TextBox
+    Friend WithEvents txtRazrab As TextBox
+    Friend WithEvents txtProv As TextBox
+    Friend WithEvents txtSogl As TextBox
+    Friend WithEvents txtUtv As TextBox
+    Friend WithEvents txtNcontr As TextBox
+    Friend WithEvents txtTcontr As TextBox
+    Friend WithEvents txtList As TextBox
+    Friend WithEvents txtListov As TextBox
+    Friend WithEvents lblIzm As Label
+    Friend WithEvents lbliList As Label
+    Friend WithEvents lblNdoc As Label
+    Friend WithEvents lblPodp As Label
+    Friend WithEvents lblDate As Label
+    Friend WithEvents pbNumber As PictureBox
+    Friend WithEvents lblKF_A3 As Label
+    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents ProgressBar As ProgressBar
+    Friend WithEvents EBat2 As eBat
+    Friend WithEvents PictureBox_Resist As PictureBox
+    Friend WithEvents LabelSig As Label
+    Friend WithEvents Button1 As Button
+    Friend WithEvents PictureBox_eComment As Label
+    Friend WithEvents СкрытьКомментарииToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ПоказатьКомментарииToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PictureBox_Move As PictureBox
+    Friend WithEvents PictureBox_Lmp As PictureBox
+    Friend WithEvents ListBox1 As ListBox
     Friend WithEvents PrintPreviewDialog1 As PrintPreviewDialog
     Friend WithEvents PrintDocument1 As Printing.PrintDocument
     Friend WithEvents PageSetupDialog1 As PageSetupDialog
+    Friend WithEvents ПечатьToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
 End Class

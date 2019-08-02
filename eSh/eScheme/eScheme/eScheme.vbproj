@@ -134,6 +134,12 @@
     <Compile Include="eLine.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="eMotor.Designer.vb">
+      <DependentUpon>eMotor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eMotor.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ePoint.Designer.vb">
       <DependentUpon>ePoint.vb</DependentUpon>
     </Compile>
@@ -144,6 +150,12 @@
       <DependentUpon>eRele.vb</DependentUpon>
     </Compile>
     <Compile Include="eRele.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="eRepo.Designer.vb">
+      <DependentUpon>eRepo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eRepo.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="eResist.Designer.vb">
@@ -263,11 +275,17 @@
     <EmbeddedResource Include="eLine.resx">
       <DependentUpon>eLine.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="eMotor.resx">
+      <DependentUpon>eMotor.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ePoint.resx">
       <DependentUpon>ePoint.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="eRele.resx">
       <DependentUpon>eRele.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eRepo.resx">
+      <DependentUpon>eRepo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="eResist.resx">
       <DependentUpon>eResist.vb</DependentUpon>
