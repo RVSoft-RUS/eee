@@ -47,8 +47,9 @@ Public Class eButton
 			}
 			Form1.Elements.Add(eComp)
             Dim p As New EPoint(X, Y, eComp.numInArray)
-            p.links.Add(num)
-            Form1.Controls.Add(p)
+			p.links.Add(num)
+			p.links.Add(-1)
+			Form1.Controls.Add(p)
 			eComp.component = p
 
 			eComp = New EComponent With {
@@ -57,8 +58,9 @@ Public Class eButton
 			}
 			Form1.Elements.Add(eComp)
             p = New EPoint(X + 40, Y, eComp.numInArray)
-            p.links.Add(num)
-            Form1.Controls.Add(p)
+			p.links.Add(num)
+			p.links.Add(-1)
+			Form1.Controls.Add(p)
 			eComp.component = p
 		End If
 		If Form1.Mode = "eButton2" Then 'Только при создании, при открытии файла не делать
@@ -68,6 +70,8 @@ Public Class eButton
 						}
 			Form1.Elements.Add(eComp)
 			Dim p As New EPoint(X, Y, eComp.numInArray)
+			p.links.Add(num)
+			p.links.Add(-1)
 			Form1.Controls.Add(p)
 			eComp.component = p
 
@@ -77,6 +81,8 @@ Public Class eButton
 				}
 			Form1.Elements.Add(eComp)
 			p = New EPoint(X, Y - 40, eComp.numInArray)
+			p.links.Add(num)
+			p.links.Add(-1)
 			Form1.Controls.Add(p)
 			eComp.component = p
 		End If
@@ -130,9 +136,9 @@ Public Class eButton
 		If value > 10 And value < 30000 Then
 			wTime = value
 		Else
-			If value < 10 Then wTime = 10
-			If value > 30000 Then wTime = 30000
-            MsgBox("Допустимое значение: от 10 до 30 000 мс." + vbCrLf + "Указанное значение " + CStr(value) + " установлено в " + CStr(wTime) + ".")
+			If value <= 10 Then wTime = 10
+			If value >= 30000 Then wTime = 30000
+			MsgBox("Допустимое значение: от 10 до 30 000 мс." + vbCrLf + "Указанное значение " + CStr(value) + " установлено в " + CStr(wTime) + ".")
         End If
 		Form1.DoNeedSave()
 	End Sub
@@ -235,8 +241,15 @@ Public Class eButton
         End If
 		If Not work Then
 			work = True
+			Dim eComp As EComponent = Form1.Elements(num + 1)
+			Dim p As EPoint = eComp.component 'Первая точка 
+			p.links.Remove(-1)
 
-            Form1.OnConnect(num + 1, num + 2)
+			eComp = Form1.Elements(num + 2)
+			p = eComp.component 'Вторая точка 
+			p.links.Remove(-1)
+
+			Form1.OnConnect(num + 1, num + 2)
 
             Timer1.Interval = wTime
 			Timer1.Enabled = True
@@ -268,6 +281,13 @@ Public Class eButton
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
 		Timer1.Enabled = False
 		work = False
+		Dim eComp As EComponent = Form1.Elements(num + 1)
+		Dim p As EPoint = eComp.component 'Первая точка 
+		p.links.Add(-1)
+
+		eComp = Form1.Elements(num + 2)
+		p = eComp.component 'Вторая точка 
+		p.links.Add(-1)
 		Form1.DisConnect(num + 1, num + 2)
 		If loc = 1 Then
 			pb2.Visible = False

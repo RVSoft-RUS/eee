@@ -188,6 +188,12 @@
     <Compile Include="eTextC.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="eXP.Designer.vb">
+      <DependentUpon>eXP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eXP.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -212,6 +218,12 @@
       <DependentUpon>FormOptions.vb</DependentUpon>
     </Compile>
     <Compile Include="FormOptions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_XPhelper.Designer.vb">
+      <DependentUpon>frm_XPhelper.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frm_XPhelper.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="hLine.Designer.vb">
@@ -302,6 +314,9 @@
     <EmbeddedResource Include="eTextC.resx">
       <DependentUpon>eTextC.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="eXP.resx">
+      <DependentUpon>eXP.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
@@ -313,6 +328,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_XPhelper.resx">
+      <DependentUpon>frm_XPhelper.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="hLine.resx">
       <DependentUpon>hLine.vb</DependentUpon>

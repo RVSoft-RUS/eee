@@ -346,79 +346,79 @@ Public Class eRele
         Me.Dispose()
     End Sub
 
-    Private Sub eRele_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter, pb1.MouseEnter, pb2.MouseEnter, pb3.MouseEnter, pb4.MouseEnter, pb5.MouseEnter, pb6.MouseEnter, pb7.MouseEnter, pb8.MouseEnter
-        ToolTip1.SetToolTip(pb1, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
-        ToolTip1.SetToolTip(pb2, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
-        ToolTip1.SetToolTip(pb3, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
-        ToolTip1.SetToolTip(pb4, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
-        ToolTip1.SetToolTip(pb5, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
-        ToolTip1.SetToolTip(pb6, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
-        ToolTip1.SetToolTip(pb7, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
-        ToolTip1.SetToolTip(pb8, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
+	Private Sub ERele_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter, pb1.MouseEnter, pb2.MouseEnter, pb3.MouseEnter, pb4.MouseEnter, pb5.MouseEnter, pb6.MouseEnter, pb7.MouseEnter, pb8.MouseEnter
+		ToolTip1.SetToolTip(pb1, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
+		ToolTip1.SetToolTip(pb2, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
+		ToolTip1.SetToolTip(pb3, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
+		ToolTip1.SetToolTip(pb4, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
+		ToolTip1.SetToolTip(pb5, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
+		ToolTip1.SetToolTip(pb6, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
+		ToolTip1.SetToolTip(pb7, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
+		ToolTip1.SetToolTip(pb8, "Сопротивление " + CStr(R) + " Ом," + vbCrLf + "Ток в катушке " + CStr((Math.Round(Ia, 3))) + " A")
 
-    End Sub
+	End Sub
 
-    Private Sub eRele_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick, pb1.MouseClick, pb2.MouseClick, pb3.MouseClick, pb4.MouseClick, pb5.MouseClick, pb6.MouseClick, pb7.MouseClick, pb8.MouseClick
-        If Form1.Mode = "Move" Then
-            Form1.moveObject = Me
-            Form1.Cursor = Cursors.SizeAll
-            Form1.moveXstart = Form1.rx
-            Form1.moveYstart = Form1.ry
-            Form1.Mode = "MoveMe"
-            Exit Sub
-        End If
-        If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
-            Form1.Mode = ""
-            Form1.GroupBox1.Visible = True
-            Form1.CheckBox2.Visible = True
-            Form1.CheckBox2.Checked = True
-            Form1.Cursor = Cursors.Default
-            Exit Sub
-        End If
-        If e.Button = MouseButtons.Right Then
-            ContextMenu1.Show(Me, e.X, e.Y)
-            Exit Sub
-        End If
-        If Form1.Mode = "Delete" Then
-            Dim eComp As EComponent = Form1.Elements(num + 1)
-            Dim p As EPoint = eComp.component 'Первая точка 
-            p.links.Remove(num + 2)
-            p.links.Remove(num + 3)
-            p.DeleteMe()
+	Private Sub ERele_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick, pb1.MouseClick, pb2.MouseClick, pb3.MouseClick, pb4.MouseClick, pb5.MouseClick, pb6.MouseClick, pb7.MouseClick, pb8.MouseClick
+		If Form1.Mode = "Move" Then
+			Form1.moveObject = Me
+			Form1.Cursor = Cursors.SizeAll
+			Form1.moveXstart = Form1.rx
+			Form1.moveYstart = Form1.ry
+			Form1.Mode = "MoveMe"
+			Exit Sub
+		End If
+		If Form1.Mode = "MoveMe" And e.Button = MouseButtons.Right Then
+			Form1.Mode = ""
+			Form1.GroupBox1.Visible = True
+			Form1.CheckBox2.Visible = True
+			Form1.CheckBox2.Checked = True
+			Form1.Cursor = Cursors.Default
+			Exit Sub
+		End If
+		If e.Button = MouseButtons.Right Then
+			ContextMenu1.Show(Me, e.X, e.Y)
+			Exit Sub
+		End If
+		If Form1.Mode = "Delete" Then
+			Dim eComp As EComponent = Form1.Elements(num + 1)
+			Dim p As EPoint = eComp.component 'Первая точка 
+			p.links.Remove(num + 2)
+			p.links.Remove(num + 3)
+			p.DeleteMe()
 
-            eComp = Form1.Elements(num + 2)
-            p = eComp.component 'Вторая точка 
-            p.links.Remove(num + 1)
-            p.links.Remove(-1)
-            p.DeleteMe()
+			eComp = Form1.Elements(num + 2)
+			p = eComp.component 'Вторая точка 
+			p.links.Remove(num + 1)
+			p.links.Remove(-1)
+			p.DeleteMe()
 
-            eComp = Form1.Elements(num + 3)
-            p = eComp.component '3 точка 
-            p.links.Remove(num + 1)
-            p.links.Remove(-1)
-            p.DeleteMe()
+			eComp = Form1.Elements(num + 3)
+			p = eComp.component '3 точка 
+			p.links.Remove(num + 1)
+			p.links.Remove(-1)
+			p.DeleteMe()
 
-            eComp = Form1.Elements(num + 4)
-            p = eComp.component '4 точка 
-            p.links.Remove(num)
-            p.DeleteMe()
+			eComp = Form1.Elements(num + 4)
+			p = eComp.component '4 точка 
+			p.links.Remove(num)
+			p.DeleteMe()
 
-            eComp = Form1.Elements(num + 5)
-            p = eComp.component '5 точка 
-            p.links.Remove(num)
-            p.DeleteMe()
+			eComp = Form1.Elements(num + 5)
+			p = eComp.component '5 точка 
+			p.links.Remove(num)
+			p.DeleteMe()
 
-            If Form1.f.Batt > 0 Then
-                eComp = Form1.Elements(Form1.f.Batt)
-                Dim bat As eBat = eComp.component
-                Form1.pointsInProcessUI.Clear()
-                bat.CheckUI(0, 0)
-            End If
-            Form1.Delete(num)
-        End If
-    End Sub
+			If Form1.f.Batt > 0 Then
+				eComp = Form1.Elements(Form1.f.Batt)
+				Dim bat As eBat = eComp.component
+				Form1.pointsInProcessUI.Clear()
+				bat.CheckUI(0, 0)
+			End If
+			Form1.Delete(num)
+		End If
+	End Sub
 
-    Public Function ForSave() As ArrayList Implements IConnectable.ForSave
+	Public Function ForSave() As ArrayList Implements IConnectable.ForSave
         Dim save As New ArrayList From {
             "eRele",
             num,
@@ -501,14 +501,13 @@ Public Class eRele
             eComp = Form1.Elements(num + 5)
             m = eComp.component
             mayMove5 = m.Move(Me, dX, dY)
-            'Form1.TextBox1.Text = "mayMove1=" + CStr(mayMove1) + "  mayMove2=" + CStr(mayMove2) + vbCrLf + Form1.TextBox1.Text
-            If mayMove1 And mayMove2 And mayMove3 And mayMove4 And mayMove5 Then
-                m_X = X + dX
-                m_Y = Y + dY
+			If mayMove1 And mayMove2 And mayMove3 And mayMove4 And mayMove5 Then
+				m_X = X + dX
+				m_Y = Y + dY
 
-                Return True
-            Else
-                Return False
+				Return True
+			Else
+				Return False
             End If
         Else
             Return False

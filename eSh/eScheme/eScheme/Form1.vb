@@ -1208,20 +1208,88 @@ nextAfterMove:
 
                 G.DrawRectangle(Pn, rx + 10, ry - 28, 20, 16)
             End If
-            If Mode = "eRele4" Then
-                Pn = New Pen(Color.Brown, 1)
-                G.DrawLine(Pn, rx, ry, rx, ry + 10)
-                G.DrawLine(Pn, rx, ry + 10, rx - 20, ry + 30)
-                G.DrawLine(Pn, rx - 20, ry + 30, rx - 20, ry + 40)
-                G.DrawLine(Pn, rx, ry + 30, rx, ry + 40)
+			If Mode = "eRele4" Then
+				Pn = New Pen(Color.Brown, 1)
+				G.DrawLine(Pn, rx, ry, rx, ry + 10)
+				G.DrawLine(Pn, rx, ry + 10, rx - 20, ry + 30)
+				G.DrawLine(Pn, rx - 20, ry + 30, rx - 20, ry + 40)
+				G.DrawLine(Pn, rx, ry + 30, rx, ry + 40)
 
-                G.DrawLine(Pn, rx - 10, ry + 20, rx + 10, ry + 20)
-                G.DrawLine(Pn, rx + 20, ry, rx + 20, ry + 12)
-                G.DrawLine(Pn, rx + 20, ry + 28, rx + 20, ry + 40)
+				G.DrawLine(Pn, rx - 10, ry + 20, rx + 10, ry + 20)
+				G.DrawLine(Pn, rx + 20, ry, rx + 20, ry + 12)
+				G.DrawLine(Pn, rx + 20, ry + 28, rx + 20, ry + 40)
 
-                G.DrawRectangle(Pn, rx + 10, ry + 12, 20, 16)
-            End If
-            If Mode = "eSwitch1" Then
+				G.DrawRectangle(Pn, rx + 10, ry + 12, 20, 16)
+			End If
+			If Mode = "eRepo1" Then
+				Pn = New Pen(Color.Brown, 1)
+				G.DrawLine(Pn, rx - 10, ry + 5, rx + 170, ry + 5)
+				G.DrawLine(Pn, rx + 170, ry + 5, rx + 170, ry + 35)
+				G.DrawLine(Pn, rx - 10, ry + 5, rx - 10, ry + 35)
+				G.DrawLine(Pn, rx - 10, ry + 35, rx + 170, ry + 35)
+
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 20, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 40, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 60, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 80, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 100, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 120, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 140, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 160, ry - 4, 8, 8)
+			End If
+			If Mode = "eRepo3" Then
+				Pn = New Pen(Color.Brown, 1)
+				G.DrawLine(Pn, rx - 10, ry - 5, rx + 170, ry - 5)
+				G.DrawLine(Pn, rx + 170, ry - 5, rx + 170, ry - 35)
+				G.DrawLine(Pn, rx - 10, ry - 5, rx - 10, ry - 35)
+				G.DrawLine(Pn, rx - 10, ry - 35, rx + 170, ry - 35)
+
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 20, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 40, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 60, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 80, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 100, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 120, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 140, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4 + 160, ry - 4, 8, 8)
+			End If
+			If Mode = "eRepo2" Then
+				Pn = New Pen(Color.Brown, 1)
+				G.DrawLine(Pn, rx + 5, ry + 10, rx + 5, ry - 170)
+				G.DrawLine(Pn, rx + 5, ry - 170, rx + 35, ry - 170)
+				G.DrawLine(Pn, rx + 5, ry + 10, rx + 35, ry + 10)
+				G.DrawLine(Pn, rx + 35, ry + 10, rx + 35, ry - 170)
+
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 20, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 40, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 60, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 80, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 100, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 120, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 140, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 160, 8, 8)
+			End If
+			If Mode = "eRepo4" Then
+				Pn = New Pen(Color.Brown, 1)
+				G.DrawLine(Pn, rx - 5, ry + 10, rx - 5, ry - 170)
+				G.DrawLine(Pn, rx - 5, ry - 170, rx - 35, ry - 170)
+				G.DrawLine(Pn, rx - 5, ry + 10, rx - 35, ry + 10)
+				G.DrawLine(Pn, rx - 35, ry + 10, rx - 35, ry - 170)
+
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 20, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 40, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 60, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 80, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 100, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 120, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 140, 8, 8)
+				G.FillEllipse(Brushes.Gray, rx - 4, ry - 4 - 160, 8, 8)
+			End If
+			If Mode = "eSwitch1" Then
                 Pn = New Pen(Color.Black, 1)
                 G.DrawLine(Pn, rx + 5, ry + 2, rx + 35, ry + 2)
                 G.DrawLine(Pn, rx + 35, ry + 2, rx + 35, ry - 30)
@@ -1242,15 +1310,57 @@ nextAfterMove:
                 G.DrawLine(Pn, rx + 35, ry - 30, rx + 5, ry - 30)
                 G.DrawLine(Pn, rx + 5, ry - 30, rx + 5, ry + 22)
             End If
-            If Mode = "eSwitch3-2" Then
-                Pn = New Pen(Color.Black, 1)
-                G.DrawLine(Pn, rx + 22, ry - 5, rx + 22, ry - 35)
-                G.DrawLine(Pn, rx + 22, ry - 35, rx - 30, ry - 35)
-                G.DrawLine(Pn, rx - 30, ry - 35, rx - 30, ry - 5)
-                G.DrawLine(Pn, rx - 30, ry - 5, rx + 22, ry - 5)
-            End If
-            'pb1.Dispose() Что за ГОВНО?
-        End If
+			If Mode = "eSwitch3-2" Then
+				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx + 22, ry - 5, rx + 22, ry - 35)
+				G.DrawLine(Pn, rx + 22, ry - 35, rx - 30, ry - 35)
+				G.DrawLine(Pn, rx - 30, ry - 35, rx - 30, ry - 5)
+				G.DrawLine(Pn, rx - 30, ry - 5, rx + 22, ry - 5)
+			End If
+			If Mode = "eXP1" Then
+				frm_XPhelper.Left = Me.Left + rx + 5
+				frm_XPhelper.Top = Me.Top + ry + 32
+				Dim XPname As String = frm_XPhelper.XPname
+				Dim pins As Integer = frm_XPhelper.pins
+
+				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx + 5, ry - 25, rx + 35, ry - 25)
+				G.DrawLine(Pn, rx + 35, ry - 25, rx + 35, ry - 10)
+				G.DrawLine(Pn, rx + 5, ry - 25, rx + 5, ry - 10)
+				G.DrawLine(Pn, rx + 5, ry - 10, rx + 35, ry - 10)
+
+				Dim font As New Font(fnt.Families(0), 10, FontStyle.Italic)
+				G.DrawString(XPname, font, New SolidBrush(Color.Black), New PointF(rx + 6, ry - 23))
+				G.DrawLine(Pn, rx + 5, ry - 10, rx + 5, ry - 10 + pins * 20)
+				G.DrawLine(Pn, rx + 35, ry - 10, rx + 35, ry - 10 + pins * 20)
+				For j = 1 To pins
+					G.DrawLine(Pn, rx + 5, ry - 10 + j * 20, rx + 35, ry - 10 + j * 20)
+					G.FillEllipse(Brushes.Gray, rx - 4, ry - 24 + j * 20, 8, 8)
+				Next
+			End If
+			If Mode = "eXP2" Then
+				frm_XPhelper.Left = Me.Left + rx + 5
+				frm_XPhelper.Top = Me.Top + ry + 32
+				Dim XPname As String = frm_XPhelper.XPname
+				Dim pins As Integer = frm_XPhelper.pins
+
+				Pn = New Pen(Color.Black, 1)
+				G.DrawLine(Pn, rx - 5, ry - 25, rx - 35, ry - 25)
+				G.DrawLine(Pn, rx - 35, ry - 25, rx - 35, ry - 10)
+				G.DrawLine(Pn, rx - 5, ry - 25, rx - 5, ry - 10)
+				G.DrawLine(Pn, rx - 5, ry - 10, rx - 35, ry - 10)
+
+				Dim font As New Font(fnt.Families(0), 10, FontStyle.Italic)
+				G.DrawString(XPname, font, New SolidBrush(Color.Black), New PointF(rx - 34, ry - 23))
+				G.DrawLine(Pn, rx - 5, ry - 10, rx - 5, ry - 10 + pins * 20)
+				G.DrawLine(Pn, rx - 35, ry - 10, rx - 35, ry - 10 + pins * 20)
+				For j = 1 To pins
+					G.DrawLine(Pn, rx - 5, ry - 10 + j * 20, rx - 35, ry - 10 + j * 20)
+					G.FillEllipse(Brushes.Gray, rx - 4, ry - 24 + j * 20, 8, 8)
+				Next
+			End If
+			'pb1.Dispose() Что за ГОВНО?
+		End If
         If Mode = "createConnect1" Then
             createConnect.MouseMove(rx, ry)
         End If
@@ -1265,14 +1375,17 @@ nextAfterMove:
         G.Clear(Me.BackColor)
         G.Dispose()
 
-        If e.Button = MouseButtons.Right And stopAtRMClick Then
-            Mode = ""
-            GroupBox1.Visible = True
-            CheckBox2.Visible = True
-            CheckBox2.Checked = True
-            Me.Cursor = Cursors.Default
-        End If
-        If Mode = "newPoint" Then
+		If e.Button = MouseButtons.Right And stopAtRMClick Then
+			If Mode.StartsWith("eXP") Then
+				frm_XPhelper.Visible = False
+			End If
+			Mode = ""
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			CheckBox2.Checked = True
+			Me.Cursor = Cursors.Default
+		End If
+		If Mode = "newPoint" Then
             'Создание пустой точки потом запретить!!!!!!!!!!!!!!!!!!!!!!
             Dim eComp As New EComponent With {
                 .aType = "ePoint",
@@ -1500,9 +1613,12 @@ nextAfterMove:
         End If
         If Mode.StartsWith("eRele") Then
             If (Level + 3) * 2 = 6 Then
-                If numOfRelay >= 1 Then MsgBox("В ознакомительной версии действует ограничение на количество реле в схеме.", vbInformation, "Реле не доступно")
-                Exit Sub
-            End If
+				If numOfRelay >= 1 Then
+					MsgBox("В ознакомительной версии действует ограничение на количество реле в схеме.", vbInformation, "Реле не доступно")
+					Exit Sub
+				End If
+
+			End If
             Dim eComp As New EComponent With {
                             .aType = "eRele",
                             .numInArray = Elements.Count
@@ -1564,8 +1680,8 @@ nextAfterMove:
             ElseIf Mode.EndsWith("4") Then
                 pos = 4
             End If
-            Dim eRp As New eRepo(rx, ry, eComp.numInArray, TimeRePoDefault, 0, 0, pos, 0, 0, 0, 0)
-            Me.Controls.Add(eRp)
+			Dim eRp As New eRepo(rx, ry, eComp.numInArray, TimeRePoDefault, 0, 0, pos, 0, 0, 0, 0, False, False)
+			Me.Controls.Add(eRp)
             eComp.component = eRp
 
             Mode = ""
@@ -1598,24 +1714,52 @@ nextAfterMove:
             Me.Cursor = Cursors.Default
             DoNeedSave()
         End If
-        If Mode = "eGND" Then
-            Dim eComp As New EComponent With {
-                            .aType = "eGND",
-                            .numInArray = Elements.Count
-                        }
-            Elements.Add(eComp)
-            Dim gnd As New EGND(rx, ry, eComp.numInArray)
-            Me.Controls.Add(gnd)
-            eComp.component = gnd
+		If Mode = "eGND" Then
+			Dim eComp As New EComponent With {
+							.aType = "eGND",
+							.numInArray = Elements.Count
+						}
+			Elements.Add(eComp)
+			Dim gnd As New EGND(rx, ry, eComp.numInArray)
+			Me.Controls.Add(gnd)
+			eComp.component = gnd
 
-            Mode = ""
-            CheckBox2.Checked = True
-            GroupBox1.Visible = True
-            CheckBox2.Visible = True
-            Me.Cursor = Cursors.Default
-            DoNeedSave()
-        End If
-        G.Dispose()
+			Mode = ""
+			CheckBox2.Checked = True
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			Me.Cursor = Cursors.Default
+			DoNeedSave()
+		End If
+		If Mode.StartsWith("eXP") Then
+			Dim XPname As String = frm_XPhelper.XPname
+			Dim pins As Integer = frm_XPhelper.pins
+			frm_XPhelper.Visible = False
+			Dim pos As Integer
+			If Mode.EndsWith("1") Then
+				pos = 1
+			Else
+				pos = 2
+			End If
+
+			Dim eComp As New EComponent With {
+							.aType = "eXP",
+							.numInArray = Elements.Count
+						}
+			Elements.Add(eComp)
+			Dim xp As New eXP(rx, ry, eComp.numInArray, XPname, pins, pos)
+			Me.Controls.Add(xp)
+			eComp.component = xp
+
+			Mode = ""
+			CheckBox2.Checked = True
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			Me.Cursor = Cursors.Default
+			DoNeedSave()
+
+		End If
+		G.Dispose()
     End Sub
 
     Private Sub СохранитьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles СохранитьToolStripMenuItem1.Click
@@ -1627,16 +1771,28 @@ nextAfterMove:
     End Sub
 
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
-        'Файл/Новый
-        Dim q As Microsoft.VisualBasic.MsgBoxResult
-        If NeedSave Then
-            q = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNo, "Предупреждение")
-            If q = vbYes Then
-                'сохранение
-                FileSave()
-            End If
-        End If
-        Dim eComp As EComponent
+		'Файл/Новый
+		Dim q As Microsoft.VisualBasic.MsgBoxResult
+
+		If NeedSave Then
+			q = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNoCancel, "Предупреждение")
+			If q = vbYes Then
+				'сохранение
+				FileSave()
+			End If
+			If q = vbCancel Then
+				Exit Sub
+			End If
+		End If
+
+		'If NeedSave Then
+		'          q = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNo, "Предупреждение")
+		'          If q = vbYes Then
+		'              'сохранение
+		'              FileSave()
+		'          End If
+		'      End If
+		Dim eComp As EComponent
         For i = 1 To Elements.Count - 1
             eComp = Elements(i)
             If eComp Is Nothing Then
@@ -1730,14 +1886,17 @@ nextAfterMove:
             OpenAtStart = False
             GoTo StartFile
         End If
-        If NeedSave Then
-            q = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNo, "Предупреждение")
-            If q = vbYes Then
-                'сохранение
-                FileSave()
-            End If
-        End If
-        OpenFileDialog1.FileName = FileName
+		If NeedSave Then
+			q = MsgBox("Сохранить изменения в схеме?", MsgBoxStyle.YesNoCancel, "Предупреждение")
+			If q = vbYes Then
+				'сохранение
+				FileSave()
+			End If
+			If q = vbCancel Then
+				Exit Sub
+			End If
+		End If
+		OpenFileDialog1.FileName = FileName
         Dim b As System.Windows.Forms.DialogResult
         b = OpenFileDialog1.ShowDialog()
         If b = vbCancel Then Exit Sub
@@ -1865,8 +2024,8 @@ StartFile:
                 End If
                 'eRepo
                 If aComp(0) = "eRepo" Then
-                    Dim eRp As New eRepo(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7), aComp(8), aComp(9), aComp(10), aComp(11))
-                    eComp = New EComponent With {
+					Dim eRp As New eRepo(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7), aComp(8), aComp(9), aComp(10), aComp(11), aComp(12), aComp(13))
+					eComp = New EComponent With {
                         .aType = "eRele",
                         .numInArray = eRp.num,
                         .component = eRp
@@ -1975,18 +2134,29 @@ StartFile:
                     Elements.Add(eComp)
                     Me.Controls.Add(gnd)
                 End If
-                'eDiod
-                If aComp(0) = "eDiod" Then
-                    Dim diod As New eDiod(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
-                    eComp = New EComponent With {
-                        .aType = "eDiod",
-                        .numInArray = diod.num,
-                        .component = diod
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(diod)
-                End If
-            End If 'Этот кусок при изменении перекопировать в Undo
+				'eDiod
+				If aComp(0) = "eDiod" Then
+					Dim diod As New eDiod(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+					eComp = New EComponent With {
+						.aType = "eDiod",
+						.numInArray = diod.num,
+						.component = diod
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(diod)
+				End If
+				'eXP
+				If aComp(0) = "eXP" Then
+					Dim xp As New eXP(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
+					eComp = New EComponent With {
+						.aType = "eXP",
+						.numInArray = xp.num,
+						.component = xp
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(xp)
+				End If
+			End If 'Этот кусок при изменении перекопировать в Undo
             System.Threading.Thread.Sleep(sleepTime)
             ProgressBar.Value = 50 + i
             Application.DoEvents()
@@ -2091,8 +2261,8 @@ StartFile:
                     Me.Cursor = BuH_cur
                 Case "eButton2", "eSwitch2", "eSwitch3-2", "eRele2", "eRele4"
                     Me.Cursor = BuV_cur
-                Case "eBat", "eRepo1", "eRepo2", "eRepo3", "eRepo4"
-                    Me.Cursor = element_cur
+				Case "eBat", "eRepo1", "eRepo2", "eRepo3", "eRepo4", "eXP1", "eXP2"
+					Me.Cursor = element_cur
                 Case "newPoint"
                     Me.Cursor = Cursors.Hand
                 Case "createConnect"
@@ -2214,7 +2384,13 @@ StartFile:
         HidePanel()
     End Sub
 
-    Public Sub Delete(num As Integer)
+	Private Sub PictureBox1_XP_Click(sender As Object, e As EventArgs) Handles PictureBox1_XP.Click
+		Mode = "eXP1"
+		frm_XPhelper.Visible = True
+		HidePanel()
+	End Sub
+
+	Public Sub Delete(num As Integer)
         Dim eComp As EComponent
         eComp = Elements(num)
         'Dim isPoint As Boolean = False
@@ -2288,17 +2464,20 @@ StartFile:
             System.Threading.Thread.Sleep(50)
             ProgressBar.Visible = False
         End If
-        If e.KeyCode = Keys.Escape Then
-            Mode = ""
-            GroupBox1.Visible = True
-            CheckBox2.Visible = True
-            CheckBox2.Checked = True
-            Me.Cursor = Cursors.Default
-            Dim G As Graphics = Me.CreateGraphics
-            G.Clear(Me.BackColor)
-            G.Dispose()
-        End If
-        If e.KeyCode = Keys.F5 Then
+		If e.KeyCode = Keys.Escape Then
+			If Mode.StartsWith("eXP") Then
+				frm_XPhelper.Visible = False
+			End If
+			Mode = ""
+			GroupBox1.Visible = True
+			CheckBox2.Visible = True
+			CheckBox2.Checked = True
+			Me.Cursor = Cursors.Default
+			Dim G As Graphics = Me.CreateGraphics
+			G.Clear(Me.BackColor)
+			G.Dispose()
+		End If
+		If e.KeyCode = Keys.F5 Then
             Mode = ""
             GroupBox1.Visible = True
             CheckBox2.Visible = True
@@ -2311,8 +2490,11 @@ StartFile:
             End If
         End If
         If e.KeyCode = Keys.F4 Then
-            Mode = lastMode
-            HidePanel()
+			Mode = lastMode
+			If Mode.StartsWith("eXP") Then
+				frm_XPhelper.Visible = True
+			End If
+			HidePanel()
         End If
         If e.KeyCode = Keys.R Then
             If Mode = "newFuseH" Then
@@ -2389,17 +2571,22 @@ StartFile:
                 Mode = "eRele1"
                 Me.Cursor = BuH_cur
             End If
-            If Mode = "eRepo1" Then
-                Mode = "eRepo2"
-            ElseIf Mode = "eRepo2" Then
-                Mode = "eRepo3"
-            ElseIf Mode = "eRepo3" Then
-                Mode = "eRepo4"
-            ElseIf Mode = "eRepo4" Then
-                Mode = "eRepo1"
-            End If
+			If Mode = "eRepo1" Then
+				Mode = "eRepo2"
+			ElseIf Mode = "eRepo2" Then
+				Mode = "eRepo3"
+			ElseIf Mode = "eRepo3" Then
+				Mode = "eRepo4"
+			ElseIf Mode = "eRepo4" Then
+				Mode = "eRepo1"
+			End If
+			If Mode = "eXP1" Then
+				Mode = "eXP2"
+			ElseIf Mode = "eXP2" Then
+				Mode = "eXP1"
+			End If
 
-            If Mode <> "Delete" And Mode <> "Move" And Mode <> "createConnect" And Mode <> "" And Mode <> "newPoint" Then
+			If Mode <> "Delete" And Mode <> "Move" And Mode <> "createConnect" And Mode <> "" And Mode <> "newPoint" Then
                 lastMode = Mode
             End If
         End If
@@ -2925,17 +3112,17 @@ StartFile:
         Dim eComp As EComponent
         Dim p01, p02 As ILinked
         eComp = Elements(n1)
-        p01 = eComp.component
-        eComp = Elements(n2)
-        p02 = eComp.component
+		p01 = eComp.component
+		eComp = Elements(n2)
+		p02 = eComp.component
         'Dim p01C As Integer = p01.Condition 'Текущие значения Condition на точках мб в iLinked добавить getCondition============================
         'Dim p02C As Integer = p02.Condition
         p01.remLink(n2) 'разъединяем точки
         p02.remLink(n1)
         pointsInProcessSig.Clear()
-        Dim p01Ck As Integer = p01.chk_Sig 'Текущие значения CheckSig на точках
-        pointsInProcessSig.Clear()
-        Dim p02Ck As Integer = p02.chk_Sig
+		Dim p01Ck As Integer = p01.chk_Sig 'Текущие значения CheckSig на точках
+		pointsInProcessSig.Clear()
+		Dim p02Ck As Integer = p02.chk_Sig
 
         If p01Ck = 0 Then 'And p01C <> 0
             pointsInProcessSig.Clear()
@@ -3090,241 +3277,250 @@ StartFile:
         End If
     End Sub
 
-    Sub Undo()
-        Dim saveArray As ArrayList
+	Sub Undo()
+		Dim saveArray As ArrayList
 
-        Dim index As Integer = unDoArray.Count - 1 'Продумать
-        'If index > 0 Then
-        '    unDoArray.RemoveAt(index)
-        'End If
+		Dim index As Integer = unDoArray.Count - 1 'Продумать
+		'If index > 0 Then
+		'    unDoArray.RemoveAt(index)
+		'End If
 
-        'index = unDoArray.Count - 1
+		'index = unDoArray.Count - 1
 
-        If index < 0 Then Exit Sub
-        isUndo = True
-        saveArray = unDoArray.Pop
+		If index < 0 Then Exit Sub
+		isUndo = True
+		saveArray = unDoArray.Pop
 
-        TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
-        Dim eComp As EComponent
-        For i = 1 To Elements.Count - 1
-            eComp = Elements(i)
-            If eComp Is Nothing Then
+		TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
+		Dim eComp As EComponent
+		For i = 1 To Elements.Count - 1
+			eComp = Elements(i)
+			If eComp Is Nothing Then
 
-            Else
-                eComp.component.Dispose()
-            End If
-        Next
-        Elements.Clear()
-        Elements.Add(Nothing)
-        pointsInProcessSig.Clear()
-        pointsInProcessUI.Clear()
+			Else
+				eComp.component.Dispose()
+			End If
+		Next
+		Elements.Clear()
+		Elements.Add(Nothing)
+		pointsInProcessSig.Clear()
+		pointsInProcessUI.Clear()
 
 
 
-        f = saveArray(0)
-        CreateFormat()
+		f = saveArray(0)
+		CreateFormat()
 
-        Dim aComp As ArrayList
-        For i = 1 To saveArray.Count - 1
-            aComp = saveArray(i)
-            If aComp Is Nothing Then
-                'Nothing
-                Elements.Add(Nothing)
-            Else
-                'ePoint
-                If aComp(0) = "ePoint" Then
-                    Dim p As New EPoint(aComp(2), aComp(3), aComp(1)) With {
-                        .links = aComp(4),
-                        .Condition = aComp(5)
-                    }
-                    eComp = New EComponent With {
-                        .aType = "ePoint",
-                        .numInArray = p.num,
-                        .component = p
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(p)
-                End If
-                'eLine
-                If aComp(0) = "eLine" Then
-                    Dim line As New eLine(aComp(2), aComp(3), aComp(4), aComp(5), aComp(1), aComp(8), aComp(9)) With {
-                        .links = aComp(6),
-                        .Condition = aComp(7)
-                    }
-                    eComp = New EComponent With {
-                        .aType = "eLine",
-                        .numInArray = line.num,
-                        .component = line
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(line)
-                End If
-                'eBat
-                If aComp(0) = "eBat" Then
-                    Dim bat As New eBat(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
-                    eComp = New EComponent With {
-                        .aType = "eBat",
-                        .numInArray = bat.num,
-                        .component = bat
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(bat)
-                End If
-                'eR
-                If aComp(0) = "eResist" Then
-                    Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
-                    eComp = New EComponent With {
-                        .aType = "eResist",
-                        .numInArray = res.num,
-                        .component = res
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(res)
-                End If
-                'eRele
-                If aComp(0) = "eRele" Then
-                    Dim re As New eRele(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
-                    eComp = New EComponent With {
-                        .aType = "eRele",
-                        .numInArray = re.num,
-                        .component = re
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(re)
-                End If
-                'eRepo
-                If aComp(0) = "eRepo" Then
-                    Dim eRp As New eRepo(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7), aComp(8), aComp(9), aComp(10), aComp(11))
-                    eComp = New EComponent With {
-                        .aType = "eRele",
-                        .numInArray = eRp.num,
-                        .component = eRp
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(eRp)
-                End If
-                'eLamp
-                If aComp(0) = "eLamp" Then
-                    Dim la As New eLamp(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
-                    eComp = New EComponent With {
-                        .aType = "eLamp",
-                        .numInArray = la.num,
-                        .component = la
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(la)
-                End If
-                'eButton
-                If aComp(0) = "eButton" Then
-                    Dim but As New eButton(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
-                    eComp = New EComponent With {
-                        .aType = "eButton",
-                        .numInArray = but.num,
-                        .component = but
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(but)
-                End If
-                'eSwitch
-                If aComp(0) = "eSwitch" Then
-                    Dim but As New eSwitch(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
-                    eComp = New EComponent With {
-                        .aType = "eSwitch",
-                        .numInArray = but.num,
-                        .component = but
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(but)
-                End If
-                'eSwitch3
-                If aComp(0) = "eSwitch3" Then
-                    Dim but As New eSwitch3(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
-                    eComp = New EComponent With {
-                        .aType = "eSwitch3",
-                        .numInArray = but.num,
-                        .component = but
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(but)
-                End If
-                'eFuse
-                If aComp(0) = "eFuse" Then
-                    Dim fu As New eFuse(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
-                    eComp = New EComponent With {
-                        .aType = "eFuse",
-                        .numInArray = fu.num,
-                        .component = fu
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(fu)
-                End If
-                'eBText
-                If aComp(0) = "eBText" Then
-                    Dim bt As New eBorderText(aComp(1), aComp(2), aComp(3), aComp(4))
-                    eComp = New EComponent With {
-                        .aType = "eBText",
-                        .numInArray = bt.num,
-                        .component = bt
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(bt)
-                End If
-                'eText
-                If aComp(0) = "eText" Then
-                    Dim t As New eText(aComp(1), aComp(2), aComp(3), aComp(4))
-                    eComp = New EComponent With {
-                        .aType = "eText",
-                        .numInArray = t.num,
-                        .component = t
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(t)
-                End If
-                'eTextC
-                If aComp(0) = "eTextC" Then
-                    Dim t As New eTextC(aComp(1), aComp(2), aComp(3), aComp(4))
-                    eComp = New EComponent With {
-                        .aType = "eTextC",
-                        .numInArray = t.num,
-                        .component = t
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(t)
-                End If
-                'eGND
-                If aComp(0) = "eGND" Then
-                    Dim gnd As New EGND(aComp(2), aComp(3), aComp(1)) With {
-                        .link = aComp(4)
-                    }
-                    eComp = New EComponent With {
-                        .aType = "eGND",
-                        .numInArray = gnd.num,
-                        .component = gnd
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(gnd)
-                End If
-                If aComp(0) = "eDiod" Then
-                    Dim diod As New eDiod(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
-                    eComp = New EComponent With {
-                        .aType = "eDiod",
-                        .numInArray = diod.num,
-                        .component = diod
-                    }
-                    Elements.Add(eComp)
-                    Me.Controls.Add(diod)
-                End If
+		Dim aComp As ArrayList
+		For i = 1 To saveArray.Count - 1
+			aComp = saveArray(i)
+			If aComp Is Nothing Then
+				'Nothing
+				Elements.Add(Nothing)
+			Else
+				'ePoint
+				If aComp(0) = "ePoint" Then
+					Dim p As New EPoint(aComp(2), aComp(3), aComp(1)) With {
+						.links = aComp(4),
+						.Condition = aComp(5)
+					}
+					eComp = New EComponent With {
+						.aType = "ePoint",
+						.numInArray = p.num,
+						.component = p
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(p)
+				End If
+				'eLine
+				If aComp(0) = "eLine" Then
+					Dim line As New eLine(aComp(2), aComp(3), aComp(4), aComp(5), aComp(1), aComp(8), aComp(9)) With {
+						.links = aComp(6),
+						.Condition = aComp(7)
+					}
+					eComp = New EComponent With {
+						.aType = "eLine",
+						.numInArray = line.num,
+						.component = line
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(line)
+				End If
+				'eBat
+				If aComp(0) = "eBat" Then
+					Dim bat As New eBat(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
+					eComp = New EComponent With {
+						.aType = "eBat",
+						.numInArray = bat.num,
+						.component = bat
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(bat)
+				End If
+				'eR
+				If aComp(0) = "eResist" Then
+					Dim res As New EResist(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+					eComp = New EComponent With {
+						.aType = "eResist",
+						.numInArray = res.num,
+						.component = res
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(res)
+				End If
+				'eRele
+				If aComp(0) = "eRele" Then
+					Dim re As New eRele(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+					eComp = New EComponent With {
+						.aType = "eRele",
+						.numInArray = re.num,
+						.component = re
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(re)
+				End If
+				'eRepo
+				If aComp(0) = "eRepo" Then
+					Dim eRp As New eRepo(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7), aComp(8), aComp(9), aComp(10), aComp(11), aComp(12), aComp(13))
+					eComp = New EComponent With {
+						.aType = "eRele",
+						.numInArray = eRp.num,
+						.component = eRp
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(eRp)
+				End If
+				'eLamp
+				If aComp(0) = "eLamp" Then
+					Dim la As New eLamp(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
+					eComp = New EComponent With {
+						.aType = "eLamp",
+						.numInArray = la.num,
+						.component = la
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(la)
+				End If
+				'eButton
+				If aComp(0) = "eButton" Then
+					Dim but As New eButton(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
+					eComp = New EComponent With {
+						.aType = "eButton",
+						.numInArray = but.num,
+						.component = but
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(but)
+				End If
+				'eSwitch
+				If aComp(0) = "eSwitch" Then
+					Dim but As New eSwitch(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
+					eComp = New EComponent With {
+						.aType = "eSwitch",
+						.numInArray = but.num,
+						.component = but
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(but)
+				End If
+				'eSwitch3
+				If aComp(0) = "eSwitch3" Then
+					Dim but As New eSwitch3(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5))
+					eComp = New EComponent With {
+						.aType = "eSwitch3",
+						.numInArray = but.num,
+						.component = but
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(but)
+				End If
+				'eFuse
+				If aComp(0) = "eFuse" Then
+					Dim fu As New eFuse(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+					eComp = New EComponent With {
+						.aType = "eFuse",
+						.numInArray = fu.num,
+						.component = fu
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(fu)
+				End If
+				'eBText
+				If aComp(0) = "eBText" Then
+					Dim bt As New eBorderText(aComp(1), aComp(2), aComp(3), aComp(4))
+					eComp = New EComponent With {
+						.aType = "eBText",
+						.numInArray = bt.num,
+						.component = bt
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(bt)
+				End If
+				'eText
+				If aComp(0) = "eText" Then
+					Dim t As New eText(aComp(1), aComp(2), aComp(3), aComp(4))
+					eComp = New EComponent With {
+						.aType = "eText",
+						.numInArray = t.num,
+						.component = t
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(t)
+				End If
+				'eTextC
+				If aComp(0) = "eTextC" Then
+					Dim t As New eTextC(aComp(1), aComp(2), aComp(3), aComp(4))
+					eComp = New EComponent With {
+						.aType = "eTextC",
+						.numInArray = t.num,
+						.component = t
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(t)
+				End If
+				'eGND
+				If aComp(0) = "eGND" Then
+					Dim gnd As New EGND(aComp(2), aComp(3), aComp(1)) With {
+						.link = aComp(4)
+					}
+					eComp = New EComponent With {
+						.aType = "eGND",
+						.numInArray = gnd.num,
+						.component = gnd
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(gnd)
+				End If
+				If aComp(0) = "eDiod" Then
+					Dim diod As New eDiod(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), aComp(7))
+					eComp = New EComponent With {
+						.aType = "eDiod",
+						.numInArray = diod.num,
+						.component = diod
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(diod)
+				End If
+				If aComp(0) = "eXP" Then
+					Dim xp As New eXP(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
+					eComp = New EComponent With {
+						.aType = "eXP",
+						.numInArray = xp.num,
+						.component = xp
+					}
+					Elements.Add(eComp)
+					Me.Controls.Add(xp)
+				End If
+			End If 'Этот кусок при изменении перекопировать в Undo
+		Next
+		ShowComments(f.showComments)
+		TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
+		'unDoArray.RemoveAt(index)
+		isUndo = False
+		TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
+	End Sub
 
-            End If 'Этот кусок при изменении перекопировать в Undo
-        Next
-        ShowComments(f.showComments)
-        TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
-        'unDoArray.RemoveAt(index)
-        isUndo = False
-        TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
-    End Sub
-
-    Sub ShowUnDoArray()
+	Sub ShowUnDoArray()
         TextBox1.Text = ""
         For i = 0 To unDoArray.Count - 1
             Dim anArray As New ArrayList

@@ -1,8 +1,10 @@
 ﻿Imports eScheme
 
+#Disable Warning IDE1006 ' Стили именования
 Public Class eLamp
-    Implements IConnectable
-    Implements ISetValue
+#Enable Warning IDE1006 ' Стили именования
+	Implements IConnectable
+	Implements ISetValue
     Implements IMovable
     Public X As Integer
     Public Y As Integer
