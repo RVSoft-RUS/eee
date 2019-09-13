@@ -166,6 +166,7 @@ Public Class eBat
     End Sub
 
     Public Function CheckUI(from As Integer, U_ As Single, Optional t As Integer = 0) As Single Implements IConnectable.CheckUI
+        If Not Form1.ComputeUI Then Return 0
         Dim q As ArrayList = Form1.Elements
         Form1.LabelSig.BackColor = Color.Violet
         Form1.isCheckUI = True

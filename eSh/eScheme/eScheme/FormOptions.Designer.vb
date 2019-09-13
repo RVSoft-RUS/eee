@@ -40,6 +40,9 @@ Partial Class FormOptions
         Me.LabelNeu = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.Label13 = New System.Windows.Forms.Label()
         Me.TextBoxRele = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.TextBoxLamp = New System.Windows.Forms.TextBox()
@@ -58,9 +61,7 @@ Partial Class FormOptions
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.Button3 = New System.Windows.Forms.Button()
+        Me.CheckBox4 = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -265,6 +266,33 @@ Partial Class FormOptions
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Значения по умолчанию"
         '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(9, 161)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(243, 20)
+        Me.Button3.TabIndex = 14
+        Me.Button3.Text = "Значения полей основной надписи"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(186, 137)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
+        Me.TextBox1.Size = New System.Drawing.Size(66, 20)
+        Me.TextBox1.TabIndex = 13
+        Me.TextBox1.Text = "1000"
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(6, 140)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(162, 13)
+        Me.Label13.TabIndex = 12
+        Me.Label13.Text = "Время отключения кнопки, мс"
+        '
         'TextBoxRele
         '
         Me.TextBoxRele.Location = New System.Drawing.Point(186, 113)
@@ -412,32 +440,17 @@ Partial Class FormOptions
         Me.CheckBox3.Text = "При открытии файла восстанавливать размеры и положение окна"
         Me.CheckBox3.UseVisualStyleBackColor = True
         '
-        'TextBox1
+        'CheckBox4
         '
-        Me.TextBox1.Location = New System.Drawing.Point(186, 137)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ReadOnly = True
-        Me.TextBox1.Size = New System.Drawing.Size(66, 20)
-        Me.TextBox1.TabIndex = 13
-        Me.TextBox1.Text = "1000"
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(6, 140)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(162, 13)
-        Me.Label13.TabIndex = 12
-        Me.Label13.Text = "Время отключения кнопки, мс"
-        '
-        'Button3
-        '
-        Me.Button3.Location = New System.Drawing.Point(9, 161)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(243, 20)
-        Me.Button3.TabIndex = 14
-        Me.Button3.Text = "Значения полей основной надписи"
-        Me.Button3.UseVisualStyleBackColor = True
+        Me.CheckBox4.AutoSize = True
+        Me.CheckBox4.Checked = True
+        Me.CheckBox4.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox4.Location = New System.Drawing.Point(11, 316)
+        Me.CheckBox4.Name = "CheckBox4"
+        Me.CheckBox4.Size = New System.Drawing.Size(204, 17)
+        Me.CheckBox4.TabIndex = 7
+        Me.CheckBox4.Text = "Рассчитывать токи автоматически"
+        Me.CheckBox4.UseVisualStyleBackColor = True
         '
         'FormOptions
         '
@@ -446,6 +459,7 @@ Partial Class FormOptions
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Button2
         Me.ClientSize = New System.Drawing.Size(492, 364)
+        Me.Controls.Add(Me.CheckBox4)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
@@ -506,4 +520,5 @@ Partial Class FormOptions
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label13 As Label
     Friend WithEvents Button3 As Button
+    Friend WithEvents CheckBox4 As CheckBox
 End Class

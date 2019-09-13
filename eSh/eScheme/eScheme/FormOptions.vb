@@ -16,6 +16,7 @@
 
         CheckBox1.Checked = Form1.stopAtRMClick
         CheckBox3.Checked = Form1.openWithSize
+        CheckBox4.Checked = Form1.ComputeUI
 
     End Sub
 
@@ -45,6 +46,7 @@
 
             Form1.stopAtRMClick = CheckBox1.Checked
             Form1.openWithSize = CheckBox3.Checked
+            Form1.ComputeUI = CheckBox4.Checked
 
             Form1.Udefault = CSng(TextBoxUdef.Text)
             Form1.Rdefault = CSng(TextBoxResist.Text)
@@ -60,5 +62,13 @@
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         MsgBox("В разработке.")
+    End Sub
+
+    Private Sub CheckBox4_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox4.CheckedChanged
+        If CheckBox4.Checked Then
+            ToolTip1.SetToolTip(CheckBox4, "Токи и напряжения вычисляются при любых изменениях в схеме автоматически.")
+        Else
+            ToolTip1.SetToolTip(CheckBox4, "Токи и напряжения вычисляются только при нажатии F5.")
+        End If
     End Sub
 End Class

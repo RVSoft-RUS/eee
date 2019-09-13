@@ -20,8 +20,6 @@ Imports System.Management
 
     Public Sub New(fileName As String)
 
-
-
         Dim pc, un As String
         Dim num As Long = 10_000_000
         pc = My.Computer.Name + "юя"
@@ -82,20 +80,24 @@ Imports System.Management
 			End If
 			If stream = "2" Then
 				Form1.Level = Integer.Parse(stream)
-				Exit Sub
-			End If
+                Exit Sub
+            End If
 		Catch ex As Exception
             stream = "0"
         End Try
 
         Dim dNow As Date
         Dim str As String = stream
+        Dim lTime As Long
+        lTime = (New Date(2010, 3, 1)).Ticks 'До 1 марта 2020 года бесплатно
+
         Try
             dNow = GetNetworkTime()
-            If dNow.Year >= 2019 And dNow.Month < 12 Then
+            If dNow.Ticks < lTime Then
                 If stream <> "2" And stream <> "3" Then
                     stream = "3"
-                    endDate = "637108095920000000"
+
+                    endDate = lTime.ToString
                 End If
 
             End If
@@ -216,9 +218,10 @@ Imports System.Management
 
     Public ReadOnly Property GetEndDate As String
         Get
-            If endDate = 0 Then
+            If endDate = "0" Then
                 Return "неограничено"
             Else
+                If endDate = "" Then endDate = "0"
                 Return New DateTime(Long.Parse(endDate)).ToLongDateString
             End If
         End Get

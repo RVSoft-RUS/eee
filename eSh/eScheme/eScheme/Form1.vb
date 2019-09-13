@@ -28,6 +28,11 @@ Public Class Form1
     End Function
 
     'Public NeedFlash As Boolean = False
+    Structure ThePoint
+        Dim N As Integer
+        Dim X As Integer
+        Dim Y As Integer
+    End Structure
 
     Public Sub DoLight()
         'If Not NeedFlash Then Exit Sub
@@ -101,6 +106,7 @@ Public Class Form1
     Public FUSEdefault As Single = 10
     Public RELEdefault As Single = 59
     Public TimeRePoDefault As Single = 500
+    Public ComputeUI As Boolean = True
     Public fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
     Public gost_font As Font
     Dim firstPoint As Point
@@ -285,6 +291,7 @@ Public Class Form1
             RLampdefault = dict(11)
             FUSEdefault = dict(12)
             RELEdefault = dict(13)
+            ComputeUI = dict(14)
             'liFile = "C:\Users\smirnovrv\Documents\рабоч\МИ\electr\li\getLicense\bin\Debug\8d6f3031c9d08b5.elc"
             liFile = dict(14)
         Catch ex As Exception
@@ -1387,6 +1394,18 @@ nextAfterMove:
 		End If
 		If Mode = "newPoint" Then
             'Создание пустой точки потом запретить!!!!!!!!!!!!!!!!!!!!!!
+            Dim arr As ArrayList = getAllPoints()
+            TextBox1.Clear()
+
+            For i = 0 To arr.Count - 1
+                Dim pt As ThePoint = arr(i)
+                If pt.X = rx And pt.Y = ry Then
+                    MsgBox("Узел в указанной области уже существует!")
+                    Exit Sub
+                End If
+            Next
+
+
             Dim eComp As New EComponent With {
                 .aType = "ePoint",
                 .numInArray = Elements.Count
@@ -2393,14 +2412,13 @@ StartFile:
 	Public Sub Delete(num As Integer)
         Dim eComp As EComponent
         eComp = Elements(num)
-        'Dim isPoint As Boolean = False
-        'If eComp.aType = "ePoint" Then
-        '	'isPoint = True
-        'End If
+        Dim isPoint As Boolean = False
+        If eComp.aType = "ePoint" Then
+            'isPoint = True
+        End If
         eComp.component.Dispose()
         Elements(num) = Nothing
-        'If Not isPoint Then
-        DoNeedSave()
+        If Not isPoint Then DoNeedSave()
     End Sub
 
     Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
@@ -2486,7 +2504,14 @@ StartFile:
                 Dim eComp As EComponent = Elements(f.Batt)
                 Dim bat As eBat = eComp.component
                 pointsInProcessUI.Clear()
-                bat.CheckUI(0, 0)
+                If ComputeUI Then
+                    bat.CheckUI(0, 0)
+                Else
+                    ComputeUI = True
+                    bat.CheckUI(0, 0)
+                    ComputeUI = False
+                End If
+
             End If
         End If
         If e.KeyCode = Keys.F4 Then
@@ -2651,6 +2676,17 @@ StartFile:
         End If
         If e.KeyCode = Keys.Z And e.Control Then
             Undo()
+        End If
+        If e.KeyCode = Keys.F11 Then
+            Dim arr As ArrayList = getAllPoints()
+            TextBox1.Clear()
+            For i = 0 To arr.Count - 1
+                Dim p As ThePoint = arr(i)
+                TextBox1.Text &= p.N.ToString + ":  X=" + p.X.ToString + ", " + "Y=" + p.Y.ToString + ";" + vbCrLf
+            Next
+        End If
+        If e.KeyCode = Keys.F1 And e.Control And e.Shift Then
+            TextBox1.Visible = Not TextBox1.Visible
         End If
     End Sub
 
@@ -3000,7 +3036,8 @@ StartFile:
                 RLampdefault,
                 FUSEdefault,
                 RELEdefault,
-                liFile
+                liFile,
+                ComputeUI
             }
         Dim fStream As New FileStream(fileParam, FileMode.Create, FileAccess.Write)
         Dim myBinaryFormatter As New Formatters.Binary.BinaryFormatter
@@ -3151,38 +3188,6 @@ StartFile:
         nErr -= 1
     End Sub
 
-    Private Sub PictureBox_Lmp_Click(sender As Object, e As EventArgs) Handles PictureBox_Lmp.Click
-
-    End Sub
-
-    'Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
-    '    Dim sd As New SortedDictionary(Of Integer, String)
-    '    For i = 0 To TextBox1.Lines.Count - 1
-    '        Dim n As Integer = NumWords(TextBox1.Lines(i))
-    '        Dim s As String = TextBox1.Lines(i)
-    '        If sd.ContainsKey(n) Then
-    '            s += vbCrLf + sd(n)
-    '            sd(n) = s
-    '        Else
-    '            sd.Add(n, s)
-    '        End If
-
-    '    Next
-    '    TextBox1.Clear()
-    '    For Each s As String In sd.Values
-    '        TextBox1.Text += s + vbCrLf
-    '    Next
-    'End Sub
-
-    'Public Function NumWords(s As String) As Integer
-    '    Dim k As Integer
-    '    For i = 0 To s.Length - 1
-    '        If s(i) = " " Then
-    '            k += 1
-    '        End If
-    '    Next
-    '    Return k + 1
-    'End Function
 
     Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If Mode = "MoveMe" Then
@@ -3520,7 +3525,7 @@ StartFile:
 		TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text
 	End Sub
 
-	Sub ShowUnDoArray()
+    Sub ShowUnDoArray()
         TextBox1.Text = ""
         For i = 0 To unDoArray.Count - 1
             Dim anArray As New ArrayList
@@ -3558,4 +3563,25 @@ nth:
             'TextBox1.Text = "--------------" + vbCrLf + TextBox1.Text
         Next
     End Sub
+
+    Public Function getAllPoints() As ArrayList
+        Dim arr As New ArrayList
+        Dim eComp As EComponent
+        For i = 1 To Elements.Count - 1
+            eComp = Elements(i)
+            If eComp Is Nothing Then
+
+            Else
+                If eComp.aType = "ePoint" Then
+                    Dim p As EPoint, pnt As ThePoint
+                    p = eComp.component
+                    pnt.N = p.num
+                    pnt.X = p.X
+                    pnt.Y = p.Y
+                    arr.Add(pnt)
+                End If
+            End If
+        Next
+        Return arr
+    End Function
 End Class

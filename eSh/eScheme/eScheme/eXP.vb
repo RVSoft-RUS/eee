@@ -83,8 +83,8 @@ Public Class eXP
 
 	Sub OnCreate()
 		mFile = MemoryMappedFile.CreateOrOpen(myName, 256)
-		eventX = New EventWaitHandle(False, Threading.EventResetMode.ManualReset, "000" & myName)
-		eventThread = New Thread(AddressOf WaitSignal) With {
+        eventX = New EventWaitHandle(False, Threading.EventResetMode.ManualReset, "000" & myName)
+        eventThread = New Thread(AddressOf WaitSignal) With {
 			.IsBackground = True
 		}
 		eventThread.Start()
@@ -92,18 +92,17 @@ Public Class eXP
 
 	Sub WaitSignal()
 		Try
-			Do
-				eventX.WaitOne()
-				If wasSendEvent Then
-					wasSendEvent = False
-					eventX.Reset()
-					GoTo ItWasMyEvent
-				End If
-				'Выполняем необходимые действия
-				DoWork()
-ItWasMyEvent:
-			Loop
-		Catch ex As ThreadInterruptedException
+            Do
+                eventX.WaitOne()
+                If wasSendEvent Then
+                    wasSendEvent = False
+                    eventX.Reset()
+                    Continue Do
+                End If
+                'Выполняем необходимые действия
+                DoWork()
+            Loop
+        Catch ex As ThreadInterruptedException
 
 		End Try
 
@@ -130,9 +129,8 @@ ItWasMyEvent:
 	End Sub
 
 	Public Sub Change(from As Integer, condition As Integer) Implements IConnectable.Change
-		eventX.Set()
-		wasSendEvent = True
-		Dim msg As String = "A;" & (from - num).ToString & ";" & (condition + 50).ToString
+
+        Dim msg As String = "A;" & (from - num).ToString & ";" & (condition + 50).ToString
 		Dim message As Char() = msg
 		Dim size As Integer = message.Length
 
@@ -140,8 +138,9 @@ ItWasMyEvent:
 			writer.Write(0, size)
 			writer.WriteArray(Of Char)(4, message, 0, message.Length)
 		End Using
-
-	End Sub
+        eventX.Set()
+        wasSendEvent = True
+    End Sub
 
 	Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
 		eventThread.Interrupt()
@@ -186,8 +185,9 @@ ItWasMyEvent:
 				numPoint = Integer.Parse(arr(1)) + num
 				theSig = Integer.Parse(arr(2)) - 50
 				eComp = Form1.Elements(numPoint)
-				aPoint = eComp.component
-				aPoint.Change(num, theSig)
+                aPoint = eComp.component
+                Form1.pointsInProcessSig.Clear()
+                aPoint.Change(num, theSig)
 			ElseIf msg.StartsWith("E") Then 'Check
 
 			ElseIf msg.StartsWith("U") Then 'CheckUI
