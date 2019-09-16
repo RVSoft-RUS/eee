@@ -25,8 +25,23 @@ Imports eScheme
 		m_Y = Y
 		Me.Location = New Point(X - 5, Y - 5)
 		Condition = 0
-		Cursor = Form1.point_cur
-	End Sub
+        Cursor = Form1.point_cur
+
+        'Если точка в этом месте уже есть заносим их в массив
+        Dim arr As ArrayList = Form1.getAllPoints()
+
+        For i = 0 To arr.Count - 1
+            Dim pt As Form1.ThePoint = arr(i)
+            If pt.X = rx And pt.Y = ry Then
+                'Dim eComp As EComponent = Form1.Elements(pt.N)
+                'Dim theP As EPoint = eComp.component
+                'theP.addLink(num)
+                'links.Add(pt.N)
+                'Form1.OnConnect(num, pt.N)
+                Form1.PointsToConnect.Add(New Point(num, pt.N)) ' номера точек для последующего соединения
+            End If
+        Next
+    End Sub
 
 	Public Property Condition
 		Set(value)

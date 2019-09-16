@@ -6,15 +6,17 @@ Public Class EAddLinesAndPoints
 	Private pts As New ArrayList
 	Private ReadOnly num1 As Integer
 	Private num2 As Integer
-	Private ReadOnly clr As Color
+    Private ReadOnly clr As Color
+    Private arr As ArrayList
 
 
-	Public Sub New(X As Integer, Y As Integer, n As Integer, clr_ As Color)
+    Public Sub New(X As Integer, Y As Integer, n As Integer, clr_ As Color)
 		num1 = n
 		pts.Add(New Point(X, Y))
 		Form1.Mode = "createConnect1"
-		clr = clr_
-	End Sub
+        clr = clr_
+        arr = Form1.getAllPoints()
+    End Sub
 
 	Public Sub MouseMove(X As Integer, Y As Integer)
 		Dim p As Point
@@ -32,28 +34,36 @@ Public Class EAddLinesAndPoints
 			PointWasAdded = True
 		End If
 
-		pts.Add(New Point(X, Y))
-		DrawPath()
+        pts.Add(New Point(X, Y))
+        CheckIntersections(X, Y) 'проверяем есть ли точки на линиях и корректируем массив pts
+        DrawPath()
 		pts.RemoveAt(pts.Count - 1)
 		If PointWasAdded Then pts.RemoveAt(pts.Count - 1)
 
-		'Form1.TextBox1.Text = ""
-		'For i = 0 To pts.Count - 1
-		'	Dim xp As Point
-		'	xp = pts(i)
-		'	Form1.TextBox1.Text &= Str(xp.X) + "  " + CStr(xp.Y) + vbCrLf
-		'Next
-	End Sub
+        'Form1.TextBox1.Text = ""
+        'For i = 0 To pts.Count - 1
+        '    Dim xp As Point
+        '    xp = pts(i)
+        '    Form1.TextBox1.Text &= Str(xp.X) + "  " + CStr(xp.Y) + vbCrLf
+        'Next
+    End Sub
 
-	Public Sub MouseClick(X As Integer, Y As Integer)
-		pts.Add(px)
-		'Form1.TextBox1.Text = ""
-		'For i = 0 To pts.Count - 1
-		'	Dim xp As Point
-		'	xp = pts(i)
-		'	Form1.TextBox1.Text &= Str(xp.X) + "  " + CStr(xp.Y) + vbCrLf
-		'Next
-	End Sub
+    Public Sub MouseClick(X As Integer, Y As Integer)
+        'CheckIntersections(X, Y) 'проверяем есть ли точки на линиях и корректируем массив pts
+        pts.Add(New Point(px.X, px.Y))
+        'Form1.TextBox1.Text = ""
+        'For i = 0 To pts.Count - 1
+        '    Dim xp As Point
+        '    xp = pts(i)
+        '    Form1.TextBox1.Text &= Str(xp.X) + "  " + CStr(xp.Y) + vbCrLf
+        'Next
+
+        Dim pnt As Form1.ThePoint
+        pnt.X = px.X
+        pnt.Y = px.Y
+        arr.Add(pnt)
+
+    End Sub
 
     Public Sub EndCreate(X As Integer, Y As Integer, n As Integer)
         If n = num1 Then
@@ -161,16 +171,95 @@ Public Class EAddLinesAndPoints
     End Sub
 
     Sub DrawPath()
-		If pts.Count < 2 Then Exit Sub
-		Dim g As Graphics = Form1.CreateGraphics
-		Dim p As New Pen(clr) With {
-			.Width = 1
-		}
-		For i = 0 To pts.Count - 2
-			Dim p01 As Point = pts(i)
-			Dim p02 As Point = pts(i + 1)
-			g.DrawLine(p, p01, p02)
-		Next
-		g.Dispose()
-	End Sub
+        If pts.Count < 2 Then Exit Sub
+        Dim g As Graphics = Form1.CreateGraphics
+        Dim p As New Pen(clr) With {
+            .Width = 1
+        }
+        For i = 0 To pts.Count - 2
+            Dim p01 As Point = pts(i)
+            Dim p02 As Point = pts(i + 1)
+            g.DrawLine(p, p01, p02)
+        Next
+        g.Dispose()
+    End Sub
+
+    Sub CheckIntersections(_x2 As Integer, _y2 As Integer)
+        Form1.TextBox1.Text = ""
+        Dim x1 As Integer
+        Dim y1 As Integer
+        Dim x2 As Integer
+        Dim y2 As Integer
+        If _x2 = 340 And _y2 = 200 Then
+            x1 = 0
+        End If
+        For j = 0 To pts.Count - 2
+            Dim p As Point = pts(j)
+            x1 = p.X
+            y1 = p.Y
+            If j < pts.Count - 2 Then
+                p = pts(j + 1)
+                x2 = p.X
+                y2 = p.Y
+            Else
+                x2 = _x2
+                y2 = _y2
+            End If
+
+            Dim dx = x2 - x1
+            Dim dy = y2 - y1
+            Form1.TextBox1.Text &= "x1=" + Str(x1) + "  y1=" + Str(y1) + "  x2=" + Str(x2) + "  y2=" + Str(y2) + "; dx=" + Str(dx) + ",dy=" + CStr(dy) + vbCrLf
+            Dim existingPoint As Form1.ThePoint
+            If dx > 0 Then
+                For k = 0 To arr.Count - 1
+                    existingPoint = arr(k)
+                    If existingPoint.X > x1 And existingPoint.X < x2 And existingPoint.Y = y1 And existingPoint.N >= 0 Then
+                        Form1.TextBox1.Text &= "intersect X+" + vbCrLf
+                        'MouseClick(x2 - 20, y2)
+                        p.X = existingPoint.X - 20
+                        pts(j + 1) = p
+                        Exit For
+                    End If
+                Next
+            End If
+            If dx < 0 Then
+                For k = 0 To arr.Count - 1
+                    existingPoint = arr(k)
+                    If existingPoint.X > x2 And existingPoint.X < x1 And existingPoint.Y = y1 And existingPoint.N >= 0 Then
+                        Form1.TextBox1.Text &= "intersect X-" + vbCrLf
+                        'MouseClick(x2 - 20, y2)
+                        p.X = existingPoint.X + 20
+                        pts(j + 1) = p
+                        Exit For
+                    End If
+                Next
+            End If
+            If dy > 0 Then
+                For k = 0 To arr.Count - 1
+                    existingPoint = arr(k)
+                    If existingPoint.Y > y1 And existingPoint.Y < y2 And existingPoint.X = x1 And existingPoint.N >= 0 Then
+                        Form1.TextBox1.Text &= "intersect Y+" + vbCrLf
+                        'MouseClick(x2 - 20, y2)
+                        p.Y = existingPoint.Y - 20
+                        pts(j + 1) = p
+                        Exit For
+                    End If
+                Next
+            End If
+            If dy < 0 Then
+                For k = 0 To arr.Count - 1
+                    existingPoint = arr(k)
+                    If existingPoint.Y > y2 And existingPoint.Y < y1 And existingPoint.X = x1 And existingPoint.N >= 0 Then
+                        Form1.TextBox1.Text &= "intersect Y-" + vbCrLf
+                        'MouseClick(x2 - 20, y2)
+                        p.Y = existingPoint.Y + 20
+                        pts(j + 1) = p
+                        Exit For
+                    End If
+                Next
+            End If
+
+        Next
+
+    End Sub
 End Class

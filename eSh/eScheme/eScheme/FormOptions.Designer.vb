@@ -412,7 +412,7 @@ Partial Class FormOptions
         '
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.Button2.Location = New System.Drawing.Point(247, 328)
+        Me.Button2.Location = New System.Drawing.Point(377, 296)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(102, 26)
         Me.Button2.TabIndex = 5

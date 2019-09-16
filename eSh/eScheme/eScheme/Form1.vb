@@ -28,11 +28,12 @@ Public Class Form1
     End Function
 
     'Public NeedFlash As Boolean = False
-    Structure ThePoint
+    Public Structure ThePoint
         Dim N As Integer
         Dim X As Integer
         Dim Y As Integer
     End Structure
+    Public PointsToConnect As New ArrayList ' Массив в который накидываем совпадающие точки, чтобы после создания объекта их обработать и очистить 
 
     Public Sub DoLight()
         'If Not NeedFlash Then Exit Sub
@@ -1029,7 +1030,7 @@ Public Class Form1
         zx = e.X
         zy = e.Y
 
-        ToolTip1.SetToolTip(Me, Mode)
+        ToolTip1.SetToolTip(Me, Mode + " rx=" + rx.ToString + " ry=" + ry.ToString)
         If Mode = "MoveMe" Then
             TextBox1.Text = "rx -Xstart=" + CStr(rx - moveXstart) + "  ry - Ystart=" + CStr(ry - moveYstart) + vbCrLf + TextBox1.Text
             If moveObject Is Nothing Then Exit Sub
@@ -1778,7 +1779,14 @@ nextAfterMove:
 			DoNeedSave()
 
 		End If
-		G.Dispose()
+        G.Dispose()
+        If PointsToConnect.Count > 0 Then
+            For j = 0 To PointsToConnect.Count - 1
+                Dim nums As Point = PointsToConnect(j)
+                OnConnect(nums.X, nums.Y)
+            Next
+            PointsToConnect.Clear()
+        End If
     End Sub
 
     Private Sub СохранитьToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles СохранитьToolStripMenuItem1.Click
@@ -3575,10 +3583,15 @@ nth:
                 If eComp.aType = "ePoint" Then
                     Dim p As EPoint, pnt As ThePoint
                     p = eComp.component
-                    pnt.N = p.num
-                    pnt.X = p.X
-                    pnt.Y = p.Y
-                    arr.Add(pnt)
+                    If p Is Nothing Then
+
+                    Else
+                        pnt.N = p.num
+                        pnt.X = p.X
+                        pnt.Y = p.Y
+                        arr.Add(pnt)
+                    End If
+
                 End If
             End If
         Next

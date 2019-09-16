@@ -68,6 +68,7 @@ Public Class eBat
 			econ.Change(num, 30)
 
             'Form1.TextBox1.Text &= "eBat #" + CStr(num) + " changed (3) points" + vbCrLf
+
         End If
 
 	End Sub
