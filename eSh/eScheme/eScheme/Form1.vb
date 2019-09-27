@@ -292,7 +292,7 @@ Public Class Form1
             RLampdefault = dict(11)
             FUSEdefault = dict(12)
             RELEdefault = dict(13)
-            ComputeUI = dict(14)
+            ComputeUI = dict(15)
             'liFile = "C:\Users\smirnovrv\Documents\рабоч\МИ\electr\li\getLicense\bin\Debug\8d6f3031c9d08b5.elc"
             liFile = dict(14)
         Catch ex As Exception
