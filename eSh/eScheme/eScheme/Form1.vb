@@ -107,7 +107,7 @@ Public Class Form1
     Public FUSEdefault As Single = 10
     Public RELEdefault As Single = 59
     Public TimeRePoDefault As Single = 500
-    Public ComputeUI As Boolean = True
+    Public ComputeUI As Boolean = False
     Public fnt As System.Drawing.Text.PrivateFontCollection = New System.Drawing.Text.PrivateFontCollection()
     Public gost_font As Font
     Dim firstPoint As Point
@@ -2172,18 +2172,25 @@ StartFile:
 					Elements.Add(eComp)
 					Me.Controls.Add(diod)
 				End If
-				'eXP
-				If aComp(0) = "eXP" Then
-					Dim xp As New eXP(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
-					eComp = New EComponent With {
-						.aType = "eXP",
-						.numInArray = xp.num,
-						.component = xp
-					}
-					Elements.Add(eComp)
-					Me.Controls.Add(xp)
-				End If
-			End If 'Этот кусок при изменении перекопировать в Undo
+                'eXP
+                If aComp(0) = "eXP" Then
+                    Dim arr As ArrayList
+                    If aComp.Count = 8 Then
+                        Dim c As List(Of Boolean) = aComp(7)
+                        arr = New ArrayList(c)
+                    End If
+#Disable Warning BC42104 ' Переменная используется до того, как ей было назначено значение
+                    Dim xp As New eXP(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), arr)
+#Enable Warning BC42104 ' Переменная используется до того, как ей было назначено значение
+                    eComp = New EComponent With {
+                        .aType = "eXP",
+                        .numInArray = xp.num,
+                        .component = xp
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(xp)
+                End If
+            End If 'Этот кусок при изменении перекопировать в Undo
             System.Threading.Thread.Sleep(sleepTime)
             ProgressBar.Value = 50 + i
             Application.DoEvents()
@@ -3209,7 +3216,8 @@ StartFile:
     End Sub
 
     Private Sub ОпрограммеToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ОпрограммеToolStripMenuItem.Click
-        MsgBox("Ознакомительная версия." + vbCrLf + "Для Алексея Владимировича :)")
+        ' MsgBox("Ознакомительная версия." + vbCrLf + "Для Алексея Владимировича :)")
+        FrmAbout.Visible = True
     End Sub
 
     Private Sub PictureBox_Lmp_MouseEnter(sender As Object, e As EventArgs) Handles PictureBox_Lmp.MouseEnter
@@ -3514,17 +3522,25 @@ StartFile:
 					Elements.Add(eComp)
 					Me.Controls.Add(diod)
 				End If
-				If aComp(0) = "eXP" Then
-					Dim xp As New eXP(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6))
-					eComp = New EComponent With {
-						.aType = "eXP",
-						.numInArray = xp.num,
-						.component = xp
-					}
-					Elements.Add(eComp)
-					Me.Controls.Add(xp)
-				End If
-			End If 'Этот кусок при изменении перекопировать в Undo
+                'eXP
+                If aComp(0) = "eXP" Then
+                    Dim arr As ArrayList
+                    If aComp.Count = 8 Then
+                        Dim c As List(Of Boolean) = aComp(7)
+                        arr = New ArrayList(c)
+                    End If
+#Disable Warning BC42104 ' Переменная используется до того, как ей было назначено значение
+                    Dim xp As New eXP(aComp(2), aComp(3), aComp(1), aComp(4), aComp(5), aComp(6), arr)
+#Enable Warning BC42104 ' Переменная используется до того, как ей было назначено значение
+                    eComp = New EComponent With {
+                        .aType = "eXP",
+                        .numInArray = xp.num,
+                        .component = xp
+                    }
+                    Elements.Add(eComp)
+                    Me.Controls.Add(xp)
+                End If
+            End If 'Этот кусок при изменении перекопировать в Undo
 		Next
 		ShowComments(f.showComments)
 		TextBox1.Text = unDoArray.Count.ToString + vbCrLf + TextBox1.Text

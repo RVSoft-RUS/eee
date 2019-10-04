@@ -108,6 +108,9 @@ Imports eScheme
                     Dim eComp As EComponent
                     Dim econ As IConnectable
                     eComp = Form1.Elements(links(i))
+                    If eComp Is Nothing Then
+                        Continue For
+                    End If
                     econ = eComp.component
                     econ.Change(num, Me.Condition_)
                     'Form1.TextBox1.Text &= "point " + CStr(num) + " to " + CStr(links(i)) + vbCrLf
@@ -227,26 +230,35 @@ Imports eScheme
 		End If
 		If Form1.Mode = "eGND" Then
 			If Condition_ <= 0 Then
-				Form1.Mode = ""
-				Dim eComp As New EComponent With {
-								.aType = "eGND",
-								.numInArray = Form1.Elements.Count
-							}
-				Form1.Elements.Add(eComp)
-				Dim gnd As New EGND(X, Y, eComp.numInArray) With {
-					.link = num
-				}
-				Form1.Controls.Add(gnd)
-				eComp.component = gnd
-				links.Add(gnd.num)
-				Form1.pointsInProcessSig.Clear()
-				Change(gnd.num, -1)
+                '            Dim eComp As New EComponent With {
+                '                        .aType = "eGND",
+                '                        .numInArray = Form1.Elements.Count
+                '                    }
+                '            Form1.Elements.Add(eComp)
 
-				Form1.GroupBox1.Visible = True
-				Form1.CheckBox2.Visible = True
-				Form1.Cursor = Cursors.Default
-				Form1.DoNeedSave()
-			Else
+                '            Dim gnd As New EGND(X, Y, eComp.numInArray)
+                '            Me.Controls.Add(gnd)
+                '            eComp.component = gnd
+                '            Form1.Mode = ""
+                '            'Dim eComp As New EComponent With {
+                '            '				.aType = "eGND",
+                '            '				.numInArray = Form1.Elements.Count
+                '            '			}
+                '            'Form1.Elements.Add(eComp)
+                '            'Dim gnd As New EGND(X, Y, eComp.numInArray) With {
+                '            '	.link = num
+                '            '}
+                '            'Form1.Controls.Add(gnd)
+                '            'eComp.component = gnd
+                '            'links.Add(gnd.num)
+                '            'Form1.pointsInProcessSig.Clear()
+                '            'Change(gnd.num, -1)
+
+                '            Form1.GroupBox1.Visible = True
+                'Form1.CheckBox2.Visible = True
+                'Form1.Cursor = Cursors.Default
+                'Form1.DoNeedSave()
+            Else
 				MsgBox("Массу нельзя подключить к плюсовому проводу.", vbInformation, "Подключение массы")
 			End If
 		End If
@@ -312,16 +324,19 @@ Imports eScheme
 
 		For i = 0 To linkForCheck.Count - 1
 			eComp = Form1.Elements(linkForCheck(i))
-			econ = eComp.component
-			sig = econ.CheckSig(num)
-			If sig <> 0 Then Return sig
+            If eComp Is Nothing Then
+                Continue For
+            End If
+            econ = eComp.component
+            sig = econ.CheckSig(num)
+            If sig <> 0 Then Return sig
 		Next
 		Return 0
 	End Function
 
 	Public Function CheckUI(from As Integer, U As Single, Optional t As Integer = 0) As Single Implements IConnectable.CheckUI
-		Dim asd As ArrayList = Form1.pointsInProcessUI
-		If Form1.pointsInProcessUI.Contains(num) Then
+        Dim asd As ArrayList = Form1.pointsInProcessUI
+        If Form1.pointsInProcessUI.Contains(num) Then
 			Dim s As String = vbCrLf
 			For j = 0 To asd.Count - 1
 				s += asd(j).ToString + vbCrLf
@@ -343,6 +358,9 @@ Imports eScheme
 		For j = 0 To (links.Count - 1)
             If links(j) <> from And links(j) > 0 Then
                 Dim eComp As EComponent = Form1.Elements(links(j))
+                If eComp Is Nothing Then
+                    Continue For
+                End If
                 Dim iConn As IConnectable = eComp.component
                 iis.Add(iConn.CheckUI(num, U, t))
             End If
@@ -391,8 +409,11 @@ Imports eScheme
 		For j = 0 To links.Count - 1
 			If links(j) <> -1 Then
 				Dim eComp As EComponent = Form1.Elements(links(j))
-				m = eComp.component
-				If Not (m Is from) Then
+                If eComp Is Nothing Then
+                    Continue For
+                End If
+                m = eComp.component
+                If Not (m Is from) Then
 					mayMove = m.Move(Me, dX, dY)
 					If Not mayMove Then
 						Return False

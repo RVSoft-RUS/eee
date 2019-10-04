@@ -13,28 +13,27 @@ Public Class eXP
     Public pins As Integer
     Public loc As Integer = 1
 
-    'Dim points() As Apoint
+    Dim dt As Date
+    Private IsItMySignal() As Boolean 'Если сигнал от меня, то True
+
     Dim mFile As MemoryMappedFile
+    Dim sFile As MemoryMappedFile
+    Dim UIFile As MemoryMappedFile
     Dim eventX As EventWaitHandle
     Dim eventThread As Thread
-    Dim wasSendEvent As Boolean = False '?
+    Dim wasSendEvent As Integer = 0
+    Dim wasSendUI As Integer = 0
     Dim Signal As String = ""
     Dim lastSignal As String = " "
     Dim Servers As New ArrayList
     Dim MyServerNum As Integer
     Delegate Sub DoWork_()
-    Private myDelegate As DoWork_ = New DoWork_(AddressOf DoWork)
+    Private myDelegateDoWork As DoWork_ = New DoWork_(AddressOf DoWork)
 
     Dim m_Y As Integer
     Dim m_X As Integer
 
-    'Structure Apoint
-    '	Dim myCondition As Integer
-    '	Dim Condition As Integer
-    '	Dim pin As Integer
-    'End Structure
-
-    Public Sub New(rx As Integer, ry As Integer, n As Integer, aName As String, pinov As Integer, locat As Integer)
+    Public Sub New(rx As Integer, ry As Integer, n As Integer, aName As String, pinov As Integer, locat As Integer, Optional arr As ArrayList = Nothing)
         InitializeComponent()
         X = rx
         Y = ry
@@ -67,6 +66,7 @@ Public Class eXP
             Me.Controls.Add(lb)
         Next
 
+        ReDim IsItMySignal(pins + 1)
         Dim eComp As EComponent
         If Form1.Mode.StartsWith("eXP") Then 'Только при создании, при открытии файла не делать
             For j = 1 To pins
@@ -79,14 +79,25 @@ Public Class eXP
                 p.links.Add(num)
                 Form1.Controls.Add(p)
                 eComp.component = p
+
+                IsItMySignal(j) = False
             Next
+        Else
+            If arr IsNot Nothing Then
+                For j = 1 To pins
+                    IsItMySignal(j) = arr(j)
+                Next
+            End If
+
         End If
 
         OnCreate()
     End Sub
 
     Sub OnCreate()
-        mFile = MemoryMappedFile.CreateOrOpen(myName, 512)
+        mFile = MemoryMappedFile.CreateOrOpen(myName, 32)
+        sFile = MemoryMappedFile.CreateOrOpen("s" & myName, 512)
+        UIFile = MemoryMappedFile.CreateOrOpen("UI" & myName, 2048)
         eventX = New EventWaitHandle(False, EventResetMode.ManualReset, "000" & myName)
         eventThread = New Thread(AddressOf WaitSignal) With {
             .IsBackground = True
@@ -94,9 +105,10 @@ Public Class eXP
 
         DoWork()
         MyServerNum = GetServerLastNum() 'присвоить свободный
-        Servers.Add(MyServerNum.ToString & "0")
-        ToolTip1.SetToolTip(Label_Name, "MyServerNum = " & MyServerNum.ToString & " |  Всего обслуживается объектов объектов: " & Servers.Count.ToString)
-        Write_mFile("")
+        Servers.Add(MyServerNum.ToString)
+        ToolTip1.SetToolTip(Label_Name, "MyServerNum = " & MyServerNum.ToString & " |  Всего обслуживается объектов: " & Servers.Count.ToString)
+        Write_sFile()
+        eventThread.Name = "MyServerNum = " & MyServerNum.ToString
         eventThread.Start()
     End Sub
 
@@ -104,126 +116,162 @@ Public Class eXP
         Try
             Do
                 eventX.WaitOne()
-                If wasSendEvent Then
-                    If Read_mFile() = 1 Then
-                        wasSendEvent = False
-                        eventX.Reset()
-                    End If
+                'Отправили изменение, ждем когда все получат и сбрасываем сигнальное состояние
+                If wasSendEvent = 2 Then
+                    wasSendEvent = 0
+                    eventX.Reset()
+                    'MsgBox(Now.Ticks - dt.Ticks)
                     Continue Do
                 End If
-                'Выполняем необходимые действия
-                Me.Invoke(myDelegate)
+                If wasSendEvent = 1 Then
+                    dt = Now
+                    Thread.Sleep(10)
+                    wasSendEvent = 2
+
+                    Continue Do
+                End If
+                'Отправили запрос UI, ждем ответа от всех
+                If wasSendUI = 1 Then
+                    Continue Do
+                End If
+                Me.Invoke(myDelegateDoWork)
             Loop
         Catch ex As ThreadInterruptedException
 
         End Try
-
-
     End Sub
 
-    Function Read_mFile() '-1 - ошибка, 0 - пустой файл, 1- все прочитали
+    Function Read_mFile() '-1 - ошибка, 0 - пустой файл, 1- успешно
         'Чтение из файла, сигнал добавляем в список, если он новый или список пустой
-        'добавляем в список сервера и их состояние, последняя цифра N0 или N1
         Dim size1 As Integer
         Dim message As Char(), msg As String = ""
         Try
-            Using reader As MemoryMappedViewAccessor = mFile.CreateViewAccessor(0, 4, MemoryMappedFileAccess.Read)
-                size1 = reader.ReadInt32(0)
-            End Using
-            Using reader = mFile.CreateViewAccessor(4, size1 * 2, MemoryMappedFileAccess.Read)
-                message = New Char(size1 - 1) {}
-                reader.ReadArray(Of Char)(0, message, 0, size1)
-            End Using
+            SyncLock (mFile)
+                Using reader As MemoryMappedViewAccessor = mFile.CreateViewAccessor(0, 4, MemoryMappedFileAccess.Read)
+                    size1 = reader.ReadInt32(0)
+                End Using
+                Using reader = mFile.CreateViewAccessor(4, size1 * 2, MemoryMappedFileAccess.Read)
+                    message = New Char(size1 - 1) {}
+                    reader.ReadArray(Of Char)(0, message, 0, size1)
+                End Using
+            End SyncLock
+
             msg = New String(message)
 
             If msg = "" Then Return 0 'Файл только что создан (пустой)
 
-            Dim arr() = msg.Split("%")
-
-            Signal = arr(0)
-
-            arr = arr(1).Split(";")
-            Servers.Clear()
-            Dim res As Integer = 1, str As String = "", k As Integer = 0
-            For j = 0 To arr.Length - 1
-                str = arr(j)
-                Servers.Add(str)
-                str = str.Remove(0, str.Length - 1)
-                k = Integer.Parse(str)
-                res *= k
-            Next
-            'ToolTip1.SetToolTip(Label_Name, "MyServerNum = " & MyServerNum.ToString & " |  Всего обслуживается объектов объектов: " & Servers.Count.ToString)
-            Return res
+            Signal = msg
+            Return 1
         Catch ex As Exception
             Return -1
         End Try
 
     End Function
 
-    Sub Write_mFile(msg As String, Optional reset As Boolean = False)
-        msg &= "%"
+    Sub Read_sFile()
+        'добавляем в список сервера
+        Dim size1 As Integer
+        Dim message As Char(), msg As String = ""
+        Try
+            SyncLock (sFile)
+                Using reader As MemoryMappedViewAccessor = sFile.CreateViewAccessor(0, 4, MemoryMappedFileAccess.Read)
+                    size1 = reader.ReadInt32(0)
+                End Using
+                Using reader = sFile.CreateViewAccessor(4, size1 * 2, MemoryMappedFileAccess.Read)
+                    message = New Char(size1 - 1) {}
+                    reader.ReadArray(Of Char)(0, message, 0, size1)
+                End Using
+            End SyncLock
 
-        Dim str As String = "", value As String = ""
+            msg = New String(message)
+
+            Dim arr() = msg.Split(";")
+            Servers.Clear()
+            Dim str As String = ""
+            For j = 0 To arr.Length - 1
+                str = arr(j)
+                If str <> "" Then Servers.Add(str)
+            Next
+
+        Catch ex As Exception
+
+        End Try
+        ToolTip1.SetToolTip(Label_Name, "MyServerNum = " & MyServerNum.ToString & " |  Всего обслуживается объектов: " & Servers.Count.ToString)
+    End Sub
+
+    Sub Write_mFile(msg As String)
+        Dim message As Char() = msg
+        Dim size As Integer = message.Length
+        SyncLock (mFile)
+            Using writer As System.IO.MemoryMappedFiles.MemoryMappedViewAccessor = mFile.CreateViewAccessor(0, 32, MemoryMappedFileAccess.Write)
+                writer.Write(0, size)
+                writer.WriteArray(Of Char)(4, message, 0, size)
+            End Using
+        End SyncLock
+    End Sub
+
+    Sub Write_sFile()
+        Dim msg As String = ""
+        Dim str As String = ""
         For j = 0 To Servers.Count - 1
-            str = Servers(j)
-            If reset Then
-                str = str.Remove(str.Length - 1)
-                str &= "0"
-            End If
-
-            If j = MyServerNum Then
-                str = str.Remove(str.Length - 1)
-                value = "1;"
-            Else
-                value = ";"
-            End If
-            str &= value
+            str = Servers(j) & ";"
             msg &= str
         Next
-        msg = msg.Remove(msg.Length - 1)
+        If msg.Contains(";") Then msg = msg.Remove(msg.Length - 1)
 
         Dim message As Char() = msg
         Dim size As Integer = message.Length
+        SyncLock (sFile)
+            Using writer As System.IO.MemoryMappedFiles.MemoryMappedViewAccessor = sFile.CreateViewAccessor(0, 512, MemoryMappedFileAccess.Write)
+                writer.Write(0, size)
+                writer.WriteArray(Of Char)(4, message, 0, size)
+            End Using
+        End SyncLock
 
-        Using writer As System.IO.MemoryMappedFiles.MemoryMappedViewAccessor = mFile.CreateViewAccessor(0, 256, MemoryMappedFileAccess.Write)
-            writer.Write(0, size)
-            writer.WriteArray(Of Char)(4, message, 0, size)
-        End Using
     End Sub
 
     Sub DoWork()
         Read_mFile()
-        If Signal <> lastSignal Then
-
-            Write_mFile(Signal)
+        Read_sFile()
+        If (Signal <> lastSignal) Then
             DoNext()
-            Write_mFile(Signal)
         End If
 
     End Sub
 
 
     Public Sub Change(from As Integer, condition As Integer) Implements IConnectable.Change
-        Dim q As Integer = Servers.Count - 1
 
-        Dim msg As String = "A;" & (from - num).ToString & ";" & (condition + 50).ToString
-        Write_mFile(msg, True)
+        If condition <> 0 Then
+            IsItMySignal(from - num) = True
+            Dim msg As String = "A;" & (from - num).ToString & ";" & (condition + 50).ToString
+            Write_mFile(msg)
+            wasSendEvent = 1
+            eventX.Set()
+        End If
+        If condition = 0 And IsItMySignal(from - num) Then
+            IsItMySignal(from - num) = False
+            Dim msg As String = "A;" & (from - num).ToString & ";" & (condition + 50).ToString
+            Write_mFile(msg)
+            wasSendEvent = 1
+            eventX.Set()
+        End If
+        Read_sFile()
 
-        wasSendEvent = True
-        eventX.Set()
     End Sub
 
     Private Sub IConnectable_Dispose() Implements IConnectable.Dispose
-        Dim str As String = MyServerNum.ToString & "0"
+        Dim str As String = MyServerNum.ToString
+        Read_sFile()
         Servers.Remove(str)
-        str = MyServerNum.ToString & "1"
-        Servers.Remove(str)
-        Write_mFile("")
+        Write_sFile()
 
         eventThread.Interrupt()
         eventThread = Nothing
         eventX = Nothing
         mFile = Nothing
+        sFile = Nothing
+        UIFile = Nothing
         Me.Dispose()
     End Sub
 
@@ -235,17 +283,44 @@ Public Class eXP
             Y,
             myName,
             pins,
-            loc
+            loc,
+            IsItMySignal.ToList
         }
         Return save
     End Function
 
     Public Function CheckSig(from As Integer) As Integer Implements IConnectable.CheckSig
-        Return 0 'Временно
+        If IsItMySignal(from - num) Then
+            Return 0
+        Else
+            Dim eComp As EComponent = Form1.Elements(from)
+            Dim p As EPoint = eComp.component
+            Return p.Condition
+        End If
     End Function
 
     Public Function CheckUI(from As Integer, U As Single, Optional r_ As Integer = 0) As Single Implements IConnectable.CheckUI
-        Return 0 'Временно
+        Dim msg As String = "U;" & (from - num).ToString & ";" & U.ToString & ";" & r_.ToString
+        Write_mFile(msg)
+        wasSendUI = 1
+        Read_sFile()
+        Clear_UIFile()
+        lastSignal = " "
+        eventX.Set()
+
+        Dim s As Single
+        Do While True
+            Application.DoEvents()
+            Thread.Sleep(10)
+            s = ReadUIFile()
+            If s >= 0 Then
+                wasSendUI = 0
+                eventX.Reset()
+                Return s
+            End If
+        Loop
+        Return 0 'Сделать при превышении времени
+
     End Function
 
     Private Sub DoNext()
@@ -265,16 +340,69 @@ Public Class eXP
                 aPoint = eComp.component
                 Form1.pointsInProcessSig.Clear()
                 aPoint.Change(num, theSig)
-            ElseIf msg.StartsWith("E") Then 'Check
-
             ElseIf msg.StartsWith("U") Then 'CheckUI
-
+                Form1.LabelSig.BackColor = Color.Violet
+                Form1.isCheckUI = True
+                Application.DoEvents()
+                numPoint = Integer.Parse(arr(1)) + num
+                Dim U As Single = Single.Parse(arr(2))
+                Dim R As Single = Single.Parse(arr(3))
+                eComp = Form1.Elements(numPoint)
+                Dim p1 As EPoint = eComp.component
+                Dim I As Single
+                I = p1.CheckUI(num, U, R)
+                WriteI_toUIFile(I)
+                Form1.LabelSig.BackColor = Color.White
+                Form1.isCheckUI = False
             End If
             lastSignal = Signal
         Catch ex As Exception
 
         End Try
     End Sub
+
+    Function ReadUIFile() As Single
+        Dim s As Single, sum As Single
+        Using reader As MemoryMappedViewAccessor = UIFile.CreateViewAccessor(0, 1024, MemoryMappedFileAccess.Read)
+            For j = 0 To Servers.Count - 1
+                s = reader.ReadSingle(j * 4)
+                If s < 0 Then
+                    Return -1
+                Else
+                    sum += s
+                End If
+            Next
+        End Using
+        Return sum
+    End Function
+
+    Sub WriteI_toUIFile(s As Single)
+        Using writer As System.IO.MemoryMappedFiles.MemoryMappedViewAccessor = UIFile.CreateViewAccessor(0, 1024, MemoryMappedFileAccess.Write)
+            For j = 0 To Servers.Count - 1
+                If Servers(j) = MyServerNum.ToString Then
+                    writer.Write(0 + j * 4, s)
+                    Exit For
+                End If
+            Next
+        End Using
+    End Sub
+
+    Sub Clear_UIFile()
+        Dim iSng As Single = -1.0
+        Dim mySng As Single = 0.0
+        Using writer As System.IO.MemoryMappedFiles.MemoryMappedViewAccessor = UIFile.CreateViewAccessor(0, 1024, MemoryMappedFileAccess.Write)
+            Dim s As Single
+            For j = 0 To Servers.Count - 1
+                If Servers(j) = MyServerNum.ToString Then
+                    s = mySng
+                Else
+                    s = iSng
+                End If
+                writer.Write(0 + j * 4, s)
+            Next
+        End Using
+    End Sub
+
 
     'Sub TestExcel()
     '    Dim xlApp As Microsoft.Office.Interop.Excel.Application
@@ -304,11 +432,10 @@ Public Class eXP
 
         Try
             str = Servers(Servers.Count - 1)
-            str = str.Remove(str.Length - 1)
             k = Integer.Parse(str)
             Return k + 1
         Catch ex As Exception
-            Return -1
+            Return Integer.MinValue
         End Try
 
     End Function
@@ -369,33 +496,15 @@ Public Class eXP
         '    Exit Sub
         'End If
         If Form1.Mode = "Delete" Then
-            Dim eComp As EComponent = Form1.Elements(num + 1)
-            Dim p As EPoint = eComp.component 'Первая точка 
-            p.links.Remove(num + 2)
-            p.links.Remove(num + 3)
-            p.DeleteMe()
+            Dim eComp As EComponent
+            Dim p As EPoint
 
-            eComp = Form1.Elements(num + 2)
-            p = eComp.component 'Вторая точка 
-            p.links.Remove(num + 1)
-            p.links.Remove(-1)
-            p.DeleteMe()
-
-            eComp = Form1.Elements(num + 3)
-            p = eComp.component '3 точка 
-            p.links.Remove(num + 1)
-            p.links.Remove(-1)
-            p.DeleteMe()
-
-            eComp = Form1.Elements(num + 4)
-            p = eComp.component '4 точка 
-            p.links.Remove(num)
-            p.DeleteMe()
-
-            eComp = Form1.Elements(num + 5)
-            p = eComp.component '5 точка 
-            p.links.Remove(num)
-            p.DeleteMe()
+            For j = 1 To pins
+                eComp = Form1.Elements(num + j)
+                p = eComp.component
+                p.links.Remove(num)
+                p.DeleteMe()
+            Next
 
             If Form1.f.Batt > 0 Then
                 eComp = Form1.Elements(Form1.f.Batt)

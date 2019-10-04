@@ -15,6 +15,7 @@
         TextBoxRele.Text = Form1.RELEdefault.ToString
 
         CheckBox1.Checked = Form1.stopAtRMClick
+        Dim asa As Boolean = Form1.ComputeUI
         CheckBox3.Checked = Form1.openWithSize
         CheckBox4.Checked = Form1.ComputeUI
 
