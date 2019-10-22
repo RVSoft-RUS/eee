@@ -1030,7 +1030,7 @@ Public Class Form1
         zx = e.X
         zy = e.Y
 
-        ToolTip1.SetToolTip(Me, Mode + " rx=" + rx.ToString + " ry=" + ry.ToString)
+        'ToolTip1.SetToolTip(Me, Mode + " rx=" + rx.ToString + " ry=" + ry.ToString)
         If Mode = "MoveMe" Then
             TextBox1.Text = "rx -Xstart=" + CStr(rx - moveXstart) + "  ry - Ystart=" + CStr(ry - moveYstart) + vbCrLf + TextBox1.Text
             If moveObject Is Nothing Then Exit Sub
@@ -2409,8 +2409,8 @@ StartFile:
     End Sub
 
     Private Sub PictureBox1_Motor_Click(sender As Object, e As EventArgs) Handles PictureBox1_Motor.Click
-        Mode = "eMotor1"
-        HidePanel()
+        'Mode = "eMotor1"
+        'HidePanel()
     End Sub
 
     Private Sub PictureBox1_Repo_Click(sender As Object, e As EventArgs) Handles PictureBox1_Repo.Click
@@ -3156,9 +3156,9 @@ StartFile:
             End If
         End If
         If isCheckUI Then
-            Do While isCheckUI
-                Application.DoEvents()
-            Loop
+            'Do While isCheckUI
+            '    Application.DoEvents()
+            'Loop
         End If
         isChanging = True
         Dim eComp As EComponent

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>e3.services - проверка соединения</title>
+<meta name="keywords" content="e3.series, проверка соединения" />
+<meta name="description" content="e3.services - проверка соединения" />
+
+<meta name="viewport" content="width=device-width" />
+<meta name="robots" content="noyaca" />
+<meta name="robots" content="noodp" />
+<script >
+function test1() {
+let app, job, flagShowMessage, resultMsg;
+
+app = new ActiveXObject("CT.Application");
+job = app.CreateJobObject ();
+app.PutInfo (0, "Начало работы скрипта!");
+alert("Начало работы скрипта!");
+	
+for (j=0; j<10; j++) {
+	app.PutInfo (0, "This string generated from script - " + j + " успешно.");
+	document.write("Устанавливаем соединение - " + j + "<br>");
+}
+}
+</script>
+</head>
+<body vlink=gold alink=0000FF>
+e3 - TEST.
+<hr>
+
+
+Пробный скрипт -<button onclick="test1()">Test e3</button>
+<hr>
+</body>
+</html>

@@ -179,18 +179,26 @@
   </data>
   <data name="PictureBox1_XP.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABcAAAAUCAYAAABmvqYOAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAAAM9JREFUSEvtk8ERxCAIRamJciyGVqjFTuyEVclGEN2Ds7unHP5MYuAJHwKlFPmV
-        HvhSf4JzEgCQxD6gFJZUz5Fyfc5CCD0uCoWyz3WVZ0IBJMnmjFNNTHy9K1wvGjFNPReSsDmbbLFV1vfe
-        jU3Yw9+5tvPo+Q1UkLfpGD4SmhWItc3bjhGzg3f79raYhGu4EaLwOMwmD25awFt7dfJMgmEDPtkSFeB2
-        O/ymaMw5fN6O3Kq3QzqGT2t4ye/vIbwPavqBVHqpfjuu/Pt64AsVeQH3lOilC7UphQAAAABJRU5ErkJg
-        gg==
+        iVBORw0KGgoAAAANSUhEUgAAABkAAAAWCAIAAAC63aDhAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAACySURBVDhP7dLBFYQgDARQ67Ig66Eam7EYNghxJ5P4jG/3
+        4ME5IeBPQKf6v7zWvThrXaZlHeMjW5nnsslAVm1wb2QRJpDOcCF57jX2+DPadfPIFJaReAvX7V5H0Uxw
+        99qJha6pyOpYsUcNKKlld0RWa4gg/6J2DwmsE2r8BBo6bouzwgO6rsJYSxtvbUDhHIUWAuY2ktRhUSeI
+        Zalh+Y/ytdNUs7ilHri6JEV3/1ueadX6AXHdwTgLm5cEAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="PictureBox1_XP.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABkAAAAWCAIAAAC63aDhAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAACySURBVDhP7dLBFYQgDARQ67Ig66Eam7EYNghxJ5P4jG/3
+        4ME5IeBPQKf6v7zWvThrXaZlHeMjW5nnsslAVm1wb2QRJpDOcCF57jX2+DPadfPIFJaReAvX7V5H0Uxw
+        99qJha6pyOpYsUcNKKlld0RWa4gg/6J2DwmsE2r8BBo6bouzwgO6rsJYSxtvbUDhHIUWAuY2ktRhUSeI
+        Zalh+Y/ytdNUs7ilHri6JEV3/1ueadX6AXHdwTgLm5cEAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="PictureBox1_Repo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABkAAAAWCAIAAAC63aDhAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vwAADr8BOAVTJAAAAG1JREFUOE/tkNENgCAMRJmLgTqP07CMw9QzV2MhNQbli/B+uF7hfZB0HMvVh7lS
+        vgAADr4B6kKxwAAAAG1JREFUOE/tkNENgCAMRJmLgTqP07CMw9QzV2MhNQbli/B+uF7hfZB0HMvVh7lS
         BFfEqggp1x07HuAW2BwRu5jJltndF3amGvTvLuBLhPlcTYPc52oo7jXGL64swtKD/td/ebBdrjPbOYL5
         XaoHSNtBVz4xy0EAAAAASUVORK5CYII=
 </value>

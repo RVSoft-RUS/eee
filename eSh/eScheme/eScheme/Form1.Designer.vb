@@ -25,21 +25,44 @@ Partial Class Form1
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.PictureBox_Lmp = New System.Windows.Forms.PictureBox()
+        Me.PictureBox_Move = New System.Windows.Forms.PictureBox()
         Me.PictureBox_eComment = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.PictureBox_Resist = New System.Windows.Forms.PictureBox()
         Me.Label_A4 = New System.Windows.Forms.Label()
+        Me.PictureBox_Delete = New System.Windows.Forms.PictureBox()
+        Me.PictureBox1_XP = New System.Windows.Forms.PictureBox()
+        Me.PictureBox1_Repo = New System.Windows.Forms.PictureBox()
+        Me.PictureBox1_Motor = New System.Windows.Forms.PictureBox()
+        Me.PictureBox15 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox_Switch3 = New System.Windows.Forms.PictureBox()
         Me.PictureBox_BorderText = New System.Windows.Forms.Label()
+        Me.PictureBox_Fuse = New System.Windows.Forms.PictureBox()
+        Me.PictureBox1_Rele = New System.Windows.Forms.PictureBox()
+        Me.PictureBox_Switch = New System.Windows.Forms.PictureBox()
+        Me.PictureBox10 = New System.Windows.Forms.PictureBox()
         Me.PictureBox_eText = New System.Windows.Forms.Label()
+        Me.PictureBox_Diod = New System.Windows.Forms.PictureBox()
+        Me.PictureBox_Button = New System.Windows.Forms.PictureBox()
+        Me.PictureBox_eBat = New System.Windows.Forms.PictureBox()
+        Me.PictureBox_Lamp = New System.Windows.Forms.PictureBox()
+        Me.PictureBox_Massa = New System.Windows.Forms.PictureBox()
+        Me.PictureBox_Point = New System.Windows.Forms.PictureBox()
+        Me.PictureBox_Provod = New System.Windows.Forms.PictureBox()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.LabelSig = New System.Windows.Forms.Label()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ФайлToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ОткрытьToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ВставитьФрагментToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolStripSeparator = New System.Windows.Forms.ToolStripSeparator()
+        Me.СохранитьToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.СохранитькакToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ПечатьToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ВыходToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.СервисToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -92,26 +115,6 @@ Partial Class Form1
         Me.PrintPreviewDialog1 = New System.Windows.Forms.PrintPreviewDialog()
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
         Me.PageSetupDialog1 = New System.Windows.Forms.PageSetupDialog()
-        Me.PictureBox_Lmp = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Move = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Resist = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Delete = New System.Windows.Forms.PictureBox()
-        Me.PictureBox1_XP = New System.Windows.Forms.PictureBox()
-        Me.PictureBox1_Repo = New System.Windows.Forms.PictureBox()
-        Me.PictureBox1_Motor = New System.Windows.Forms.PictureBox()
-        Me.PictureBox15 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Switch3 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Fuse = New System.Windows.Forms.PictureBox()
-        Me.PictureBox1_Rele = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Switch = New System.Windows.Forms.PictureBox()
-        Me.PictureBox10 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Diod = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Button = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_eBat = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Lamp = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Massa = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Point = New System.Windows.Forms.PictureBox()
-        Me.PictureBox_Provod = New System.Windows.Forms.PictureBox()
         Me.pbNumber = New System.Windows.Forms.PictureBox()
         Me.pb7 = New System.Windows.Forms.PictureBox()
         Me.pb6 = New System.Windows.Forms.PictureBox()
@@ -120,11 +123,7 @@ Partial Class Form1
         Me.pb3 = New System.Windows.Forms.PictureBox()
         Me.pb2 = New System.Windows.Forms.PictureBox()
         Me.pb1 = New System.Windows.Forms.PictureBox()
-        Me.ОткрытьToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.СохранитьToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ПечатьToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1.SuspendLayout()
-        Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox_Lmp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_Move, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_Resist, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -145,6 +144,7 @@ Partial Class Form1
         CType(Me.PictureBox_Massa, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_Point, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_Provod, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MenuStrip1.SuspendLayout()
         CType(Me.pbNumber, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pb7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pb6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -194,6 +194,35 @@ Partial Class Form1
         "щения элемента" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "R - поворот при размещении" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Shift-F12 - сохранение изображения *" &
         ".png" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "F5 - перерасчет токов/напряжений")
         '
+        'PictureBox_Lmp
+        '
+        Me.PictureBox_Lmp.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Lmp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Lmp.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Lmp.Image = CType(resources.GetObject("PictureBox_Lmp.Image"), System.Drawing.Image)
+        Me.PictureBox_Lmp.Location = New System.Drawing.Point(37, 112)
+        Me.PictureBox_Lmp.Name = "PictureBox_Lmp"
+        Me.PictureBox_Lmp.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox_Lmp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Lmp.TabIndex = 38
+        Me.PictureBox_Lmp.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Lmp, "Лампа  (R для поворота при размещении)")
+        '
+        'PictureBox_Move
+        '
+        Me.PictureBox_Move.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.PictureBox_Move.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Move.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Move.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Move.Image = Global.eScheme.My.Resources.Resources.move
+        Me.PictureBox_Move.Location = New System.Drawing.Point(37, 860)
+        Me.PictureBox_Move.Name = "PictureBox_Move"
+        Me.PictureBox_Move.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox_Move.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Move.TabIndex = 37
+        Me.PictureBox_Move.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Move, "Переместить объект (Клавиша M)")
+        '
         'PictureBox_eComment
         '
         Me.PictureBox_eComment.AutoSize = True
@@ -216,6 +245,20 @@ Partial Class Form1
         Me.Button1.UseVisualStyleBackColor = True
         Me.Button1.Visible = False
         '
+        'PictureBox_Resist
+        '
+        Me.PictureBox_Resist.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Resist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Resist.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Resist.Image = CType(resources.GetObject("PictureBox_Resist.Image"), System.Drawing.Image)
+        Me.PictureBox_Resist.Location = New System.Drawing.Point(37, 84)
+        Me.PictureBox_Resist.Name = "PictureBox_Resist"
+        Me.PictureBox_Resist.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox_Resist.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Resist.TabIndex = 34
+        Me.PictureBox_Resist.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Resist, "Потребитель (R для поворота при размещении)")
+        '
         'Label_A4
         '
         Me.Label_A4.AutoSize = True
@@ -229,6 +272,91 @@ Partial Class Form1
         Me.Label_A4.Text = "A4/А3"
         Me.ToolTip1.SetToolTip(Me.Label_A4, "Выбрать формат для листа")
         '
+        'PictureBox_Delete
+        '
+        Me.PictureBox_Delete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.PictureBox_Delete.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Delete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Delete.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Delete.Image = CType(resources.GetObject("PictureBox_Delete.Image"), System.Drawing.Image)
+        Me.PictureBox_Delete.Location = New System.Drawing.Point(6, 860)
+        Me.PictureBox_Delete.Name = "PictureBox_Delete"
+        Me.PictureBox_Delete.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox_Delete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Delete.TabIndex = 32
+        Me.PictureBox_Delete.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Delete, "Удалить (Клавиша D)")
+        '
+        'PictureBox1_XP
+        '
+        Me.PictureBox1_XP.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox1_XP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox1_XP.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox1_XP.Image = CType(resources.GetObject("PictureBox1_XP.Image"), System.Drawing.Image)
+        Me.PictureBox1_XP.InitialImage = CType(resources.GetObject("PictureBox1_XP.InitialImage"), System.Drawing.Image)
+        Me.PictureBox1_XP.Location = New System.Drawing.Point(6, 315)
+        Me.PictureBox1_XP.Name = "PictureBox1_XP"
+        Me.PictureBox1_XP.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox1_XP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1_XP.TabIndex = 31
+        Me.PictureBox1_XP.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox1_XP, "Разъем (R - отражение)")
+        '
+        'PictureBox1_Repo
+        '
+        Me.PictureBox1_Repo.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox1_Repo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox1_Repo.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox1_Repo.Image = CType(resources.GetObject("PictureBox1_Repo.Image"), System.Drawing.Image)
+        Me.PictureBox1_Repo.Location = New System.Drawing.Point(37, 287)
+        Me.PictureBox1_Repo.Name = "PictureBox1_Repo"
+        Me.PictureBox1_Repo.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox1_Repo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1_Repo.TabIndex = 30
+        Me.PictureBox1_Repo.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox1_Repo, "РЕЛЕ ПОВОРОТОВ (R для поворота при размещении)")
+        '
+        'PictureBox1_Motor
+        '
+        Me.PictureBox1_Motor.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox1_Motor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox1_Motor.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox1_Motor.Image = CType(resources.GetObject("PictureBox1_Motor.Image"), System.Drawing.Image)
+        Me.PictureBox1_Motor.Location = New System.Drawing.Point(5, 287)
+        Me.PictureBox1_Motor.Name = "PictureBox1_Motor"
+        Me.PictureBox1_Motor.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox1_Motor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1_Motor.TabIndex = 29
+        Me.PictureBox1_Motor.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox1_Motor, "incorrect")
+        '
+        'PictureBox15
+        '
+        Me.PictureBox15.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox15.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox15.Image = CType(resources.GetObject("PictureBox15.Image"), System.Drawing.Image)
+        Me.PictureBox15.Location = New System.Drawing.Point(37, 205)
+        Me.PictureBox15.Name = "PictureBox15"
+        Me.PictureBox15.Size = New System.Drawing.Size(25, 76)
+        Me.PictureBox15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox15.TabIndex = 28
+        Me.PictureBox15.TabStop = False
+        '
+        'PictureBox_Switch3
+        '
+        Me.PictureBox_Switch3.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Switch3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Switch3.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Switch3.Image = CType(resources.GetObject("PictureBox_Switch3.Image"), System.Drawing.Image)
+        Me.PictureBox_Switch3.Location = New System.Drawing.Point(5, 197)
+        Me.PictureBox_Switch3.Name = "PictureBox_Switch3"
+        Me.PictureBox_Switch3.Size = New System.Drawing.Size(25, 35)
+        Me.PictureBox_Switch3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Switch3.TabIndex = 26
+        Me.PictureBox_Switch3.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Switch3, "Переключатель (R для поворота при размещении)")
+        '
         'PictureBox_BorderText
         '
         Me.PictureBox_BorderText.AutoSize = True
@@ -241,6 +369,61 @@ Partial Class Form1
         Me.PictureBox_BorderText.Text = "-Рамка---"
         Me.ToolTip1.SetToolTip(Me.PictureBox_BorderText, "Визуальное оформление отдельной логической зоны")
         '
+        'PictureBox_Fuse
+        '
+        Me.PictureBox_Fuse.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Fuse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Fuse.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Fuse.Image = CType(resources.GetObject("PictureBox_Fuse.Image"), System.Drawing.Image)
+        Me.PictureBox_Fuse.Location = New System.Drawing.Point(37, 141)
+        Me.PictureBox_Fuse.Name = "PictureBox_Fuse"
+        Me.PictureBox_Fuse.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox_Fuse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Fuse.TabIndex = 24
+        Me.PictureBox_Fuse.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Fuse, "Предохранитель (R для поворота при размещении)")
+        '
+        'PictureBox1_Rele
+        '
+        Me.PictureBox1_Rele.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox1_Rele.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox1_Rele.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox1_Rele.Image = CType(resources.GetObject("PictureBox1_Rele.Image"), System.Drawing.Image)
+        Me.PictureBox1_Rele.Location = New System.Drawing.Point(5, 238)
+        Me.PictureBox1_Rele.Name = "PictureBox1_Rele"
+        Me.PictureBox1_Rele.Size = New System.Drawing.Size(25, 43)
+        Me.PictureBox1_Rele.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1_Rele.TabIndex = 23
+        Me.PictureBox1_Rele.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox1_Rele, "Реле (R для поворота при размещении)")
+        '
+        'PictureBox_Switch
+        '
+        Me.PictureBox_Switch.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Switch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Switch.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Switch.Image = CType(resources.GetObject("PictureBox_Switch.Image"), System.Drawing.Image)
+        Me.PictureBox_Switch.Location = New System.Drawing.Point(37, 169)
+        Me.PictureBox_Switch.Name = "PictureBox_Switch"
+        Me.PictureBox_Switch.Size = New System.Drawing.Size(25, 25)
+        Me.PictureBox_Switch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Switch.TabIndex = 21
+        Me.PictureBox_Switch.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Switch, "Выключатель (R для поворота при размещении)")
+        '
+        'PictureBox10
+        '
+        Me.PictureBox10.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox10.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox10.Image = CType(resources.GetObject("PictureBox10.Image"), System.Drawing.Image)
+        Me.PictureBox10.Location = New System.Drawing.Point(6, 112)
+        Me.PictureBox10.Name = "PictureBox10"
+        Me.PictureBox10.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox10.TabIndex = 20
+        Me.PictureBox10.TabStop = False
+        '
         'PictureBox_eText
         '
         Me.PictureBox_eText.AutoSize = True
@@ -252,6 +435,103 @@ Partial Class Form1
         Me.PictureBox_eText.TabIndex = 19
         Me.PictureBox_eText.Text = "Надпись"
         Me.ToolTip1.SetToolTip(Me.PictureBox_eText, "Добавить текст")
+        '
+        'PictureBox_Diod
+        '
+        Me.PictureBox_Diod.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Diod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Diod.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Diod.Image = CType(resources.GetObject("PictureBox_Diod.Image"), System.Drawing.Image)
+        Me.PictureBox_Diod.Location = New System.Drawing.Point(6, 141)
+        Me.PictureBox_Diod.Name = "PictureBox_Diod"
+        Me.PictureBox_Diod.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox_Diod.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Diod.TabIndex = 17
+        Me.PictureBox_Diod.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Diod, "Диод (R для поворота при размещении)")
+        '
+        'PictureBox_Button
+        '
+        Me.PictureBox_Button.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Button.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Button.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Button.Image = CType(resources.GetObject("PictureBox_Button.Image"), System.Drawing.Image)
+        Me.PictureBox_Button.Location = New System.Drawing.Point(6, 169)
+        Me.PictureBox_Button.Name = "PictureBox_Button"
+        Me.PictureBox_Button.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox_Button.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Button.TabIndex = 16
+        Me.PictureBox_Button.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Button, "Кнопка (R для поворота при размещении)")
+        '
+        'PictureBox_eBat
+        '
+        Me.PictureBox_eBat.BackColor = System.Drawing.Color.White
+        Me.PictureBox_eBat.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_eBat.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_eBat.Image = CType(resources.GetObject("PictureBox_eBat.Image"), System.Drawing.Image)
+        Me.PictureBox_eBat.Location = New System.Drawing.Point(6, 19)
+        Me.PictureBox_eBat.Name = "PictureBox_eBat"
+        Me.PictureBox_eBat.Size = New System.Drawing.Size(55, 31)
+        Me.PictureBox_eBat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_eBat.TabIndex = 14
+        Me.PictureBox_eBat.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_eBat, "Источник питания")
+        '
+        'PictureBox_Lamp
+        '
+        Me.PictureBox_Lamp.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Lamp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Lamp.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Lamp.Image = CType(resources.GetObject("PictureBox_Lamp.Image"), System.Drawing.Image)
+        Me.PictureBox_Lamp.Location = New System.Drawing.Point(37, 112)
+        Me.PictureBox_Lamp.Name = "PictureBox_Lamp"
+        Me.PictureBox_Lamp.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox_Lamp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Lamp.TabIndex = 10
+        Me.PictureBox_Lamp.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Lamp, "Лампа (R для поворота при размещении)")
+        '
+        'PictureBox_Massa
+        '
+        Me.PictureBox_Massa.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Massa.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Massa.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Massa.Image = CType(resources.GetObject("PictureBox_Massa.Image"), System.Drawing.Image)
+        Me.PictureBox_Massa.Location = New System.Drawing.Point(6, 56)
+        Me.PictureBox_Massa.Name = "PictureBox_Massa"
+        Me.PictureBox_Massa.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox_Massa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Massa.TabIndex = 9
+        Me.PictureBox_Massa.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Massa, "Масса")
+        '
+        'PictureBox_Point
+        '
+        Me.PictureBox_Point.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox_Point.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Point.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Point.Image = CType(resources.GetObject("PictureBox_Point.Image"), System.Drawing.Image)
+        Me.PictureBox_Point.Location = New System.Drawing.Point(6, 84)
+        Me.PictureBox_Point.Name = "PictureBox_Point"
+        Me.PictureBox_Point.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox_Point.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox_Point.TabIndex = 4
+        Me.PictureBox_Point.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Point, "Добавить узел на проводе  (Клавиша P)")
+        '
+        'PictureBox_Provod
+        '
+        Me.PictureBox_Provod.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.PictureBox_Provod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Provod.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PictureBox_Provod.Image = CType(resources.GetObject("PictureBox_Provod.Image"), System.Drawing.Image)
+        Me.PictureBox_Provod.Location = New System.Drawing.Point(37, 56)
+        Me.PictureBox_Provod.Name = "PictureBox_Provod"
+        Me.PictureBox_Provod.Size = New System.Drawing.Size(25, 22)
+        Me.PictureBox_Provod.TabIndex = 2
+        Me.PictureBox_Provod.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox_Provod, "Соединение (провод) (Клавиша C)")
         '
         'CheckBox2
         '
@@ -298,6 +578,15 @@ Partial Class Form1
         Me.ToolStripMenuItem1.Size = New System.Drawing.Size(220, 22)
         Me.ToolStripMenuItem1.Text = "Новый"
         '
+        'ОткрытьToolStripMenuItem1
+        '
+        Me.ОткрытьToolStripMenuItem1.Image = CType(resources.GetObject("ОткрытьToolStripMenuItem1.Image"), System.Drawing.Image)
+        Me.ОткрытьToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ОткрытьToolStripMenuItem1.Name = "ОткрытьToolStripMenuItem1"
+        Me.ОткрытьToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
+        Me.ОткрытьToolStripMenuItem1.Size = New System.Drawing.Size(220, 22)
+        Me.ОткрытьToolStripMenuItem1.Text = "&Открыть"
+        '
         'ВставитьФрагментToolStripMenuItem
         '
         Me.ВставитьФрагментToolStripMenuItem.Name = "ВставитьФрагментToolStripMenuItem"
@@ -310,6 +599,15 @@ Partial Class Form1
         Me.toolStripSeparator.Name = "toolStripSeparator"
         Me.toolStripSeparator.Size = New System.Drawing.Size(217, 6)
         '
+        'СохранитьToolStripMenuItem1
+        '
+        Me.СохранитьToolStripMenuItem1.Image = CType(resources.GetObject("СохранитьToolStripMenuItem1.Image"), System.Drawing.Image)
+        Me.СохранитьToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.СохранитьToolStripMenuItem1.Name = "СохранитьToolStripMenuItem1"
+        Me.СохранитьToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
+        Me.СохранитьToolStripMenuItem1.Size = New System.Drawing.Size(220, 22)
+        Me.СохранитьToolStripMenuItem1.Text = "&Сохранить"
+        '
         'СохранитькакToolStripMenuItem
         '
         Me.СохранитькакToolStripMenuItem.Name = "СохранитькакToolStripMenuItem"
@@ -320,6 +618,14 @@ Partial Class Form1
         '
         Me.toolStripSeparator2.Name = "toolStripSeparator2"
         Me.toolStripSeparator2.Size = New System.Drawing.Size(217, 6)
+        '
+        'ПечатьToolStripMenuItem2
+        '
+        Me.ПечатьToolStripMenuItem2.Image = CType(resources.GetObject("ПечатьToolStripMenuItem2.Image"), System.Drawing.Image)
+        Me.ПечатьToolStripMenuItem2.Name = "ПечатьToolStripMenuItem2"
+        Me.ПечатьToolStripMenuItem2.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
+        Me.ПечатьToolStripMenuItem2.Size = New System.Drawing.Size(220, 22)
+        Me.ПечатьToolStripMenuItem2.Text = "Печать"
         '
         'ToolStripSeparator3
         '
@@ -376,18 +682,18 @@ Partial Class Form1
         'СправкаToolStripMenuItem1
         '
         Me.СправкаToolStripMenuItem1.Name = "СправкаToolStripMenuItem1"
-        Me.СправкаToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.СправкаToolStripMenuItem1.Size = New System.Drawing.Size(158, 22)
         Me.СправкаToolStripMenuItem1.Text = "Справка"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(155, 6)
         '
         'ОпрограммеToolStripMenuItem
         '
         Me.ОпрограммеToolStripMenuItem.Name = "ОпрограммеToolStripMenuItem"
-        Me.ОпрограммеToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ОпрограммеToolStripMenuItem.Size = New System.Drawing.Size(158, 22)
         Me.ОпрограммеToolStripMenuItem.Text = "&О программе..."
         '
         'SaveFileDialog1
@@ -774,283 +1080,6 @@ Partial Class Form1
         'PrintDocument1
         '
         '
-        'PictureBox_Lmp
-        '
-        Me.PictureBox_Lmp.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Lmp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Lmp.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Lmp.Image = CType(resources.GetObject("PictureBox_Lmp.Image"), System.Drawing.Image)
-        Me.PictureBox_Lmp.Location = New System.Drawing.Point(37, 112)
-        Me.PictureBox_Lmp.Name = "PictureBox_Lmp"
-        Me.PictureBox_Lmp.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox_Lmp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Lmp.TabIndex = 38
-        Me.PictureBox_Lmp.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Lmp, "Лампа  (R для поворота при размещении)")
-        '
-        'PictureBox_Move
-        '
-        Me.PictureBox_Move.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PictureBox_Move.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Move.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Move.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Move.Image = Global.eScheme.My.Resources.Resources.move
-        Me.PictureBox_Move.Location = New System.Drawing.Point(37, 860)
-        Me.PictureBox_Move.Name = "PictureBox_Move"
-        Me.PictureBox_Move.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox_Move.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Move.TabIndex = 37
-        Me.PictureBox_Move.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Move, "Переместить объект (Клавиша M)")
-        '
-        'PictureBox_Resist
-        '
-        Me.PictureBox_Resist.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Resist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Resist.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Resist.Image = CType(resources.GetObject("PictureBox_Resist.Image"), System.Drawing.Image)
-        Me.PictureBox_Resist.Location = New System.Drawing.Point(37, 84)
-        Me.PictureBox_Resist.Name = "PictureBox_Resist"
-        Me.PictureBox_Resist.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox_Resist.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Resist.TabIndex = 34
-        Me.PictureBox_Resist.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Resist, "Потребитель (R для поворота при размещении)")
-        '
-        'PictureBox_Delete
-        '
-        Me.PictureBox_Delete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PictureBox_Delete.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Delete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Delete.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Delete.Image = CType(resources.GetObject("PictureBox_Delete.Image"), System.Drawing.Image)
-        Me.PictureBox_Delete.Location = New System.Drawing.Point(6, 860)
-        Me.PictureBox_Delete.Name = "PictureBox_Delete"
-        Me.PictureBox_Delete.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox_Delete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Delete.TabIndex = 32
-        Me.PictureBox_Delete.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Delete, "Удалить (Клавиша D)")
-        '
-        'PictureBox1_XP
-        '
-        Me.PictureBox1_XP.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox1_XP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox1_XP.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox1_XP.Image = CType(resources.GetObject("PictureBox1_XP.Image"), System.Drawing.Image)
-        Me.PictureBox1_XP.Location = New System.Drawing.Point(6, 315)
-        Me.PictureBox1_XP.Name = "PictureBox1_XP"
-        Me.PictureBox1_XP.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox1_XP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox1_XP.TabIndex = 31
-        Me.PictureBox1_XP.TabStop = False
-        '
-        'PictureBox1_Repo
-        '
-        Me.PictureBox1_Repo.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox1_Repo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox1_Repo.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox1_Repo.Image = CType(resources.GetObject("PictureBox1_Repo.Image"), System.Drawing.Image)
-        Me.PictureBox1_Repo.Location = New System.Drawing.Point(37, 287)
-        Me.PictureBox1_Repo.Name = "PictureBox1_Repo"
-        Me.PictureBox1_Repo.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox1_Repo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox1_Repo.TabIndex = 30
-        Me.PictureBox1_Repo.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox1_Repo, "РЕЛЕ ПОВОРОТОВ (R для поворота при размещении)")
-        '
-        'PictureBox1_Motor
-        '
-        Me.PictureBox1_Motor.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox1_Motor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox1_Motor.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox1_Motor.Image = CType(resources.GetObject("PictureBox1_Motor.Image"), System.Drawing.Image)
-        Me.PictureBox1_Motor.Location = New System.Drawing.Point(5, 287)
-        Me.PictureBox1_Motor.Name = "PictureBox1_Motor"
-        Me.PictureBox1_Motor.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox1_Motor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox1_Motor.TabIndex = 29
-        Me.PictureBox1_Motor.TabStop = False
-        '
-        'PictureBox15
-        '
-        Me.PictureBox15.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox15.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox15.Image = CType(resources.GetObject("PictureBox15.Image"), System.Drawing.Image)
-        Me.PictureBox15.Location = New System.Drawing.Point(37, 205)
-        Me.PictureBox15.Name = "PictureBox15"
-        Me.PictureBox15.Size = New System.Drawing.Size(25, 76)
-        Me.PictureBox15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox15.TabIndex = 28
-        Me.PictureBox15.TabStop = False
-        '
-        'PictureBox_Switch3
-        '
-        Me.PictureBox_Switch3.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Switch3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Switch3.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Switch3.Image = CType(resources.GetObject("PictureBox_Switch3.Image"), System.Drawing.Image)
-        Me.PictureBox_Switch3.Location = New System.Drawing.Point(5, 197)
-        Me.PictureBox_Switch3.Name = "PictureBox_Switch3"
-        Me.PictureBox_Switch3.Size = New System.Drawing.Size(25, 35)
-        Me.PictureBox_Switch3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Switch3.TabIndex = 26
-        Me.PictureBox_Switch3.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Switch3, "Переключатель (R для поворота при размещении)")
-        '
-        'PictureBox_Fuse
-        '
-        Me.PictureBox_Fuse.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Fuse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Fuse.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Fuse.Image = CType(resources.GetObject("PictureBox_Fuse.Image"), System.Drawing.Image)
-        Me.PictureBox_Fuse.Location = New System.Drawing.Point(37, 141)
-        Me.PictureBox_Fuse.Name = "PictureBox_Fuse"
-        Me.PictureBox_Fuse.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox_Fuse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Fuse.TabIndex = 24
-        Me.PictureBox_Fuse.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Fuse, "Предохранитель (R для поворота при размещении)")
-        '
-        'PictureBox1_Rele
-        '
-        Me.PictureBox1_Rele.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox1_Rele.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox1_Rele.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox1_Rele.Image = CType(resources.GetObject("PictureBox1_Rele.Image"), System.Drawing.Image)
-        Me.PictureBox1_Rele.Location = New System.Drawing.Point(5, 238)
-        Me.PictureBox1_Rele.Name = "PictureBox1_Rele"
-        Me.PictureBox1_Rele.Size = New System.Drawing.Size(25, 43)
-        Me.PictureBox1_Rele.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox1_Rele.TabIndex = 23
-        Me.PictureBox1_Rele.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox1_Rele, "Реле (R для поворота при размещении)")
-        '
-        'PictureBox_Switch
-        '
-        Me.PictureBox_Switch.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Switch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Switch.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Switch.Image = CType(resources.GetObject("PictureBox_Switch.Image"), System.Drawing.Image)
-        Me.PictureBox_Switch.Location = New System.Drawing.Point(37, 169)
-        Me.PictureBox_Switch.Name = "PictureBox_Switch"
-        Me.PictureBox_Switch.Size = New System.Drawing.Size(25, 25)
-        Me.PictureBox_Switch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Switch.TabIndex = 21
-        Me.PictureBox_Switch.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Switch, "Выключатель (R для поворота при размещении)")
-        '
-        'PictureBox10
-        '
-        Me.PictureBox10.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox10.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox10.Image = CType(resources.GetObject("PictureBox10.Image"), System.Drawing.Image)
-        Me.PictureBox10.Location = New System.Drawing.Point(6, 112)
-        Me.PictureBox10.Name = "PictureBox10"
-        Me.PictureBox10.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox10.TabIndex = 20
-        Me.PictureBox10.TabStop = False
-        '
-        'PictureBox_Diod
-        '
-        Me.PictureBox_Diod.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Diod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Diod.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Diod.Image = CType(resources.GetObject("PictureBox_Diod.Image"), System.Drawing.Image)
-        Me.PictureBox_Diod.Location = New System.Drawing.Point(6, 141)
-        Me.PictureBox_Diod.Name = "PictureBox_Diod"
-        Me.PictureBox_Diod.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox_Diod.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Diod.TabIndex = 17
-        Me.PictureBox_Diod.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Diod, "Диод (R для поворота при размещении)")
-        '
-        'PictureBox_Button
-        '
-        Me.PictureBox_Button.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Button.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Button.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Button.Image = CType(resources.GetObject("PictureBox_Button.Image"), System.Drawing.Image)
-        Me.PictureBox_Button.Location = New System.Drawing.Point(6, 169)
-        Me.PictureBox_Button.Name = "PictureBox_Button"
-        Me.PictureBox_Button.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox_Button.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Button.TabIndex = 16
-        Me.PictureBox_Button.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Button, "Кнопка (R для поворота при размещении)")
-        '
-        'PictureBox_eBat
-        '
-        Me.PictureBox_eBat.BackColor = System.Drawing.Color.White
-        Me.PictureBox_eBat.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_eBat.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_eBat.Image = CType(resources.GetObject("PictureBox_eBat.Image"), System.Drawing.Image)
-        Me.PictureBox_eBat.Location = New System.Drawing.Point(6, 19)
-        Me.PictureBox_eBat.Name = "PictureBox_eBat"
-        Me.PictureBox_eBat.Size = New System.Drawing.Size(55, 31)
-        Me.PictureBox_eBat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_eBat.TabIndex = 14
-        Me.PictureBox_eBat.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_eBat, "Источник питания")
-        '
-        'PictureBox_Lamp
-        '
-        Me.PictureBox_Lamp.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Lamp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Lamp.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Lamp.Image = CType(resources.GetObject("PictureBox_Lamp.Image"), System.Drawing.Image)
-        Me.PictureBox_Lamp.Location = New System.Drawing.Point(37, 112)
-        Me.PictureBox_Lamp.Name = "PictureBox_Lamp"
-        Me.PictureBox_Lamp.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox_Lamp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Lamp.TabIndex = 10
-        Me.PictureBox_Lamp.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Lamp, "Лампа (R для поворота при размещении)")
-        '
-        'PictureBox_Massa
-        '
-        Me.PictureBox_Massa.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Massa.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Massa.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Massa.Image = CType(resources.GetObject("PictureBox_Massa.Image"), System.Drawing.Image)
-        Me.PictureBox_Massa.Location = New System.Drawing.Point(6, 56)
-        Me.PictureBox_Massa.Name = "PictureBox_Massa"
-        Me.PictureBox_Massa.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox_Massa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Massa.TabIndex = 9
-        Me.PictureBox_Massa.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Massa, "Масса")
-        '
-        'PictureBox_Point
-        '
-        Me.PictureBox_Point.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox_Point.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Point.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Point.Image = CType(resources.GetObject("PictureBox_Point.Image"), System.Drawing.Image)
-        Me.PictureBox_Point.Location = New System.Drawing.Point(6, 84)
-        Me.PictureBox_Point.Name = "PictureBox_Point"
-        Me.PictureBox_Point.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox_Point.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox_Point.TabIndex = 4
-        Me.PictureBox_Point.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Point, "Добавить узел на проводе  (Клавиша P)")
-        '
-        'PictureBox_Provod
-        '
-        Me.PictureBox_Provod.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.PictureBox_Provod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox_Provod.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox_Provod.Image = CType(resources.GetObject("PictureBox_Provod.Image"), System.Drawing.Image)
-        Me.PictureBox_Provod.Location = New System.Drawing.Point(37, 56)
-        Me.PictureBox_Provod.Name = "PictureBox_Provod"
-        Me.PictureBox_Provod.Size = New System.Drawing.Size(25, 22)
-        Me.PictureBox_Provod.TabIndex = 2
-        Me.PictureBox_Provod.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox_Provod, "Соединение (провод) (Клавиша C)")
-        '
         'pbNumber
         '
         Me.pbNumber.Location = New System.Drawing.Point(48, 44)
@@ -1130,32 +1159,6 @@ Partial Class Form1
         Me.pb1.TabIndex = 30
         Me.pb1.TabStop = False
         '
-        'ОткрытьToolStripMenuItem1
-        '
-        Me.ОткрытьToolStripMenuItem1.Image = CType(resources.GetObject("ОткрытьToolStripMenuItem1.Image"), System.Drawing.Image)
-        Me.ОткрытьToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ОткрытьToolStripMenuItem1.Name = "ОткрытьToolStripMenuItem1"
-        Me.ОткрытьToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.ОткрытьToolStripMenuItem1.Size = New System.Drawing.Size(220, 22)
-        Me.ОткрытьToolStripMenuItem1.Text = "&Открыть"
-        '
-        'СохранитьToolStripMenuItem1
-        '
-        Me.СохранитьToolStripMenuItem1.Image = CType(resources.GetObject("СохранитьToolStripMenuItem1.Image"), System.Drawing.Image)
-        Me.СохранитьToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.СохранитьToolStripMenuItem1.Name = "СохранитьToolStripMenuItem1"
-        Me.СохранитьToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.СохранитьToolStripMenuItem1.Size = New System.Drawing.Size(220, 22)
-        Me.СохранитьToolStripMenuItem1.Text = "&Сохранить"
-        '
-        'ПечатьToolStripMenuItem2
-        '
-        Me.ПечатьToolStripMenuItem2.Image = CType(resources.GetObject("ПечатьToolStripMenuItem2.Image"), System.Drawing.Image)
-        Me.ПечатьToolStripMenuItem2.Name = "ПечатьToolStripMenuItem2"
-        Me.ПечатьToolStripMenuItem2.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.ПечатьToolStripMenuItem2.Size = New System.Drawing.Size(220, 22)
-        Me.ПечатьToolStripMenuItem2.Text = "Печать"
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1218,8 +1221,6 @@ Partial Class Form1
         Me.Text = "eScheme"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
         CType(Me.PictureBox_Lmp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox_Move, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox_Resist, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1240,6 +1241,8 @@ Partial Class Form1
         CType(Me.PictureBox_Massa, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox_Point, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox_Provod, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
         CType(Me.pbNumber, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pb7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pb6, System.ComponentModel.ISupportInitialize).EndInit()

@@ -287,7 +287,9 @@ Imports eScheme
     Public Function ForSave() As ArrayList Implements IConnectable.ForSave
         Dim lnks As New ArrayList
         For j = 0 To links.Count + -1
-            lnks.Add(links(j))
+            If Not lnks.Contains(links(j)) Then
+                lnks.Add(links(j))
+            End If
         Next
         Dim save As New ArrayList From {
             "ePoint",

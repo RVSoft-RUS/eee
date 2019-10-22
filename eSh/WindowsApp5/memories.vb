@@ -14,9 +14,10 @@ Public Class memories
     Private Sub memories_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Height = Form1.ini.h_2
         Me.Width = Form1.ini.w_2
-        Dim p As New Point
-        p.X = Form1.ini.left2
-        p.Y = Form1.ini.top2
+        Dim p As New Point With {
+            .X = Form1.ini.left2,
+            .Y = Form1.ini.top2
+        }
         Me.Location = p
     End Sub
 

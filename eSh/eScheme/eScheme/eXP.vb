@@ -300,25 +300,25 @@ Public Class eXP
     End Function
 
     Public Function CheckUI(from As Integer, U As Single, Optional r_ As Integer = 0) As Single Implements IConnectable.CheckUI
-        Dim msg As String = "U;" & (from - num).ToString & ";" & U.ToString & ";" & r_.ToString
-        Write_mFile(msg)
-        wasSendUI = 1
-        Read_sFile()
-        Clear_UIFile()
-        lastSignal = " "
-        eventX.Set()
+        'Dim msg As String = "U;" & (from - num).ToString & ";" & U.ToString & ";" & r_.ToString
+        'Write_mFile(msg)
+        'wasSendUI = 1
+        'Read_sFile()
+        'Clear_UIFile()
+        'lastSignal = " "
+        'eventX.Set()
 
-        Dim s As Single
-        Do While True
-            Application.DoEvents()
-            Thread.Sleep(10)
-            s = ReadUIFile()
-            If s >= 0 Then
-                wasSendUI = 0
-                eventX.Reset()
-                Return s
-            End If
-        Loop
+        ''Dim s As Single
+        ''Do While True
+        'Application.DoEvents()
+        'Thread.Sleep(10)
+        ''    s = ReadUIFile()
+        ''    If s >= 0 Then
+        ''        wasSendUI = 0
+        'eventX.Reset()
+        ''        Return s
+        ''    End If
+        ''Loop
         Return 0 'Сделать при превышении времени
 
     End Function
